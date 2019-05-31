@@ -10,6 +10,7 @@ import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
+import ClassList from "../teacher/class/ClassList";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
@@ -138,6 +139,12 @@ class App extends Component {
                   authenticated={this.state.isAuthenticated}
                   path="/poll/new"
                   component={NewPoll}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/class"
+                  component={ClassList}
                   handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />
