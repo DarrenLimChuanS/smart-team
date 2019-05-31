@@ -1,19 +1,20 @@
-FROM node:10.8.0
+# Start with a base image containing Java runtime
+FROM openjdk:8-jdk-alpine
 
-RUN mkdir -p /opt/app
-RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
-RUN apt-get -q update && apt-get -qy install netcat
-RUN npm i npm@latest -g
+# Add Maintainer Info
+LABEL maintainer="callicoder@gmail.com"
 
-WORKDIR /opt
-COPY package.json package-lock.json* ./
-RUN npm install && npm cache clean --force
-ENV PATH /opt/node_modules/.bin:$PATH
+# Add a volume pointing to /tmp
+VOLUME /tmp
 
-WORKDIR /opt/app
-COPY . /opt/app
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
 
-RUN chmod +x ./wait-for.sh
-CMD sh -c './wait-for.sh mysql-db:3306 -- sequelize db:migrate && nodemon index.js'
+# The application's jar file
+ARG JAR_FILE=target/polls-0.0.1-SNAPSHOT.jar
 
-EXPOSE 5000
+# Add the application's jar to the container
+ADD ${JAR_FILE} app.jar
+
+# Run the jar file 
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]

@@ -1,78 +1,62 @@
-version: "3.7"
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
 
+version: "3.3"
+
+# Define services
 services:
-  mysql-db:
-    image: mysql/mysql-server:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: dbuser
-      MYSQL_PASSWORD: dbuserpwd
-      MYSQL_DATABASE: boilerplate_db
+  # App backend service
+  app-server:
+    # Configuration for building the docker image for the backend service
+    build:
+      context: server # Use an image built from the specified dockerfile in the `server` directory.
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always
+    depends_on:
+      - db # This service depends on mysql. Start that first.
+    environment: # Pass environment variables to the service
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/smart_team?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+      - frontend
+
+  # Frontend Service
+  app-client:
+    build:
+      context: client # Use an image built from the specified dockerfile in the `client` directory.
+      dockerfile: Dockerfile
+    ports:
+      - "9090:80" # Forward the exposed port 80 on the container to port 80 on the host machine
+    restart: always
+    depends_on:
+      - app-server
+    networks:
+      - frontend
+
+  # Database Service (Mysql)
+  db:
+    image: mysql:5.7
     ports:
       - "3306:3306"
-    expose:
-      - "3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: polls
+      MYSQL_USER: callicoder
+      MYSQL_PASSWORD: callicoder
+      MYSQL_ROOT_PASSWORD: root
     volumes:
-      - db_data:/var/lib/mysql
+      - db-data:/var/lib/mysql
     networks:
-      - boilerplate-network
+      - backend
 
-  node-app:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    depends_on:
-      - mysql-db
-    ports:
-      - "5000:5000"
-    expose:
-      - "5000"
-    volumes:
-      - ./server:/opt/app:delegated
-      # bind-mounting these two files in will let you add packages during development without rebuilding
-      # for example, to add bower to your app while developing, just install it inside the container
-      # and then nodemon will restart. Your changes will last until you "docker-compose down" and will
-      # be saved on host for next build
-      # docker-compose exec node npm install --save bower
-      - ./server/package.json:/opt/package.json
-      - ./server/package-lock.json:/opt/package-lock.json
-      # this is a workaround to prevent host node_modules from accidently getting mounted in container
-      # in case you want to use node/npm both outside container for test/lint etc. and also inside container
-      # this will overwrite the default node_modules dir in container so it won't conflict with our
-      # /opt/node_modules location. Thanks to PR from @brnluiz
-      - notused:/opt/app/node_modules
-    networks:
-      - boilerplate-network
-
-  web-client:
-    build:
-      context: ./web-client
-      dockerfile: Dockerfile
-    ports:
-      - "80:3000"
-    expose:
-      - "3000"
-    volumes:
-      - ./web-client:/opt/app:delegated
-      # bind-mounting these two files in will let you add packages during development without rebuilding
-      # for example, to add bower to your app while developing, just install it inside the container
-      # and then nodemon will restart. Your changes will last until you "docker-compose down" and will
-      # be saved on host for next build
-      # docker-compose exec node npm install --save bower
-      - ./web-client/package.json:/opt/package.json
-      - ./web-client/package-lock.json:/opt/package-lock.json
-      # this is a workaround to prevent host node_modules from accidently getting mounted in container
-      # in case you want to use node/npm both outside container for test/lint etc. and also inside container
-      # this will overwrite the default node_modules dir in container so it won't conflict with our
-      # /opt/node_modules location. Thanks to PR from @brnluiz
-      - notused:/opt/app/node_modules
-    networks:
-      - boilerplate-network
-
+# Volumes
 volumes:
-  db_data:
-  notused:
+  db-data:
 
+# Networks to be created to facilitate communication between containers
 networks:
-  boilerplate-network:
-    driver: bridge
+  backend:
+  frontend:
