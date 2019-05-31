@@ -11,6 +11,7 @@ import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
 import AppHeader from "../common/AppHeader";
+import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
@@ -100,49 +101,50 @@ class App extends Component {
           currentUser={this.state.currentUser}
           onLogout={this.handleLogout}
         />
-
-        <Content className="app-content">
-          <div className="container">
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => (
-                  <PollList
-                    isAuthenticated={this.state.isAuthenticated}
-                    currentUser={this.state.currentUser}
-                    handleLogout={this.handleLogout}
-                    {...props}
-                  />
-                )}
-              />
-              <Route
-                path="/login"
-                render={props => (
-                  <Login onLogin={this.handleLogin} {...props} />
-                )}
-              />
-              <Route path="/signup" component={Signup} />
-              <Route
-                path="/users/:username"
-                render={props => (
-                  <Profile
-                    isAuthenticated={this.state.isAuthenticated}
-                    currentUser={this.state.currentUser}
-                    {...props}
-                  />
-                )}
-              />
-              <PrivateRoute
-                authenticated={this.state.isAuthenticated}
-                path="/poll/new"
-                component={NewPoll}
-                handleLogout={this.handleLogout}
-              />
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-        </Content>
+        <Sidebar>
+          <Content className="app-content">
+            <div className="container">
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => (
+                    <PollList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      handleLogout={this.handleLogout}
+                      {...props}
+                    />
+                  )}
+                />
+                <Route
+                  path="/login"
+                  render={props => (
+                    <Login onLogin={this.handleLogin} {...props} />
+                  )}
+                />
+                <Route path="/signup" component={Signup} />
+                <Route
+                  path="/users/:username"
+                  render={props => (
+                    <Profile
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/poll/new"
+                  component={NewPoll}
+                  handleLogout={this.handleLogout}
+                />
+                <Route component={NotFound} />
+              </Switch>
+            </div>
+          </Content>
+        </Sidebar>
       </Layout>
     );
   }
