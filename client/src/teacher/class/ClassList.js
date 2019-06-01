@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { Button, Divider, Icon, Row, Card, Col, Table, Typography } from "antd";
+import { Button, Divider, Row, Col, Table, Typography } from "antd";
 import "./ClassList.css";
 
 const { Title } = Typography;
-const { Meta } = Card;
 
 const data = [
   {
@@ -21,7 +20,7 @@ const data = [
     noOfStudent: 36,
     module: "ICT1002",
     year: "2012",
-    status: "Pending Automated Allocation"
+    status: "Pending (Automated Allocation)"
   },
   {
     key: "3",
@@ -144,8 +143,8 @@ class ClassList extends Component {
         filters: [
           { text: "Not Grouped", value: "Not Grouped" },
           {
-            text: "Pending Automated Allocation",
-            value: "Pending Automated Allocation"
+            text: "Pending (Automated Allocation)",
+            value: "Pending (Automated Allocation)"
           },
           { text: "Grouped", value: "Grouped" }
         ],
