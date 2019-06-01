@@ -94,7 +94,7 @@ class ClassList extends Component {
         key: "key",
         filteredValue: filteredInfo.key || null,
         onFilter: (value, record) => record.key.includes(value),
-        sorter: (a, b) => a.key.length - b.key.length,
+        sorter: (a, b) => a.key - b.key,
         sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
       },
       {
