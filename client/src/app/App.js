@@ -13,6 +13,7 @@ import Profile from "../user/profile/Profile";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
+import Students from "../students/student";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
@@ -134,6 +135,14 @@ class App extends Component {
                     />
                   )}
                 />
+
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/students"
+                    component={Students}
+                    handleLogout={this.handleLogout}
+                />
+
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
                   path="/poll/new"
