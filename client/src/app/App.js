@@ -17,6 +17,7 @@ import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
 import { Layout, notification } from "antd";
+import Dashboard from "../teacher/Dashboard";
 const { Content } = Layout;
 
 class App extends Component {
@@ -102,20 +103,27 @@ class App extends Component {
           onLogout={this.handleLogout}
         />
         <Sidebar>
-          <Content className="app-content">
-            <div className="container">
+          <Content
+            className="app-content"
+            style={{
+              backgroundColor: "#FFFFFF",
+              marginTop: "100px"
+            }}
+          >
+            <div className="container" style={{ margin: "32px" }}>
               <Switch>
                 <Route
                   exact
                   path="/"
-                  render={props => (
-                    <PollList
-                      isAuthenticated={this.state.isAuthenticated}
-                      currentUser={this.state.currentUser}
-                      handleLogout={this.handleLogout}
-                      {...props}
-                    />
-                  )}
+                  render={
+                    props => <Dashboard />
+                    // <PollList
+                    //   isAuthenticated={this.state.isAuthenticated}
+                    //   currentUser={this.state.currentUser}
+                    //   handleLogout={this.handleLogout}
+                    //   {...props}
+                    // />
+                  }
                 />
                 <Route
                   path="/login"
