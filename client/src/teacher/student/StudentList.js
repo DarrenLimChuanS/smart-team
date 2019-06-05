@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Button, Divider, Row, Col, Table, Typography } from "antd";
 
 const { Title } = Typography;
@@ -9,6 +9,7 @@ const data = [
     key: "1",
     batchNumber: "49",
     name: "Joe Hamilton",
+    email: "joe_hamilton@gmail.com",
     studentId: "1128290",
     birthDate: "1/1/1990",
     gender: "Male",
@@ -19,6 +20,7 @@ const data = [
     key: "2",
     batchNumber: "49",
     name: "Riley Lee",
+    email: "riley_lee@gmail.com",
     studentId: "1128291",
     birthDate: "1/4/1992",
     gender: "Female",
@@ -29,6 +31,7 @@ const data = [
     key: "3",
     batchNumber: "49",
     name: "Isaiah Watts",
+    email: "isaiah_watts@gmail.com",
     studentId: "1128292",
     birthDate: "2/3/1981",
     gender: "Male",
@@ -39,6 +42,7 @@ const data = [
     key: "4",
     batchNumber: "49",
     name: "Annette Daniels",
+    email: "annette_daniels@gmail.com",
     studentId: "1128293",
     birthDate: "3/4/1992",
     gender: "Female",
@@ -49,6 +53,7 @@ const data = [
     key: "5",
     batchNumber: "49",
     name: "Jeremy Davidson",
+    email: "jeremy_davidson@gmail.com",
     studentId: "1128294",
     birthDate: "4/9/1991",
     gender: "Male",
@@ -96,6 +101,15 @@ class StudentList extends Component {
         sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order
       },
       {
+        title: "Email",
+        dataIndex: "email",
+        key: "email",
+        filteredValue: filteredInfo.email || null,
+        onFilter: (value, record) => record.email.includes(value),
+        sorter: (a, b) => a.email.length - b.email.length,
+        sortOrder: sortedInfo.columnKey === "email" && sortedInfo.order
+      },
+      {
         title: "Student ID",
         dataIndex: "studentId",
         key: "studentId",
@@ -141,6 +155,8 @@ class StudentList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
+            <a href="javascript:;">Reset Password</a>
+            <Divider type="vertical" />
             <a href="javascript:;">Edit</a>
             <Divider type="vertical" />
             <a href="javascript:;">Delete</a>
@@ -156,9 +172,11 @@ class StudentList extends Component {
             <Title level={2}>Students</Title>
           </Col>
           <Col span={2}>
-            <Button type="primary" size={12}>
-              Create
-            </Button>
+            <Link to="/student/new">
+              <Button type="primary" size={12}>
+                Create
+              </Button>
+            </Link>
           </Col>
         </Row>
         <Row>

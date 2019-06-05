@@ -10,11 +10,12 @@ import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
+import StudentList from "../teacher/student/StudentList";
+import NewStudent from "../teacher/student/NewStudent";
 import ClassList from "../teacher/class/ClassList";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
-import StudentList from "../students/StudentList";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
@@ -139,11 +140,16 @@ class App extends Component {
 
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/students"
+                  path="/student/new"
+                  component={NewStudent}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/student"
                   component={StudentList}
                   handleLogout={this.handleLogout}
                 />
-
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
                   path="/poll/new"

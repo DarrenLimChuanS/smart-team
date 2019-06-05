@@ -44,10 +44,10 @@ class Sidebar extends Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-                <Link to="/students">
-              <Icon type="user" />
-              <span>Students</span>
-                </Link>
+              <Link to="/student">
+                <Icon type="user" />
+                <span>Students</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="3">
               <Icon type="profile" />
