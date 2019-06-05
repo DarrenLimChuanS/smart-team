@@ -12,6 +12,7 @@ import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
 import StudentList from "../teacher/student/StudentList";
 import NewStudent from "../teacher/student/NewStudent";
+import EditStudent from "../teacher/student/EditStudent";
 import ClassList from "../teacher/class/ClassList";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
@@ -142,6 +143,12 @@ class App extends Component {
                   authenticated={this.state.isAuthenticated}
                   path="/student/new"
                   component={NewStudent}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/student/edit"
+                  component={EditStudent}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute

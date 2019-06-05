@@ -157,7 +157,7 @@ class StudentList extends Component {
           <span>
             <a href="javascript:;">Reset Password</a>
             <Divider type="vertical" />
-            <a href="javascript:;">Edit</a>
+            <Link to="/student/edit">Edit</Link>
             <Divider type="vertical" />
             <a href="javascript:;">Delete</a>
           </span>
