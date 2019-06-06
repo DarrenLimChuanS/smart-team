@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Button, Divider, Row, Col, Table, Typography } from "antd";
-import "./ClassList.css";
+import "./SectionList.css";
 
 const { Title } = Typography;
 
@@ -10,7 +10,7 @@ const data = [
     key: "1",
     name: "Tri3-2009",
     noOfStudent: 35,
-    module: "ICT1001",
+    course: "ICT1001",
     year: "2009",
     status: "Not Grouped"
   },
@@ -18,7 +18,7 @@ const data = [
     key: "2",
     name: "Tri2-2012",
     noOfStudent: 36,
-    module: "ICT1002",
+    course: "ICT1002",
     year: "2012",
     status: "Pending (Automated Allocation)"
   },
@@ -26,7 +26,7 @@ const data = [
     key: "3",
     name: "Tri2-2010",
     noOfStudent: 38,
-    module: "ICT1003",
+    course: "ICT1003",
     year: "2010",
     status: "Grouped"
   },
@@ -34,7 +34,7 @@ const data = [
     key: "4",
     name: "Tri2-2009",
     noOfStudent: 34,
-    module: "ICT1004",
+    course: "ICT1004",
     year: "2009",
     status: "Not Grouped"
   },
@@ -42,13 +42,13 @@ const data = [
     key: "5",
     name: "Tri1-2012",
     noOfStudent: 40,
-    module: "ICT1003",
+    course: "ICT1003",
     year: "2012",
     status: "Grouped"
   }
 ];
 
-class ClassList extends Component {
+class SectionList extends Component {
   state = {
     filteredInfo: null,
     sortedInfo: null
@@ -59,26 +59,6 @@ class ClassList extends Component {
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter
-    });
-  };
-
-  clearFilters = () => {
-    this.setState({ filteredInfo: null });
-  };
-
-  clearAll = () => {
-    this.setState({
-      filteredInfo: null,
-      sortedInfo: null
-    });
-  };
-
-  setAgeSort = () => {
-    this.setState({
-      sortedInfo: {
-        order: "descend",
-        columnKey: "age"
-      }
     });
   };
 
@@ -101,9 +81,6 @@ class ClassList extends Component {
         title: "Name",
         dataIndex: "name",
         key: "name",
-        filters: [{ text: "Joe", value: "Joe" }, { text: "Jim", value: "Jim" }],
-        filteredValue: filteredInfo.name || null,
-        onFilter: (value, record) => record.name.includes(value),
         sorter: (a, b) => a.name.length - b.name.length,
         sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order
       },
@@ -115,19 +92,19 @@ class ClassList extends Component {
         sortOrder: sortedInfo.columnKey === "noOfStudent" && sortedInfo.order
       },
       {
-        title: "Module",
-        dataIndex: "module",
-        key: "module",
+        title: "Course",
+        dataIndex: "course",
+        key: "course",
         filters: [
           { text: "ICT1001", value: "ICT1001" },
           { text: "ICT1002", value: "ICT1002" },
           { text: "ICT1003", value: "ICT1003" },
           { text: "ICT1004", value: "ICT1004" }
         ],
-        filteredValue: filteredInfo.module || null,
-        onFilter: (value, record) => record.module.includes(value),
-        sorter: (a, b) => a.module.length - b.module.length,
-        sortOrder: sortedInfo.columnKey === "module" && sortedInfo.order
+        filteredValue: filteredInfo.course || null,
+        onFilter: (value, record) => record.course.includes(value),
+        sorter: (a, b) => a.course.length - b.course.length,
+        sortOrder: sortedInfo.columnKey === "course" && sortedInfo.order
       },
       {
         title: "Year",
@@ -160,7 +137,7 @@ class ClassList extends Component {
           <span>
             <a href="javascript:;">Assign Group</a>
             <Divider type="vertical" />
-            <a href="javascript:;">Edit</a>
+            <Link to="/section/edit">Edit</Link>
             <Divider type="vertical" />
             <a href="javascript:;">Delete</a>
           </span>
@@ -172,12 +149,14 @@ class ClassList extends Component {
       <React.Fragment>
         <Row>
           <Col span={22}>
-            <Title level={2}>Classes</Title>
+            <Title level={2}>Sections</Title>
           </Col>
           <Col span={2}>
-            <Button type="primary" size="large">
-              Create
-            </Button>
+            <Link to="/section/new">
+              <Button type="primary" size="default">
+                Create
+              </Button>
+            </Link>
           </Col>
         </Row>
         <Row>
@@ -192,4 +171,4 @@ class ClassList extends Component {
   }
 }
 
-export default withRouter(ClassList);
+export default withRouter(SectionList);
