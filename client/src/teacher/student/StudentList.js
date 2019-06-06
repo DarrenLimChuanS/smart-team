@@ -117,7 +117,7 @@ class StudentList extends Component {
         sortOrder: sortedInfo.columnKey === "studentId" && sortedInfo.order
       },
       {
-        title: "Birthdate",
+        title: "Birth Date",
         dataIndex: "birthDate",
         key: "birthDate",
         filteredValue: filteredInfo.birthDate || null,
@@ -173,7 +173,7 @@ class StudentList extends Component {
           </Col>
           <Col span={2}>
             <Link to="/student/new">
-              <Button type="primary" size={12}>
+              <Button type="primary" size="large">
                 Create
               </Button>
             </Link>
