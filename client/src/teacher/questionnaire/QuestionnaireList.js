@@ -11,6 +11,7 @@ import {
   Typography
 } from "antd";
 import "./QuestionnaireList.css";
+import PopUpModal from "../../common/PopUpModal";
 import { compareByAlph } from "../../util/Sorters";
 
 const FormItem = Form.Item;
@@ -113,13 +114,51 @@ class Questionnaire extends Component {
       }
     ];
 
+    const criteriaColumns = [
+      {
+        title: "#",
+        dataIndex: "key",
+        key: "key",
+        filteredValue: filteredInfo.key || null,
+        onFilter: (value, record) => record.key.includes(value),
+        sorter: (a, b) => a.key - b.key,
+        sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
+      },
+      {
+        title: "Question",
+        dataIndex: "question",
+        key: "question",
+        sorter: (a, b) => compareByAlph(a.question, b.question),
+        sortOrder: sortedInfo.columnKey === "question" && sortedInfo.order
+      },
+      {
+        title: "Type",
+        dataIndex: "type",
+        key: "type",
+        sorter: (a, b) => a.type - b.type,
+        sortOrder: sortedInfo.columnKey === "type" && sortedInfo.order
+      }
+    ];
+
     const questionnaire = [
       { id: 1, name: "T01-2018-Q2", numQtns: 10 },
       { id: 2, name: "T02-2019-Q1", numQtns: 40 },
       { id: 3, name: "T05-2017-Q1", numQtns: 15 }
     ];
 
+    const criteria = [
+      { id: 1, name: "Leadership", numQtns: 10 },
+      { id: 2, name: "Skills", numQtns: 10 },
+      { id: 3, name: "Teamwork", numQtns: 15 }
+    ];
+
     const questionnaireOptions = questionnaire.map((item, key) => (
+      <Option key={item.id}>
+        {item.name} ({item.numQtns})
+      </Option>
+    ));
+
+    const criteriaOptions = criteria.map((item, key) => (
       <Option key={item.id}>
         {item.name} ({item.numQtns})
       </Option>
@@ -170,9 +209,30 @@ class Questionnaire extends Component {
             </Title>
           </Col>
           <Col span={3}>
-            <Button type="primary" size="default">
-              Add Criteria
-            </Button>
+            <PopUpModal
+              title="Add Criteria"
+              triggerButtonText="Add Criteria"
+              confirmText="Add Criteria"
+            >
+              <Form onSubmit={this.handleSubmit} className="signup-form">
+                <FormItem label="Select saved criteria">
+                  <Select
+                    size="large"
+                    style={{ width: "100%" }}
+                    placeholder="Please select"
+                    defaultValue={[]}
+                    onChange={event => this.handleQuestionnaireChange(event)}
+                  >
+                    {criteriaOptions}
+                  </Select>
+                </FormItem>
+              </Form>
+              <Table
+                columns={criteriaColumns}
+                dataSource={data}
+                onChange={this.handleChange}
+              />
+            </PopUpModal>
           </Col>
         </Row>
         <Row>
@@ -181,6 +241,19 @@ class Questionnaire extends Component {
             dataSource={data}
             onChange={this.handleChange}
           />
+        </Row>
+        <Row>
+          <Col span={20} />
+          <Col span={2}>
+            <Button type="primary" size="default" ghost>
+              Export
+            </Button>
+          </Col>
+          <Col span={2}>
+            <Button type="primary" size="default">
+              Save
+            </Button>
+          </Col>
         </Row>
       </React.Fragment>
     );
