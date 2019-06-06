@@ -67,6 +67,12 @@ class Sidebar extends Component {
               <Icon type="file-text" />
               <span>Questionnaires</span>
             </Menu.Item>
+            <Menu.Item key="7">
+              <Link to="/courses">
+                <Icon type="home" />
+                <span>My courses (As students)</span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout style={{ padding: "0 24px 24px" }}>

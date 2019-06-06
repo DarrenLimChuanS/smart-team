@@ -12,6 +12,7 @@ import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
 import StudentList from "../teacher/student/StudentList";
 import NewStudent from "../teacher/student/NewStudent";
+import Course from "../courses/Course"
 import EditStudent from "../teacher/student/EditStudent";
 import ClassList from "../teacher/class/ClassList";
 import AppHeader from "../common/AppHeader";
@@ -162,6 +163,12 @@ class App extends Component {
                   path="/poll/new"
                   component={NewPoll}
                   handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/courses"
+                    component={Course}
+                    handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
