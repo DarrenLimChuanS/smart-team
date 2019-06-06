@@ -17,7 +17,9 @@ import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
 import Course from "../courses/Course";
 import EditStudent from "../teacher/student/EditStudent";
-import ClassList from "../teacher/class/ClassList";
+import NewSection from "../teacher/section/NewSection";
+import EditSection from "../teacher/section/EditSection";
+import SectionList from "../teacher/section/SectionList";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
@@ -193,8 +195,20 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/class"
-                  component={ClassList}
+                  path="/section/new"
+                  component={NewSection}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/section/edit"
+                  component={EditSection}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/section"
+                  component={SectionList}
                   handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />
