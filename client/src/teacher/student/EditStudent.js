@@ -11,7 +11,7 @@ import {
   Select,
   Typography
 } from "antd";
-import { GPA_MIN, GPA_MAX } from "../../constants";
+import { EMAIL_MAX_LENGTH, GPA_MIN, GPA_MAX } from "../../constants";
 const { Option } = Select;
 const { Title } = Typography;
 const FormItem = Form.Item;
@@ -29,6 +29,9 @@ class NewStudent extends Component {
       studentId: {
         value: ""
       },
+      email: {
+        value: ""
+      },
       birthDate: {
         value: ""
       },
@@ -43,6 +46,8 @@ class NewStudent extends Component {
       }
     };
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleDatePicker = this.handleDatePicker.bind(this);
+    this.handleGenderChange = this.handleGenderChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
   }
@@ -56,6 +61,25 @@ class NewStudent extends Component {
       [inputName]: {
         value: inputValue,
         ...validationFun(inputValue)
+      }
+    });
+
+    console.log(this.state);
+  }
+
+  handleDatePicker(date, dateString, validationFun) {
+    this.setState({
+      birthDate: {
+        value: date,
+        ...validationFun(date)
+      }
+    });
+  }
+
+  handleGenderChange(gender) {
+    this.setState({
+      gender: {
+        value: gender
       }
     });
   }
@@ -92,10 +116,9 @@ class NewStudent extends Component {
   isFormInvalid() {
     return !(
       this.state.batchNumber.validateStatus === "success" &&
-      this.state.name.validateStatus === "success" &&
       this.state.studentId.validateStatus === "success" &&
+      this.state.name.validateStatus === "success" &&
       this.state.birthDate.validateStatus === "success" &&
-      this.state.gender.validateStatus === "success" &&
       this.state.address.validateStatus === "success" &&
       this.state.gpa.validateStatus === "success"
     );
@@ -120,6 +143,22 @@ class NewStudent extends Component {
                 value={this.state.batchNumber.value}
                 onChange={event =>
                   this.handleInputChange(event, this.validateBatchNumber)
+                }
+              />
+            </FormItem>
+            <FormItem
+              label="Student ID"
+              validateStatus={this.state.studentId.validateStatus}
+              help={this.state.studentId.errorMsg}
+            >
+              <Input
+                size="large"
+                name="studentId"
+                autoComplete="off"
+                placeholder="Batch Number"
+                value={this.state.studentId.value}
+                onChange={event =>
+                  this.handleInputChange(event, this.validateStudentId)
                 }
               />
             </FormItem>
@@ -149,12 +188,10 @@ class NewStudent extends Component {
               <Select
                 name="gender"
                 size="large"
+                defaultValue="male"
                 value={this.state.gender.value}
-                onBlur={this.validateGenderAvailability}
                 style={{ width: "32%" }}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateGender)
-                }
+                onChange={value => this.handleGenderChange(value)}
               >
                 <Option value="male">Male</Option>
                 <Option value="female">Female</Option>
@@ -170,8 +207,30 @@ class NewStudent extends Component {
                 name="birthDate"
                 placeholder="Date of Birth"
                 value={this.state.birthDate.value}
+                onChange={(date, dateString) =>
+                  this.handleDatePicker(
+                    date,
+                    dateString,
+                    this.validateBirthdate
+                  )
+                }
+              />
+            </FormItem>
+            <FormItem
+              label="Email"
+              hasFeedback
+              validateStatus={this.state.email.validateStatus}
+              help={this.state.email.errorMsg}
+            >
+              <Input
+                size="large"
+                name="email"
+                type="email"
+                autoComplete="off"
+                placeholder="Email Address"
+                value={this.state.email.value}
                 onChange={event =>
-                  this.handleInputChange(event, this.validateBirthDate)
+                  this.handleInputChange(event, this.validateEmail)
                 }
               />
             </FormItem>
@@ -205,6 +264,7 @@ class NewStudent extends Component {
                 autoComplete="off"
                 placeholder="GPA (Maximum of 5)"
                 value={this.state.gpa.value}
+                step={0.01}
                 onChange={event =>
                   this.handleInputChange(event, this.validateGpa)
                 }
@@ -212,7 +272,7 @@ class NewStudent extends Component {
             </FormItem>
             <FormItem>
               <Button
-                type="info"
+                type="primary"
                 htmlType="submit"
                 size="large"
                 className="signup-form-button"
@@ -229,7 +289,7 @@ class NewStudent extends Component {
 
   // Validation Functions
   validateBatchNumber = batchNumber => {
-    if (batchNumber == "") {
+    if (batchNumber === "") {
       return {
         validateStatus: "error",
         errorMsg: `Batch Number cannot be empty.`
@@ -242,8 +302,22 @@ class NewStudent extends Component {
     }
   };
 
+  validateStudentId = studentId => {
+    if (studentId === "") {
+      return {
+        validateStatus: "error",
+        errorMsg: `Student ID cannot be empty.`
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+  };
+
   validateName = name => {
-    if (name == "") {
+    if (name === "") {
       return {
         validateStatus: "error",
         errorMsg: `Name cannot be empty.`
@@ -257,7 +331,7 @@ class NewStudent extends Component {
   };
 
   validateBirthdate = birthDate => {
-    if (birthDate == "") {
+    if (birthDate === "") {
       return {
         validateStatus: "error",
         errorMsg: `Birth Date cannot be empty.`
@@ -270,8 +344,37 @@ class NewStudent extends Component {
     }
   };
 
+  validateEmail = email => {
+    if (!email) {
+      return {
+        validateStatus: "error",
+        errorMsg: "Email may not be empty"
+      };
+    }
+
+    const EMAIL_REGEX = RegExp("[^@ ]+@[^@ ]+\\.[^@ ]+");
+    if (!EMAIL_REGEX.test(email)) {
+      return {
+        validateStatus: "error",
+        errorMsg: "Email not valid"
+      };
+    }
+
+    if (email.length > EMAIL_MAX_LENGTH) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
+      };
+    }
+
+    return {
+      validateStatus: null,
+      errorMsg: null
+    };
+  };
+
   validateAddress = address => {
-    if (address == "") {
+    if (address === "") {
       return {
         validateStatus: "error",
         errorMsg: `Address cannot be empty.`

@@ -175,7 +175,7 @@ class ClassList extends Component {
             <Title level={2}>Classes</Title>
           </Col>
           <Col span={2}>
-            <Button type="primary" size={12}>
+            <Button type="primary" size="large">
               Create
             </Button>
           </Col>
