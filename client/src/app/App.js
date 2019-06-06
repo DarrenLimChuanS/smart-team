@@ -20,6 +20,8 @@ import EditStudent from "../teacher/student/EditStudent";
 import NewSection from "../teacher/section/NewSection";
 import EditSection from "../teacher/section/EditSection";
 import SectionList from "../teacher/section/SectionList";
+import CriteriaList from "../teacher/criteria/CriteriaList";
+import QuestionnaireList from "../teacher/questionnaire/QuestionnaireList";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
@@ -209,6 +211,18 @@ class App extends Component {
                   authenticated={this.state.isAuthenticated}
                   path="/section"
                   component={SectionList}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/criteria"
+                  component={CriteriaList}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/questionnaire"
+                  component={QuestionnaireList}
                   handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />
