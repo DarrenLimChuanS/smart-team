@@ -44,16 +44,20 @@ class Sidebar extends Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Icon type="user" />
-              <span>Students</span>
+              <Link to="/student">
+                <Icon type="user" />
+                <span>Students</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="3">
               <Icon type="profile" />
               <span>Modules</span>
             </Menu.Item>
             <Menu.Item key="4">
-              <Icon type="home" />
-              <span>Classes</span>
+              <Link to="/class">
+                <Icon type="home" />
+                <span>Classes</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="5">
               <Icon type="appstore" />
@@ -62,6 +66,12 @@ class Sidebar extends Component {
             <Menu.Item key="6">
               <Icon type="file-text" />
               <span>Questionnaires</span>
+            </Menu.Item>
+            <Menu.Item key="7">
+              <Link to="/courses">
+                <Icon type="home" />
+                <span>My courses (As students)</span>
+              </Link>
             </Menu.Item>
           </Menu>
         </Sider>

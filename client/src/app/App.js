@@ -10,6 +10,11 @@ import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
+import StudentList from "../teacher/student/StudentList";
+import NewStudent from "../teacher/student/NewStudent";
+import Course from "../courses/Course"
+import EditStudent from "../teacher/student/EditStudent";
+import ClassList from "../teacher/class/ClassList";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
@@ -134,10 +139,41 @@ class App extends Component {
                     />
                   )}
                 />
+
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/student/new"
+                  component={NewStudent}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/student/edit"
+                  component={EditStudent}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/student"
+                  component={StudentList}
+                  handleLogout={this.handleLogout}
+                />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
                   path="/poll/new"
                   component={NewPoll}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/courses"
+                    component={Course}
+                    handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/class"
+                  component={ClassList}
                   handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />
