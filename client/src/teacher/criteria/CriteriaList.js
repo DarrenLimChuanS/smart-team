@@ -133,17 +133,17 @@ class Criteria extends Component {
             <Title level={2}>Criteria</Title>
           </Col>
           <Col span={2}>
-            <Button type="primary" size={12}>
+            <Button type="primary" size="default">
               Export
             </Button>
           </Col>
           <Col span={2}>
-            <Button type="primary" size={12}>
+            <Button type="primary" size="default">
               Import
             </Button>
           </Col>
           <Col span={2}>
-            <Button type="primary" size={12}>
+            <Button type="primary" size="default">
               Create
             </Button>
           </Col>
