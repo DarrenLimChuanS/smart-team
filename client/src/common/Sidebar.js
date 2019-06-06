@@ -50,20 +50,26 @@ class Sidebar extends Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
+              <Link to="/course">
+                <Icon type="profile" />
+                <span>Courses</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="4">
               <Icon type="profile" />
               <span>Modules</span>
             </Menu.Item>
-            <Menu.Item key="4">
+            <Menu.Item key="5">
               <Link to="/class">
                 <Icon type="home" />
                 <span>Classes</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="5">
+            <Menu.Item key="6">
               <Icon type="appstore" />
               <span>Criteria</span>
             </Menu.Item>
-            <Menu.Item key="6">
+            <Menu.Item key="7">
               <Icon type="file-text" />
               <span>Questionnaires</span>
             </Menu.Item>
