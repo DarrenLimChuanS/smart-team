@@ -60,12 +60,6 @@ class CourseList extends Component {
         title: "Course ID",
         dataIndex: "module",
         key: "module",
-        filters: [
-          { text: "ICT1001", value: "ICT1001" },
-          { text: "ICT1002", value: "ICT1002" },
-          { text: "ICT1003", value: "ICT1003" },
-          { text: "ICT1004", value: "ICT1004" }
-        ],
         sorter: (a, b) => a.module.length - b.module.length,
         sortOrder: sortedInfo.columnKey === "module" && sortedInfo.order
       },
