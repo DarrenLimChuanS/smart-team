@@ -10,9 +10,11 @@ import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
-import StudentList from "../teacher/student/StudentList";
-import CourseList from "../teacher/course/CourseList";
 import NewStudent from "../teacher/student/NewStudent";
+import StudentList from "../teacher/student/StudentList";
+import NewCourse from "../teacher/course/NewCourse";
+import EditCourse from "../teacher/course/EditCourse";
+import CourseList from "../teacher/course/CourseList";
 import Course from "../courses/Course";
 import EditStudent from "../teacher/student/EditStudent";
 import ClassList from "../teacher/class/ClassList";
@@ -163,6 +165,18 @@ class App extends Component {
                   authenticated={this.state.isAuthenticated}
                   path="/poll/new"
                   component={NewPoll}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/course/new"
+                  component={NewCourse}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/course/edit"
+                  component={EditCourse}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute

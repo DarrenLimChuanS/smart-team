@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Button, Divider, Row, Col, Table, Typography } from "antd";
 
 const { Title } = Typography;
@@ -66,8 +66,6 @@ class CourseList extends Component {
           { text: "ICT1003", value: "ICT1003" },
           { text: "ICT1004", value: "ICT1004" }
         ],
-        filteredValue: filteredInfo.module || null,
-        onFilter: (value, record) => record.module.includes(value),
         sorter: (a, b) => a.module.length - b.module.length,
         sortOrder: sortedInfo.columnKey === "module" && sortedInfo.order
       },
@@ -85,7 +83,7 @@ class CourseList extends Component {
           <span>
             <a href="javascript:;">View Modules</a>
             <Divider type="vertical" />
-            <a href="javascript:;">Edit</a>
+            <Link to="/course/edit">Edit</Link>
             <Divider type="vertical" />
             <a href="javascript:;">Delete</a>
           </span>
@@ -100,9 +98,11 @@ class CourseList extends Component {
             <Title level={2}>Courses</Title>
           </Col>
           <Col span={2}>
-            <Button type="primary" size={12}>
-              Create
-            </Button>
+            <Link to="/course/new">
+              <Button type="primary" size="large">
+                Create
+              </Button>
+            </Link>
           </Col>
         </Row>
         <Row>
