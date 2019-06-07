@@ -25,6 +25,8 @@ import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
 import Courses from "../courses/Course";
+import CourseInfo from "../courses/CourseInfo";
+import QuestionnairesStudent from "../courses/QuestionnairesStudent";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
@@ -189,6 +191,18 @@ class App extends Component {
                   path="/course"
                   component={CourseList}
                   handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/course/questionnaires"
+                    component={QuestionnairesStudent}
+                    handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/courses/info"
+                    component={CourseInfo}
+                    handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}

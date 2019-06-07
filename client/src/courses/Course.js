@@ -127,7 +127,7 @@ class Course extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <Link to="/courses/CourseInfo">
+            <Link to="/courses/info">
               <a href="javascript:;">View more</a>
             </Link>
             <Divider type="vertical" />
