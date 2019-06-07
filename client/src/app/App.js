@@ -29,6 +29,7 @@ import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
 import { Layout, notification } from "antd";
+import NewGradedCriteria from "../teacher/criteria/NewGradedCriteria";
 const { Content } = Layout;
 
 class App extends Component {
@@ -113,7 +114,7 @@ class App extends Component {
           currentUser={this.state.currentUser}
           onLogout={this.handleLogout}
         />
-        <Sidebar>
+        <Sidebar currentUser={this.state.currentUser}>
           <Content className="app-content">
             <div className="container">
               <Switch>
@@ -211,6 +212,12 @@ class App extends Component {
                   authenticated={this.state.isAuthenticated}
                   path="/section"
                   component={SectionList}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/criteria/graded/new"
+                  component={NewGradedCriteria}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute

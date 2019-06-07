@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Button, Divider, Row, Col, Table, Typography } from "antd";
 import "./CriteriaList.css";
+import PopUpModal from "../../common/PopUpModal";
 
 const { Title } = Typography;
 
@@ -143,9 +144,26 @@ class Criteria extends Component {
             </Button>
           </Col>
           <Col span={2}>
-            <Button type="primary" size="default">
-              Create
-            </Button>
+            <PopUpModal
+              title="Create Criteria"
+              triggerButtonText="Create"
+              confirmText={false}
+            >
+              <Row style={{ textAlign: "center" }}>
+                <Col span={12}>
+                  <Link to="/criteria/graded/new">
+                    <Button type="primary" size="large">
+                      Graded
+                    </Button>
+                  </Link>
+                </Col>
+                <Col span={12}>
+                  <Button type="primary" size="large">
+                    Ungraded
+                  </Button>
+                </Col>
+              </Row>
+            </PopUpModal>
           </Col>
         </Row>
         <Row>

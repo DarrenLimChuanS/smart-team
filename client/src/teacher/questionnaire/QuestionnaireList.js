@@ -5,14 +5,17 @@ import {
   Col,
   Divider,
   Form,
+  Input,
   Row,
   Select,
   Table,
-  Typography
+  Typography,
+  notification
 } from "antd";
 import "./QuestionnaireList.css";
 import PopUpModal from "../../common/PopUpModal";
 import { compareByAlph } from "../../util/Sorters";
+import { signup } from "../../util/APIUtils";
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -53,8 +56,31 @@ const data = [
 class Questionnaire extends Component {
   state = {
     filteredInfo: null,
-    sortedInfo: null
+    sortedInfo: null,
+    name: {
+      value: ""
+    }
   };
+
+  constructor(props) {
+    super(props);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.isFormInvalid = this.isFormInvalid.bind(this);
+  }
+
+  handleInputChange(event, validationFun) {
+    const target = event.target;
+    const inputName = target.name;
+    const inputValue = target.value;
+
+    this.setState({
+      [inputName]: {
+        value: inputValue,
+        ...validationFun(inputValue)
+      }
+    });
+  }
 
   handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -70,6 +96,33 @@ class Questionnaire extends Component {
         value: value
       }
     });
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const createRequest = {
+      name: this.state.name.value
+    };
+    signup(createRequest)
+      .then(response => {
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully added a new course."
+        });
+        this.props.history.push("/login");
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
+  }
+
+  isFormInvalid() {
+    return !(this.state.name.validateStatus === "success");
   }
 
   render() {
@@ -176,9 +229,42 @@ class Questionnaire extends Component {
             </Button>
           </Col>
           <Col span={2}>
-            <Button type="primary" size="default">
-              Create
-            </Button>
+            <PopUpModal
+              title="Create Questionnaire"
+              triggerButtonText="Create"
+              confirmText={false}
+            >
+              <Form onSubmit={this.handleSubmit} className="signup-form">
+                <FormItem
+                  label="Name"
+                  hasFeedback
+                  validateStatus={this.state.name.validateStatus}
+                  help={this.state.name.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="name"
+                    autoComplete="off"
+                    placeholder="Name"
+                    value={this.state.name.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateName)
+                    }
+                  />
+                </FormItem>
+                <FormItem>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    size="large"
+                    className="signup-form-button"
+                    disabled={this.isFormInvalid()}
+                  >
+                    Create
+                  </Button>
+                </FormItem>
+              </Form>
+            </PopUpModal>
           </Col>
         </Row>
         <Row>
@@ -258,6 +344,21 @@ class Questionnaire extends Component {
       </React.Fragment>
     );
   }
+
+  // Validation Functions
+  validateName = name => {
+    if (name === "") {
+      return {
+        validateStatus: "error",
+        errorMsg: `Name cannot be empty.`
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+  };
 }
 
 export default withRouter(Questionnaire);

@@ -36,19 +36,21 @@ class PopUpModal extends Component {
           title={this.props.title}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          footer={[
-            <Button key="back" onClick={this.handleCancel}>
-              Cancel
-            </Button>,
-            <Button
-              key="submit"
-              type="primary"
-              loading={loading}
-              onClick={this.handleOk}
-            >
-              {this.props.confirmText}
-            </Button>
-          ]}
+          footer={
+            this.props.confirmText && [
+              <Button key="back" onClick={this.handleCancel}>
+                Cancel
+              </Button>,
+              <Button
+                key="submit"
+                type="primary"
+                loading={loading}
+                onClick={this.handleOk}
+              >
+                {this.props.confirmText}
+              </Button>
+            ]
+          }
         >
           {this.props.children}
         </Modal>
