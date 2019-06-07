@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -64,6 +65,20 @@ public class UserController {
         UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getCreatedAt(), pollCount, voteCount);
 
         return userProfile;
+    }
+
+    // Function to select all Students
+    @GetMapping("/users")
+    public List<User> getUser() {
+        List<User> userList = userRepository.findAll();
+
+        return userList;
+    }
+
+    // Function to delete Student
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable long id) {
+        userRepository.deleteById(id);
     }
 
     @GetMapping("/users/{username}/polls")
