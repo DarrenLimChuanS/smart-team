@@ -12,13 +12,13 @@ import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
 import StudentList from "../teacher/student/StudentList";
 import NewStudent from "../teacher/student/NewStudent";
-import Course from "../courses/Course"
+import Course from "../courses/Course";
 import EditStudent from "../teacher/student/EditStudent";
 import ClassList from "../teacher/class/ClassList";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
-import CourseInfo from "../courses/CourseInfo";
+import Courses from "../courses/Course";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
@@ -166,16 +166,16 @@ class App extends Component {
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
-                    authenticated={this.state.isAuthenticated}
-                    path="/courses"
-                    component={Course}
-                    handleLogout={this.handleLogout}
+                  authenticated={this.state.isAuthenticated}
+                  path="/courses"
+                  component={Course}
+                  handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
-                    authenticated={this.state.isAuthenticated}
-                    path="/courses/CourseInfo"
-                    component={CourseInfo}
-                    handleLogout={this.handleLogout}
+                  authenticated={this.state.isAuthenticated}
+                  path="/courses/"
+                  component={Courses}
+                  handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
