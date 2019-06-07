@@ -15,7 +15,6 @@ import StudentList from "../teacher/student/StudentList";
 import NewCourse from "../teacher/course/NewCourse";
 import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
-import Course from "../courses/Course";
 import EditStudent from "../teacher/student/EditStudent";
 import NewSection from "../teacher/section/NewSection";
 import EditSection from "../teacher/section/EditSection";
