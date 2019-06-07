@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import React, {Component} from "react";
+import {Link, withRouter} from "react-router-dom";
+import {Button, Divider, Row, Col, Table, Typography, Menu} from "antd";
 
-const { Title } = Typography;
+const {Title} = Typography;
 
 const data = [
     {
@@ -46,7 +46,7 @@ class Course extends Component {
     };
 
     clearFilters = () => {
-        this.setState({ filteredInfo: null });
+        this.setState({filteredInfo: null});
     };
 
     clearAll = () => {
@@ -66,7 +66,9 @@ class Course extends Component {
     };
 
     render() {
-        let { sortedInfo, filteredInfo } = this.state;
+
+
+        let {sortedInfo, filteredInfo} = this.state;
         sortedInfo = sortedInfo || {};
         filteredInfo = filteredInfo || {};
 
@@ -84,7 +86,7 @@ class Course extends Component {
                 title: "Name",
                 dataIndex: "name",
                 key: "name",
-                filters: [{ text: "Joe", value: "Joe" }, { text: "Jim", value: "Jim" }],
+                filters: [{text: "Joe", value: "Joe"}, {text: "Jim", value: "Jim"}],
                 filteredValue: filteredInfo.name || null,
                 onFilter: (value, record) => record.name.includes(value),
                 sorter: (a, b) => a.name.length - b.name.length,
@@ -95,10 +97,10 @@ class Course extends Component {
                 dataIndex: "module",
                 key: "module",
                 filters: [
-                    { text: "ICT1001", value: "ICT1001" },
-                    { text: "ICT1002", value: "ICT1002" },
-                    { text: "ICT1003", value: "ICT1003" },
-                    { text: "ICT1004", value: "ICT1004" }
+                    {text: "ICT1001", value: "ICT1001"},
+                    {text: "ICT1002", value: "ICT1002"},
+                    {text: "ICT1003", value: "ICT1003"},
+                    {text: "ICT1004", value: "ICT1004"}
                 ],
                 filteredValue: filteredInfo.module || null,
                 onFilter: (value, record) => record.module.includes(value),
@@ -110,12 +112,12 @@ class Course extends Component {
                 dataIndex: "status",
                 key: "status",
                 filters: [
-                    { text: "Not Grouped", value: "Not Grouped" },
+                    {text: "Not Grouped", value: "Not Grouped"},
                     {
                         text: "Pending (Automated Allocation)",
                         value: "Pending (Automated Allocation)"
                     },
-                    { text: "Grouped", value: "Grouped" }
+                    {text: "Grouped", value: "Grouped"}
                 ],
                 filteredValue: filteredInfo.status || null,
                 onFilter: (value, record) => record.status.includes(value),
@@ -127,8 +129,10 @@ class Course extends Component {
                 key: "action",
                 render: (text, record) => (
                     <span>
+                                      <Link to="/courses/CourseInfo">
             <a href="javascript:;">View more</a>
-            <Divider type="vertical" />
+                                      </Link>
+            <Divider type="vertical"/>
           </span>
                 )
             }
