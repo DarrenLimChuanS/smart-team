@@ -20,3 +20,5 @@ export const PASSWORD_MAX_LENGTH = 20;
 
 export const GPA_MIN = 0;
 export const GPA_MAX = 5.0;
+
+export const COURSE_LIST_SIZE = 30;

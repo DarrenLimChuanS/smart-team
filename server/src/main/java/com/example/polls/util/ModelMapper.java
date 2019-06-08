@@ -1,8 +1,10 @@
 package com.example.polls.util;
 
+import com.example.polls.model.Course;
 import com.example.polls.model.Poll;
 import com.example.polls.model.User;
 import com.example.polls.payload.ChoiceResponse;
+import com.example.polls.payload.CourseResponse;
 import com.example.polls.payload.PollResponse;
 import com.example.polls.payload.UserSummary;
 
@@ -13,7 +15,8 @@ import java.util.stream.Collectors;
 
 public class ModelMapper {
 
-    public static PollResponse mapPollToPollResponse(Poll poll, Map<Long, Long> choiceVotesMap, User creator, Long userVote) {
+    public static PollResponse mapPollToPollResponse(Poll poll, Map<Long, Long> choiceVotesMap, User creator,
+            Long userVote) {
         PollResponse pollResponse = new PollResponse();
         pollResponse.setId(poll.getId());
         pollResponse.setQuestion(poll.getQuestion());
@@ -27,7 +30,7 @@ public class ModelMapper {
             choiceResponse.setId(choice.getId());
             choiceResponse.setText(choice.getText());
 
-            if(choiceVotesMap.containsKey(choice.getId())) {
+            if (choiceVotesMap.containsKey(choice.getId())) {
                 choiceResponse.setVoteCount(choiceVotesMap.get(choice.getId()));
             } else {
                 choiceResponse.setVoteCount(0);
@@ -39,7 +42,7 @@ public class ModelMapper {
         UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
         pollResponse.setCreatedBy(creatorSummary);
 
-        if(userVote != null) {
+        if (userVote != null) {
             pollResponse.setSelectedChoice(userVote);
         }
 
@@ -47,6 +50,19 @@ public class ModelMapper {
         pollResponse.setTotalVotes(totalVotes);
 
         return pollResponse;
+    }
+
+    public static CourseResponse mapCourseToCourseResponse(Course course, User creator) {
+        CourseResponse courseResponse = new CourseResponse();
+        courseResponse.setId(course.getId());
+        courseResponse.setName(course.getName());
+        courseResponse.setDescription(course.getDescription());
+        courseResponse.setCreationDateTime(course.getCreatedAt());
+
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        courseResponse.setCreatedBy(creatorSummary);
+
+        return courseResponse;
     }
 
 }
