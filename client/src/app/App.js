@@ -188,21 +188,21 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/course"
-                  component={CourseList}
+                  path="/course/questionnaires"
+                  component={QuestionnairesStudent}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
-                    authenticated={this.state.isAuthenticated}
-                    path="/course/questionnaires"
-                    component={QuestionnairesStudent}
-                    handleLogout={this.handleLogout}
+                  authenticated={this.state.isAuthenticated}
+                  path="/courses/info"
+                  component={CourseInfo}
+                  handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
-                    authenticated={this.state.isAuthenticated}
-                    path="/courses/info"
-                    component={CourseInfo}
-                    handleLogout={this.handleLogout}
+                  authenticated={this.state.isAuthenticated}
+                  path="/course"
+                  component={CourseList}
+                  handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
