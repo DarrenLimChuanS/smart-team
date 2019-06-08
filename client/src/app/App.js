@@ -10,6 +10,16 @@ import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
+import NewStudent from "../teacher/student/NewStudent";
+import StudentList from "../teacher/student/StudentList";
+import NewCourse from "../teacher/course/NewCourse";
+import EditCourse from "../teacher/course/EditCourse";
+import CourseList from "../teacher/course/CourseList";
+import Course from "../courses/Course";
+import EditStudent from "../teacher/student/EditStudent";
+import NewSection from "../teacher/section/NewSection";
+import EditSection from "../teacher/section/EditSection";
+import SectionList from "../teacher/section/SectionList";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
@@ -17,7 +27,6 @@ import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
 import { Layout, notification } from "antd";
-import Dashboard from "../teacher/Dashboard";
 const { Content } = Layout;
 
 class App extends Component {
@@ -103,27 +112,20 @@ class App extends Component {
           onLogout={this.handleLogout}
         />
         <Sidebar>
-          <Content
-            className="app-content"
-            style={{
-              backgroundColor: "#FFFFFF",
-              marginTop: "100px"
-            }}
-          >
-            <div className="container" style={{ margin: "32px" }}>
+          <Content className="app-content">
+            <div className="container">
               <Switch>
                 <Route
                   exact
                   path="/"
-                  render={
-                    props => <Dashboard />
-                    // <PollList
-                    //   isAuthenticated={this.state.isAuthenticated}
-                    //   currentUser={this.state.currentUser}
-                    //   handleLogout={this.handleLogout}
-                    //   {...props}
-                    // />
-                  }
+                  render={props => (
+                    <PollList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      handleLogout={this.handleLogout}
+                      {...props}
+                    />
+                  )}
                 />
                 <Route
                   path="/login"
@@ -142,10 +144,71 @@ class App extends Component {
                     />
                   )}
                 />
+
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/student/new"
+                  component={NewStudent}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/student/edit"
+                  component={EditStudent}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/student"
+                  component={StudentList}
+                  handleLogout={this.handleLogout}
+                />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
                   path="/poll/new"
                   component={NewPoll}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/course/new"
+                  component={NewCourse}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/course/edit"
+                  component={EditCourse}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/course"
+                  component={CourseList}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/courses"
+                  component={Course}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/section/new"
+                  component={NewSection}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/section/edit"
+                  component={EditSection}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/section"
+                  component={SectionList}
                   handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />
