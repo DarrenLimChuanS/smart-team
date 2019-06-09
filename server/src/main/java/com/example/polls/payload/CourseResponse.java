@@ -4,6 +4,7 @@ import java.time.Instant;
 
 public class CourseResponse {
     private Long id;
+    private String course_id;
     private String name;
     private String description;
     private UserSummary createdBy;
@@ -15,6 +16,14 @@ public class CourseResponse {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCourseId() {
+        return course_id;
+    }
+
+    public void setCourseId(String course_id) {
+        this.course_id = course_id;
     }
 
     public String getName() {

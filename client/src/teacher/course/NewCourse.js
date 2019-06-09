@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { signup } from "../../util/APIUtils";
+import { createCourse } from "../../util/APIUtils";
 
 import { Form, Input, Button, notification, Typography } from "antd";
 const { Title } = Typography;
@@ -13,6 +13,9 @@ class NewCourse extends Component {
         value: ""
       },
       name: {
+        value: ""
+      },
+      description: {
         value: ""
       }
     };
@@ -37,17 +40,18 @@ class NewCourse extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const signupRequest = {
+    const createCourseRequest = {
       courseId: this.state.courseId.value,
-      name: this.state.name.value
+      name: this.state.name.value,
+      description: this.state.description.value
     };
-    signup(signupRequest)
+    createCourse(createCourseRequest)
       .then(response => {
         notification.success({
           message: "Smart Team",
           description: "Success! You have successfully added a new course."
         });
-        this.props.history.push("/login");
+        this.props.history.push("/course");
       })
       .catch(error => {
         notification.error({
@@ -105,6 +109,24 @@ class NewCourse extends Component {
                 }
               />
             </FormItem>
+            <FormItem
+              label="Description"
+              hasFeedback
+              validateStatus={this.state.name.validateStatus}
+              help={this.state.name.errorMsg}
+            >
+              <Input
+                type="textarea"
+                size="large"
+                name="description"
+                autoComplete="off"
+                placeholder="Description"
+                value={this.state.description.value}
+                onChange={event =>
+                  this.handleInputChange(event, this.validateDescription)
+                }
+              />
+            </FormItem>
             <FormItem>
               <Button
                 type="primary"
@@ -149,6 +171,13 @@ class NewCourse extends Component {
         errorMsg: null
       };
     }
+  };
+
+  validateDescription = () => {
+    return {
+      validateStatus: "success",
+      errorMsg: null
+    };
   };
 }
 

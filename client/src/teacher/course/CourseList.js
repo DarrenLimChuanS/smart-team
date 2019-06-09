@@ -2,33 +2,11 @@ import React, { Component } from "react";
 import { getAllCourses, getUserCreatedCourses } from "../../util/APIUtils";
 import { Link, withRouter } from "react-router-dom";
 import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import Moment from "react-moment";
 import { compareByAlph } from "../../util/Sorters";
 import { COURSE_LIST_SIZE } from "../../constants";
 
 const { Title } = Typography;
-
-const data = [
-  {
-    key: "1",
-    module: "ICT1001",
-    name: "Intro to ICT"
-  },
-  {
-    key: "2",
-    module: "ICT1002",
-    name: "Programming fundamentals"
-  },
-  {
-    key: "4",
-    module: "ICT1003",
-    name: "Embedded systems"
-  },
-  {
-    key: "5",
-    module: "ICT1004",
-    name: "Web programming"
-  }
-];
 
 class CourseList extends Component {
   state = {
@@ -130,19 +108,19 @@ class CourseList extends Component {
     const columns = [
       {
         title: "#",
-        dataIndex: "id",
-        key: "id",
+        dataIndex: "key",
+        key: "key",
         filteredValue: filteredInfo.key || null,
         onFilter: (value, record) => record.key.includes(value),
         sorter: (a, b) => a.key - b.key,
         sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
       },
       {
-        title: "Course ID",
-        dataIndex: "module",
-        key: "module",
-        sorter: (a, b) => compareByAlph(a.module, b.module),
-        sortOrder: sortedInfo.columnKey === "module" && sortedInfo.order
+        title: "Course Code",
+        dataIndex: "course_id",
+        key: "course_id",
+        sorter: (a, b) => compareByAlph(a.course_id, b.course_id),
+        sortOrder: sortedInfo.columnKey === "course_id" && sortedInfo.order
       },
       {
         title: "Name",
@@ -157,6 +135,17 @@ class CourseList extends Component {
         key: "description",
         sorter: (a, b) => compareByAlph(a.description, b.description),
         sortOrder: sortedInfo.columnKey === "description" && sortedInfo.order
+      },
+      {
+        title: "Created At",
+        dataIndex: "creationDateTime",
+        key: "creationDateTime",
+        sorter: (a, b) => {
+          return a.creationDateTime.localeCompare(b.creationDateTime);
+        },
+        sortOrder:
+          sortedInfo.columnKey === "creationDateTime" && sortedInfo.order,
+        render: creationDateTime => <Moment>{creationDateTime}</Moment>
       },
       {
         title: "Action",

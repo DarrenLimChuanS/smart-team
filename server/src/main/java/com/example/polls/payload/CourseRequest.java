@@ -6,10 +6,22 @@ import javax.validation.constraints.Size;
 public class CourseRequest {
     @NotBlank
     @Size(max = 140)
+    private String course_id;
+
+    @NotBlank
+    @Size(max = 140)
     private String name;
 
     @Size(max = 255)
     private String description;
+
+    public String getCourseId() {
+        return course_id;
+    }
+
+    public void setCourseId(String course_id) {
+        this.course_id = course_id;
+    }
 
     public String getName() {
         return name;

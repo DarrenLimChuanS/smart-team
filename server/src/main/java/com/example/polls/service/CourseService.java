@@ -89,6 +89,7 @@ public class CourseService {
 
     public Course createCourse(CourseRequest courseRequest) {
         Course course = new Course();
+        course.setCourseId(courseRequest.getCourseId());
         course.setName(courseRequest.getName());
         course.setDescription(courseRequest.getDescription());
 

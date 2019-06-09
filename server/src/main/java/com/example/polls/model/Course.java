@@ -13,6 +13,10 @@ public class Course extends UserDateAudit {
 
     @NotBlank
     @Column(length = 60)
+    private String course_id;
+
+    @NotBlank
+    @Column(length = 60)
     private String name;
 
     @Column(length = 255)
@@ -22,8 +26,10 @@ public class Course extends UserDateAudit {
 
     }
 
-    public Course(String name) {
+    public Course(String course_id, String name, String description) {
+        this.course_id = course_id;
         this.name = name;
+        this.description = description;
     }
 
     public Long getId() {
@@ -32,6 +38,14 @@ public class Course extends UserDateAudit {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCourseId() {
+        return course_id;
+    }
+
+    public void setCourseId(String course_id) {
+        this.course_id = course_id;
     }
 
     public String getName() {
