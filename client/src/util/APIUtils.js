@@ -85,6 +85,14 @@ export function signup(signupRequest) {
   });
 }
 
+export function createStudent(studentRequest) {
+  return request({
+    url: API_BASE_URL + "/student/add",
+    method: "POST",
+    body: JSON.stringify(studentRequest)
+  });
+}
+
 export function checkUsernameAvailability(username) {
   return request({
     url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,

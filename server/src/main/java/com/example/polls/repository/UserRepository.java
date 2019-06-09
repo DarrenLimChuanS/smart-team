@@ -20,10 +20,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    // Function to select all Students
+    // Function to select all User
     List<User> findAll();
 
-    // Function to delete Student
+    // Function to delete User
     void deleteById(Long id);
 
     Boolean existsByUsername(String username);

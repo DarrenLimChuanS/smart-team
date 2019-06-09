@@ -67,7 +67,7 @@ public class UserController {
         return userProfile;
     }
 
-    // Function to select all Students
+    // Function to select all User
     @GetMapping("/users")
     public List<User> getUser() {
         List<User> userList = userRepository.findAll();
@@ -75,7 +75,7 @@ public class UserController {
         return userList;
     }
 
-    // Function to delete Student
+    // Function to delete User
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable long id) {
         userRepository.deleteById(id);
