@@ -57,11 +57,11 @@ class CourseInfo extends Component {
 
                 <Paragraph>
                     <ul>
-                        <Link to="/courses/QuestionnairesStudent.js">
+                        <Link to="/courses/questionnaires_student">
                             <li>Attempt questionnaire</li>
                         </Link>
                         <li>
-                            <a href="../courses/QuestionnairesStudent.js">
+                            <a href="../courses/questionnaires_student">
                                 Resource Download
                             </a>
                         </li>
