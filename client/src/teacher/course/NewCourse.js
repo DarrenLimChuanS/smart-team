@@ -112,8 +112,8 @@ class NewCourse extends Component {
             <FormItem
               label="Description"
               hasFeedback
-              validateStatus={this.state.name.validateStatus}
-              help={this.state.name.errorMsg}
+              validateStatus={this.state.description.validateStatus}
+              help={this.state.description.errorMsg}
             >
               <Input
                 type="textarea"

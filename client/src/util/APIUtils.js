@@ -61,6 +61,13 @@ export function createCourse(courseData) {
   });
 }
 
+export function deleteCourse(courseId) {
+  return request({
+    url: API_BASE_URL + courseId,
+    method: "DELETE"
+  });
+}
+
 export function castVote(voteData) {
   return request({
     url: API_BASE_URL + "/polls/" + voteData.pollId + "/votes",
