@@ -89,7 +89,7 @@ public class CourseService {
 
     public Course createCourse(CourseRequest courseRequest) {
         Course course = new Course();
-        course.setCourseId(courseRequest.getCourseId());
+        course.setCourseCode(courseRequest.getCourseCode());
         course.setName(courseRequest.getName());
         course.setDescription(courseRequest.getDescription());
 
@@ -105,6 +105,11 @@ public class CourseService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", course.getCreatedBy()));
 
         return ModelMapper.mapCourseToCourseResponse(course, creator);
+    }
+
+    public void deleteById(Long courseId) {
+        if (courseRepository.findById(courseId).isPresent())
+            courseRepository.deleteById(courseId);
     }
 
     private void validatePageNumberAndSize(int page, int size) {
@@ -126,4 +131,5 @@ public class CourseService {
 
         return creatorMap;
     }
+
 }

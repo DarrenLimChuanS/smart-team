@@ -19,6 +19,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     long countByCreatedBy(Long userId);
 
+    void deleteById(Long courseId);
+
     List<Course> findByIdIn(List<Long> courseIds);
 
     List<Course> findByIdIn(List<Long> courseIds, Sort sort);

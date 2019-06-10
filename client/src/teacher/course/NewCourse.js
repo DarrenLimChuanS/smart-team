@@ -9,7 +9,7 @@ class NewCourse extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      courseId: {
+      courseCode: {
         value: ""
       },
       name: {
@@ -41,7 +41,7 @@ class NewCourse extends Component {
     event.preventDefault();
 
     const createCourseRequest = {
-      courseId: this.state.courseId.value,
+      courseCode: this.state.courseCode.value,
       name: this.state.name.value,
       description: this.state.description.value
     };
@@ -64,7 +64,7 @@ class NewCourse extends Component {
 
   isFormInvalid() {
     return !(
-      this.state.courseId.validateStatus === "success" &&
+      this.state.courseCode.validateStatus === "success" &&
       this.state.name.validateStatus === "success"
     );
   }
@@ -76,19 +76,19 @@ class NewCourse extends Component {
         <div className="signup-content">
           <Form onSubmit={this.handleSubmit} className="signup-form">
             <FormItem
-              label="Course ID"
+              label="Course Code"
               hasFeedback
-              validateStatus={this.state.courseId.validateStatus}
-              help={this.state.courseId.errorMsg}
+              validateStatus={this.state.courseCode.validateStatus}
+              help={this.state.courseCode.errorMsg}
             >
               <Input
                 size="large"
-                name="courseId"
+                name="courseCode"
                 autoComplete="off"
-                placeholder="Course ID"
-                value={this.state.courseId.value}
+                placeholder="Course Code"
+                value={this.state.courseCode.value}
                 onChange={event =>
-                  this.handleInputChange(event, this.validateCourseId)
+                  this.handleInputChange(event, this.validateCourseCode)
                 }
               />
             </FormItem>
@@ -145,11 +145,11 @@ class NewCourse extends Component {
   }
 
   // Validation Functions
-  validateCourseId = courseId => {
-    if (courseId === "") {
+  validateCourseCode = courseCode => {
+    if (courseCode === "") {
       return {
         validateStatus: "error",
-        errorMsg: `Course ID cannot be empty.`
+        errorMsg: `Course Code cannot be empty.`
       };
     } else {
       return {

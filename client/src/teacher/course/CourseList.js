@@ -70,6 +70,7 @@ class CourseList extends Component {
 
   componentDidMount() {
     this.loadCourseList();
+    console.log("course code: " + this.state.courses.courseCode);
   }
 
   componentDidUpdate(nextProps) {
@@ -93,7 +94,6 @@ class CourseList extends Component {
   }
 
   handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter
@@ -117,10 +117,10 @@ class CourseList extends Component {
       },
       {
         title: "Course Code",
-        dataIndex: "course_id",
-        key: "course_id",
-        sorter: (a, b) => compareByAlph(a.course_id, b.course_id),
-        sortOrder: sortedInfo.columnKey === "course_id" && sortedInfo.order
+        dataIndex: "courseCode",
+        key: "courseCode",
+        sorter: (a, b) => compareByAlph(a.courseCode, b.courseCode),
+        sortOrder: sortedInfo.columnKey === "courseCode" && sortedInfo.order
       },
       {
         title: "Name",
