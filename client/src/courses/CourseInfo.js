@@ -68,6 +68,8 @@ class CourseInfo extends Component {
                     </ul>
                 </Paragraph>
 
+                <Divider/>
+
                 <div>
                     <Card title="ICT1003" extra={<a href="#">Attempt questionnaire</a>} style={{width: 600}}>
                         <p>After massive project practice and summaries, Ant Design, a design language for background
