@@ -46,17 +46,30 @@ public class CourseController {
 
     @PostMapping
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> createPoll(@Valid @RequestBody CourseRequest courseRequest) {
+    public ResponseEntity<?> createCourse(@Valid @RequestBody CourseRequest courseRequest) {
         Course course = courseService.createCourse(courseRequest);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{courseId}")
                 .buildAndExpand(course.getId()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "Poll Created Successfully"));
+        return ResponseEntity.created(location).body(new ApiResponse(true, "Course Created Successfully"));
     }
 
     @GetMapping("/{courseId}")
+    @PreAuthorize("hasRole('USER')")
     public CourseResponse getCourseById(@CurrentUser UserPrincipal currentUser, @PathVariable Long courseId) {
         return courseService.getCourseById(courseId, currentUser);
+    }
+
+    @PutMapping("/{courseId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> updateStudent(@RequestBody Course course, @PathVariable long courseId) {
+        return courseService.updateStudentById(course, courseId);
+    }
+
+    @DeleteMapping("/{courseId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteCourse(@PathVariable long courseId) {
+        return courseService.deleteById(courseId);
     }
 }

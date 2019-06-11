@@ -53,11 +53,34 @@ export function getAllCourses(page, size) {
   });
 }
 
+export function getCourseById(id) {
+  return request({
+    url: API_BASE_URL + "/courses/" + id,
+    method: "GET"
+  });
+}
+
 export function createCourse(courseData) {
   return request({
     url: API_BASE_URL + "/courses",
     method: "POST",
     body: JSON.stringify(courseData)
+  });
+}
+
+export function updateCourse(courseId, courseData) {
+  console.log(JSON.stringify(courseData));
+  return request({
+    url: API_BASE_URL + "/courses/" + courseId,
+    method: "PUT",
+    body: JSON.stringify(courseData)
+  });
+}
+
+export function deleteCourse(courseId) {
+  return request({
+    url: API_BASE_URL + "/courses/" + courseId,
+    method: "DELETE"
   });
 }
 
