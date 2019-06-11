@@ -108,9 +108,9 @@ export function signup(signupRequest) {
   });
 }
 
-export function createStudent(studentRequest) {
+export function createStudent(studentRequest, userid) {
   return request({
-    url: API_BASE_URL + "/student/add",
+    url: API_BASE_URL + "/users/" + userid + "/student",
     method: "POST",
     body: JSON.stringify(studentRequest)
   });

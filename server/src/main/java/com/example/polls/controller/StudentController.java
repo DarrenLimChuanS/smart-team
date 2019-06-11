@@ -120,11 +120,6 @@ public class StudentController {
 
         student.setPassword(passwordEncoder.encode(student.getPassword()));
 
-        Role studentRole = roleRepository.findByName(RoleName.ROLE_STUDENT)
-                .orElseThrow(() -> new AppException("User Role not set."));
-
-        student.setRoles(Collections.singleton(studentRole));
-
             return userRepository.findById(id)
                 .map(teacher -> {
                     student.setTeacher(teacher);
