@@ -55,6 +55,7 @@ public class ModelMapper {
     public static CourseResponse mapCourseToCourseResponse(Course course, User creator) {
         CourseResponse courseResponse = new CourseResponse();
         courseResponse.setId(course.getId());
+        courseResponse.setCourseCode(course.getCourseCode());
         courseResponse.setName(course.getName());
         courseResponse.setDescription(course.getDescription());
         courseResponse.setCreationDateTime(course.getCreatedAt());
