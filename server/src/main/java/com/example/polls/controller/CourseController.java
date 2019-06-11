@@ -56,12 +56,20 @@ public class CourseController {
     }
 
     @GetMapping("/{courseId}")
+    @PreAuthorize("hasRole('USER')")
     public CourseResponse getCourseById(@CurrentUser UserPrincipal currentUser, @PathVariable Long courseId) {
         return courseService.getCourseById(courseId, currentUser);
     }
 
+    @PutMapping("/{courseId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> updateStudent(@RequestBody Course course, @PathVariable long courseId) {
+        return courseService.updateStudentById(course, courseId);
+    }
+
     @DeleteMapping("/{courseId}")
-    public void deleteCourse(@PathVariable long courseId) {
-        courseService.deleteById(courseId);
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteCourse(@PathVariable long courseId) {
+        return courseService.deleteById(courseId);
     }
 }

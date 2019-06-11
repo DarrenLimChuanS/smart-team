@@ -12,7 +12,6 @@ import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
 import NewStudent from "../teacher/student/NewStudent";
 import StudentList from "../teacher/student/StudentList";
-import NewCourse from "../teacher/course/NewCourse";
 import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
 import Course from "../courses/Course";
@@ -171,13 +170,7 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/course/new"
-                  component={NewCourse}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/course/edit"
+                  path="/course/:id"
                   component={EditCourse}
                   handleLogout={this.handleLogout}
                 />

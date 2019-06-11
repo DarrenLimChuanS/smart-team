@@ -1,7 +1,19 @@
 import React, { Component } from "react";
-import { getAllCourses, getUserCreatedCourses } from "../../util/APIUtils";
-import { Link, withRouter } from "react-router-dom";
-import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import {
+  getAllCourses,
+  getUserCreatedCourses,
+  deleteCourse
+} from "../../util/APIUtils";
+import { Redirect, Link, withRouter } from "react-router-dom";
+import {
+  Button,
+  Divider,
+  Row,
+  notification,
+  Col,
+  Table,
+  Typography
+} from "antd";
 import Moment from "react-moment";
 import { compareByAlph } from "../../util/Sorters";
 import { COURSE_LIST_SIZE } from "../../constants";
@@ -27,6 +39,7 @@ class CourseList extends Component {
     };
     this.loadCourseList = this.loadCourseList.bind(this);
     this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.deleteCourseWithId = this.deleteCourseWithId.bind(this);
   }
 
   loadCourseList(page = 0, size = COURSE_LIST_SIZE) {
@@ -70,7 +83,6 @@ class CourseList extends Component {
 
   componentDidMount() {
     this.loadCourseList();
-    console.log("course code: " + this.state.courses.courseCode);
   }
 
   componentDidUpdate(nextProps) {
@@ -100,11 +112,39 @@ class CourseList extends Component {
     });
   };
 
+  deleteCourseWithId(id) {
+    deleteCourse(id)
+      .then(response => {
+        let updatedCourses = [...this.state.courses].filter(i => i.id !== id);
+        this.setState({ courses: updatedCourses });
+        // this.loadCourseList();
+        this.props.history.push("/course");
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully deleted a course."
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
+  }
+
   render() {
     let { sortedInfo } = this.state;
     sortedInfo = sortedInfo || {};
 
     const columns = [
+      {
+        title: "#",
+        dataIndex: "id",
+        key: "id",
+        sorter: (a, b) => compareByAlph(a.id, b.id),
+        sortOrder: sortedInfo.columnKey === "id" && sortedInfo.order
+      },
       {
         title: "Course Code",
         dataIndex: "courseCode",
@@ -144,9 +184,9 @@ class CourseList extends Component {
           <span>
             <a href="javascript:;">View Sections</a>
             <Divider type="vertical" />
-            <Link to="/course/edit">Edit</Link>
+            <Link to={"/course/" + record.id}>Edit</Link>
             <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <a onClick={() => this.deleteCourseWithId(record.id)}>Delete</a>
           </span>
         )
       }
