@@ -3,7 +3,7 @@ package com.example.polls.payload;
 import javax.validation.constraints.*;
 
 public class StudentRequest {
-    @NotBlank
+    @NotNull
     private Long batch_no;
 
     @NotBlank
@@ -53,5 +53,13 @@ public class StudentRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getBatch_no() {
+        return batch_no;
+    }
+
+    public void setBatch_no(Long batch_no) {
+        this.batch_no = batch_no;
     }
 }

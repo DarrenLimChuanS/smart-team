@@ -9,6 +9,7 @@ import com.example.polls.payload.*;
 import com.example.polls.repository.PollRepository;
 import com.example.polls.repository.VoteRepository;
 import com.example.polls.repository.StudentRepository;
+import com.example.polls.repository.UserRepository;
 import com.example.polls.repository.RoleRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.PollService;
@@ -35,6 +36,9 @@ public class StudentController {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -88,9 +92,7 @@ public class StudentController {
     // Function to select all Student
     @GetMapping("/student")
     public List<Student> getStudent() {
-        List<Student> studentList = studentRepository.findAll();
-
-        return studentList;
+        return studentRepository.findAll();
     }
 
     // Function to delete Student
@@ -99,9 +101,9 @@ public class StudentController {
         studentRepository.deleteById(id);
     }
 
-    // Function to create Student
-    @PostMapping("/student/add")
-    public ResponseEntity<?> addStudent(@Valid @RequestBody StudentRequest studentRequest) {
+    // Function to create Student tied to Teacher
+    @PostMapping("/users/{id}/students")
+    public ResponseEntity<?> addStudent(@PathVariable(value = "id")  Long id, @Valid @RequestBody StudentRequest studentRequest) {
         if(studentRepository.existsByUsername(studentRequest.getUsername())) {
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
@@ -123,12 +125,51 @@ public class StudentController {
 
         student.setRoles(Collections.singleton(studentRole));
 
-        Student result = studentRepository.save(student);
+            return userRepository.findById(id)
+                .map(teacher -> {
+                    student.setTeacher(teacher);
+                    Student result = studentRepository.save(student);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/student/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
+                    URI location = ServletUriComponentsBuilder
+                            .fromCurrentContextPath().path("/student/{username}")
+                            .buildAndExpand(result.getUsername()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "Student created successfully"));
+                    return ResponseEntity.created(location).body(new ApiResponse(true, "Student created successfully"));
+                }).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
+
+//    // Function to update Student
+//    @PutMapping("/student/{id}")
+//    public ResponseEntity<Student> updateStudent(@PathVariable(value = "id") Long id, @Valid @RequestBody Student studentDetails) {
+//
+//        Student temp = studentRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
+//        if (temp == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        temp.setBatch_no(studentDetails.getBatch_no());
+//        temp.setUsername(studentDetails.getUsername());
+//        temp.setName(studentDetails.getName());
+//        temp.setEmail(studentDetails.getEmail());
+//        temp.setPassword(studentDetails.getPassword());
+//        temp.setTeacher(studentDetails.getTeacher());
+//
+//        Student updateStudent = studentRepository.save(temp);
+//        return ResponseEntity.ok().body(updateStudent);
+//    }
+//
+//    // Function to delete Student
+//    @DeleteMapping("/student/{id}")
+//    public ResponseEntity<Student> deleteStudent(@PathVariable(value = "id") Long id) {
+//
+//        Student temp = studentRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
+//        if (temp == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        studentRepository.delete(temp);
+//
+//        return ResponseEntity.ok().build();
+//    }
 }

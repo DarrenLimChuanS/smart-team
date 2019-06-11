@@ -69,15 +69,20 @@ public class UserController {
 
     // Function to select all User
     @GetMapping("/users")
-    public List<User> getUser() {
-        List<User> userList = userRepository.findAll();
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
-        return userList;
+    // Function to select User by ID
+    @GetMapping("/users/id/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 
     // Function to delete User
     @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable long id) {
+    public void deleteUser(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
 
