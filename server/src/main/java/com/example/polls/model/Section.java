@@ -24,6 +24,10 @@ public class Section extends UserDateAudit {
     @Column(length = 255)
     private String status;
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "id", nullable = false)
+    private Course course;
+
     public Section() {
 
     }
@@ -73,6 +77,14 @@ public class Section extends UserDateAudit {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
 }

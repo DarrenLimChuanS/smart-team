@@ -2,12 +2,15 @@ package com.example.polls.payload;
 
 import java.time.Instant;
 
+import com.example.polls.model.Course;
+
 public class SectionResponse {
     private Long sectionId;
     private String name;
     private Long noOfStudents;
     private Long year;
     private String status;
+    private Course course;
     private UserSummary createdBy;
     private Instant creationDateTime;
 
@@ -49,6 +52,14 @@ public class SectionResponse {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public UserSummary getCreatedBy() {

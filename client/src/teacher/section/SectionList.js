@@ -3,9 +3,17 @@ import { Link, withRouter } from "react-router-dom";
 import {
   getAllSections,
   getUserCreatedSections,
-  deleteCourse
+  deleteSection
 } from "../../util/APIUtils";
-import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import {
+  Button,
+  Divider,
+  Row,
+  Col,
+  Table,
+  Typography,
+  notification
+} from "antd";
 import "./SectionList.css";
 import { SECTION_LIST_SIZE } from "../../constants";
 
@@ -27,7 +35,7 @@ class SectionList extends Component {
     };
     this.loadSectionList = this.loadSectionList.bind(this);
     this.handleLoadMore = this.handleLoadMore.bind(this);
-    // this.deleteSectionWithId = this.deleteSectionWithId.bind(this);
+    this.deleteSectionWithId = this.deleteSectionWithId.bind(this);
   }
 
   loadSectionList(page = 0, size = SECTION_LIST_SIZE) {
@@ -104,12 +112,41 @@ class SectionList extends Component {
     });
   };
 
+  deleteSectionWithId(id) {
+    deleteSection(id)
+      .then(response => {
+        let updatedSections = [...this.state.sections].filter(
+          i => i.sectionId !== id
+        );
+        this.setState({ sections: updatedSections });
+        this.props.history.push("/section");
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully deleted a section."
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
+  }
+
   render() {
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
 
     const columns = [
+      {
+        title: "#",
+        dataIndex: "sectionId",
+        key: "sectionId",
+        sorter: (a, b) => a.sectionId - b.sectionId,
+        sortOrder: sortedInfo.columnKey === "sectionId" && sortedInfo.order
+      },
       {
         title: "Name",
         dataIndex: "name",
@@ -128,15 +165,8 @@ class SectionList extends Component {
         title: "Course",
         dataIndex: "course",
         key: "course",
-        filters: [
-          { text: "ICT1001", value: "ICT1001" },
-          { text: "ICT1002", value: "ICT1002" },
-          { text: "ICT1003", value: "ICT1003" },
-          { text: "ICT1004", value: "ICT1004" }
-        ],
-        filteredValue: filteredInfo.course || null,
-        onFilter: (value, record) => record.course.includes(value),
-        sorter: (a, b) => a.course.length - b.course.length,
+        render: (text, record) => <span>{record.course.name}</span>,
+        sorter: (a, b) => a.course.name.length - b.course.name.length,
         sortOrder: sortedInfo.columnKey === "course" && sortedInfo.order
       },
       {
@@ -172,7 +202,9 @@ class SectionList extends Component {
             <Divider type="vertical" />
             <Link to="/section/edit">Edit</Link>
             <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <a onClick={() => this.deleteSectionWithId(record.sectionId)}>
+              Delete
+            </a>
           </span>
         )
       }

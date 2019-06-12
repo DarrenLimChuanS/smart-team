@@ -24,9 +24,8 @@ public class Course extends UserDateAudit {
     @Column(length = 255)
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "course_section", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "section_id"))
-    private Set<Section> roles = new HashSet<>();
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Section> sections = new HashSet<>();
 
     public Course() {
 
