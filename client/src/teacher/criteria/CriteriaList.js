@@ -1,37 +1,45 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Button, Divider, Row, Col, Table, Typography, Menu } from "antd";
+import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import "./CriteriaList.css";
+import PopUpModal from "../../common/PopUpModal";
 
 const { Title } = Typography;
 
 const data = [
   {
     key: "1",
-    name: "Intro to ICT",
-    module: "ICT1001",
-    status: "Passed"
+    name: "Name",
+    type: "Single",
+    noOfQuestions: 1
   },
   {
     key: "2",
-    name: "Programming fundamentals",
-    module: "ICT1002",
-    status: "Ongoing"
+    name: "Age",
+    type: "Single",
+    noOfQuestions: 1
+  },
+  {
+    key: "3",
+    name: "GPA",
+    type: "Single",
+    noOfQuestions: 1
   },
   {
     key: "4",
-    name: "Embedded systems",
-    module: "ICT1003",
-    status: "Ongoing"
+    name: "Leadership",
+    type: "Multiple",
+    noOfQuestions: 10
   },
   {
-    key: "4",
-    name: "Web programming",
-    module: "ICT1004",
-    status: "Ongoing"
+    key: "5",
+    name: "Field of Interest",
+    type: "Multiple",
+    noOfQuestions: 3
   }
 ];
 
-class Course extends Component {
+class Criteria extends Component {
   state = {
     filteredInfo: null,
     sortedInfo: null
@@ -91,46 +99,29 @@ class Course extends Component {
         sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order
       },
       {
-        title: "Course ID",
-        dataIndex: "module",
-        key: "module",
-        filters: [
-          { text: "ICT1001", value: "ICT1001" },
-          { text: "ICT1002", value: "ICT1002" },
-          { text: "ICT1003", value: "ICT1003" },
-          { text: "ICT1004", value: "ICT1004" }
-        ],
-        filteredValue: filteredInfo.module || null,
-        onFilter: (value, record) => record.module.includes(value),
-        sorter: (a, b) => a.module.length - b.module.length,
-        sortOrder: sortedInfo.columnKey === "module" && sortedInfo.order
+        title: "Type",
+        dataIndex: "type",
+        key: "type",
+        sorter: (a, b) => a.type - b.type,
+        sortOrder: sortedInfo.columnKey === "type" && sortedInfo.order
       },
       {
-        title: "Status",
-        dataIndex: "status",
-        key: "status",
-        filters: [
-          { text: "Not Grouped", value: "Not Grouped" },
-          {
-            text: "Pending (Automated Allocation)",
-            value: "Pending (Automated Allocation)"
-          },
-          { text: "Grouped", value: "Grouped" }
-        ],
-        filteredValue: filteredInfo.status || null,
-        onFilter: (value, record) => record.status.includes(value),
-        sorter: (a, b) => a.status.length - b.status.length,
-        sortOrder: sortedInfo.columnKey === "status" && sortedInfo.order
+        title: "No. of Questions",
+        dataIndex: "noOfQuestions",
+        key: "noOfQuestions",
+        filteredValue: filteredInfo.noOfQuestions || null,
+        onFilter: (value, record) => record.noOfQuestions.includes(value),
+        sorter: (a, b) => a.noOfQuestions - b.noOfQuestions,
+        sortOrder: sortedInfo.columnKey === "noOfQuestions" && sortedInfo.order
       },
       {
         title: "Action",
         key: "action",
         render: (text, record) => (
           <span>
-            <Link to="/courses/info">
-              <a href="javascript:;">View more</a>
-            </Link>
+            <a href="javascript:;">Edit</a>
             <Divider type="vertical" />
+            <a href="javascript:;">Delete</a>
           </span>
         )
       }
@@ -139,13 +130,40 @@ class Course extends Component {
     return (
       <React.Fragment>
         <Row>
-          <Col span={22}>
-            <Title level={2}>Courses</Title>
+          <Col span={18}>
+            <Title level={2}>Criteria</Title>
           </Col>
           <Col span={2}>
-            <Button type="primary" size={12}>
-              Create
+            <Button type="primary" size="default">
+              Export
             </Button>
+          </Col>
+          <Col span={2}>
+            <Button type="primary" size="default">
+              Import
+            </Button>
+          </Col>
+          <Col span={2}>
+            <PopUpModal
+              title="Create Criteria"
+              triggerButtonText="Create"
+              confirmText={false}
+            >
+              <Row style={{ textAlign: "center" }}>
+                <Col span={12}>
+                  <Link to="/criteria/graded/new">
+                    <Button type="primary" size="large">
+                      Graded
+                    </Button>
+                  </Link>
+                </Col>
+                <Col span={12}>
+                  <Button type="primary" size="large">
+                    Ungraded
+                  </Button>
+                </Col>
+              </Row>
+            </PopUpModal>
           </Col>
         </Row>
         <Row>
@@ -160,4 +178,4 @@ class Course extends Component {
   }
 }
 
-export default withRouter(Course);
+export default withRouter(Criteria);
