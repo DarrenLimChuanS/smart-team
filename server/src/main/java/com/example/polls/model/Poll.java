@@ -26,12 +26,7 @@ public class Poll extends UserDateAudit {
     @Size(max = 140)
     private String question;
 
-    @OneToMany(
-            mappedBy = "poll",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @Size(min = 2, max = 6)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 30)

@@ -3,6 +3,8 @@ package com.example.polls.model;
 import com.example.polls.model.audit.UserDateAudit;
 import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -21,6 +23,9 @@ public class Course extends UserDateAudit {
 
     @Column(length = 255)
     private String description;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Section> sections = new HashSet<>();
 
     public Course() {
 

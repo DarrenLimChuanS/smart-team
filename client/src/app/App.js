@@ -143,7 +143,6 @@ class App extends Component {
                     />
                   )}
                 />
-
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
                   path="/student/new"
@@ -174,10 +173,16 @@ class App extends Component {
                   component={EditCourse}
                   handleLogout={this.handleLogout}
                 />
-                <PrivateRoute
+                <Route
                   authenticated={this.state.isAuthenticated}
                   path="/course"
-                  component={CourseList}
+                  render={props => (
+                    <CourseList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
@@ -198,11 +203,19 @@ class App extends Component {
                   component={EditSection}
                   handleLogout={this.handleLogout}
                 />
-                <PrivateRoute
+                <Route
                   authenticated={this.state.isAuthenticated}
                   path="/section"
-                  component={SectionList}
+                  render={props => (
+                    <SectionList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
                   handleLogout={this.handleLogout}
+                />
+                handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />
               </Switch>

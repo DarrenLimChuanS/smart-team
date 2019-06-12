@@ -1,4 +1,10 @@
-import { API_BASE_URL, POLL_LIST_SIZE, ACCESS_TOKEN } from "../constants";
+import {
+  API_BASE_URL,
+  POLL_LIST_SIZE,
+  COURSE_LIST_SIZE,
+  SECTION_LIST_SIZE,
+  ACCESS_TOKEN
+} from "../constants";
 
 const request = options => {
   const headers = new Headers({
@@ -45,7 +51,7 @@ export function createPoll(pollData) {
 
 export function getAllCourses(page, size) {
   page = page || 0;
-  size = size || POLL_LIST_SIZE;
+  size = size || COURSE_LIST_SIZE;
 
   return request({
     url: API_BASE_URL + "/courses?page=" + page + "&size=" + size,
@@ -80,6 +86,47 @@ export function updateCourse(courseId, courseData) {
 export function deleteCourse(courseId) {
   return request({
     url: API_BASE_URL + "/courses/" + courseId,
+    method: "DELETE"
+  });
+}
+
+export function getAllSections(page, size) {
+  page = page || 0;
+  size = size || SECTION_LIST_SIZE;
+
+  return request({
+    url: API_BASE_URL + "/courses?page=" + page + "&size=" + size,
+    method: "GET"
+  });
+}
+
+export function getSectionById(id) {
+  return request({
+    url: API_BASE_URL + "/sections/" + id,
+    method: "GET"
+  });
+}
+
+export function createSection(sectionData) {
+  return request({
+    url: API_BASE_URL + "/sections",
+    method: "POST",
+    body: JSON.stringify(sectionData)
+  });
+}
+
+export function updateSection(sectionId, sectionData) {
+  console.log(JSON.stringify(sectionData));
+  return request({
+    url: API_BASE_URL + "/sections/" + sectionId,
+    method: "PUT",
+    body: JSON.stringify(sectionData)
+  });
+}
+
+export function deleteSection(sectionId) {
+  return request({
+    url: API_BASE_URL + "/sections/" + sectionId,
     method: "DELETE"
   });
 }
@@ -172,9 +219,26 @@ export function getUserCreatedCourses(username, page, size) {
   return request({
     url:
       API_BASE_URL +
-      "/courses/" +
+      "/users/" +
       username +
       "/courses?page=" +
+      page +
+      "&size=" +
+      size,
+    method: "GET"
+  });
+}
+
+export function getUserCreatedSections(username, page, size) {
+  page = page || 0;
+  size = size || POLL_LIST_SIZE;
+
+  return request({
+    url:
+      API_BASE_URL +
+      "/users/" +
+      username +
+      "/sections?page=" +
       page +
       "&size=" +
       size,
