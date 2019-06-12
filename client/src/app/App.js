@@ -143,10 +143,16 @@ class App extends Component {
                     />
                   )}
                 />
-                <PrivateRoute
+                <Route
                   authenticated={this.state.isAuthenticated}
                   path="/student/new"
-                  component={NewStudent}
+                  render={props => (
+                    <NewStudent
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute

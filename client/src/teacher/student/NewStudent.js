@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import {
   createStudent,
   checkUsernameAvailability,
-  checkEmailAvailability
+  checkEmailAvailability,
+  getUserProfile
 } from "../../util/APIUtils";
+import LoadingIndicator  from '../../common/LoadingIndicator';
+import NotFound from '../../common/NotFound';
+import ServerError from '../../common/ServerError';
 import {
   DatePicker,
   Form,
@@ -77,8 +81,9 @@ class NewStudent extends Component {
       username: this.state.username.value,
       password: this.state.password.value
     };
-    // Execute create student API with studentReuqest body
-    createStudent(studentRequest)
+    const userid = this.props.currentUser.id;
+    // Execute create student API with studentRequest body
+    createStudent(studentRequest, userid)
       .then(response => {
         notification.success({
           message: "Smart Team",
@@ -109,7 +114,7 @@ class NewStudent extends Component {
     return (
       <div className="signup-container">
         <Title level={2}>Create Student</Title>
-        <div className="signup-content">
+        <div className="signup-content">{this.state.user}
           <Form onSubmit={this.handleSubmit} className="signup-form">
             <FormItem
               label="Batch Number"

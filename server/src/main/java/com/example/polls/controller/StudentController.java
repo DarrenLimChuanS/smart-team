@@ -90,9 +90,20 @@ public class StudentController {
     }
 
     // Function to select all Student
-    @GetMapping("/student")
+    @GetMapping("/students")
     public List<Student> getStudent() {
         return studentRepository.findAll();
+    }
+
+    // Function to get all students under a teacher
+    @GetMapping("/users/{teacherId}/students")
+    public List<Student> getStudentByTeacherId(@PathVariable(value = "teacherId") Long teacherId) {
+
+        if(!userRepository.existsById(teacherId)) {
+            throw new ResourceNotFoundException("User", "id", teacherId);
+        }
+
+        return studentRepository.findByTeacherId(teacherId);
     }
 
     // Function to delete Student
@@ -102,8 +113,8 @@ public class StudentController {
     }
 
     // Function to create Student tied to Teacher
-    @PostMapping("/users/{id}/students")
-    public ResponseEntity<?> addStudent(@PathVariable(value = "id")  Long id, @Valid @RequestBody StudentRequest studentRequest) {
+    @PostMapping("/users/{teacherId}/students")
+    public ResponseEntity<?> addStudent(@PathVariable(value = "teacherId")  Long teacherId, @Valid @RequestBody StudentRequest studentRequest) {
         if(studentRepository.existsByUsername(studentRequest.getUsername())) {
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
@@ -120,7 +131,7 @@ public class StudentController {
 
         student.setPassword(passwordEncoder.encode(student.getPassword()));
 
-            return userRepository.findById(id)
+            return userRepository.findById(teacherId)
                 .map(teacher -> {
                     student.setTeacher(teacher);
                     Student result = studentRepository.save(student);
@@ -130,7 +141,7 @@ public class StudentController {
                             .buildAndExpand(result.getUsername()).toUri();
 
                     return ResponseEntity.created(location).body(new ApiResponse(true, "Student created successfully"));
-                }).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+                }).orElseThrow(() -> new ResourceNotFoundException("User", "id", teacherId));
     }
 
 //    // Function to update Student
