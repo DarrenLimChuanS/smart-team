@@ -30,12 +30,9 @@ class CourseInfo extends Component {
 
                 <Paragraph>
                     <ul>
-                        <li>
-                            <Link to="/course/questionnaires">Attempt questionnaire</Link>
-                        </li>
-                        <li>
-                            <a href="/docs/resource/download">Resource Download</a>
-                        </li>
+                        <Link to="/courses/questionnaires_student">
+                            <li>Attempt questionnaire</li>
+                        </Link>
                     </ul>
                 </Paragraph>
 
@@ -57,21 +54,33 @@ class CourseInfo extends Component {
 
                 <Paragraph>
                     <ul>
-                        <Link to="/courses/questionnaires_student">
-                            <li>Attempt questionnaire</li>
+                        <Link to="/course/groups_student">
+                            <li>View group</li>
                         </Link>
-                        <li>
-                            <a href="../courses/questionnaires_student">
-                                Resource Download
-                            </a>
-                        </li>
                     </ul>
                 </Paragraph>
 
                 <Divider/>
 
                 <div>
-                    <Card title="ICT1003" extra={<a href="#">Attempt questionnaire</a>} style={{width: 600}}>
+                    <Card title="ICT1003" extra={                        <Link to="/courses/questionnaires_student">
+                        <li>Attempt questionnaire</li>
+                    </Link>} style={{width: 600}}>
+                        <p>After massive project practice and summaries, Ant Design, a design language for background
+                            applications, is refined by Ant UED Team, which aims to uniform the user interface specs for
+                            internal background projects, lower the unnecessary cost of design differences and
+                            implementation and liberate the resources of design and front-end development.</p>
+                        <p>More content</p>
+                    </Card>
+
+                </div>
+
+                <Divider/>
+
+                <div>
+                    <Card title="ICT1004" extra={                        <Link to="/course/groups_student">
+                        <li>View Group</li>
+                    </Link>} style={{width: 600}}>
                         <p>After massive project practice and summaries, Ant Design, a design language for background
                             applications, is refined by Ant UED Team, which aims to uniform the user interface specs for
                             internal background projects, lower the unnecessary cost of design differences and

@@ -140,7 +140,7 @@ class Course extends Component {
       <React.Fragment>
         <Row>
           <Col span={22}>
-            <Title level={2}>Courses</Title>
+            <Title level={2}>Courses (For students)</Title>
           </Col>
           <Col span={2}>
             <Button type="primary" size={12}>

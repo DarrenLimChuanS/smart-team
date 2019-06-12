@@ -26,6 +26,7 @@ import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
 import Courses from "../courses/Course";
 import CourseInfo from "../courses/CourseInfo";
+import GroupStudent from "../courses/GroupStudent";
 import QuestionnairesStudent from "../courses/QuestionnairesStudent";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
@@ -185,6 +186,12 @@ class App extends Component {
                   path="/course/edit"
                   component={EditCourse}
                   handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/course/groups_student"
+                    component={GroupStudent}
+                    handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
