@@ -3,6 +3,8 @@ package com.example.polls.model;
 import com.example.polls.model.audit.UserDateAudit;
 import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -21,6 +23,10 @@ public class Course extends UserDateAudit {
 
     @Column(length = 255)
     private String description;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "course_section", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "section_id"))
+    private Set<Section> roles = new HashSet<>();
 
     public Course() {
 

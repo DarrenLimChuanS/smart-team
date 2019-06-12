@@ -1,58 +1,100 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
+import {
+  getAllSections,
+  getUserCreatedSections,
+  deleteCourse
+} from "../../util/APIUtils";
 import { Button, Divider, Row, Col, Table, Typography } from "antd";
 import "./SectionList.css";
+import { SECTION_LIST_SIZE } from "../../constants";
 
 const { Title } = Typography;
 
-const data = [
-  {
-    key: "1",
-    name: "Tri3-2009",
-    noOfStudent: 35,
-    course: "ICT1001",
-    year: "2009",
-    status: "Not Grouped"
-  },
-  {
-    key: "2",
-    name: "Tri2-2012",
-    noOfStudent: 36,
-    course: "ICT1002",
-    year: "2012",
-    status: "Pending (Automated Allocation)"
-  },
-  {
-    key: "3",
-    name: "Tri2-2010",
-    noOfStudent: 38,
-    course: "ICT1003",
-    year: "2010",
-    status: "Grouped"
-  },
-  {
-    key: "4",
-    name: "Tri2-2009",
-    noOfStudent: 34,
-    course: "ICT1004",
-    year: "2009",
-    status: "Not Grouped"
-  },
-  {
-    key: "5",
-    name: "Tri1-2012",
-    noOfStudent: 40,
-    course: "ICT1003",
-    year: "2012",
-    status: "Grouped"
-  }
-];
-
 class SectionList extends Component {
-  state = {
-    filteredInfo: null,
-    sortedInfo: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      filteredInfo: null,
+      sortedInfo: null,
+      sections: [],
+      page: 0,
+      size: 10,
+      totalElements: 0,
+      totalPages: 0,
+      last: true,
+      isLoading: false
+    };
+    this.loadSectionList = this.loadSectionList.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
+    // this.deleteSectionWithId = this.deleteSectionWithId.bind(this);
+  }
+
+  loadSectionList(page = 0, size = SECTION_LIST_SIZE) {
+    let promise;
+    if (this.props.currentUser) {
+      promise = getUserCreatedSections(
+        this.props.currentUser.username,
+        page,
+        size
+      );
+    } else {
+      promise = getAllSections(page, size);
+    }
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        const sections = this.state.sections.slice();
+
+        this.setState({
+          sections: sections.concat(response.content),
+          page: response.page,
+          size: response.size,
+          totalElements: response.totalElements,
+          totalPages: response.totalPages,
+          last: response.last,
+          isLoading: false
+        });
+        console.log(sections.concat(response.content));
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
+  componentDidMount() {
+    this.loadSectionList();
+  }
+
+  componentDidUpdate(nextProps) {
+    if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
+      // Reset State
+      this.setState({
+        sections: [],
+        page: 0,
+        size: 10,
+        totalElements: 0,
+        totalPages: 0,
+        last: true,
+        isLoading: false
+      });
+      this.loadSectionList();
+    }
+  }
+
+  handleLoadMore() {
+    this.loadSectionList(this.state.page + 1);
+  }
 
   handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -69,15 +111,6 @@ class SectionList extends Component {
 
     const columns = [
       {
-        title: "#",
-        dataIndex: "key",
-        key: "key",
-        filteredValue: filteredInfo.key || null,
-        onFilter: (value, record) => record.key.includes(value),
-        sorter: (a, b) => a.key - b.key,
-        sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
-      },
-      {
         title: "Name",
         dataIndex: "name",
         key: "name",
@@ -86,10 +119,10 @@ class SectionList extends Component {
       },
       {
         title: "No. of Students",
-        dataIndex: "noOfStudent",
-        key: "noOfStudent",
-        sorter: (a, b) => a.noOfStudent - b.noOfStudent,
-        sortOrder: sortedInfo.columnKey === "noOfStudent" && sortedInfo.order
+        dataIndex: "noOfStudents",
+        key: "noOfStudents",
+        sorter: (a, b) => a.noOfStudents - b.noOfStudents,
+        sortOrder: sortedInfo.columnKey === "noOfStudents" && sortedInfo.order
       },
       {
         title: "Course",
@@ -162,7 +195,7 @@ class SectionList extends Component {
         <Row>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={this.state.sections}
             onChange={this.handleChange}
           />
         </Row>

@@ -1,13 +1,17 @@
 package com.example.polls.controller;
 
 import com.example.polls.model.Course;
+import com.example.polls.model.Section;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.CourseRequest;
 import com.example.polls.payload.CourseResponse;
 import com.example.polls.payload.PagedResponse;
+import com.example.polls.payload.SectionResponse;
 import com.example.polls.repository.CourseRepository;
 import com.example.polls.repository.UserRepository;
+import com.example.polls.repository.SectionRepository;
 import com.example.polls.service.CourseService;
+import com.example.polls.service.SectionService;
 import com.example.polls.util.AppConstants;
 import com.example.polls.security.CurrentUser;
 import com.example.polls.security.UserPrincipal;
@@ -33,7 +37,13 @@ public class CourseController {
     private UserRepository userRepository;
 
     @Autowired
+    private SectionRepository sectionRepository;
+
+    @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private SectionService sectionService;
 
     private static final Logger logger = LoggerFactory.getLogger(CourseController.class);
 
