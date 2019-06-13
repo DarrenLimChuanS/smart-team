@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { 
-  getUserCreatedStudents,
-  deleteStudent 
-} from "../../util/APIUtils";
-import { Button, Divider, Row, notification, Col, Table, Typography } from "antd";
+import { getUserCreatedStudents, deleteStudent } from "../../util/APIUtils";
+import {
+  Button,
+  Divider,
+  Row,
+  Col,
+  Table,
+  Typography,
+  notification
+} from "antd";
 import Moment from "react-moment";
 
 const { Title } = Typography;

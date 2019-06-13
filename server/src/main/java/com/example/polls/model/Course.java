@@ -31,7 +31,7 @@ public class Course extends UserDateAudit {
 
     }
 
-    public Course(String course_code, String name, String description) {
+    public Course(String course_code, String name, String description, String available) {
         this.course_code = course_code;
         this.name = name;
         this.description = description;
