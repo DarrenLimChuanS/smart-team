@@ -47,6 +47,15 @@ public class CriteriaService {
         return criteriaRepository.save(criteria);
     }
 
+    public Criteria updateCriteria(CriteriaRequest criteriaRequest) {
+        Criteria criteria = new Criteria();
+        criteria.setName(criteriaRequest.getName());
+        criteria.setDescription(criteriaRequest.getDescription());
+        criteria.setType(criteriaRequest.getType());
+        criteria.setGraded(criteriaRequest.getGraded());
+        return criteriaRepository.save(criteria);
+    }
+
     // public CourseResponse getCourseById(Long courseId, UserPrincipal currentUser) {
     //     Course course = courseRepository.findById(courseId)
     //             .orElseThrow(() -> new ResourceNotFoundException("Course", "id", courseId));

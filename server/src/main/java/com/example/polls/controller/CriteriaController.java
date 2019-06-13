@@ -65,12 +65,12 @@ public class CriteriaController {
         return ResponseEntity.created(location).body(new ApiResponse(true, "Criteria Created Successfully"));
     }
 
-    @PutMapping("/criteria/{id}")
-    public ResponseEntity<Object> updateStudent(@RequestBody CriteriaRequest criteriaRequest, @PathVariable long id) {
+    @PostMapping("/criteria/{name}")
+    public ResponseEntity<Object> updateStudent(@RequestBody CriteriaRequest criteriaRequest, @PathVariable String name) {
 
-        Optional<Criteria> criteriaOptional = CriteriaRepository.findByName(name);
+        Boolean isExist = CriteriaRepository.existsByName(name);
 
-        if (!criteriaOptional.isPresent())
+        if (isExist == false)
             return ResponseEntity.notFound().build();
 
         Criteria criteria = criteriaService.createCriteria(criteriaRequest);
@@ -78,7 +78,7 @@ public class CriteriaController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{critiera_Id}")
                 .buildAndExpand(criteria.getId()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "Criteria updated Successfully"));
+        return ResponseEntity.noContent().build();
     }
 
     // @GetMapping("/user/me")
