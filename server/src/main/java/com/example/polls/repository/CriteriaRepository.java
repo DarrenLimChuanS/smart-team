@@ -11,7 +11,8 @@ import java.util.Optional;
  * Created by rajeevkumarsingh on 02/08/17.
  */
 @Repository
-public interface CriteriaRepository extends JpaRepository<Criteria, Long> {
+public interface CriteriaRepository extends JpaRepository<Criteria, Long>{
+		
     // Optional<Criteria> findByEmail(String email);
 
     // Optional<Criteria> findByUsernameOrEmail(String username, String email);
@@ -26,4 +27,6 @@ public interface CriteriaRepository extends JpaRepository<Criteria, Long> {
 
     Boolean existsByName(String name);
     Optional<Criteria> findByName(String name);
+    Optional<Criteria> findById(Long criteria_id);
+    void deleteById(Long criteria_id);
 }

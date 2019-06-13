@@ -4,11 +4,10 @@ import java.time.Instant;
 
 public class CriteriaResponse {
     private Long id;
-    private String courseCode;
     private String name;
     private String description;
-    private UserSummary createdBy;
-    private Instant creationDateTime;
+    private String type;
+    private Boolean graded;
 
     public Long getId() {
         return id;
@@ -16,14 +15,6 @@ public class CriteriaResponse {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCourseCode() {
-        return courseCode;
-    }
-
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
     }
 
     public String getName() {
@@ -42,19 +33,19 @@ public class CriteriaResponse {
         this.description = description;
     }
 
-    public UserSummary getCreatedBy() {
-        return createdBy;
+    public String getType() {
+        return type;
     }
 
-    public void setCreatedBy(UserSummary createdBy) {
-        this.createdBy = createdBy;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public Instant getCreationDateTime() {
-        return creationDateTime;
+    public Boolean getGraded() {
+        return graded;
     }
 
-    public void setCreationDateTime(Instant creationDateTime) {
-        this.creationDateTime = creationDateTime;
+    public void setGraded(Boolean graded) {
+        this.graded = graded;
     }
 }

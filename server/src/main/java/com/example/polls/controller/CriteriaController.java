@@ -24,6 +24,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class CriteriaController {
@@ -38,7 +40,7 @@ public class CriteriaController {
     private VoteRepository voteRepository;
 
     @Autowired
-    private CriteriaRepository CriteriaRepository;
+    private CriteriaRepository criteriaRepository;
 
     @Autowired
     private CriteriaService criteriaService;
@@ -50,8 +52,14 @@ public class CriteriaController {
 
     @GetMapping("/criteria/checkNameAvailability")
     public CriteriaNameAvailability checkNameAvailability(@RequestParam(value = "name") String name) {
-        Boolean isAvailable = !CriteriaRepository.existsByName(name);
+        Boolean isAvailable = !criteriaRepository.existsByName(name);
         return new CriteriaNameAvailability(isAvailable);
+    }
+
+
+    @GetMapping(("/criteria/getAllCriteria"))
+    public List<Criteria> getCriteria() {
+        return criteriaService.getAllCriteria();
     }
 
     @PostMapping("/criteria/createCriteria")
@@ -65,69 +73,17 @@ public class CriteriaController {
         return ResponseEntity.created(location).body(new ApiResponse(true, "Criteria Created Successfully"));
     }
 
-    @PostMapping("/criteria/{name}")
-    public ResponseEntity<Object> updateStudent(@RequestBody CriteriaRequest criteriaRequest, @PathVariable String name) {
-
-        Boolean isExist = CriteriaRepository.existsByName(name);
-
-        if (isExist == false)
-            return ResponseEntity.notFound().build();
-
-        Criteria criteria = criteriaService.createCriteria(criteriaRequest);
-        
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{critiera_Id}")
-                .buildAndExpand(criteria.getId()).toUri();
-
-        return ResponseEntity.noContent().build();
+    @PutMapping("/criteria/update/{criteria_id}")
+    // @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> updateCriteria(@RequestBody Criteria criteria, @PathVariable Long criteria_id) {
+        return criteriaService.updateCriteriaById(criteria, criteria_id);
     }
 
-    // @GetMapping("/user/me")
+    @DeleteMapping("/criteria/delete/{criteria_id}")
     // @PreAuthorize("hasRole('USER')")
-    // public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-    //     UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
-    //     return userSummary;
-    // }
+    public ResponseEntity<?> deleteCriteria(@PathVariable long criteria_id) {
+        return criteriaService.deleteById(criteria_id);
+    }
 
-    // @GetMapping("/user/checkUsernameAvailability")
-    // public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username) {
-    //     Boolean isAvailable = !userRepository.existsByUsername(username);
-    //     return new UserIdentityAvailability(isAvailable);
-    // }
-
-    // @GetMapping("/user/checkEmailAvailability")
-    // public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email) {
-    //     Boolean isAvailable = !userRepository.existsByEmail(email);
-    //     return new UserIdentityAvailability(isAvailable);
-    // }
-
-    // @GetMapping("/users/{username}")
-    // public UserProfile getUserProfile(@PathVariable(value = "username") String username) {
-    //     User user = userRepository.findByUsername(username)
-    //             .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
-
-    //     long pollCount = pollRepository.countByCreatedBy(user.getId());
-    //     long voteCount = voteRepository.countByUserId(user.getId());
-
-    //     UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getCreatedAt(), pollCount, voteCount);
-
-    //     return userProfile;
-    // }
-
-    // @GetMapping("/users/{username}/polls")
-    // public PagedResponse<PollResponse> getPollsCreatedBy(@PathVariable(value = "username") String username,
-    //                                                      @CurrentUser UserPrincipal currentUser,
-    //                                                      @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-    //                                                      @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
-    //     return pollService.getPollsCreatedBy(username, currentUser, page, size);
-    // }
-
-
-    // @GetMapping("/users/{username}/votes")
-    // public PagedResponse<PollResponse> getPollsVotedBy(@PathVariable(value = "username") String username,
-    //                                                    @CurrentUser UserPrincipal currentUser,
-    //                                                    @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-    //                                                    @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
-    //     return pollService.getPollsVotedBy(username, currentUser, page, size);
-    // }
 
 }

@@ -38,11 +38,11 @@ public class Criteria extends DateAudit {
     @Size(max = 255)
     private String description;
 
-    // @ManyToMany(fetch = FetchType.LAZY)
-    // @JoinTable(name = "user_roles",
-    //         joinColumns = @JoinColumn(name = "user_id"),
-    //         inverseJoinColumns = @JoinColumn(name = "role_id"))
-    // private Set<Role> roles = new HashSet<>();
+    // MAPPING TESTING
+    // @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    // @JoinColumn(name = "id", nullable = false)
+    // private User user;
+
 
     public Criteria() {
 

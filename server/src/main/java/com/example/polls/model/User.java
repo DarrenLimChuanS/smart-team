@@ -51,6 +51,12 @@ public class User extends DateAudit {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    // MAPPING TESTING
+    // @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    // private Set<Criteria> criteria = new HashSet<>();
+
+
+
     public User() {
 
     }
