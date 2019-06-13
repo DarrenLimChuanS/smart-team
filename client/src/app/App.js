@@ -161,10 +161,16 @@ class App extends Component {
                   component={EditStudent}
                   handleLogout={this.handleLogout}
                 />
-                <PrivateRoute
+                <Route
                   authenticated={this.state.isAuthenticated}
                   path="/student"
-                  component={StudentList}
+                  render={props => (
+                    <StudentList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute

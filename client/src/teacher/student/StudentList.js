@@ -1,72 +1,95 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
+import { getStudentsByTeacher } from "../../util/APIUtils";
 import { Button, Divider, Row, Col, Table, Typography } from "antd";
 
 const { Title } = Typography;
 
-const data = [
-  {
-    key: "1",
-    batchNumber: "49",
-    name: "Joe Hamilton",
-    email: "joe_hamilton@gmail.com",
-    studentId: "1128290",
-    birthDate: "1/1/1990",
-    gender: "Male",
-    address: "5133 Homestead Rd",
-    gpa: "4.8"
-  },
-  {
-    key: "2",
-    batchNumber: "49",
-    name: "Riley Lee",
-    email: "riley_lee@gmail.com",
-    studentId: "1128291",
-    birthDate: "1/4/1992",
-    gender: "Female",
-    address: "4205 Plum St",
-    gpa: "4.4"
-  },
-  {
-    key: "3",
-    batchNumber: "49",
-    name: "Isaiah Watts",
-    email: "isaiah_watts@gmail.com",
-    studentId: "1128292",
-    birthDate: "2/3/1981",
-    gender: "Male",
-    address: "2390 Camden Ave",
-    gpa: "4.5"
-  },
-  {
-    key: "4",
-    batchNumber: "49",
-    name: "Annette Daniels",
-    email: "annette_daniels@gmail.com",
-    studentId: "1128293",
-    birthDate: "3/4/1992",
-    gender: "Female",
-    address: "1460 Hebron Pkwy",
-    gpa: "3.2"
-  },
-  {
-    key: "5",
-    batchNumber: "49",
-    name: "Jeremy Davidson",
-    email: "jeremy_davidson@gmail.com",
-    studentId: "1128294",
-    birthDate: "4/9/1991",
-    gender: "Male",
-    address: "6986 Paddington Ct",
-    gpa: "2.8"
-  }
-];
-
 class StudentList extends Component {
-  state = {
-    filteredInfo: null,
-    sortedInfo: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      filteredInfo: null,
+      sortedInfo: null,
+      students: [],
+      page: 0,
+      size: 10,
+      totalElements: 0,
+      totalPages: 0,
+      last: true,
+      isLoading: false
+    };
+    this.loadStudentList = this.loadStudentList.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
+  }
+
+  loadStudentList() {
+    const { currentUser } = this.props;
+    let promise;
+
+    if (currentUser) {
+      promise = getStudentsByTeacher(currentUser.id);
+    }
+    // else {
+    //   promise = getAllStudents(page, size);
+    // }
+
+    if (!promise) {
+      return;
+    }
+
+    console.log(currentUser);
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        const students = students.slice();
+
+        this.setState({
+          students: students.concat(response.content),
+          page: response.page,
+          size: response.size,
+          totalElements: response.totalElements,
+          totalPages: response.totalPages,
+          last: response.last,
+          isLoading: false
+        });
+        console.log(students.concat(response.content));
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+        console.log("Error la!");
+      });
+  }
+
+  componentDidMount() {
+    this.loadStudentList();
+  }
+
+  componentDidUpdate(nextProps) {
+    if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
+      // Reset State
+      this.setState({
+        students: [],
+        page: 0,
+        size: 10,
+        totalElements: 0,
+        totalPages: 0,
+        last: true,
+        isLoading: false
+      });
+      this.loadStudentList();
+    }
+  }
+
+  handleLoadMore() {
+    this.loadStudentList(this.state.page + 1);
+  }
 
   handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -90,6 +113,15 @@ class StudentList extends Component {
         onFilter: (value, record) => record.key.includes(value),
         sorter: (a, b) => a.key - b.key,
         sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
+      },
+      {
+        title: "Batch No.",
+        dataIndex: "batch_no",
+        key: "batch_no",
+        filteredValue: filteredInfo.batch_no || null,
+        onFilter: (value, record) => record.batch_no.includes(value),
+        sorter: (a, b) => a.batch_no.length - b.batch_no.length,
+        sortOrder: sortedInfo.columnKey === "batch_no" && sortedInfo.order
       },
       {
         title: "Name",
@@ -182,7 +214,7 @@ class StudentList extends Component {
         <Row>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={this.state.students}
             onChange={this.handleChange}
           />
         </Row>

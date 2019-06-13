@@ -157,7 +157,7 @@ export function signup(signupRequest) {
 
 /**
  * Start of Student APIs
-**/
+ **/
 // Function to create student under a teacher
 export function createStudent(studentRequest, userid) {
   return request({
@@ -169,14 +169,15 @@ export function createStudent(studentRequest, userid) {
 
 // Function to retrieve all students of a teacher
 export function getStudentsByTeacher(userid) {
-    return request({
-        url: API_BASE_URL + "/users/" + userid + "/students",
-        method: "GET"
-    });
+  return request({
+    url: API_BASE_URL + "/users/" + userid + "/students",
+    method: "GET"
+  });
 }
+
 /**
  * End of Student APIs
-**/
+ **/
 export function checkUsernameAvailability(username) {
   return request({
     url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,
