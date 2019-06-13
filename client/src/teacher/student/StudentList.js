@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { getUserCreatedStudents } from "../../util/APIUtils";
-import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import { getUserCreatedStudents, deleteStudent } from "../../util/APIUtils";
+import {
+  Button,
+  Divider,
+  Row,
+  Col,
+  Table,
+  Typography,
+  notification
+} from "antd";
 import Moment from "react-moment";
 
 const { Title } = Typography;
@@ -90,6 +98,26 @@ class StudentList extends Component {
     });
   };
 
+  deleteStudentWithId(id) {
+    deleteStudent(id)
+      .then(response => {
+        let updatedStudents = [...this.state.students].filter(i => i.id !== id);
+        this.setState({ students: updatedStudents });
+        this.props.history.push("/student");
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully deleted a student."
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
+  }
+
   render() {
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
@@ -160,7 +188,7 @@ class StudentList extends Component {
             <Divider type="vertical" />
             <Link to="/student/edit">Edit</Link>
             <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <a onClick={() => this.deleteStudentWithId(record.id)}>Delete</a>
           </span>
         )
       }

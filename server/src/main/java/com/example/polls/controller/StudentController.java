@@ -60,7 +60,8 @@ public class StudentController {
     @GetMapping("/student/me")
     @PreAuthorize("hasRole('STUDENT')")
     public UserSummary getCurrentStudent(@CurrentUser UserPrincipal currentUser) {
-        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
+        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(),
+                currentUser.getName());
         return userSummary;
     }
 
@@ -84,7 +85,8 @@ public class StudentController {
         long pollCount = pollRepository.countByCreatedBy(student.getId());
         long voteCount = voteRepository.countByUserId(student.getId());
 
-        UserProfile userProfile = new UserProfile(student.getId(), student.getUsername(), student.getName(), student.getCreatedAt(), pollCount, voteCount);
+        UserProfile userProfile = new UserProfile(student.getId(), student.getUsername(), student.getName(),
+                student.getCreatedAt(), pollCount, voteCount);
 
         return userProfile;
     }
@@ -99,7 +101,7 @@ public class StudentController {
     @GetMapping("/users/{teacherId}/students")
     public List<Student> getStudentByTeacherId(@PathVariable(value = "teacherId") Long teacherId) {
 
-        if(!userRepository.existsById(teacherId)) {
+        if (!userRepository.existsById(teacherId)) {
             throw new ResourceNotFoundException("User", "id", teacherId);
         }
 
@@ -108,74 +110,75 @@ public class StudentController {
 
     // Function to delete Student
     @DeleteMapping("/student/{id}")
-    public void deleteStudent(@PathVariable long id) {
-        studentRepository.deleteById(id);
+    public ResponseEntity<?> deleteStudent(@PathVariable long id) {
+        if (studentRepository.findById(id).isPresent())
+            studentRepository.deleteById(id);
+        return ResponseEntity.ok(new ApiResponse(true, "Student Deleted Successfully"));
     }
 
     // Function to create Student tied to Teacher
     @PostMapping("/users/{teacherId}/students")
-    public ResponseEntity<?> addStudent(@PathVariable(value = "teacherId")  Long teacherId, @Valid @RequestBody StudentRequest studentRequest) {
-        if(studentRepository.existsByUsername(studentRequest.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> addStudent(@PathVariable(value = "teacherId") Long teacherId,
+            @Valid @RequestBody StudentRequest studentRequest) {
+        if (studentRepository.existsByUsername(studentRequest.getUsername())) {
+            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
         }
 
-        if(studentRepository.existsByEmail(studentRequest.getEmail())) {
-            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
-                    HttpStatus.BAD_REQUEST);
+        if (studentRepository.existsByEmail(studentRequest.getEmail())) {
+            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
         }
 
         // Creating student's account
-        Student student = new Student(studentRequest.getBatch_no(), studentRequest.getName(), studentRequest.getUsername(),
-                studentRequest.getEmail(), studentRequest.getPassword());
+        Student student = new Student(studentRequest.getBatch_no(), studentRequest.getName(),
+                studentRequest.getUsername(), studentRequest.getEmail(), studentRequest.getPassword());
 
         student.setPassword(passwordEncoder.encode(student.getPassword()));
 
-            return userRepository.findById(teacherId)
-                .map(teacher -> {
-                    student.setTeacher(teacher);
-                    Student result = studentRepository.save(student);
+        return userRepository.findById(teacherId).map(teacher -> {
+            student.setTeacher(teacher);
+            Student result = studentRepository.save(student);
 
-                    URI location = ServletUriComponentsBuilder
-                            .fromCurrentContextPath().path("/student/{username}")
-                            .buildAndExpand(result.getUsername()).toUri();
+            URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/student/{username}")
+                    .buildAndExpand(result.getUsername()).toUri();
 
-                    return ResponseEntity.created(location).body(new ApiResponse(true, "Student created successfully"));
-                }).orElseThrow(() -> new ResourceNotFoundException("User", "id", teacherId));
+            return ResponseEntity.created(location).body(new ApiResponse(true, "Student created successfully"));
+        }).orElseThrow(() -> new ResourceNotFoundException("User", "id", teacherId));
     }
 
-//    // Function to update Student
-//    @PutMapping("/student/{id}")
-//    public ResponseEntity<Student> updateStudent(@PathVariable(value = "id") Long id, @Valid @RequestBody Student studentDetails) {
-//
-//        Student temp = studentRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
-//        if (temp == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        temp.setBatch_no(studentDetails.getBatch_no());
-//        temp.setUsername(studentDetails.getUsername());
-//        temp.setName(studentDetails.getName());
-//        temp.setEmail(studentDetails.getEmail());
-//        temp.setPassword(studentDetails.getPassword());
-//        temp.setTeacher(studentDetails.getTeacher());
-//
-//        Student updateStudent = studentRepository.save(temp);
-//        return ResponseEntity.ok().body(updateStudent);
-//    }
-//
-//    // Function to delete Student
-//    @DeleteMapping("/student/{id}")
-//    public ResponseEntity<Student> deleteStudent(@PathVariable(value = "id") Long id) {
-//
-//        Student temp = studentRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
-//        if (temp == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        studentRepository.delete(temp);
-//
-//        return ResponseEntity.ok().build();
-//    }
+    // // Function to update Student
+    // @PutMapping("/student/{id}")
+    // public ResponseEntity<Student> updateStudent(@PathVariable(value = "id") Long
+    // id, @Valid @RequestBody Student studentDetails) {
+    //
+    // Student temp = studentRepository.findById(id)
+    // .orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
+    // if (temp == null) {
+    // return ResponseEntity.notFound().build();
+    // }
+    //
+    // temp.setBatch_no(studentDetails.getBatch_no());
+    // temp.setUsername(studentDetails.getUsername());
+    // temp.setName(studentDetails.getName());
+    // temp.setEmail(studentDetails.getEmail());
+    // temp.setPassword(studentDetails.getPassword());
+    // temp.setTeacher(studentDetails.getTeacher());
+    //
+    // Student updateStudent = studentRepository.save(temp);
+    // return ResponseEntity.ok().body(updateStudent);
+    // }
+    //
+    // // Function to delete Student
+    // @DeleteMapping("/student/{id}")
+    // public ResponseEntity<Student> deleteStudent(@PathVariable(value = "id") Long
+    // id) {
+    //
+    // Student temp = studentRepository.findById(id)
+    // .orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
+    // if (temp == null) {
+    // return ResponseEntity.notFound().build();
+    // }
+    // studentRepository.delete(temp);
+    //
+    // return ResponseEntity.ok().build();
+    // }
 }
