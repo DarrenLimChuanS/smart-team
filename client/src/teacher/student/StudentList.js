@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { getUserCreatedStudents } from "../../util/APIUtils";
-import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import { 
+  getUserCreatedStudents,
+  deleteStudent 
+} from "../../util/APIUtils";
+import { Button, Divider, Row, notification, Col, Table, Typography } from "antd";
 import Moment from "react-moment";
 
 const { Title } = Typography;
@@ -21,7 +24,6 @@ class StudentList extends Component {
       isLoading: false
     };
     this.loadStudentList = this.loadStudentList.bind(this);
-    this.handleLoadMore = this.handleLoadMore.bind(this);
   }
 
   loadStudentList() {
@@ -31,9 +33,6 @@ class StudentList extends Component {
     if (currentUser) {
       promise = getUserCreatedStudents(currentUser.id);
     }
-    // else {
-    //   promise = getAllStudents(page, size);
-    // }
 
     if (!promise) {
       return;
@@ -67,19 +66,10 @@ class StudentList extends Component {
       // Reset State
       this.setState({
         students: [],
-        page: 0,
-        size: 10,
-        totalElements: 0,
-        totalPages: 0,
-        last: true,
         isLoading: false
       });
       this.loadStudentList();
     }
-  }
-
-  handleLoadMore() {
-    this.loadStudentList(this.state.page + 1);
   }
 
   handleChange = (pagination, filters, sorter) => {
@@ -89,6 +79,26 @@ class StudentList extends Component {
       sortedInfo: sorter
     });
   };
+
+  deleteStudentWithId(id) {
+    deleteStudent(id)
+      .then(response => {
+        let updatedStudents = [...this.state.students].filter(i => i.id !== id);
+        this.setState({ students: updatedStudents });
+        this.props.history.push("/student");
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully deleted a student."
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
+  }
 
   render() {
     let { sortedInfo, filteredInfo } = this.state;
@@ -158,9 +168,9 @@ class StudentList extends Component {
           <span>
             <a href="javascript:;">Reset Password</a>
             <Divider type="vertical" />
-            <Link to="/student/edit">Edit</Link>
+            <Link to={"/student/" + record.id}>Edit</Link>
             <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <a onClick={() => this.deleteStudentWithId(record.id)}>Delete</a>
           </span>
         )
       }

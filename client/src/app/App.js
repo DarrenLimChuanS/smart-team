@@ -157,7 +157,7 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/student/edit"
+                  path="/student/:id"
                   component={EditStudent}
                   handleLogout={this.handleLogout}
                 />

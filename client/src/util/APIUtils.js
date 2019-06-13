@@ -173,6 +173,22 @@ export function getStudentsByTeacher(userid) {
   });
 }
 
+// Function to update student
+export function updateStudent(studentId, studentDetails) {
+  return request({
+    url: API_BASE_URL + "/student/" + studentId,
+    method: "PUT",
+    body: JSON.stringify(studentDetails)
+  });
+}
+
+// Function to delete student
+export function deleteStudent(studentId) {
+  return request({
+    url: API_BASE_URL + "/student/" + studentId,
+    method: "DELETE"
+  });
+}
 /**
  * End of Student APIs
  **/
