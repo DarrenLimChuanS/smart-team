@@ -14,15 +14,12 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "users", uniqueConstraints = {
+@Table(name = "criteria", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
-            "username"
-        }),
-        @UniqueConstraint(columnNames = {
-            "email"
+            "name"
         })
 })
-public class User extends DateAudit {
+public class Criteria extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,33 +30,26 @@ public class User extends DateAudit {
 
     @NotBlank
     @Size(max = 15)
-    private String username;
-
-    @NaturalId
-    @NotBlank
-    @Size(max = 40)
-    @Email
-    private String email;
+    private String type;
 
     @NotBlank
     @Size(max = 100)
-    private String password;
+    private String graded;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    // @ManyToMany(fetch = FetchType.LAZY)
+    // @JoinTable(name = "user_roles",
+    //         joinColumns = @JoinColumn(name = "user_id"),
+    //         inverseJoinColumns = @JoinColumn(name = "role_id"))
+    // private Set<Role> roles = new HashSet<>();
 
-    public User() {
+    public Criteria() {
 
     }
 
-    public User(String name, String username, String email, String password) {
+    public Criteria(String name, String type, String graded) {
         this.name = name;
-        this.username = username;
-        this.email = email;
-        this.password = password;
+        this.type = type;
+        this.graded = graded;
     }
 
     public Long getId() {
@@ -70,14 +60,6 @@ public class User extends DateAudit {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getName() {
         return name;
     }
@@ -86,27 +68,20 @@ public class User extends DateAudit {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getType() {
+        return type;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getPassword() {
-        return password;
+    public String getGraded() {
+        return graded;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setGraded(String graded) {
+        this.graded = graded;
     }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+    
 }
