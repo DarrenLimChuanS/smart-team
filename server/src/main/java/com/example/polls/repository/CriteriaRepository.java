@@ -25,4 +25,5 @@ public interface CriteriaRepository extends JpaRepository<Criteria, Long> {
     // Boolean existsByEmail(String email);
 
     Boolean existsByName(String name);
+    Optional<Criteria> findByName(String name);
 }

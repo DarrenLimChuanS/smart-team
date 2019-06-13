@@ -10,6 +10,7 @@ import com.example.polls.repository.CriteriaRepository;
 import com.example.polls.repository.VoteRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.PollService;
+import com.example.polls.service.CriteriaService;
 import com.example.polls.security.CurrentUser;
 import com.example.polls.util.AppConstants;
 import org.slf4j.Logger;
@@ -17,6 +18,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api")
@@ -35,6 +41,9 @@ public class CriteriaController {
     private CriteriaRepository CriteriaRepository;
 
     @Autowired
+    private CriteriaService criteriaService;
+
+    @Autowired
     private PollService pollService;
 
     private static final Logger logger = LoggerFactory.getLogger(CriteriaController.class);
@@ -43,6 +52,33 @@ public class CriteriaController {
     public CriteriaNameAvailability checkNameAvailability(@RequestParam(value = "name") String name) {
         Boolean isAvailable = !CriteriaRepository.existsByName(name);
         return new CriteriaNameAvailability(isAvailable);
+    }
+
+    @PostMapping("/criteria/createCriteria")
+    // @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> createCriteria(@RequestBody CriteriaRequest criteriaRequest) {
+        Criteria criteria = criteriaService.createCriteria(criteriaRequest);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{critiera_Id}")
+                .buildAndExpand(criteria.getId()).toUri();
+
+        return ResponseEntity.created(location).body(new ApiResponse(true, "Criteria Created Successfully"));
+    }
+
+    @PutMapping("/criteria/{id}")
+    public ResponseEntity<Object> updateStudent(@RequestBody CriteriaRequest criteriaRequest, @PathVariable long id) {
+
+        Optional<Criteria> criteriaOptional = CriteriaRepository.findByName(name);
+
+        if (!criteriaOptional.isPresent())
+            return ResponseEntity.notFound().build();
+
+        Criteria criteria = criteriaService.createCriteria(criteriaRequest);
+        
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{critiera_Id}")
+                .buildAndExpand(criteria.getId()).toUri();
+
+        return ResponseEntity.created(location).body(new ApiResponse(true, "Criteria updated Successfully"));
     }
 
     // @GetMapping("/user/me")

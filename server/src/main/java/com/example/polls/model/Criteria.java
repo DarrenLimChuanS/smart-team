@@ -22,7 +22,7 @@ import java.util.Set;
 public class Criteria extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long criteria_id;
 
     @NotBlank
     @Size(max = 40)
@@ -32,9 +32,11 @@ public class Criteria extends DateAudit {
     @Size(max = 15)
     private String type;
 
+    private Boolean graded;
+
     @NotBlank
-    @Size(max = 100)
-    private String graded;
+    @Size(max = 255)
+    private String description;
 
     // @ManyToMany(fetch = FetchType.LAZY)
     // @JoinTable(name = "user_roles",
@@ -46,18 +48,19 @@ public class Criteria extends DateAudit {
 
     }
 
-    public Criteria(String name, String type, String graded) {
+    public Criteria(String name, String type, boolean graded, String description) {
         this.name = name;
         this.type = type;
         this.graded = graded;
+        this.description = description;
     }
 
     public Long getId() {
-        return id;
+        return criteria_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long criteria_id) {
+        this.criteria_id = criteria_id;
     }
 
     public String getName() {
@@ -76,11 +79,19 @@ public class Criteria extends DateAudit {
         this.type = type;
     }
 
-    public String getGraded() {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Boolean getGraded() {
         return graded;
     }
 
-    public void setGraded(String graded) {
+    public void setGraded(Boolean graded) {
         this.graded = graded;
     }
     
