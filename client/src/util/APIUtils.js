@@ -165,13 +165,6 @@ export function createStudent(studentRequest, userid) {
   });
 }
 
-export function deleteStudent(userid) {
-  return request({
-    url: API_BASE_URL + "/student/" + userid,
-    method: "DELETE"
-  });
-}
-
 // Function to retrieve all students of a teacher
 export function getStudentsByTeacher(userid) {
   return request({
