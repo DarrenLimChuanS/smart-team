@@ -18,7 +18,7 @@ const data = [
     status: "Ongoing"
   },
   {
-    key: "4",
+    key: "3",
     name: "Embedded systems",
     module: "ICT1003",
     status: "Ongoing"
