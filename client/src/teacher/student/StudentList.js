@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { getStudentsByTeacher } from "../../util/APIUtils";
+import { getUserCreatedStudents } from "../../util/APIUtils";
 import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import Moment from "react-moment";
 
 const { Title } = Typography;
 
@@ -28,7 +29,7 @@ class StudentList extends Component {
     let promise;
 
     if (currentUser) {
-      promise = getStudentsByTeacher(currentUser.id);
+      promise = getUserCreatedStudents(currentUser.id);
     }
     // else {
     //   promise = getAllStudents(page, size);
@@ -38,32 +39,22 @@ class StudentList extends Component {
       return;
     }
 
-    console.log(currentUser);
-
     this.setState({
       isLoading: true
     });
 
     promise
       .then(response => {
-        const students = students.slice();
-
+        const students = this.state.students.slice();
         this.setState({
-          students: students.concat(response.content),
-          page: response.page,
-          size: response.size,
-          totalElements: response.totalElements,
-          totalPages: response.totalPages,
-          last: response.last,
+          students: students.concat(response),
           isLoading: false
         });
-        console.log(students.concat(response.content));
       })
       .catch(error => {
         this.setState({
           isLoading: false
         });
-        console.log("Error la!");
       });
   }
 
@@ -107,20 +98,20 @@ class StudentList extends Component {
     const columns = [
       {
         title: "#",
-        dataIndex: "key",
-        key: "key",
-        filteredValue: filteredInfo.key || null,
-        onFilter: (value, record) => record.key.includes(value),
-        sorter: (a, b) => a.key - b.key,
-        sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
+        dataIndex: "id",
+        key: "id",
+        filteredValue: filteredInfo.id || null,
+        onFilter: (value, record) => record.id.includes(value),
+        sorter: (a, b) => a.id - b.id,
+        sortOrder: sortedInfo.columnKey === "id" && sortedInfo.order
       },
       {
-        title: "Batch No.",
+        title: "Batch_No",
         dataIndex: "batch_no",
         key: "batch_no",
         filteredValue: filteredInfo.batch_no || null,
         onFilter: (value, record) => record.batch_no.includes(value),
-        sorter: (a, b) => a.batch_no.length - b.batch_no.length,
+        sorter: (a, b) => a.batch_no - b.batch_no,
         sortOrder: sortedInfo.columnKey === "batch_no" && sortedInfo.order
       },
       {
@@ -133,6 +124,15 @@ class StudentList extends Component {
         sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order
       },
       {
+        title: "Username",
+        dataIndex: "username",
+        key: "username",
+        filteredValue: filteredInfo.username || null,
+        onFilter: (value, record) => record.username.includes(value),
+        sorter: (a, b) => a.username.length - b.username.length,
+        sortOrder: sortedInfo.columnKey === "username" && sortedInfo.order
+      },
+      {
         title: "Email",
         dataIndex: "email",
         key: "email",
@@ -142,45 +142,14 @@ class StudentList extends Component {
         sortOrder: sortedInfo.columnKey === "email" && sortedInfo.order
       },
       {
-        title: "Student ID",
-        dataIndex: "studentId",
-        key: "studentId",
-        sorter: (a, b) => a.studentId - b.studentId,
-        sortOrder: sortedInfo.columnKey === "studentId" && sortedInfo.order
-      },
-      {
-        title: "Birth Date",
-        dataIndex: "birthDate",
-        key: "birthDate",
-        filteredValue: filteredInfo.birthDate || null,
-        onFilter: (value, record) => record.birthDate.includes(value),
-        sorter: (a, b) => a.birthDate.length - b.birthDate.length,
-        sortOrder: sortedInfo.columnKey === "birthDate" && sortedInfo.order
-      },
-      {
-        title: "Gender",
-        dataIndex: "gender",
-        key: "gender",
-        sorter: (a, b) => a.gender - b.gender,
-        sortOrder: sortedInfo.columnKey === "gender" && sortedInfo.order
-      },
-      {
-        title: "Address",
-        dataIndex: "address",
-        key: "address",
-        filteredValue: filteredInfo.address || null,
-        onFilter: (value, record) => record.address.includes(value),
-        sorter: (a, b) => a.address.length - b.address.length,
-        sortOrder: sortedInfo.columnKey === "address" && sortedInfo.order
-      },
-      {
-        title: "GPA",
-        dataIndex: "gpa",
-        key: "gpa",
-        filteredValue: filteredInfo.gpa || null,
-        onFilter: (value, record) => record.gpa.includes(value),
-        sorter: (a, b) => a.gpa - b.gpa,
-        sortOrder: sortedInfo.columnKey === "gpa" && sortedInfo.order
+        title: "Updated_at",
+        dataIndex: "updatedAt",
+        key: "updatedAt",
+        filteredValue: filteredInfo.updatedAt || null,
+        onFilter: (value, record) => record.updatedAt.includes(value),
+        sorter: (a, b) => a.updatedAt.length - b.updatedAt.length,
+        sortOrder: sortedInfo.columnKey === "updatedAt" && sortedInfo.order,
+        render: updatedAt => <Moment>{updatedAt}</Moment>
       },
       {
         title: "Action",
@@ -196,7 +165,6 @@ class StudentList extends Component {
         )
       }
     ];
-
     return (
       <React.Fragment>
         <Row>

@@ -75,7 +75,6 @@ export function createCourse(courseData) {
 }
 
 export function updateCourse(courseId, courseData) {
-  console.log(JSON.stringify(courseData));
   return request({
     url: API_BASE_URL + "/courses/" + courseId,
     method: "PUT",
@@ -116,7 +115,6 @@ export function createSection(sectionData) {
 }
 
 export function updateSection(sectionId, sectionData) {
-  console.log(JSON.stringify(sectionData));
   return request({
     url: API_BASE_URL + "/sections/" + sectionId,
     method: "PUT",
@@ -257,6 +255,13 @@ export function getUserCreatedSections(username, page, size) {
       page +
       "&size=" +
       size,
+    method: "GET"
+  });
+}
+
+export function getUserCreatedStudents(userId) {
+  return request({
+    url: API_BASE_URL + "/users/" + userId + "/students",
     method: "GET"
   });
 }
