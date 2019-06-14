@@ -20,4 +20,6 @@ public interface QuestionnaireRepository extends JpaRepository<Questionnaire, Lo
     Optional<Questionnaire> findById(Long questionnaire_id);
 
     void deleteById(Long questionnaire_id);
+
+    List<Questionnaire> findAll();
 }

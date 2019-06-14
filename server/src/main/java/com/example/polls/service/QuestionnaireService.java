@@ -45,14 +45,15 @@ public class QuestionnaireService {
     private static final Logger logger = LoggerFactory.getLogger(QuestionnaireService.class);
 
 
-    public Questionnaire createQuestionnaire(QuestionnaireRequest questionnaireRequest) {
+    public Questionnaire createQuestionnaire(User user, QuestionnaireRequest questionnaireRequest) {
         Questionnaire questionnaire = new Questionnaire();
+        questionnaire.setUser(user);
         questionnaire.setName(questionnaireRequest.getName());
         questionnaire.setInstruction(questionnaireRequest.getInstruction());
         return questionnaireRepository.save(questionnaire);
     }
 
-    public ResponseEntity<Object> updateQuestionnaireById(@RequestBody Questionnaire questionnaire, @PathVariable Long questionnaire_id) {
+    public ResponseEntity<Object> updateQuestionnaireById(@RequestBody Questionnaire questionnaire, @PathVariable Long questionnaire_id, User user) {
 
         Optional<Questionnaire> questionnaireOptional = questionnaireRepository.findById(questionnaire_id);
 
@@ -60,6 +61,7 @@ public class QuestionnaireService {
             return ResponseEntity.notFound().build();
 
         questionnaire.setId(questionnaire_id);
+        questionnaire.setUser(user);
         questionnaireRepository.save(questionnaire);
         return ResponseEntity.ok(new ApiResponse(true, "Questionnaire Updated Successfully"));
     }

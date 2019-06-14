@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by rajeevkumarsingh on 01/08/17.
@@ -33,12 +35,13 @@ public class Questionnaire extends DateAudit {
     private String instruction;
 
     // MAPPING TESTING
-    // @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    // @JoinColumn(name = "id", nullable = false)
-    // private User user;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
 
-    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Criteria> criteria = new HashSet<>();
+    // @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    // private Set<Criteria> criteria = new HashSet<>();
 
 
     public Questionnaire() {
@@ -72,6 +75,14 @@ public class Questionnaire extends DateAudit {
 
     public void setInstruction(String instruction) {
         this.instruction = instruction;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     

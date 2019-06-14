@@ -52,9 +52,11 @@ public class User extends DateAudit {
     private Set<Role> roles = new HashSet<>();
 
     // MAPPING TESTING
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private Set<Criteria> criteria = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Criteria> criteria;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Questionnaire> questionnaire;
 
 
     public User() {
@@ -114,5 +116,21 @@ public class User extends DateAudit {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Criteria> getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(Set<Criteria> criteria) {
+        this.criteria = criteria;
+    }
+
+    public Set<Questionnaire> getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(Set<Questionnaire> questionnaire) {
+        this.questionnaire = questionnaire;
     }
 }

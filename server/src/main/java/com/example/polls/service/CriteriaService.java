@@ -43,8 +43,9 @@ public class CriteriaService {
     private static final Logger logger = LoggerFactory.getLogger(CriteriaService.class);
 
 
-    public Criteria createCriteria(CriteriaRequest criteriaRequest) {
+    public Criteria createCriteria(User user, CriteriaRequest criteriaRequest) {
         Criteria criteria = new Criteria();
+        criteria.setUser(user);
         criteria.setName(criteriaRequest.getName());
         criteria.setDescription(criteriaRequest.getDescription());
         criteria.setType(criteriaRequest.getType());
@@ -52,7 +53,7 @@ public class CriteriaService {
         return criteriaRepository.save(criteria);
     }
 
-    public ResponseEntity<Object> updateCriteriaById(@RequestBody Criteria criteria, @PathVariable Long criteria_id) {
+    public ResponseEntity<Object> updateCriteriaById(@RequestBody Criteria criteria, @PathVariable Long criteria_id, User user) {
 
         Optional<Criteria> criteriaOptional = criteriaRepository.findById(criteria_id);
 
@@ -60,8 +61,10 @@ public class CriteriaService {
             return ResponseEntity.notFound().build();
 
         criteria.setId(criteria_id);
+        criteria.setUser(user);
         criteriaRepository.save(criteria);
         return ResponseEntity.ok(new ApiResponse(true, "Criteria Updated Successfully"));
+
     }
 
     public ResponseEntity<?> deleteById(Long criteria_id) {

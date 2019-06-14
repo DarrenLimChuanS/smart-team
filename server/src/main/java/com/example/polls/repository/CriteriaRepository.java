@@ -29,4 +29,5 @@ public interface CriteriaRepository extends JpaRepository<Criteria, Long>{
     Optional<Criteria> findByName(String name);
     Optional<Criteria> findById(Long criteria_id);
     void deleteById(Long criteria_id);
+    List<Criteria> findAll();
 }

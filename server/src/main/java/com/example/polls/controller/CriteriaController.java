@@ -59,24 +59,32 @@ public class CriteriaController {
 
     @GetMapping(("/criteria/getAllCriteria"))
     public List<Criteria> getCriteria() {
-        return criteriaService.getAllCriteria();
+        return criteriaRepository.findAll();
     }
 
-    @PostMapping("/criteria/createCriteria")
+    @PostMapping("/criteria/{user_id}/createCriteria")
     // @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> createCriteria(@RequestBody CriteriaRequest criteriaRequest) {
-        Criteria criteria = criteriaService.createCriteria(criteriaRequest);
+    public ResponseEntity<?> createCriteria(@PathVariable(value = "user_id") Long user_id,@RequestBody CriteriaRequest criteriaRequest) {
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{critiera_Id}")
+        return userRepository.findById(user_id).map(user -> {
+
+            Criteria criteria = criteriaService.createCriteria(user, criteriaRequest);
+
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{critiera_Id}")
                 .buildAndExpand(criteria.getId()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "Criteria Created Successfully"));
+            return ResponseEntity.created(location).body(new ApiResponse(true, "Criteria Created Successfully"));
+        }).orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
     }
 
-    @PutMapping("/criteria/update/{criteria_id}")
+
+
+    @PutMapping("/criteria/update/{criteria_id}/{user_id}")
     // @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Object> updateCriteria(@RequestBody Criteria criteria, @PathVariable Long criteria_id) {
-        return criteriaService.updateCriteriaById(criteria, criteria_id);
+    public ResponseEntity<Object> updateCriteria(@RequestBody Criteria criteria, @PathVariable Long criteria_id, @PathVariable Long user_id) {
+        return userRepository.findById(user_id).map(user -> {
+            return criteriaService.updateCriteriaById(criteria, criteria_id, user);
+        }).orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
     }
 
     @DeleteMapping("/criteria/delete/{criteria_id}")

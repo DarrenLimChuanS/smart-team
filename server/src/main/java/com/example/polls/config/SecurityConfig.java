@@ -88,8 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .permitAll()
                     .antMatchers("/api/auth/**")
                         .permitAll()
-                    .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability", "/api/criteria/createCriteria", "/api/criteria/update/**", "/api/criteria/delete/**", "/api/criteria/getAllCriteria",
-                        "/api/questionnaire/getAllQuestionnaire", "/api/questionnaire/createQuestionnaire","/api/questionnaire/update/{questionnaire_id}","/api/questionnaire/delete/{questionnaire_id}")
+                    .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability", "/api/criteria/{user_id}/createCriteria", "/api/criteria/update/**", "/api/criteria/delete/**", "/api/criteria/getAllCriteria",
+                        "/api/questionnaire/getAllQuestionnaire", "/api/questionnaire/{user_id}/createQuestionnaire","/api/questionnaire/update/**","/api/questionnaire/delete/{questionnaire_id}")
                         .permitAll()
                     .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**","/api/criteria/**")
                         .permitAll()

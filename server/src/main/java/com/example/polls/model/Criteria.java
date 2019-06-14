@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * Created by rajeevkumarsingh on 01/08/17.
@@ -39,13 +41,14 @@ public class Criteria extends DateAudit {
     private String description;
 
     // MAPPING TESTING
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id", referencedColumnName="id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "questionnaire_id", referencedColumnName="questionnaire_id",nullable = false)
-    private Questionnaire questionnaire;
+    // @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    // @JoinColumn(name = "questionnaire_id", referencedColumnName="questionnaire_id",nullable = false)
+    // private Questionnaire questionnaire;
 
 
     public Criteria() {
@@ -98,5 +101,21 @@ public class Criteria extends DateAudit {
     public void setGraded(Boolean graded) {
         this.graded = graded;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    // public Questionnaire getQuestionnaire() {
+    //     return questionnaire;
+    // }
+
+    // public void setTeacher(Questionnaire questionnaire) {
+    //     this.questionnaire = questionnaire;
+    // }
     
 }
