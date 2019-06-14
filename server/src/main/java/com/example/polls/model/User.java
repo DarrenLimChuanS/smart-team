@@ -52,8 +52,8 @@ public class User extends DateAudit {
     private Set<Role> roles = new HashSet<>();
 
     // MAPPING TESTING
-    // @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    // private Set<Criteria> criteria = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Criteria> criteria = new HashSet<>();
 
 
 

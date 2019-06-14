@@ -37,6 +37,9 @@ public class Questionnaire extends DateAudit {
     // @JoinColumn(name = "id", nullable = false)
     // private User user;
 
+    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<Criteria> criteria = new HashSet<>();
+
 
     public Questionnaire() {
 

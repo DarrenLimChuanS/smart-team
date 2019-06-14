@@ -39,9 +39,13 @@ public class Criteria extends DateAudit {
     private String description;
 
     // MAPPING TESTING
-    // @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    // @JoinColumn(name = "id", nullable = false)
-    // private User user;
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "id", referencedColumnName="id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "questionnaire_id", referencedColumnName="questionnaire_id",nullable = false)
+    private Questionnaire questionnaire;
 
 
     public Criteria() {
