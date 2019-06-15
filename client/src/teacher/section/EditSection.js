@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { signup } from "../../util/APIUtils";
+import {
+  createSection,
+  updateSection,
+  getSectionById
+} from "../../util/APIUtils";
 
 import { Form, Input, Button, notification, Select, Typography } from "antd";
 const { Option } = Select;
@@ -11,6 +15,9 @@ class EditSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      sectionId: {
+        value: ""
+      },
       name: {
         value: ""
       },
@@ -30,6 +37,32 @@ class EditSection extends Component {
     this.handleCourseChange = this.handleCourseChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
+  }
+
+  async componentDidMount() {
+    if (this.props.match.params.id !== "new") {
+      getSectionById(this.props.match.params.id).then(response => {
+        this.setState({
+          sectionId: {
+            value: response.sectionId
+          },
+          name: {
+            value: response.name
+          },
+          students: {
+            value: response.students
+          },
+          course: {
+            value: response.course
+          },
+          year: {
+            value: response.year
+          },
+          createdBy: response.createdBy,
+          createdAt: response.createdAt
+        });
+      });
+    }
   }
 
   handleInputChange(event, validationFun) {
@@ -75,19 +108,30 @@ class EditSection extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const signupRequest = {
+    const createSectionRequest = {
+      sectionCode: this.state.sectionCode.value,
       name: this.state.name.value,
-      students: this.state.students.value,
-      course: this.state.email.value,
-      year: this.state.birthDate.value
+      description: this.state.description.value
     };
-    signup(signupRequest)
+
+    const updateSectionRequest = {
+      sectionCode: this.state.sectionCode.value,
+      name: this.state.name.value,
+      description: this.state.description.value
+    };
+    (this.state.id.value
+      ? updateSection(this.state.id.value, updateSectionRequest)
+      : createSection(createSectionRequest)
+    )
       .then(response => {
         notification.success({
           message: "Smart Team",
-          description: "Success! You have successfully added a new student."
+          description:
+            "Success! You have successfully " +
+            (this.state.id.value ? "updated" : "created") +
+            " a section."
         });
-        this.props.history.push("/login");
+        this.props.history.push("/section");
       })
       .catch(error => {
         notification.error({
