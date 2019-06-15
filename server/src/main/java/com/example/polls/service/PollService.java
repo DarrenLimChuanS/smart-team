@@ -156,7 +156,7 @@ public class PollService {
     }
 
     public PollResponse getPollById(Long pollId, UserPrincipal currentUser) {
-        Poll poll = pollRepository.findByCourseId(pollId)
+        Poll poll = pollRepository.findById(pollId)
                 .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", pollId));
 
         // Retrieve Vote Counts of every choice belonging to the current poll
@@ -166,7 +166,7 @@ public class PollService {
                 .collect(Collectors.toMap(ChoiceVoteCount::getChoiceId, ChoiceVoteCount::getVoteCount));
 
         // Retrieve poll creator details
-        User creator = userRepository.findByCourseId(poll.getCreatedBy())
+        User creator = userRepository.findById(poll.getCreatedBy())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", poll.getCreatedBy()));
 
         // Retrieve vote done by logged in user
@@ -180,7 +180,7 @@ public class PollService {
     }
 
     public PollResponse castVoteAndGetUpdatedPoll(Long pollId, VoteRequest voteRequest, UserPrincipal currentUser) {
-        Poll poll = pollRepository.findByCourseId(pollId)
+        Poll poll = pollRepository.findById(pollId)
                 .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", pollId));
 
         if (poll.getExpirationDateTime().isBefore(Instant.now())) {
@@ -214,7 +214,7 @@ public class PollService {
                 .collect(Collectors.toMap(ChoiceVoteCount::getChoiceId, ChoiceVoteCount::getVoteCount));
 
         // Retrieve poll creator details
-        User creator = userRepository.findByCourseId(poll.getCreatedBy())
+        User creator = userRepository.findById(poll.getCreatedBy())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", poll.getCreatedBy()));
 
         return ModelMapper.mapPollToPollResponse(poll, choiceVotesMap, creator, vote.getChoice().getId());
