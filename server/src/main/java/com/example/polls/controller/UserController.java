@@ -6,6 +6,7 @@ import com.example.polls.payload.*;
 import com.example.polls.repository.CourseRepository;
 import com.example.polls.repository.PollRepository;
 import com.example.polls.repository.SectionRepository;
+import com.example.polls.repository.StudentRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.repository.VoteRepository;
 import com.example.polls.security.UserPrincipal;
@@ -36,6 +37,9 @@ public class UserController {
 
     @Autowired
     private SectionRepository sectionRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Autowired
     private VoteRepository voteRepository;
@@ -94,8 +98,7 @@ public class UserController {
     // Function to select User by ID
     @GetMapping("/users/id/{id}")
     public User getUserById(@PathVariable Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 
     // Function to delete User

@@ -93,7 +93,7 @@ class EditStudent extends Component {
       email: email.value,
       password: password.value
     };
-    console.log(currentUser);
+    
     // Execute create / edit student API with studentRequest body
     (id.value
       ? updateStudent(id.value, studentRequest)

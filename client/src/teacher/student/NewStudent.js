@@ -6,9 +6,6 @@ import {
   checkEmailAvailability,
   getStudentById
 } from "../../util/APIUtils";
-import LoadingIndicator from "../../common/LoadingIndicator";
-import NotFound from "../../common/NotFound";
-import ServerError from "../../common/ServerError";
 import {
   DatePicker,
   Form,

@@ -11,8 +11,10 @@ import com.example.polls.repository.VoteRepository;
 import com.example.polls.repository.StudentRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.repository.RoleRepository;
+import com.example.polls.repository.SectionRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.PollService;
+import com.example.polls.service.SectionService;
 import com.example.polls.security.CurrentUser;
 import com.example.polls.util.AppConstants;
 import org.slf4j.Logger;
@@ -54,6 +56,12 @@ public class StudentController {
 
     @Autowired
     private PollService pollService;
+
+    @Autowired
+    private SectionRepository sectionRepository;
+
+    @Autowired
+    private SectionService sectionService;
 
     private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
 

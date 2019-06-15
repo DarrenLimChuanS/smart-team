@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { signup } from "../../util/APIUtils";
+import {
+  signup,
+  getUserCreatedCourses,
+  getUserCreatedStudents,
+  createSection,
+  getCurrentUser
+} from "../../util/APIUtils";
 
 import { Form, Input, Button, notification, Select, Typography } from "antd";
 const { Option } = Select;
@@ -17,6 +23,7 @@ class NewSection extends Component {
       students: {
         value: []
       },
+      // courseList: [],
       course: {
         value: ""
       },
@@ -32,6 +39,27 @@ class NewSection extends Component {
     this.isFormInvalid = this.isFormInvalid.bind(this);
   }
 
+  async componentDidMount() {
+    getCurrentUser().then(response => {
+      this.setState({
+        currentUser: response,
+        ...this.state
+      });
+      getUserCreatedCourses(response.username, 0, 50).then(response => {
+        this.setState({
+          courseList: response.content,
+          ...this.state
+        });
+      });
+      getUserCreatedStudents(response.id).then(response => {
+        this.setState({
+          studentList: response,
+          ...this.state
+        });
+      });
+    });
+  }
+
   handleInputChange(event, validationFun) {
     const target = event.target;
     const inputName = target.name;
@@ -43,8 +71,6 @@ class NewSection extends Component {
         ...validationFun(inputValue)
       }
     });
-
-    console.log(this.state);
   }
 
   handleStudentChange(value) {
@@ -78,10 +104,10 @@ class NewSection extends Component {
     const signupRequest = {
       name: this.state.name.value,
       students: this.state.students.value,
-      course: this.state.email.value,
+      course: this.state.course.value,
       year: this.state.birthDate.value
     };
-    signup(signupRequest)
+    createSection(signupRequest)
       .then(response => {
         notification.success({
           message: "Smart Team",
@@ -112,11 +138,14 @@ class NewSection extends Component {
       { studentId: 10023134, name: "Mary Chiah" }
     ];
 
+    const { courseList, studentList } = this.state;
+
     const studentOptions = students.map((item, key) => (
       <Option key={item.studentId}>
         {item.studentId} - {item.name}
       </Option>
     ));
+
     return (
       <div className="signup-container">
         <Title level={2}>Create Section</Title>
@@ -149,11 +178,17 @@ class NewSection extends Component {
                 size="large"
                 mode="multiple"
                 style={{ width: "100%" }}
-                placeholder="Please select"
+                placeholder="Please select a student"
                 defaultValue={[]}
                 onChange={event => this.handleStudentChange(event)}
               >
-                {studentOptions}
+                {this.state &&
+                  studentList &&
+                  studentList.map(student => (
+                    <Option key={student.id}>
+                      {student.id} - {student.name}
+                    </Option>
+                  ))}
               </Select>
             </FormItem>
             <FormItem
@@ -165,14 +200,15 @@ class NewSection extends Component {
               <Select
                 name="course"
                 size="large"
-                defaultValue="ict1001"
+                placeHolder="Please select a course"
                 style={{ width: "32%" }}
                 onChange={value => this.handleCourseChange(value)}
               >
-                <Option value="ict1001">ICT1001</Option>
-                <Option value="ict1002">ICT1002</Option>
-                <Option value="ict1003">ICT1003</Option>
-                <Option value="ict1004">ICT1004</Option>
+                {this.state &&
+                  courseList &&
+                  courseList.map(course => (
+                    <Option key={course.id}>{course.name}</Option>
+                  ))}
               </Select>
             </FormItem>
             <FormItem

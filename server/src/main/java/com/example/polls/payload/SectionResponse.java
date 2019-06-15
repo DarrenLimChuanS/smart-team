@@ -1,7 +1,10 @@
 package com.example.polls.payload;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.example.polls.model.Student;
 import com.example.polls.model.Course;
 
 public class SectionResponse {
@@ -11,6 +14,7 @@ public class SectionResponse {
     private Long year;
     private String status;
     private Course course;
+    private Set<Student> students = new HashSet<>();
     private UserSummary createdBy;
     private Instant creationDateTime;
 
@@ -60,6 +64,14 @@ public class SectionResponse {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     public UserSummary getCreatedBy() {

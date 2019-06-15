@@ -2,6 +2,9 @@ package com.example.polls.model;
 
 import com.example.polls.model.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -14,14 +17,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /* Map this entity class to student table. */
 @Entity
-@Table(name = "student", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-                "username"
-        }),
-        @UniqueConstraint(columnNames = {
-                "email"
-        })
-})
+@Table(name = "student", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
+        @UniqueConstraint(columnNames = { "email" }) })
 public class Student extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +50,11 @@ public class Student extends DateAudit {
     @JsonIgnore
     private User teacher;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "students")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Set<Section> sections = new HashSet<>();
+
     public Student() {
 
     }
@@ -74,7 +76,9 @@ public class Student extends DateAudit {
         this.id = id;
     }
 
-    public Long getBatch_no() { return batch_no; }
+    public Long getBatch_no() {
+        return batch_no;
+    }
 
     public void setBatch_no(Long batch_no) {
         this.batch_no = batch_no;
@@ -118,5 +122,13 @@ public class Student extends DateAudit {
 
     public void setTeacher(User teacher) {
         this.teacher = teacher;
+    }
+
+    public Set<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(Set<Section> sections) {
+        this.sections = sections;
     }
 }

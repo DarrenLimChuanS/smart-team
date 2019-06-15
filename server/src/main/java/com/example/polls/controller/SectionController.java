@@ -4,25 +4,27 @@ import com.example.polls.model.Section;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.SectionRequest;
 import com.example.polls.payload.SectionResponse;
-import com.example.polls.payload.PagedResponse;
-import com.example.polls.service.CourseService;
 import com.example.polls.repository.CourseRepository;
 import com.example.polls.repository.SectionRepository;
-import com.example.polls.service.SectionService;
-import com.example.polls.util.AppConstants;
+import com.example.polls.repository.StudentRepository;
 import com.example.polls.security.CurrentUser;
 import com.example.polls.security.UserPrincipal;
-
+import com.example.polls.service.CourseService;
+import com.example.polls.service.SectionService;
+import java.net.URI;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import javax.validation.Valid;
-import java.net.URI;
 
 @RestController
 @RequestMapping("/api/sections")
@@ -35,12 +37,20 @@ public class SectionController {
     private CourseRepository courseRepository;
 
     @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
     private SectionService sectionService;
 
     @Autowired
     private CourseService courseService;
 
     private static final Logger logger = LoggerFactory.getLogger(SectionController.class);
+
+    @GetMapping() // Finds all stored lecturers in a pageable format
+    public Page<Section> getSections(Pageable pageable) {
+        return sectionRepository.findAll(pageable);
+    }
 
     @GetMapping
     public PagedResponse<SectionResponse> getSections(@CurrentUser UserPrincipal currentUser,
