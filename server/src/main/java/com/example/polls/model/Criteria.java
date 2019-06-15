@@ -46,10 +46,9 @@ public class Criteria extends DateAudit {
     @JsonIgnore
     private User user;
 
-    // @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    // @JoinColumn(name = "questionnaire_id", referencedColumnName="questionnaire_id",nullable = false)
-    // private Questionnaire questionnaire;
-
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "criteria_questionnaires", joinColumns = @JoinColumn(name = "criteria_id"), inverseJoinColumns = @JoinColumn(name = "questionnaire_id"))
+    private Set<Questionnaire> questionnaire = new HashSet<>();
 
     public Criteria() {
 
@@ -108,6 +107,14 @@ public class Criteria extends DateAudit {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Questionnaire> getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(Set<Questionnaire> questionnaire) {
+        this.questionnaire = questionnaire;
     }
 
     // public Questionnaire getQuestionnaire() {
