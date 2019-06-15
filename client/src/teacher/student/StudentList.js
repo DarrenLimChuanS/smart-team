@@ -171,8 +171,6 @@ class StudentList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">Reset Password</a>
-            <Divider type="vertical" />
             <Link to={"/student/" + record.id}>Edit</Link>
             <Divider type="vertical" />
             <a onClick={() => this.deleteStudentWithId(record.id)}>Delete</a>

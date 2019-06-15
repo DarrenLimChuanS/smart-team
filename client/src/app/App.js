@@ -10,7 +10,6 @@ import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
-import NewStudent from "../teacher/student/NewStudent";
 import StudentList from "../teacher/student/StudentList";
 import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
@@ -142,18 +141,6 @@ class App extends Component {
                       {...props}
                     />
                   )}
-                />
-                <Route
-                  authenticated={this.state.isAuthenticated}
-                  path="/student/new"
-                  render={props => (
-                    <NewStudent
-                      isAuthenticated={this.state.isAuthenticated}
-                      currentUser={this.state.currentUser}
-                      {...props}
-                    />
-                  )}
-                  handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}

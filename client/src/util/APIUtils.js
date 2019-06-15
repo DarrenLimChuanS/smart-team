@@ -173,22 +173,32 @@ export function getStudentsByTeacher(userid) {
   });
 }
 
-// Function to update student
-export function updateStudent(studentId, studentDetails) {
+// Function to retrieve student information by ID
+export function getStudentById(studentId) {
   return request({
-    url: API_BASE_URL + "/student/" + studentId,
-    method: "PUT",
-    body: JSON.stringify(studentDetails)
+    url: API_BASE_URL + "/students/" + studentId,
+    method: "GET"
   });
 }
 
-// Function to delete student
+// Function to update student by ID
+export function updateStudent(studentId, studentData) {
+  return request({
+    url: API_BASE_URL + "/student/" + studentId,
+    method: "PUT",
+    body: JSON.stringify(studentData)
+  });
+}
+
+// Function to delete student by ID
 export function deleteStudent(studentId) {
+  console.log(studentId);
   return request({
     url: API_BASE_URL + "/student/" + studentId,
     method: "DELETE"
   });
 }
+
 /**
  * End of Student APIs
  **/
