@@ -7,7 +7,6 @@ import com.example.polls.payload.PagedResponse;
 import com.example.polls.payload.SectionRequest;
 import com.example.polls.payload.SectionResponse;
 import com.example.polls.repository.SectionRepository;
-import com.example.polls.repository.SectionRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
@@ -96,7 +95,11 @@ public class SectionService {
     public Section createSection(SectionRequest sectionRequest) {
         Section section = new Section();
         section.setName(sectionRequest.getName());
+        section.setNoOfStudents(sectionRequest.getNoOfStudents());
         section.setYear(sectionRequest.getYear());
+        section.setStatus(sectionRequest.getStatus());
+        section.setCourse(sectionRequest.getCourse());
+        section.setStudents(sectionRequest.getStudents());
 
         return sectionRepository.save(section);
     }

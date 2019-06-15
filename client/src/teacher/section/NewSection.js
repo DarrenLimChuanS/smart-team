@@ -25,7 +25,7 @@ class NewSection extends Component {
       },
       // courseList: [],
       course: {
-        value: ""
+        value: {}
       },
       year: {
         value: ""
@@ -33,7 +33,6 @@ class NewSection extends Component {
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleStudentChange = this.handleStudentChange.bind(this);
-    this.handleYearPicker = this.handleYearPicker.bind(this);
     this.handleCourseChange = this.handleCourseChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
@@ -73,27 +72,21 @@ class NewSection extends Component {
     });
   }
 
-  handleStudentChange(value) {
+  handleStudentChange(studentIds) {
+    const students = studentIds.map(
+      studentId => this.state.studentList[studentId]
+    );
     this.setState({
       students: {
-        value: value
+        value: students
       }
     });
   }
 
-  handleYearPicker(date, dateString, validationFun) {
-    this.setState({
-      year: {
-        value: date,
-        ...validationFun(date)
-      }
-    });
-  }
-
-  handleCourseChange(course) {
+  handleCourseChange(courseId) {
     this.setState({
       course: {
-        value: course
+        value: this.state.courseList[courseId]
       }
     });
   }
@@ -101,13 +94,15 @@ class NewSection extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const signupRequest = {
+    const sectionRequest = {
       name: this.state.name.value,
-      students: this.state.students.value,
+      noOfStudents: this.state.students.value.length,
+      year: this.state.year.value,
+      status: "Not Grouped",
       course: this.state.course.value,
-      year: this.state.birthDate.value
+      students: this.state.students.value
     };
-    createSection(signupRequest)
+    createSection(sectionRequest)
       .then(response => {
         notification.success({
           message: "Smart Team",
@@ -132,20 +127,7 @@ class NewSection extends Component {
   }
 
   render() {
-    const students = [
-      { studentId: 10023132, name: "John Smith" },
-      { studentId: 10023133, name: "Daniel Lim" },
-      { studentId: 10023134, name: "Mary Chiah" }
-    ];
-
     const { courseList, studentList } = this.state;
-
-    const studentOptions = students.map((item, key) => (
-      <Option key={item.studentId}>
-        {item.studentId} - {item.name}
-      </Option>
-    ));
-
     return (
       <div className="signup-container">
         <Title level={2}>Create Section</Title>
@@ -180,13 +162,13 @@ class NewSection extends Component {
                 style={{ width: "100%" }}
                 placeholder="Please select a student"
                 defaultValue={[]}
-                onChange={event => this.handleStudentChange(event)}
+                onChange={value => this.handleStudentChange(value)}
               >
                 {this.state &&
                   studentList &&
-                  studentList.map(student => (
-                    <Option key={student.id}>
-                      {student.id} - {student.name}
+                  studentList.map((student, index) => (
+                    <Option key={index}>
+                      {index} - {student.id} - {student.name}
                     </Option>
                   ))}
               </Select>
@@ -206,8 +188,8 @@ class NewSection extends Component {
               >
                 {this.state &&
                   courseList &&
-                  courseList.map(course => (
-                    <Option key={course.id}>{course.name}</Option>
+                  courseList.map((course, index) => (
+                    <Option key={index}>{course.name}</Option>
                   ))}
               </Select>
             </FormItem>

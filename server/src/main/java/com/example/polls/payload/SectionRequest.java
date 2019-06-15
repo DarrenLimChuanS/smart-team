@@ -14,10 +14,8 @@ public class SectionRequest {
     @Size(max = 60)
     private String name;
 
-    @Size(max = 255)
     private Long noOfStudents;
 
-    @Size(max = 6)
     private Long year;
 
     @Size(max = 255)
