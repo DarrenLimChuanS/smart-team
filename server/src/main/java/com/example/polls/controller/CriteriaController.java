@@ -27,7 +27,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/criteria")
 public class CriteriaController {
 
     @Autowired
@@ -81,7 +81,7 @@ public class CriteriaController {
         }).orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
     }
 
-    @DeleteMapping("/delete/{criteriaId}")
+    @DeleteMapping("/{criteriaId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteCriteria(@PathVariable long criteriaId) {
         return criteriaService.deleteById(criteriaId);

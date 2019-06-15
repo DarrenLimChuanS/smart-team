@@ -95,7 +95,7 @@ public class CriteriaService {
             criteriaRepository.deleteById(criteriaId);
             return ResponseEntity.ok(new ApiResponse(true, "Criteria Deleted Successfully"));
         }
-        return ResponseEntity.ok(new ApiResponse(false, "Criteria Deleted is Unsuccessful"));
+        return ResponseEntity.ok(new ApiResponse(false, "Criteria cannot be found."));
     }
 
     public List<Criteria> getAllCriteria() {

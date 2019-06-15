@@ -214,7 +214,7 @@ class Criteria extends Component {
           <span>
             <a href="javascript:;">Edit</a>
             <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <a onClick={() => this.deleteCriteriaWithId(record.id)}>Delete</a>
           </span>
         )
       }
