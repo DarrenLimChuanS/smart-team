@@ -7,51 +7,18 @@ import {
   updateStudent,
   getCurrentUser
 } from "../../util/APIUtils";
-
+import { Student } from "../../util/FeatureStates";
 import { Form, Input, Button, notification, Typography } from "antd";
 import {
-  NAME_MIN_LENGTH,
-  NAME_MAX_LENGTH,
-  USERNAME_MIN_LENGTH,
-  USERNAME_MAX_LENGTH,
-  EMAIL_MAX_LENGTH,
-  PASSWORD_MIN_LENGTH,
-  PASSWORD_MAX_LENGTH
-} from "../../constants";
+  validateNotEmpty,
+  validateName,
+  validateEmail,
+  validateUsername,
+  validatePassword
+} from "../../util/Validators";
+
 const { Title } = Typography;
 const FormItem = Form.Item;
-
-const Student = (
-  id,
-  batch_no,
-  name,
-  username,
-  email,
-  password,
-  createdBy,
-  createdAt
-) => ({
-  id: {
-    value: id || ""
-  },
-  batch_no: {
-    value: batch_no || ""
-  },
-  name: {
-    value: name || ""
-  },
-  username: {
-    value: username || ""
-  },
-  email: {
-    value: email || ""
-  },
-  password: {
-    value: password || ""
-  },
-  createdBy: createdBy || "",
-  createdAt: createdAt || ""
-});
 
 class EditStudent extends Component {
   constructor(props) {
@@ -101,7 +68,7 @@ class EditStudent extends Component {
     this.setState({
       [inputName]: {
         value: inputValue,
-        ...validationFun(inputValue)
+        ...validationFun(inputValue, target.placeholder)
       }
     });
   }
@@ -183,7 +150,7 @@ class EditStudent extends Component {
                 placeholder="Batch Number"
                 value={batch_no.value}
                 onChange={event =>
-                  this.handleInputChange(event, this.validateBatchNumber)
+                  this.handleInputChange(event, validateNotEmpty)
                 }
               />
             </FormItem>
@@ -199,9 +166,7 @@ class EditStudent extends Component {
                 autoComplete="off"
                 placeholder="Name"
                 value={name.value}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateName)
-                }
+                onChange={event => this.handleInputChange(event, validateName)}
               />
             </FormItem>
             <FormItem
@@ -218,7 +183,7 @@ class EditStudent extends Component {
                 value={username.value}
                 onBlur={this.validateUsernameAvailability}
                 onChange={event =>
-                  this.handleInputChange(event, this.validateUsername)
+                  this.handleInputChange(event, validateUsername)
                 }
               />
             </FormItem>
@@ -229,6 +194,7 @@ class EditStudent extends Component {
               help={email.errorMsg}
             >
               <Input
+                disabled={id.value}
                 size="large"
                 name="email"
                 type="email"
@@ -236,9 +202,7 @@ class EditStudent extends Component {
                 placeholder="Your email"
                 value={email.value}
                 onBlur={this.validateEmailAvailability}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateEmail)
-                }
+                onChange={event => this.handleInputChange(event, validateEmail)}
               />
             </FormItem>
             <FormItem
@@ -255,7 +219,7 @@ class EditStudent extends Component {
                 placeholder="A password between 6 to 20 characters"
                 value={password.value}
                 onChange={event =>
-                  this.handleInputChange(event, this.validatePassword)
+                  this.handleInputChange(event, validatePassword)
                 }
               />
             </FormItem>
@@ -277,91 +241,10 @@ class EditStudent extends Component {
   }
 
   // Validation Functions
-  validateBatchNumber = batch_no => {
-    if (batch_no === "") {
-      return {
-        validateStatus: "error",
-        errorMsg: `Batch Number cannot be empty.`
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
-    }
-  };
-
-  validateName = name => {
-    if (name.length < NAME_MIN_LENGTH) {
-      return {
-        validateStatus: "error",
-        errorMsg: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)`
-      };
-    } else if (name.length > NAME_MAX_LENGTH) {
-      return {
-        validationStatus: "error",
-        errorMsg: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
-    }
-  };
-
-  validateEmail = email => {
-    if (!email) {
-      return {
-        validateStatus: "error",
-        errorMsg: "Email may not be empty"
-      };
-    }
-
-    const EMAIL_REGEX = RegExp("[^@ ]+@[^@ ]+\\.[^@ ]+");
-    if (!EMAIL_REGEX.test(email)) {
-      return {
-        validateStatus: "error",
-        errorMsg: "Email not valid"
-      };
-    }
-
-    if (email.length > EMAIL_MAX_LENGTH) {
-      return {
-        validateStatus: "error",
-        errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
-      };
-    }
-
-    return {
-      validateStatus: null,
-      errorMsg: null
-    };
-  };
-
-  validateUsername = username => {
-    if (username.length < USERNAME_MIN_LENGTH) {
-      return {
-        validateStatus: "error",
-        errorMsg: `Username is too short (Minimum ${USERNAME_MIN_LENGTH} characters needed.)`
-      };
-    } else if (username.length > USERNAME_MAX_LENGTH) {
-      return {
-        validationStatus: "error",
-        errorMsg: `Username is too long (Maximum ${USERNAME_MAX_LENGTH} characters allowed.)`
-      };
-    } else {
-      return {
-        validateStatus: null,
-        errorMsg: null
-      };
-    }
-  };
-
   validateUsernameAvailability() {
     // First check for client side errors in username
     const usernameValue = this.state.username.value;
-    const usernameValidation = this.validateUsername(usernameValue);
+    const usernameValidation = validateUsername(usernameValue);
 
     if (usernameValidation.validateStatus === "error") {
       this.setState({
@@ -416,7 +299,7 @@ class EditStudent extends Component {
   validateEmailAvailability() {
     // First check for client side errors in email
     const emailValue = this.state.email.value;
-    const emailValidation = this.validateEmail(emailValue);
+    const emailValidation = validateEmail(emailValue);
 
     if (emailValidation.validateStatus === "error") {
       this.setState({
@@ -467,25 +350,6 @@ class EditStudent extends Component {
         });
       });
   }
-
-  validatePassword = password => {
-    if (password.length < PASSWORD_MIN_LENGTH) {
-      return {
-        validateStatus: "error",
-        errorMsg: `Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)`
-      };
-    } else if (password.length > PASSWORD_MAX_LENGTH) {
-      return {
-        validationStatus: "error",
-        errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
-    }
-  };
 }
 
 export default EditStudent;
