@@ -40,9 +40,6 @@ public class CriteriaService {
     @Autowired
     private UserRepository userRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(CriteriaService.class);
-
-
     public Criteria createCriteria(User user, CriteriaRequest criteriaRequest) {
         Criteria criteria = new Criteria();
         criteria.setUser(user);
@@ -53,23 +50,49 @@ public class CriteriaService {
         return criteriaRepository.save(criteria);
     }
 
-    public ResponseEntity<Object> updateCriteriaById(@RequestBody Criteria criteria, @PathVariable Long criteria_id, User user) {
+    public PagedResponse<CriteriaResponse> getCriteriaCreatedBy(String username, UserPrincipal currentUser, int page,
+            int size) {
+        validatePageNumberAndSize(page, size);
 
-        Optional<Criteria> criteriaOptional = criteriaRepository.findById(criteria_id);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+
+        // Retrieve all criterias created by the given username
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
+        Page<Criteria> criterias = criteriaRepository.findByCreatedBy(user.getId(), pageable);
+
+        if (criterias.getNumberOfElements() == 0) {
+            return new PagedResponse<>(Collections.emptyList(), criterias.getNumber(), criterias.getSize(),
+                    criterias.getTotalElements(), criterias.getTotalPages(), criterias.isLast());
+        }
+
+        // Map criterias to CriteriaResponses
+        List<CriteriaResponse> CriteriaResponses = criterias.map(criteria -> {
+            return ModelMapper.mapCriteriaToCriteriaResponse(criteria, user);
+        }).getContent();
+
+        return new PagedResponse<>(CriteriaResponses, criterias.getNumber(), criterias.getSize(),
+                criterias.getTotalElements(), criterias.getTotalPages(), criterias.isLast());
+    }
+
+    public ResponseEntity<Object> updateCriteriaById(@RequestBody Criteria criteria, @PathVariable Long criteriaId,
+            User user) {
+
+        Optional<Criteria> criteriaOptional = criteriaRepository.findById(criteriaId);
 
         if (!criteriaOptional.isPresent())
             return ResponseEntity.notFound().build();
 
-        criteria.setId(criteria_id);
+        criteria.setId(criteriaId);
         criteria.setUser(user);
         criteriaRepository.save(criteria);
         return ResponseEntity.ok(new ApiResponse(true, "Criteria Updated Successfully"));
 
     }
 
-    public ResponseEntity<?> deleteById(Long criteria_id) {
-        if (criteriaRepository.findById(criteria_id).isPresent()){
-            criteriaRepository.deleteById(criteria_id);
+    public ResponseEntity<?> deleteById(Long criteriaId) {
+        if (criteriaRepository.findById(criteriaId).isPresent()) {
+            criteriaRepository.deleteById(criteriaId);
             return ResponseEntity.ok(new ApiResponse(true, "Criteria Deleted Successfully"));
         }
         return ResponseEntity.ok(new ApiResponse(false, "Criteria Deleted is Unsuccessful"));
@@ -90,16 +113,18 @@ public class CriteriaService {
     }
 
     /** PROTOTYPE OF UPDATE BY NAME **/
-    // public ResponseEntity<Object> updateCriteriaByName(@RequestBody Criteria criteria, @PathVariable String name) {
+    // public ResponseEntity<Object> updateCriteriaByName(@RequestBody Criteria
+    // criteria, @PathVariable String name) {
 
-    //     Optional<Criteria> criteriaOptional = criteriaRepository.findByName(name);
+    // Optional<Criteria> criteriaOptional = criteriaRepository.findByName(name);
 
-    //     if (!criteriaOptional.isPresent())
-    //         return ResponseEntity.notFound().build();
+    // if (!criteriaOptional.isPresent())
+    // return ResponseEntity.notFound().build();
 
-    //     criteria.setId(courseId);
-    //     courseRepository.save(criteria);
-    //     return ResponseEntity.ok(new ApiResponse(true, "Course Updated Successfully"));
+    // criteria.setId(criteriaId);
+    // courseRepository.save(criteria);
+    // return ResponseEntity.ok(new ApiResponse(true, "Course Updated
+    // Successfully"));
     // }
 
 }

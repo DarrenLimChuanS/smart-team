@@ -4,10 +4,12 @@ import com.example.polls.model.Course;
 import com.example.polls.model.Poll;
 import com.example.polls.model.User;
 import com.example.polls.model.Section;
+import com.example.polls.model.Criteria;
 import com.example.polls.payload.ChoiceResponse;
 import com.example.polls.payload.CourseResponse;
 import com.example.polls.payload.PollResponse;
 import com.example.polls.payload.SectionResponse;
+import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.UserSummary;
 
 import java.time.Instant;
@@ -82,6 +84,22 @@ public class ModelMapper {
         sectionResponse.setCreatedBy(creatorSummary);
 
         return sectionResponse;
+    }
+
+    public static CriteriaResponse mapCriteriaToCriteriaResponse(Criteria criteria, User creator) {
+        CriteriaResponse criteriaResponse = new CriteriaResponse();
+        criteriaResponse.setId(criteria.getId());
+        criteriaResponse.setName(criteria.getName());
+        criteriaResponse.setType(criteria.getType());
+        criteriaResponse.setGraded(criteria.getGraded());
+        criteriaResponse.setDescription(criteria.getDescription());
+        criteriaResponse.setQuestionnaire(criteria.getQuestionnaire());
+        criteriaResponse.setCreationDateTime(criteria.getCreatedAt());
+
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        criteriaResponse.setCreatedBy(creatorSummary);
+
+        return criteriaResponse;
     }
 
 }

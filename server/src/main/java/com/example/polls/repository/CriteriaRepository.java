@@ -1,33 +1,27 @@
 package com.example.polls.repository;
 
 import com.example.polls.model.Criteria;
+import com.example.polls.model.Course;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by rajeevkumarsingh on 02/08/17.
- */
 @Repository
-public interface CriteriaRepository extends JpaRepository<Criteria, Long>{
-		
-    // Optional<Criteria> findByEmail(String email);
-
-    // Optional<Criteria> findByUsernameOrEmail(String username, String email);
-
-    // List<Criteria> findByIdIn(List<Long> userIds);
-
-    // Optional<Criteria> findByUsername(String username);
-
-    // Boolean existsByName(String name);
-
-    // Boolean existsByEmail(String email);
-
+public interface CriteriaRepository extends JpaRepository<Criteria, Long> {
     Boolean existsByName(String name);
+
+    Page<Criteria> findByCreatedBy(Long userId, Pageable pageable);
+
     Optional<Criteria> findByName(String name);
-    Optional<Criteria> findById(Long criteria_id);
-    void deleteById(Long criteria_id);
+
+    Optional<Criteria> findById(Long criteriaId);
+
+    void deleteById(Long criteriaId);
+
     List<Criteria> findAll();
 }

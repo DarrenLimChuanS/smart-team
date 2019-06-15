@@ -24,3 +24,5 @@ export const GPA_MAX = 5.0;
 export const COURSE_LIST_SIZE = 30;
 
 export const SECTION_LIST_SIZE = 30;
+
+export const CRITERIA_LIST_SIZE = 30;

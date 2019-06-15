@@ -4,7 +4,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class CriteriaRequest {
-    
 
     @NotBlank
     @Size(max = 40)
@@ -18,7 +17,6 @@ public class CriteriaRequest {
     private String description;
 
     private Boolean graded;
-    
 
     public String getName() {
         return name;

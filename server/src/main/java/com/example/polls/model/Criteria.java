@@ -1,6 +1,6 @@
 package com.example.polls.model;
 
-import com.example.polls.model.audit.DateAudit;
+import com.example.polls.model.audit.UserDateAudit;
 import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -11,20 +11,12 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/**
- * Created by rajeevkumarsingh on 01/08/17.
- */
-
 @Entity
-@Table(name = "criteria", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-            "name"
-        })
-})
-public class Criteria extends DateAudit {
+@Table(name = "criteria", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
+public class Criteria extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long criteria_id;
+    private Long criteriaId;
 
     @NotBlank
     @Size(max = 40)
@@ -47,7 +39,7 @@ public class Criteria extends DateAudit {
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "criteria_questionnaires", joinColumns = @JoinColumn(name = "criteria_id"), inverseJoinColumns = @JoinColumn(name = "questionnaire_id"))
+    @JoinTable(name = "criteria_questionnaires", joinColumns = @JoinColumn(name = "criteriaId"), inverseJoinColumns = @JoinColumn(name = "questionnaire_id"))
     private Set<Questionnaire> questionnaire = new HashSet<>();
 
     public Criteria() {
@@ -62,11 +54,11 @@ public class Criteria extends DateAudit {
     }
 
     public Long getId() {
-        return criteria_id;
+        return criteriaId;
     }
 
-    public void setId(Long criteria_id) {
-        this.criteria_id = criteria_id;
+    public void setId(Long criteriaId) {
+        this.criteriaId = criteriaId;
     }
 
     public String getName() {
@@ -117,12 +109,4 @@ public class Criteria extends DateAudit {
         this.questionnaire = questionnaire;
     }
 
-    // public Questionnaire getQuestionnaire() {
-    //     return questionnaire;
-    // }
-
-    // public void setTeacher(Questionnaire questionnaire) {
-    //     this.questionnaire = questionnaire;
-    // }
-    
 }

@@ -7,9 +7,11 @@ import com.example.polls.repository.CourseRepository;
 import com.example.polls.repository.PollRepository;
 import com.example.polls.repository.SectionRepository;
 import com.example.polls.repository.UserRepository;
+import com.example.polls.repository.CriteriaRepository;
 import com.example.polls.repository.VoteRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.CourseService;
+import com.example.polls.service.CriteriaService;
 import com.example.polls.service.PollService;
 import com.example.polls.service.SectionService;
 import com.example.polls.security.CurrentUser;
@@ -37,6 +39,9 @@ public class UserController {
     private SectionRepository sectionRepository;
 
     @Autowired
+    private CriteriaRepository criteriaRepository;
+
+    @Autowired
     private VoteRepository voteRepository;
 
     @Autowired
@@ -47,6 +52,9 @@ public class UserController {
 
     @Autowired
     private SectionService sectionService;
+
+    @Autowired
+    private CriteriaService criteriaService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -106,6 +114,14 @@ public class UserController {
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
         return sectionService.getSectionsCreatedBy(username, currentUser, page, size);
+    }
+
+    @GetMapping("/users/{username}/criteria")
+    public PagedResponse<CriteriaResponse> getCriteriaCreatedBy(@PathVariable(value = "username") String username,
+            @CurrentUser UserPrincipal currentUser,
+            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+        return criteriaService.getCriteriaCreatedBy(username, currentUser, page, size);
     }
 
     @GetMapping("/users/{username}/votes")

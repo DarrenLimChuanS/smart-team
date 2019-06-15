@@ -239,6 +239,18 @@ class App extends Component {
                   )}
                   handleLogout={this.handleLogout}
                 />
+                <Route
+                  authenticated={this.state.isAuthenticated}
+                  path="/criteria"
+                  render={props => (
+                    <CriteriaList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
+                  handleLogout={this.handleLogout}
+                />
                 handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />

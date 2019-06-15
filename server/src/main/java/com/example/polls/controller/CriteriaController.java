@@ -37,9 +37,6 @@ public class CriteriaController {
     private PollRepository pollRepository;
 
     @Autowired
-    private VoteRepository voteRepository;
-
-    @Autowired
     private CriteriaRepository criteriaRepository;
 
     @Autowired
@@ -48,50 +45,46 @@ public class CriteriaController {
     @Autowired
     private PollService pollService;
 
-    private static final Logger logger = LoggerFactory.getLogger(CriteriaController.class);
-
-    @GetMapping("/criteria/checkNameAvailability")
+    @GetMapping("/checkNameAvailability")
     public CriteriaNameAvailability checkNameAvailability(@RequestParam(value = "name") String name) {
         Boolean isAvailable = !criteriaRepository.existsByName(name);
         return new CriteriaNameAvailability(isAvailable);
     }
 
-
-    @GetMapping(("/criteria/getAllCriteria"))
+    @GetMapping()
     public List<Criteria> getCriteria() {
         return criteriaRepository.findAll();
     }
 
-    @PostMapping("/criteria/{user_id}/createCriteria")
-    // @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> createCriteria(@PathVariable(value = "user_id") Long user_id,@RequestBody CriteriaRequest criteriaRequest) {
+    @PostMapping
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> createCriteria(@PathVariable(value = "userId") Long userId,
+            @RequestBody CriteriaRequest criteriaRequest) {
 
-        return userRepository.findById(user_id).map(user -> {
+        return userRepository.findById(userId).map(user -> {
 
             Criteria criteria = criteriaService.createCriteria(user, criteriaRequest);
 
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{critiera_Id}")
-                .buildAndExpand(criteria.getId()).toUri();
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{criteriaId}")
+                    .buildAndExpand(criteria.getId()).toUri();
 
             return ResponseEntity.created(location).body(new ApiResponse(true, "Criteria Created Successfully"));
-        }).orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
+        }).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }
 
-
-
-    @PutMapping("/criteria/update/{criteria_id}/{user_id}")
-    // @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Object> updateCriteria(@RequestBody Criteria criteria, @PathVariable Long criteria_id, @PathVariable Long user_id) {
+    @PutMapping("{criteriaId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> updateCriteria(@RequestBody Criteria criteria, @PathVariable Long criteriaId,
+            @PathVariable Long user_id) {
         return userRepository.findById(user_id).map(user -> {
-            return criteriaService.updateCriteriaById(criteria, criteria_id, user);
+            return criteriaService.updateCriteriaById(criteria, criteriaId, user);
         }).orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
     }
 
-    @DeleteMapping("/criteria/delete/{criteria_id}")
-    // @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> deleteCriteria(@PathVariable long criteria_id) {
-        return criteriaService.deleteById(criteria_id);
+    @DeleteMapping("/delete/{criteriaId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteCriteria(@PathVariable long criteriaId) {
+        return criteriaService.deleteById(criteriaId);
     }
-
 
 }

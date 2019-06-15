@@ -1,5 +1,10 @@
 package com.example.polls.payload;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.example.polls.model.Questionnaire;
+
 import java.time.Instant;
 
 public class CriteriaResponse {
@@ -8,6 +13,9 @@ public class CriteriaResponse {
     private String description;
     private String type;
     private Boolean graded;
+    private Set<Questionnaire> questionnaire = new HashSet<>();
+    private UserSummary createdBy;
+    private Instant creationDateTime;
 
     public Long getId() {
         return id;
@@ -47,5 +55,29 @@ public class CriteriaResponse {
 
     public void setGraded(Boolean graded) {
         this.graded = graded;
+    }
+
+    public Set<Questionnaire> getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(Set<Questionnaire> questionnaire) {
+        this.questionnaire = questionnaire;
+    }
+
+    public UserSummary getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(UserSummary createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getCreationDateTime() {
+        return creationDateTime;
+    }
+
+    public void setCreationDateTime(Instant creationDateTime) {
+        this.creationDateTime = creationDateTime;
     }
 }

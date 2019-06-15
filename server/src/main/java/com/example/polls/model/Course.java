@@ -31,10 +31,11 @@ public class Course extends UserDateAudit {
 
     }
 
-    public Course(String course_code, String name, String description) {
+    public Course(String course_code, String name, String description, Set<Section> sections) {
         this.course_code = course_code;
         this.name = name;
         this.description = description;
+        this.sections = sections;
     }
 
     public Long getId() {
@@ -69,4 +70,11 @@ public class Course extends UserDateAudit {
         this.description = description;
     }
 
+    public Set<Section> getSection() {
+        return sections;
+    }
+
+    public void setSection(Set<Section> sections) {
+        this.sections = sections;
+    }
 }
