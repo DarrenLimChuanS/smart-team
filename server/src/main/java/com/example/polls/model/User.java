@@ -1,6 +1,7 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.DateAudit;
+import com.example.polls.model.Student;
 import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -43,13 +44,14 @@ public class User extends DateAudit {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    // MAPPING TESTING
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Criteria> criteria;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Questionnaire> questionnaire;
 
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Student> students;
 
     public User() {
 
@@ -110,6 +112,8 @@ public class User extends DateAudit {
         this.roles = roles;
     }
 
+    <<<<<<<HEAD
+
     public Set<Criteria> getCriteria() {
         return criteria;
     }
@@ -124,5 +128,14 @@ public class User extends DateAudit {
 
     public void setQuestionnaire(Set<Questionnaire> questionnaire) {
         this.questionnaire = questionnaire;
+=======
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+>>>>>>> 5423e26dd4476e5b3fb3b140c948aa92487c4880
     }
 }

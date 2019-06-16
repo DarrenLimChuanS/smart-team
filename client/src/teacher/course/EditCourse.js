@@ -1,29 +1,16 @@
 import React, { Component } from "react";
 import { createCourse, updateCourse, getCourseById } from "../../util/APIUtils";
-
 import { Form, Input, Button, notification, Typography } from "antd";
+import { Course } from "../../util/FeatureStates";
+import { validateNotEmpty, validateNotRequired } from "../../util/Validators";
+
 const { Title } = Typography;
 const FormItem = Form.Item;
 
 class EditCourse extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: {
-        value: 0
-      },
-      courseCode: {
-        value: ""
-      },
-      name: {
-        value: ""
-      },
-      description: {
-        value: ""
-      },
-      createdBy: {},
-      createdAt: ""
-    };
+    this.state = Course();
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
@@ -32,22 +19,16 @@ class EditCourse extends Component {
   async componentDidMount() {
     if (this.props.match.params.id !== "new") {
       getCourseById(this.props.match.params.id).then(response => {
-        this.setState({
-          id: {
-            value: response.id
-          },
-          courseCode: {
-            value: response.courseCode
-          },
-          name: {
-            value: response.name
-          },
-          description: {
-            value: response.description
-          },
-          createdBy: response.createdBy,
-          createdAt: response.createdAt
-        });
+        this.setState(
+          Course(
+            response.id,
+            response.courseCode,
+            response.name,
+            response.description,
+            response.createdBy,
+            response.createdAt
+          )
+        );
       });
     }
   }
@@ -60,7 +41,7 @@ class EditCourse extends Component {
     this.setState({
       [inputName]: {
         value: inputValue,
-        ...validationFun(inputValue)
+        ...validationFun(inputValue, target.placeholder)
       }
     });
   }
@@ -129,7 +110,7 @@ class EditCourse extends Component {
                 placeholder="Course Code"
                 value={courseCode.value}
                 onChange={event =>
-                  this.handleInputChange(event, this.validateCourseCode)
+                  this.handleInputChange(event, validateNotEmpty)
                 }
               />
             </FormItem>
@@ -146,7 +127,7 @@ class EditCourse extends Component {
                 placeholder="Name"
                 value={name.value}
                 onChange={event =>
-                  this.handleInputChange(event, this.validateName)
+                  this.handleInputChange(event, validateNotEmpty)
                 }
               />
             </FormItem>
@@ -164,7 +145,7 @@ class EditCourse extends Component {
                 placeholder="Description"
                 value={description.value}
                 onChange={event =>
-                  this.handleInputChange(event, this.validateDescription)
+                  this.handleInputChange(event, validateNotRequired)
                 }
               />
             </FormItem>
@@ -184,42 +165,6 @@ class EditCourse extends Component {
       </div>
     );
   }
-
-  // Validation Functions
-  validateCourseCode = courseCode => {
-    if (courseCode === "") {
-      return {
-        validateStatus: "error",
-        errorMsg: `Course Code cannot be empty.`
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
-    }
-  };
-
-  validateName = name => {
-    if (name === "") {
-      return {
-        validateStatus: "error",
-        errorMsg: `Name cannot be empty.`
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
-    }
-  };
-
-  validateDescription = () => {
-    return {
-      validateStatus: "success",
-      errorMsg: null
-    };
-  };
 }
 
 export default EditCourse;

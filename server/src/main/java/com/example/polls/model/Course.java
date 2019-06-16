@@ -31,7 +31,9 @@ public class Course extends UserDateAudit {
 
     }
 
-    public Course(String course_code, String name, String description, Set<Section> sections) {
+    public Course(Long id, String course_code, String name, String description, String available,
+            Set<Section> sections) {
+        this.id = id;
         this.course_code = course_code;
         this.name = name;
         this.description = description;
@@ -70,11 +72,11 @@ public class Course extends UserDateAudit {
         this.description = description;
     }
 
-    public Set<Section> getSection() {
+    public Set<Section> getSections() {
         return sections;
     }
 
-    public void setSection(Set<Section> sections) {
+    public void setSections(Set<Section> sections) {
         this.sections = sections;
     }
 }

@@ -6,6 +6,7 @@ import com.example.polls.payload.*;
 import com.example.polls.repository.CourseRepository;
 import com.example.polls.repository.PollRepository;
 import com.example.polls.repository.SectionRepository;
+import com.example.polls.repository.StudentRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.repository.CriteriaRepository;
 import com.example.polls.repository.VoteRepository;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -40,6 +42,9 @@ public class UserController {
 
     @Autowired
     private CriteriaRepository criteriaRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Autowired
     private VoteRepository voteRepository;
@@ -90,6 +95,24 @@ public class UserController {
                 pollCount, voteCount);
 
         return userProfile;
+    }
+
+    // Function to select all User
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    // Function to select User by ID
+    @GetMapping("/users/id/{id}")
+    public User getUserById(@PathVariable Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+    }
+
+    // Function to delete User
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userRepository.deleteById(id);
     }
 
     @GetMapping("/users/{username}/polls")
