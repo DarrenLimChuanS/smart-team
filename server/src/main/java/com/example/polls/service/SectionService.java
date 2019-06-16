@@ -10,7 +10,6 @@ import com.example.polls.payload.SectionRequest;
 import com.example.polls.payload.SectionResponse;
 import com.example.polls.repository.SectionRepository;
 import com.example.polls.repository.UserRepository;
-import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +93,7 @@ public class SectionService {
         return sectionRepository.save(section);
     }
 
-    public SectionResponse getSectionById(Long sectionId, UserPrincipal currentUser) {
+    public SectionResponse getSectionById(Long sectionId) {
         Section section = sectionRepository.findBySectionId(sectionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Section", "id", sectionId));
 

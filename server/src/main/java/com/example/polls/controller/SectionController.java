@@ -8,8 +8,6 @@ import com.example.polls.payload.SectionResponse;
 import com.example.polls.repository.CourseRepository;
 import com.example.polls.repository.SectionRepository;
 import com.example.polls.repository.StudentRepository;
-import com.example.polls.security.CurrentUser;
-import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.CourseService;
 import com.example.polls.service.SectionService;
 import com.example.polls.util.AppConstants;
@@ -63,8 +61,8 @@ public class SectionController {
 
     @GetMapping("/{sectionId}")
     @PreAuthorize("hasRole('USER')")
-    public SectionResponse getSectionById(@CurrentUser UserPrincipal currentUser, @PathVariable Long sectionId) {
-        return sectionService.getSectionById(sectionId, currentUser);
+    public SectionResponse getSectionById(@PathVariable Long sectionId) {
+        return sectionService.getSectionById(sectionId);
     }
 
     @PutMapping("/{sectionId}")

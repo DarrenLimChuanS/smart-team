@@ -63,6 +63,17 @@ public class QuestionnaireService {
                 questionnaires.getTotalElements(), questionnaires.getTotalPages(), questionnaires.isLast());
     }
 
+    public QuestionnaireResponse getQuestionnaireById(Long questionnaireId, UserPrincipal currentUser) {
+        Questionnaire questionnaire = questionnaireRepository.findByQuestionnaireId(questionnaireId)
+                .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "id", questionnaireId));
+
+        // Retrieve questionnaire creator details
+        User creator = userRepository.findById(questionnaire.getCreatedBy())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", questionnaire.getCreatedBy()));
+
+        return ModelMapper.mapQuestionnaireToQuestionnaireResponse(questionnaire, creator);
+    }
+
     public Questionnaire createQuestionnaire(QuestionnaireRequest questionnaireRequest) {
         Questionnaire questionnaire = new Questionnaire();
         questionnaire.setName(questionnaireRequest.getName());
@@ -97,17 +108,20 @@ public class QuestionnaireService {
     }
 
     public ResponseEntity<Object> updateQuestionnaireById(@RequestBody Questionnaire questionnaire,
-            @PathVariable Long questionnaire_id, User user) {
+            @PathVariable long questionnaireId) {
 
-        Optional<Questionnaire> questionnaireOptional = questionnaireRepository.findById(questionnaire_id);
+        Optional<Questionnaire> questionnaireOptional = questionnaireRepository.findByQuestionnaireId(questionnaireId);
 
-        if (!questionnaireOptional.isPresent())
+        if (questionnaireOptional.isEmpty())
             return ResponseEntity.notFound().build();
 
-        questionnaire.setQuestionnaireId(questionnaire_id);
-        questionnaire.setUser(user);
+        questionnaire.setQuestionnaireId(questionnaireId);
+        questionnaire.setName(questionnaireOptional.get().getName());
+        questionnaire.setInstruction(questionnaireOptional.get().getInstruction());
+        questionnaire.setCreatedAt(questionnaireOptional.get().getCreatedAt());
+        questionnaire.setCreatedBy(questionnaireOptional.get().getCreatedBy());
         questionnaireRepository.save(questionnaire);
-        return ResponseEntity.ok(new ApiResponse(true, "Questionnaire Updated Successfully"));
+        return ResponseEntity.ok(new ApiResponse(true, "Questionnaire Created Successfully"));
     }
 
     public ResponseEntity<?> deleteById(Long questionnaire_id) {
@@ -116,10 +130,6 @@ public class QuestionnaireService {
             return ResponseEntity.ok(new ApiResponse(true, "Questionnaire Deleted Successfully"));
         }
         return ResponseEntity.ok(new ApiResponse(false, "Questionnaire Deleted is Unsuccessful"));
-    }
-
-    public List<Questionnaire> getAllQuestionnaire() {
-        return questionnaireRepository.findAll();
     }
 
     private void validatePageNumberAndSize(int page, int size) {

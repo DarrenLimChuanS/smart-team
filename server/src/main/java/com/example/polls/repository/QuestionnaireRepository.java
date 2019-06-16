@@ -19,7 +19,7 @@ public interface QuestionnaireRepository extends JpaRepository<Questionnaire, Lo
 
     Optional<Questionnaire> findByName(String name);
 
-    Optional<Questionnaire> findById(Long questionnaire_id);
+    Optional<Questionnaire> findByQuestionnaireId(Long questionnaire_id);
 
     Page<Questionnaire> findByCreatedBy(Long userId, Pageable pageable);
 
