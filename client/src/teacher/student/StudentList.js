@@ -1,72 +1,81 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import { getUserCreatedStudents, deleteStudent } from "../../util/APIUtils";
+import {
+  Button,
+  Divider,
+  Row,
+  Col,
+  Table,
+  Typography,
+  notification
+} from "antd";
+import Moment from "react-moment";
 
 const { Title } = Typography;
 
-const data = [
-  {
-    key: "1",
-    batchNumber: "49",
-    name: "Joe Hamilton",
-    email: "joe_hamilton@gmail.com",
-    studentId: "1128290",
-    birthDate: "1/1/1990",
-    gender: "Male",
-    address: "5133 Homestead Rd",
-    gpa: "4.8"
-  },
-  {
-    key: "2",
-    batchNumber: "49",
-    name: "Riley Lee",
-    email: "riley_lee@gmail.com",
-    studentId: "1128291",
-    birthDate: "1/4/1992",
-    gender: "Female",
-    address: "4205 Plum St",
-    gpa: "4.4"
-  },
-  {
-    key: "3",
-    batchNumber: "49",
-    name: "Isaiah Watts",
-    email: "isaiah_watts@gmail.com",
-    studentId: "1128292",
-    birthDate: "2/3/1981",
-    gender: "Male",
-    address: "2390 Camden Ave",
-    gpa: "4.5"
-  },
-  {
-    key: "4",
-    batchNumber: "49",
-    name: "Annette Daniels",
-    email: "annette_daniels@gmail.com",
-    studentId: "1128293",
-    birthDate: "3/4/1992",
-    gender: "Female",
-    address: "1460 Hebron Pkwy",
-    gpa: "3.2"
-  },
-  {
-    key: "5",
-    batchNumber: "49",
-    name: "Jeremy Davidson",
-    email: "jeremy_davidson@gmail.com",
-    studentId: "1128294",
-    birthDate: "4/9/1991",
-    gender: "Male",
-    address: "6986 Paddington Ct",
-    gpa: "2.8"
-  }
-];
-
 class StudentList extends Component {
-  state = {
-    filteredInfo: null,
-    sortedInfo: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      filteredInfo: null,
+      sortedInfo: null,
+      students: [],
+      page: 0,
+      size: 10,
+      totalElements: 0,
+      totalPages: 0,
+      last: true,
+      isLoading: false
+    };
+    this.loadStudentList = this.loadStudentList.bind(this);
+  }
+
+  loadStudentList() {
+    const { currentUser } = this.props;
+    let promise;
+
+    if (currentUser) {
+      promise = getUserCreatedStudents(currentUser.id);
+    }
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        const students = this.state.students.slice();
+        this.setState({
+          students: students.concat(response),
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
+  componentDidMount() {
+    this.loadStudentList();
+  }
+
+  componentDidUpdate(nextProps) {
+    if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
+      // Reset State
+      this.setState({
+        students: [],
+        isLoading: false
+      });
+      this.loadStudentList();
+    }
+  }
 
   handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -76,6 +85,26 @@ class StudentList extends Component {
     });
   };
 
+  deleteStudentWithId(id) {
+    deleteStudent(id)
+      .then(response => {
+        let updatedStudents = [...this.state.students].filter(i => i.id !== id);
+        this.setState({ students: updatedStudents });
+        this.props.history.push("/student");
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully deleted a student."
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
+  }
+
   render() {
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
@@ -84,12 +113,21 @@ class StudentList extends Component {
     const columns = [
       {
         title: "#",
-        dataIndex: "key",
-        key: "key",
-        filteredValue: filteredInfo.key || null,
-        onFilter: (value, record) => record.key.includes(value),
-        sorter: (a, b) => a.key - b.key,
-        sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
+        dataIndex: "id",
+        key: "id",
+        filteredValue: filteredInfo.id || null,
+        onFilter: (value, record) => record.id.includes(value),
+        sorter: (a, b) => a.id - b.id,
+        sortOrder: sortedInfo.columnKey === "id" && sortedInfo.order
+      },
+      {
+        title: "Batch_No",
+        dataIndex: "batch_no",
+        key: "batch_no",
+        filteredValue: filteredInfo.batch_no || null,
+        onFilter: (value, record) => record.batch_no.includes(value),
+        sorter: (a, b) => a.batch_no - b.batch_no,
+        sortOrder: sortedInfo.columnKey === "batch_no" && sortedInfo.order
       },
       {
         title: "Name",
@@ -101,6 +139,15 @@ class StudentList extends Component {
         sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order
       },
       {
+        title: "Username",
+        dataIndex: "username",
+        key: "username",
+        filteredValue: filteredInfo.username || null,
+        onFilter: (value, record) => record.username.includes(value),
+        sorter: (a, b) => a.username.length - b.username.length,
+        sortOrder: sortedInfo.columnKey === "username" && sortedInfo.order
+      },
+      {
         title: "Email",
         dataIndex: "email",
         key: "email",
@@ -110,61 +157,27 @@ class StudentList extends Component {
         sortOrder: sortedInfo.columnKey === "email" && sortedInfo.order
       },
       {
-        title: "Student ID",
-        dataIndex: "studentId",
-        key: "studentId",
-        sorter: (a, b) => a.studentId - b.studentId,
-        sortOrder: sortedInfo.columnKey === "studentId" && sortedInfo.order
-      },
-      {
-        title: "Birth Date",
-        dataIndex: "birthDate",
-        key: "birthDate",
-        filteredValue: filteredInfo.birthDate || null,
-        onFilter: (value, record) => record.birthDate.includes(value),
-        sorter: (a, b) => a.birthDate.length - b.birthDate.length,
-        sortOrder: sortedInfo.columnKey === "birthDate" && sortedInfo.order
-      },
-      {
-        title: "Gender",
-        dataIndex: "gender",
-        key: "gender",
-        sorter: (a, b) => a.gender - b.gender,
-        sortOrder: sortedInfo.columnKey === "gender" && sortedInfo.order
-      },
-      {
-        title: "Address",
-        dataIndex: "address",
-        key: "address",
-        filteredValue: filteredInfo.address || null,
-        onFilter: (value, record) => record.address.includes(value),
-        sorter: (a, b) => a.address.length - b.address.length,
-        sortOrder: sortedInfo.columnKey === "address" && sortedInfo.order
-      },
-      {
-        title: "GPA",
-        dataIndex: "gpa",
-        key: "gpa",
-        filteredValue: filteredInfo.gpa || null,
-        onFilter: (value, record) => record.gpa.includes(value),
-        sorter: (a, b) => a.gpa - b.gpa,
-        sortOrder: sortedInfo.columnKey === "gpa" && sortedInfo.order
+        title: "Updated_at",
+        dataIndex: "updatedAt",
+        key: "updatedAt",
+        filteredValue: filteredInfo.updatedAt || null,
+        onFilter: (value, record) => record.updatedAt.includes(value),
+        sorter: (a, b) => a.updatedAt.length - b.updatedAt.length,
+        sortOrder: sortedInfo.columnKey === "updatedAt" && sortedInfo.order,
+        render: updatedAt => <Moment>{updatedAt}</Moment>
       },
       {
         title: "Action",
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">Reset Password</a>
+            <Link to={"/student/" + record.id}>Edit</Link>
             <Divider type="vertical" />
-            <Link to="/student/edit">Edit</Link>
-            <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <a onClick={() => this.deleteStudentWithId(record.id)}>Delete</a>
           </span>
         )
       }
     ];
-
     return (
       <React.Fragment>
         <Row>
@@ -182,7 +195,7 @@ class StudentList extends Component {
         <Row>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={this.state.students}
             onChange={this.handleChange}
           />
         </Row>

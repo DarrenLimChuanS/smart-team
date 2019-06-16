@@ -1,26 +1,31 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.DateAudit;
-import com.example.polls.model.Student;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/**
- * Created by rajeevkumarsingh on 01/08/17.
- */
-
+/* Map this entity class to student table. */
 @Entity
-@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
+@Table(name = "student", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
         @UniqueConstraint(columnNames = { "email" }) })
-public class User extends DateAudit {
+public class Student extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    private Long batch_no;
 
     @NotBlank
     @Size(max = 40)
@@ -40,30 +45,43 @@ public class User extends DateAudit {
     @Size(max = 100)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "teacher_id", nullable = false)
+    @JsonIgnore
+    private User teacher;
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Student> students;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "students")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Set<Section> sections = new HashSet<>();
 
-    public User() {
+    public Student() {
 
     }
 
-    public User(String name, String username, String email, String password) {
+    public Student(Long batch_no, String name, String username, String email, String password) {
+        this.batch_no = batch_no;
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
     }
 
+    /* Getters and Setters */
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getBatch_no() {
+        return batch_no;
+    }
+
+    public void setBatch_no(Long batch_no) {
+        this.batch_no = batch_no;
     }
 
     public String getUsername() {
@@ -98,19 +116,19 @@ public class User extends DateAudit {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public User getTeacher() {
+        return teacher;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setTeacher(User teacher) {
+        this.teacher = teacher;
     }
 
-    public Set<Student> getStudents() {
-        return students;
+    public Set<Section> getSections() {
+        return sections;
     }
 
-    public void setStudents(Set<Student> students) {
-        this.students = students;
+    public void setSections(Set<Section> sections) {
+        this.sections = sections;
     }
 }

@@ -1,24 +1,36 @@
 import React, { Component } from "react";
-import { signup } from "../../util/APIUtils";
-
+import { createCourse, updateCourse, getCourseById } from "../../util/APIUtils";
 import { Form, Input, Button, notification, Typography } from "antd";
+import { Course } from "../../util/FeatureStates";
+import { validateNotEmpty, validateNotRequired } from "../../util/Validators";
+
 const { Title } = Typography;
 const FormItem = Form.Item;
 
 class EditCourse extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      courseId: {
-        value: ""
-      },
-      name: {
-        value: ""
-      }
-    };
+    this.state = Course();
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
+  }
+
+  async componentDidMount() {
+    if (this.props.match.params.id !== "new") {
+      getCourseById(this.props.match.params.id).then(response => {
+        this.setState(
+          Course(
+            response.id,
+            response.courseCode,
+            response.name,
+            response.description,
+            response.createdBy,
+            response.createdAt
+          )
+        );
+      });
+    }
   }
 
   handleInputChange(event, validationFun) {
@@ -29,25 +41,39 @@ class EditCourse extends Component {
     this.setState({
       [inputName]: {
         value: inputValue,
-        ...validationFun(inputValue)
+        ...validationFun(inputValue, target.placeholder)
       }
     });
+    console.log(this.state);
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
-    const signupRequest = {
-      courseId: this.state.courseId.value,
-      name: this.state.name.value
+    const createCourseRequest = {
+      courseCode: this.state.courseCode.value,
+      name: this.state.name.value,
+      description: this.state.description.value
     };
-    signup(signupRequest)
+
+    const updateCourseRequest = {
+      courseCode: this.state.courseCode.value,
+      name: this.state.name.value,
+      description: this.state.description.value
+    };
+    (this.state.id.value
+      ? updateCourse(this.state.id.value, updateCourseRequest)
+      : createCourse(createCourseRequest)
+    )
       .then(response => {
         notification.success({
           message: "Smart Team",
-          description: "Success! You have successfully added a new course."
+          description:
+            "Success! You have successfully " +
+            (this.state.id.value ? "updated" : "created") +
+            " a course."
         });
-        this.props.history.push("/login");
+        this.props.history.push("/course");
       })
       .catch(error => {
         notification.error({
@@ -60,48 +86,67 @@ class EditCourse extends Component {
 
   isFormInvalid() {
     return !(
-      this.state.courseId.validateStatus === "success" &&
+      this.state.courseCode.validateStatus === "success" &&
       this.state.name.validateStatus === "success"
     );
   }
 
   render() {
+    const { id, courseCode, name, description } = this.state;
     return (
       <div className="signup-container">
-        <Title level={2}>Edit Course</Title>
+        <Title level={2}>{id.value ? "Edit Course" : "Create Course"}</Title>
         <div className="signup-content">
           <Form onSubmit={this.handleSubmit} className="signup-form">
             <FormItem
-              label="Course ID"
+              label="Course Code"
               hasFeedback
-              validateStatus={this.state.courseId.validateStatus}
-              help={this.state.courseId.errorMsg}
+              validateStatus={courseCode.validateStatus}
+              help={courseCode.errorMsg}
             >
               <Input
                 size="large"
-                name="courseId"
+                name="courseCode"
                 autoComplete="off"
-                placeholder="Course ID"
-                value={this.state.courseId.value}
+                placeholder="Course Code"
+                value={courseCode.value}
                 onChange={event =>
-                  this.handleInputChange(event, this.validateCourseId)
+                  this.handleInputChange(event, validateNotEmpty)
                 }
               />
             </FormItem>
             <FormItem
               label="Name"
               hasFeedback
-              validateStatus={this.state.name.validateStatus}
-              help={this.state.name.errorMsg}
+              validateStatus={name.validateStatus}
+              help={name.errorMsg}
             >
               <Input
                 size="large"
                 name="name"
                 autoComplete="off"
                 placeholder="Name"
-                value={this.state.name.value}
+                value={name.value}
                 onChange={event =>
-                  this.handleInputChange(event, this.validateName)
+                  this.handleInputChange(event, validateNotEmpty)
+                }
+              />
+            </FormItem>
+            <FormItem
+              label="Description"
+              hasFeedback
+              validateStatus={description.validateStatus}
+              help={description.errorMsg}
+            >
+              <Input
+                type="textarea"
+                size="large"
+                name="description"
+                autoComplete="off"
+                placeholder="Description"
+                value={description.value}
+                onChange={event =>
+                  this.handleInputChange(event, validateNotRequired)
                 }
               />
             </FormItem>
@@ -113,7 +158,7 @@ class EditCourse extends Component {
                 className="signup-form-button"
                 disabled={this.isFormInvalid()}
               >
-                Update
+                {id.value ? "Update" : "Create"}
               </Button>
             </FormItem>
           </Form>
@@ -121,35 +166,6 @@ class EditCourse extends Component {
       </div>
     );
   }
-
-  // Validation Functions
-  validateCourseId = courseId => {
-    if (courseId === "") {
-      return {
-        validateStatus: "error",
-        errorMsg: `Course ID cannot be empty.`
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
-    }
-  };
-
-  validateName = name => {
-    if (name === "") {
-      return {
-        validateStatus: "error",
-        errorMsg: `Name cannot be empty.`
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
-    }
-  };
 }
 
 export default EditCourse;

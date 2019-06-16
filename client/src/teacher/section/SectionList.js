@@ -1,58 +1,108 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import {
+  getAllSections,
+  getUserCreatedSections,
+  deleteSection
+} from "../../util/APIUtils";
+import {
+  Button,
+  Divider,
+  Row,
+  Col,
+  Table,
+  Typography,
+  notification
+} from "antd";
 import "./SectionList.css";
+import { SECTION_LIST_SIZE } from "../../constants";
 
 const { Title } = Typography;
 
-const data = [
-  {
-    key: "1",
-    name: "Tri3-2009",
-    noOfStudent: 35,
-    course: "ICT1001",
-    year: "2009",
-    status: "Not Grouped"
-  },
-  {
-    key: "2",
-    name: "Tri2-2012",
-    noOfStudent: 36,
-    course: "ICT1002",
-    year: "2012",
-    status: "Pending (Automated Allocation)"
-  },
-  {
-    key: "3",
-    name: "Tri2-2010",
-    noOfStudent: 38,
-    course: "ICT1003",
-    year: "2010",
-    status: "Grouped"
-  },
-  {
-    key: "4",
-    name: "Tri2-2009",
-    noOfStudent: 34,
-    course: "ICT1004",
-    year: "2009",
-    status: "Not Grouped"
-  },
-  {
-    key: "5",
-    name: "Tri1-2012",
-    noOfStudent: 40,
-    course: "ICT1003",
-    year: "2012",
-    status: "Grouped"
-  }
-];
-
 class SectionList extends Component {
-  state = {
-    filteredInfo: null,
-    sortedInfo: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      filteredInfo: null,
+      sortedInfo: null,
+      sections: [],
+      page: 0,
+      size: 10,
+      totalElements: 0,
+      totalPages: 0,
+      last: true,
+      isLoading: false
+    };
+    this.loadSectionList = this.loadSectionList.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.deleteSectionWithId = this.deleteSectionWithId.bind(this);
+  }
+
+  loadSectionList(page = 0, size = SECTION_LIST_SIZE) {
+    let promise;
+    if (this.props.currentUser) {
+      promise = getUserCreatedSections(
+        this.props.currentUser.username,
+        page,
+        size
+      );
+    } else {
+      promise = getAllSections(page, size);
+    }
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        const sections = this.state.sections.slice();
+
+        this.setState({
+          sections: sections.concat(response.content),
+          page: response.page,
+          size: response.size,
+          totalElements: response.totalElements,
+          totalPages: response.totalPages,
+          last: response.last,
+          isLoading: false
+        });
+        console.log(sections.concat(response.content));
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
+  componentDidMount() {
+    this.loadSectionList();
+  }
+
+  componentDidUpdate(nextProps) {
+    if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
+      // Reset State
+      this.setState({
+        sections: [],
+        page: 0,
+        size: 10,
+        totalElements: 0,
+        totalPages: 0,
+        last: true,
+        isLoading: false
+      });
+      this.loadSectionList();
+    }
+  }
+
+  handleLoadMore() {
+    this.loadSectionList(this.state.page + 1);
+  }
 
   handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -62,6 +112,28 @@ class SectionList extends Component {
     });
   };
 
+  deleteSectionWithId(id) {
+    deleteSection(id)
+      .then(response => {
+        let updatedSections = [...this.state.sections].filter(
+          i => i.sectionId !== id
+        );
+        this.setState({ sections: updatedSections });
+        this.props.history.push("/section");
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully deleted a section."
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
+  }
+
   render() {
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
@@ -70,12 +142,10 @@ class SectionList extends Component {
     const columns = [
       {
         title: "#",
-        dataIndex: "key",
-        key: "key",
-        filteredValue: filteredInfo.key || null,
-        onFilter: (value, record) => record.key.includes(value),
-        sorter: (a, b) => a.key - b.key,
-        sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
+        dataIndex: "sectionId",
+        key: "sectionId",
+        sorter: (a, b) => a.sectionId - b.sectionId,
+        sortOrder: sortedInfo.columnKey === "sectionId" && sortedInfo.order
       },
       {
         title: "Name",
@@ -86,24 +156,17 @@ class SectionList extends Component {
       },
       {
         title: "No. of Students",
-        dataIndex: "noOfStudent",
-        key: "noOfStudent",
-        sorter: (a, b) => a.noOfStudent - b.noOfStudent,
-        sortOrder: sortedInfo.columnKey === "noOfStudent" && sortedInfo.order
+        dataIndex: "noOfStudents",
+        key: "noOfStudents",
+        sorter: (a, b) => a.noOfStudents - b.noOfStudents,
+        sortOrder: sortedInfo.columnKey === "noOfStudents" && sortedInfo.order
       },
       {
         title: "Course",
         dataIndex: "course",
         key: "course",
-        filters: [
-          { text: "ICT1001", value: "ICT1001" },
-          { text: "ICT1002", value: "ICT1002" },
-          { text: "ICT1003", value: "ICT1003" },
-          { text: "ICT1004", value: "ICT1004" }
-        ],
-        filteredValue: filteredInfo.course || null,
-        onFilter: (value, record) => record.course.includes(value),
-        sorter: (a, b) => a.course.length - b.course.length,
+        render: (text, record) => <span>{record.course.name}</span>,
+        sorter: (a, b) => a.course.name.length - b.course.name.length,
         sortOrder: sortedInfo.columnKey === "course" && sortedInfo.order
       },
       {
@@ -139,7 +202,9 @@ class SectionList extends Component {
             <Divider type="vertical" />
             <Link to="/section/edit">Edit</Link>
             <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <a onClick={() => this.deleteSectionWithId(record.sectionId)}>
+              Delete
+            </a>
           </span>
         )
       }
@@ -162,7 +227,8 @@ class SectionList extends Component {
         <Row>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={this.state.sections}
+            rowKey={record => record.id}
             onChange={this.handleChange}
           />
         </Row>

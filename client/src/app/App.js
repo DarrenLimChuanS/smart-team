@@ -10,9 +10,7 @@ import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
-import NewStudent from "../teacher/student/NewStudent";
 import StudentList from "../teacher/student/StudentList";
-import NewCourse from "../teacher/course/NewCourse";
 import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
 import EditStudent from "../teacher/student/EditStudent";
@@ -150,23 +148,22 @@ class App extends Component {
                     />
                   )}
                 />
-
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/student/new"
-                  component={NewStudent}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/student/edit"
+                  path="/student/:id"
                   component={EditStudent}
                   handleLogout={this.handleLogout}
                 />
-                <PrivateRoute
+                <Route
                   authenticated={this.state.isAuthenticated}
                   path="/student"
-                  component={StudentList}
+                  render={props => (
+                    <StudentList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
@@ -177,38 +174,20 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/course/new"
-                  component={NewCourse}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/course/edit"
+                  path="/course/:id"
                   component={EditCourse}
                   handleLogout={this.handleLogout}
                 />
-                <PrivateRoute
-                    authenticated={this.state.isAuthenticated}
-                    path="/course/groups_student"
-                    component={GroupStudent}
-                    handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/courses/questionnaires_student"
-                  component={QuestionnairesStudent}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/courses/info"
-                  component={CourseInfo}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
+                <Route
                   authenticated={this.state.isAuthenticated}
                   path="/course"
-                  component={CourseList}
+                  render={props => (
+                    <CourseList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
@@ -229,29 +208,19 @@ class App extends Component {
                   component={EditSection}
                   handleLogout={this.handleLogout}
                 />
-                <PrivateRoute
+                <Route
                   authenticated={this.state.isAuthenticated}
                   path="/section"
-                  component={SectionList}
+                  render={props => (
+                    <SectionList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
                   handleLogout={this.handleLogout}
                 />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/criteria/graded/new"
-                  component={NewGradedCriteria}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/criteria"
-                  component={CriteriaList}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/questionnaire"
-                  component={QuestionnaireList}
-                  handleLogout={this.handleLogout}
+                handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />
               </Switch>
