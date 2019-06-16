@@ -2,17 +2,13 @@ package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-
 import java.util.HashSet;
 import java.util.Set;
-import com.example.polls.model.Student;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "section")
@@ -25,13 +21,11 @@ public class Section extends UserDateAudit {
     @Column(length = 60)
     private String name;
 
-    @Column(length = 255)
     private Long noOfStudents;
 
     @Column(length = 6)
     private Long year;
 
-    @Column(length = 255)
     private String status;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

@@ -111,6 +111,7 @@ public class ModelMapper {
         questionnaireResponse.setQuestionnaireId(questionnaire.getQuestionnaireId());
         questionnaireResponse.setName(questionnaire.getName());
         questionnaireResponse.setInstruction(questionnaire.getInstruction());
+        questionnaireResponse.setCriteria(questionnaire.getCriteria());
         questionnaireResponse.setCreationDateTime(questionnaire.getCreatedAt());
 
         UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());

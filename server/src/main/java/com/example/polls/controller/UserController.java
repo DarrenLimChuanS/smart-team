@@ -130,10 +130,9 @@ public class UserController {
 
     @GetMapping("/users/{username}/sections")
     public PagedResponse<SectionResponse> getSectionsCreatedBy(@PathVariable(value = "username") String username,
-            @CurrentUser UserPrincipal currentUser,
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
-        return sectionService.getSectionsCreatedBy(username, currentUser, page, size);
+        return sectionService.getSectionsCreatedBy(username, page, size);
     }
 
     @GetMapping("/users/{username}/criteria")

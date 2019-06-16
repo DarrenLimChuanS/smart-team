@@ -13,8 +13,6 @@ import com.example.polls.repository.UserRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,9 +39,7 @@ public class SectionService {
     @Autowired
     private UserRepository userRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(SectionService.class);
-
-    public PagedResponse<SectionResponse> getAllSections(UserPrincipal currentUser, int page, int size) {
+    public PagedResponse<SectionResponse> getAllSections(int page, int size) {
         validatePageNumberAndSize(page, size);
 
         // Retrieve Sections
@@ -55,17 +51,15 @@ public class SectionService {
                     sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
         }
 
-        // Map section to SectionResponse containing vote counts and section creator
-        // details
+        // Map section to SectionResponse containing section creator details
         Map<Long, User> creatorMap = getSectionCreatorMap(sections.getContent());
 
         List<SectionResponse> SectionResponses = sections.map(section -> ModelMapper.mapSectionToSectionResponse(section, creatorMap.get(section.getCreatedBy()))).getContent();
 
-        return new PagedResponse<>(SectionResponses, sections.getNumber(), sections.getSize(),
-                sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
+        return new PagedResponse<>(SectionResponses, sections.getNumber(), sections.getSize(), sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
     }
 
-    public PagedResponse<SectionResponse> getSectionsCreatedBy(String username, UserPrincipal currentUser, int page,
+    public PagedResponse<SectionResponse> getSectionsCreatedBy(String username, int page,
             int size) {
         validatePageNumberAndSize(page, size);
 
@@ -121,7 +115,7 @@ public class SectionService {
 
         Optional<Section> sectionOptional = sectionRepository.findBySectionId(sectionId);
 
-        if (!sectionOptional.isPresent())
+        if (sectionOptional.isEmpty())
             return ResponseEntity.notFound().build();
 
         section.setSectionId(sectionId);
