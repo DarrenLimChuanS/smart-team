@@ -32,8 +32,8 @@ public class Questionnaire extends UserDateAudit {
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinTable(name = "questionnaire_criteria", joinColumns = {
-            @JoinColumn(name = "id") }, inverseJoinColumns = { @JoinColumn(name = "criteria_id") })
+    @JoinTable(name = "questionnaire_criteria", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
+            @JoinColumn(name = "criteria_id") })
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore

@@ -42,6 +42,13 @@ public class Criteria extends UserDateAudit {
     @JsonIgnore
     private Set<Questionnaire> questionnaires = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @JoinTable(name = "criteria_polls", joinColumns = { @JoinColumn(name = "criteria_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "poll_id", referencedColumnName = "id") })
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Set<Poll> polls = new HashSet<>();
+
     public Criteria() {
 
     }
@@ -107,6 +114,14 @@ public class Criteria extends UserDateAudit {
 
     public void setQuestionnaires(Set<Questionnaire> questionnaires) {
         this.questionnaires = questionnaires;
+    }
+
+    public Set<Poll> getPolls() {
+        return polls;
+    }
+
+    public void setPolls(Set<Poll> polls) {
+        this.polls = polls;
     }
 
 }

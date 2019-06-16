@@ -53,9 +53,12 @@ public class SectionService {
         // Map section to SectionResponse containing section creator details
         Map<Long, User> creatorMap = getSectionCreatorMap(sections.getContent());
 
-        List<SectionResponse> SectionResponses = sections.map(section -> ModelMapper.mapSectionToSectionResponse(section, creatorMap.get(section.getCreatedBy()))).getContent();
+        List<SectionResponse> SectionResponses = sections.map(
+                section -> ModelMapper.mapSectionToSectionResponse(section, creatorMap.get(section.getCreatedBy())))
+                .getContent();
 
-        return new PagedResponse<>(SectionResponses, sections.getNumber(), sections.getSize(), sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
+        return new PagedResponse<>(SectionResponses, sections.getNumber(), sections.getSize(),
+                sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
     }
 
     public PagedResponse<SectionResponse> getSectionsCreatedBy(String username, int page,
@@ -74,8 +77,9 @@ public class SectionService {
                     sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
         }
 
-        // Map sections to SectionResponses containing section creator details
-        List<SectionResponse> SectionResponses = sections.map(section -> ModelMapper.mapSectionToSectionResponse(section, user)).getContent();
+        // Map sections to SectionResponses
+        List<SectionResponse> SectionResponses = sections
+                .map(section -> ModelMapper.mapSectionToSectionResponse(section, user)).getContent();
 
         return new PagedResponse<>(SectionResponses, sections.getNumber(), sections.getSize(),
                 sections.getTotalElements(), sections.getTotalPages(), sections.isLast());

@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "section")
@@ -29,12 +31,12 @@ public class Section extends UserDateAudit {
     private String status;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "course_id", referencedColumnName = "id", nullable = false)
     private Course course;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinTable(name = "section_students", joinColumns = { @JoinColumn(name = "section_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "id") })
+    @JoinTable(name = "section_student", joinColumns = { @JoinColumn(name = "section_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "student_id", referencedColumnName = "id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Set<Student> students = new HashSet<>();
@@ -43,10 +45,11 @@ public class Section extends UserDateAudit {
 
     }
 
-    public Section(String name, Long noOfStudents, Set<Student> students, Course course, Long year, String status) {
+    public Section(String name, Long noOfStudents, Course course, Long year, String status, Student... students) {
         this.name = name;
         this.noOfStudents = noOfStudents;
-        this.students = students;
+        this.students = Stream.of(students).collect(Collectors.toSet());
+        this.students.forEach(x -> x.getSections().add(this));
         this.course = course;
         this.year = year;
         this.status = status;

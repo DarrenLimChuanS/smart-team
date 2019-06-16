@@ -102,6 +102,9 @@ class NewSection extends Component {
       course: this.state.course.value,
       students: this.state.students.value
     };
+
+    console.log(this.state);
+    console.log(sectionRequest);
     createSection(sectionRequest)
       .then(response => {
         notification.success({

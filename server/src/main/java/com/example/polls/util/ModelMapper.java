@@ -96,7 +96,8 @@ public class ModelMapper {
         criteriaResponse.setType(criteria.getType());
         criteriaResponse.setGraded(criteria.getGraded());
         criteriaResponse.setDescription(criteria.getDescription());
-        criteriaResponse.setQuestionnaire(criteria.getQuestionnaires());
+        criteriaResponse.setPolls(criteria.getPolls());
+        criteriaResponse.setQuestionnaires(criteria.getQuestionnaires());
         criteriaResponse.setCreationDateTime(criteria.getCreatedAt());
 
         UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());

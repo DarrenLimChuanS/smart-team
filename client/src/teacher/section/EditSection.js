@@ -107,17 +107,21 @@ class EditSection extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
+    console.log(this.state);
     const createSectionRequest = {
-      sectionCode: this.state.sectionCode.value,
       name: this.state.name.value,
-      description: this.state.description.value
+      noOfStudents: this.state.students.value.length,
+      status: "Not Grouped",
+      students: this.state.students.value,
+      course: this.state.course.value,
+      year: this.state.year.value
     };
 
     const updateSectionRequest = {
-      sectionCode: this.state.sectionCode.value,
       name: this.state.name.value,
-      description: this.state.description.value
+      students: this.state.students.value,
+      course: this.state.course.value,
+      year: this.state.year.value
     };
     (this.state.id.value
       ? updateSection(this.state.id.value, updateSectionRequest)

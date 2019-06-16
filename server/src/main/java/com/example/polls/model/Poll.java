@@ -1,16 +1,21 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "polls")
@@ -31,6 +36,11 @@ public class Poll extends UserDateAudit {
 
     @NotNull
     private Instant expirationDateTime;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "polls")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Set<Criteria> criteria = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -72,5 +82,13 @@ public class Poll extends UserDateAudit {
     public void removeChoice(Choice choice) {
         choices.remove(choice);
         choice.setPoll(null);
+    }
+
+    public Set<Criteria> getCriteria() {
+        return criteria;
+    }
+
+    public void setCriterias(Set<Criteria> criteria) {
+        this.criteria = criteria;
     }
 }
