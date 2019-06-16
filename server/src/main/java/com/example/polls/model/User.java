@@ -43,9 +43,6 @@ public class User extends DateAudit {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Criteria> criteria;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Questionnaire> questionnaires;
-
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Student> students;
 
@@ -114,14 +111,6 @@ public class User extends DateAudit {
 
     public void setCriteria(Set<Criteria> criteria) {
         this.criteria = criteria;
-    }
-
-    public Set<Questionnaire> getQuestionnaires() {
-        return questionnaires;
-    }
-
-    public void setQuestionnaire(Set<Questionnaire> questionnaires) {
-        this.questionnaires = questionnaires;
     }
 
     public Set<Student> getStudents() {

@@ -63,10 +63,22 @@ public class CriteriaService {
         }
 
         // Map criterias to CriteriaResponses
-        List<CriteriaResponse> CriteriaResponses = criterias.map(criteria -> ModelMapper.mapCriteriaToCriteriaResponse(criteria, user)).getContent();
+        List<CriteriaResponse> CriteriaResponses = criterias
+                .map(criteria -> ModelMapper.mapCriteriaToCriteriaResponse(criteria, user)).getContent();
 
         return new PagedResponse<>(CriteriaResponses, criterias.getNumber(), criterias.getSize(),
                 criterias.getTotalElements(), criterias.getTotalPages(), criterias.isLast());
+    }
+
+    public CriteriaResponse getCriteriaById(Long criteriaId) {
+        Criteria criteria = criteriaRepository.findByCriteriaId(criteriaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", criteriaId));
+
+        // Retrieve criteria creator details
+        User creator = userRepository.findById(criteria.getCreatedBy())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", criteria.getCreatedBy()));
+
+        return ModelMapper.mapCriteriaToCriteriaResponse(criteria, creator);
     }
 
     public ResponseEntity<Object> updateCriteriaById(@RequestBody Criteria criteria, @PathVariable Long criteriaId,

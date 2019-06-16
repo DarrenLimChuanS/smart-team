@@ -22,14 +22,8 @@ public class Questionnaire extends UserDateAudit {
     @Size(max = 255)
     private String name;
 
-    @NotBlank
     @Size(max = 255)
     private String instruction;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
-    private User user;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinTable(name = "questionnaire_criteria", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
@@ -70,14 +64,6 @@ public class Questionnaire extends UserDateAudit {
 
     public void setInstruction(String instruction) {
         this.instruction = instruction;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Set<Criteria> getCriteria() {

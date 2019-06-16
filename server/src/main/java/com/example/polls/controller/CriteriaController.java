@@ -56,6 +56,12 @@ public class CriteriaController {
         return criteriaRepository.findAll();
     }
 
+    @GetMapping("/{criteriaId}")
+    @PreAuthorize("hasRole('USER')")
+    public CriteriaResponse getCriteriaById(@PathVariable Long criteriaId) {
+        return criteriaService.getCriteriaById(criteriaId);
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createCriteria(@PathVariable(value = "userId") Long userId,
@@ -72,7 +78,7 @@ public class CriteriaController {
         }).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }
 
-    @PutMapping("{criteriaId}")
+    @PutMapping("/{criteriaId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> updateCriteria(@RequestBody Criteria criteria, @PathVariable Long criteriaId,
             @PathVariable Long user_id) {

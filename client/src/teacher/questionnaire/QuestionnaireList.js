@@ -16,9 +16,13 @@ import "./QuestionnaireList.css";
 import PopUpModal from "../../common/PopUpModal";
 import { compareByAlph } from "../../util/Sorters";
 import {
+  createQuestionnaire,
+  getCriteriaById,
   getAllQuestionnaires,
   getUserCreatedQuestionnaires
 } from "../../util/APIUtils";
+import { validateNotRequired, validateNotEmpty } from "../../util/Validators";
+
 import { QUESTIONNAIRE_LIST_SIZE } from "../../constants";
 
 const FormItem = Form.Item;
@@ -63,9 +67,13 @@ class Questionnaire extends Component {
     this.state = {
       questionnaireList: [],
       selectedQuestionnaireId: 0,
+      selectedCriteriaList: [],
       filteredInfo: null,
       sortedInfo: null,
       name: {
+        value: ""
+      },
+      instruction: {
         value: ""
       },
       page: 0,
@@ -82,6 +90,41 @@ class Questionnaire extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
+  }
+
+  loadCriteriaList(criteriaId, page = 0, size = QUESTIONNAIRE_LIST_SIZE) {
+    let promise;
+    if (this.props.currentUser) {
+      promise = getCriteriaById(criteriaId, page, size);
+    }
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        console.log(response);
+        const criteria = this.state.selectedCriteriaList.slice();
+        this.setState({
+          selectedCriteriaList: criteria.concat(response.polls),
+          page: response.page,
+          size: response.size,
+          totalElements: response.totalElements,
+          totalPages: response.totalPages,
+          last: response.last,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
   }
 
   loadQuestionnaireList(page = 0, size = QUESTIONNAIRE_LIST_SIZE) {
@@ -172,7 +215,12 @@ class Questionnaire extends Component {
 
   handleQuestionnaireChange(value) {
     this.setState({
+      selectedCriteriaList: [],
       selectedQuestionnaireId: value
+    });
+    this.state.questionnaireList[value].criteria.map(criteria => {
+      console.log(criteria.id);
+      this.loadCriteriaList(criteria.id);
     });
   }
 
@@ -180,23 +228,26 @@ class Questionnaire extends Component {
     event.preventDefault();
 
     const createRequest = {
-      name: this.state.name.value
+      name: this.state.name.value,
+      instruction: this.state.instruction.value,
+      user: this.state.currentUser
     };
-    // signup(createRequest)
-    //   .then(response => {
-    //     notification.success({
-    //       message: "Smart Team",
-    //       description: "Success! You have successfully added a new course."
-    //     });
-    //     this.props.history.push("/login");
-    //   })
-    //   .catch(error => {
-    //     notification.error({
-    //       message: "Smart Team",
-    //       description:
-    //         error.message || "Sorry! Something went wrong. Please try again!"
-    //     });
-    //   });
+    createQuestionnaire(createRequest)
+      .then(response => {
+        notification.success({
+          message: "Smart Team",
+          description:
+            "Success! You have successfully created a new questionnaire."
+        });
+        this.props.history.push("/questionnaire");
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
   }
 
   isFormInvalid() {
@@ -211,12 +262,12 @@ class Questionnaire extends Component {
     const columns = [
       {
         title: "#",
-        dataIndex: "key",
-        key: "key",
-        filteredValue: filteredInfo.key || null,
-        onFilter: (value, record) => record.key.includes(value),
-        sorter: (a, b) => a.key - b.key,
-        sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
+        dataIndex: "id",
+        id: "id",
+        filteredValue: filteredInfo.id || null,
+        onFilter: (value, record) => record.id.includes(value),
+        sorter: (a, b) => a.id - b.id,
+        sortOrder: sortedInfo.columnKey === "id" && sortedInfo.order
       },
       {
         title: "Question",
@@ -225,13 +276,13 @@ class Questionnaire extends Component {
         sorter: (a, b) => compareByAlph(a.question, b.question),
         sortOrder: sortedInfo.columnKey === "question" && sortedInfo.order
       },
-      {
-        title: "Type",
-        dataIndex: "type",
-        key: "type",
-        sorter: (a, b) => a.type - b.type,
-        sortOrder: sortedInfo.columnKey === "type" && sortedInfo.order
-      },
+      // {
+      //   title: "Type",
+      //   dataIndex: "type",
+      //   key: "type",
+      //   sorter: (a, b) => a.type - b.type,
+      //   sortOrder: sortedInfo.columnKey === "type" && sortedInfo.order
+      // },
       {
         title: "Action",
         key: "action",
@@ -283,7 +334,12 @@ class Questionnaire extends Component {
       </Option>
     ));
 
-    const { questionnaireList, selectedQuestionnaireId, page } = this.state;
+    const {
+      questionnaireList,
+      selectedQuestionnaireId,
+      selectedCriteriaList,
+      page
+    } = this.state;
     return (
       <React.Fragment>
         <Row>
@@ -315,7 +371,19 @@ class Questionnaire extends Component {
                     placeholder="Name"
                     value={this.state.name.value}
                     onChange={event =>
-                      this.handleInputChange(event, this.validateName)
+                      this.handleInputChange(event, validateNotEmpty)
+                    }
+                  />
+                </FormItem>
+                <FormItem label="Instruction">
+                  <Input
+                    size="large"
+                    name="instruction"
+                    autoComplete="off"
+                    placeholder="Instruction"
+                    value={this.state.instruction.value}
+                    onChange={event =>
+                      this.handleInputChange(event, validateNotRequired)
                     }
                   />
                 </FormItem>
@@ -410,11 +478,17 @@ class Questionnaire extends Component {
         <Row>
           <Table
             columns={columns}
+            // dataSource={
+            //   selectedQuestionnaireId !== 0 &&
+            //   questionnaireList[this.state.selectedQuestionnaireId]
+            //     .criteria[0] !== undefined &&
+            //   questionnaireList[this.state.selectedQuestionnaireId].criteria
+            // }
+
             dataSource={
               selectedQuestionnaireId !== 0 &&
-              questionnaireList[this.state.selectedQuestionnaireId]
-                .criteria[0] !== undefined &&
-              questionnaireList[this.state.selectedQuestionnaireId].criteria
+              selectedCriteriaList != undefined &&
+              selectedCriteriaList
             }
             onChange={this.handleChange}
           />
@@ -435,21 +509,6 @@ class Questionnaire extends Component {
       </React.Fragment>
     );
   }
-
-  // Validation Functions
-  validateName = name => {
-    if (name === "") {
-      return {
-        validateStatus: "error",
-        errorMsg: `Name cannot be empty.`
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
-    }
-  };
 }
 
 export default withRouter(Questionnaire);

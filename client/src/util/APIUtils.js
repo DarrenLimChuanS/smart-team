@@ -323,6 +323,23 @@ export function getAllCriteria(page, size) {
   });
 }
 
+export function getCriteriaById(criteriaId, page, size) {
+  page = page || 0;
+  size = size || COURSE_LIST_SIZE;
+
+  return request({
+    url:
+      API_BASE_URL +
+      "/criteria/" +
+      criteriaId +
+      "?page=" +
+      page +
+      "&size=" +
+      size,
+    method: "GET"
+  });
+}
+
 export function getUserCreatedCriteria(userId) {
   return request({
     url: API_BASE_URL + "/users/" + userId + "/criteria",
@@ -340,6 +357,14 @@ export function deleteCriteria(criteriaId) {
 /**
  * Questionnaire APIs
  **/
+
+export function createQuestionnaire(questionnaireData) {
+  return request({
+    url: API_BASE_URL + "/questionnaires",
+    method: "POST",
+    body: JSON.stringify(questionnaireData)
+  });
+}
 
 export function getAllQuestionnaires(page, size) {
   page = page || 0;

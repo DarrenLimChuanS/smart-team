@@ -78,7 +78,6 @@ public class QuestionnaireService {
         Questionnaire questionnaire = new Questionnaire();
         questionnaire.setName(questionnaireRequest.getName());
         questionnaire.setInstruction(questionnaireRequest.getInstruction());
-
         return questionnaireRepository.save(questionnaire);
     }
 
