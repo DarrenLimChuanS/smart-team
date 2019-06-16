@@ -3,9 +3,11 @@ package com.example.polls.util;
 import com.example.polls.model.Course;
 import com.example.polls.model.Poll;
 import com.example.polls.model.User;
+import com.example.polls.model.Section;
 import com.example.polls.payload.ChoiceResponse;
 import com.example.polls.payload.CourseResponse;
 import com.example.polls.payload.PollResponse;
+import com.example.polls.payload.SectionResponse;
 import com.example.polls.payload.UserSummary;
 
 import java.time.Instant;
@@ -64,6 +66,23 @@ public class ModelMapper {
         courseResponse.setCreatedBy(creatorSummary);
 
         return courseResponse;
+    }
+
+    public static SectionResponse mapSectionToSectionResponse(Section section, User creator) {
+        SectionResponse sectionResponse = new SectionResponse();
+        sectionResponse.setSectionId(section.getSectionId());
+        sectionResponse.setName(section.getName());
+        sectionResponse.setNoOfStudents(section.getNoOfStudents());
+        sectionResponse.setYear(section.getYear());
+        sectionResponse.setCourse(section.getCourse());
+        sectionResponse.setStatus(section.getStatus());
+        sectionResponse.setStudents(section.getStudents());
+        sectionResponse.setCreationDateTime(section.getCreatedAt());
+
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        sectionResponse.setCreatedBy(creatorSummary);
+
+        return sectionResponse;
     }
 
 }

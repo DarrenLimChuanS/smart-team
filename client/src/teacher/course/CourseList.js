@@ -44,10 +44,13 @@ class CourseList extends Component {
 
   loadCourseList(page = 0, size = COURSE_LIST_SIZE) {
     let promise;
-    if (this.props.username) {
-      if (this.props.type === "USER_CREATED_COURSES") {
-        promise = getUserCreatedCourses(this.props.username, page, size);
-      }
+
+    if (this.props.currentUser.username) {
+      promise = getUserCreatedCourses(
+        this.props.currentUser.username,
+        page,
+        size
+      );
     } else {
       promise = getAllCourses(page, size);
     }

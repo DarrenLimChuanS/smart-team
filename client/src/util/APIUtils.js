@@ -1,4 +1,10 @@
-import { API_BASE_URL, POLL_LIST_SIZE, ACCESS_TOKEN } from "../constants";
+import {
+  API_BASE_URL,
+  POLL_LIST_SIZE,
+  COURSE_LIST_SIZE,
+  SECTION_LIST_SIZE,
+  ACCESS_TOKEN
+} from "../constants";
 
 const request = options => {
   const headers = new Headers({
@@ -45,7 +51,7 @@ export function createPoll(pollData) {
 
 export function getAllCourses(page, size) {
   page = page || 0;
-  size = size || POLL_LIST_SIZE;
+  size = size || COURSE_LIST_SIZE;
 
   return request({
     url: API_BASE_URL + "/courses?page=" + page + "&size=" + size,
@@ -69,7 +75,6 @@ export function createCourse(courseData) {
 }
 
 export function updateCourse(courseId, courseData) {
-  console.log(JSON.stringify(courseData));
   return request({
     url: API_BASE_URL + "/courses/" + courseId,
     method: "PUT",
@@ -80,6 +85,46 @@ export function updateCourse(courseId, courseData) {
 export function deleteCourse(courseId) {
   return request({
     url: API_BASE_URL + "/courses/" + courseId,
+    method: "DELETE"
+  });
+}
+
+export function getAllSections(page, size) {
+  page = page || 0;
+  size = size || SECTION_LIST_SIZE;
+
+  return request({
+    url: API_BASE_URL + "/courses?page=" + page + "&size=" + size,
+    method: "GET"
+  });
+}
+
+export function getSectionById(id) {
+  return request({
+    url: API_BASE_URL + "/sections/" + id,
+    method: "GET"
+  });
+}
+
+export function createSection(sectionData) {
+  return request({
+    url: API_BASE_URL + "/sections",
+    method: "POST",
+    body: JSON.stringify(sectionData)
+  });
+}
+
+export function updateSection(sectionId, sectionData) {
+  return request({
+    url: API_BASE_URL + "/sections/" + sectionId,
+    method: "PUT",
+    body: JSON.stringify(sectionData)
+  });
+}
+
+export function deleteSection(sectionId) {
+  return request({
+    url: API_BASE_URL + "/sections/" + sectionId,
     method: "DELETE"
   });
 }
@@ -108,6 +153,55 @@ export function signup(signupRequest) {
   });
 }
 
+/**
+ * Start of Student APIs
+ **/
+// Function to create student under a teacher
+export function createStudent(studentRequest, userid) {
+  return request({
+    url: API_BASE_URL + "/users/" + userid + "/students",
+    method: "POST",
+    body: JSON.stringify(studentRequest)
+  });
+}
+
+// Function to retrieve all students of a teacher
+export function getStudentsByTeacher(userid) {
+  return request({
+    url: API_BASE_URL + "/users/" + userid + "/students",
+    method: "GET"
+  });
+}
+
+// Function to retrieve student information by ID
+export function getStudentById(studentId) {
+  return request({
+    url: API_BASE_URL + "/students/" + studentId,
+    method: "GET"
+  });
+}
+
+// Function to update student by ID
+export function updateStudent(studentId, studentData) {
+  return request({
+    url: API_BASE_URL + "/student/" + studentId,
+    method: "PUT",
+    body: JSON.stringify(studentData)
+  });
+}
+
+// Function to delete student by ID
+export function deleteStudent(studentId) {
+  console.log(studentId);
+  return request({
+    url: API_BASE_URL + "/student/" + studentId,
+    method: "DELETE"
+  });
+}
+
+/**
+ * End of Student APIs
+ **/
 export function checkUsernameAvailability(username) {
   return request({
     url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,
@@ -164,12 +258,36 @@ export function getUserCreatedCourses(username, page, size) {
   return request({
     url:
       API_BASE_URL +
-      "/courses/" +
+      "/users/" +
       username +
       "/courses?page=" +
       page +
       "&size=" +
       size,
+    method: "GET"
+  });
+}
+
+export function getUserCreatedSections(username, page, size) {
+  page = page || 0;
+  size = size || POLL_LIST_SIZE;
+
+  return request({
+    url:
+      API_BASE_URL +
+      "/users/" +
+      username +
+      "/sections?page=" +
+      page +
+      "&size=" +
+      size,
+    method: "GET"
+  });
+}
+
+export function getUserCreatedStudents(userId) {
+  return request({
+    url: API_BASE_URL + "/users/" + userId + "/students",
     method: "GET"
   });
 }
