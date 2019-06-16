@@ -45,7 +45,7 @@ class CourseList extends Component {
   loadCourseList(page = 0, size = COURSE_LIST_SIZE) {
     let promise;
 
-    if (this.props.currentUser.username) {
+    if (this.props.currentUser) {
       promise = getUserCreatedCourses(
         this.props.currentUser.username,
         page,

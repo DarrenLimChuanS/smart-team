@@ -1,36 +1,26 @@
 package com.example.polls.controller;
 
-import com.example.polls.exception.AppException;
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.Role;
-import com.example.polls.model.RoleName;
 import com.example.polls.model.Student;
 import com.example.polls.payload.*;
-import com.example.polls.repository.PollRepository;
-import com.example.polls.repository.VoteRepository;
-import com.example.polls.repository.StudentRepository;
-import com.example.polls.repository.UserRepository;
-import com.example.polls.repository.RoleRepository;
-import com.example.polls.repository.SectionRepository;
+import com.example.polls.repository.*;
+import com.example.polls.security.CurrentUser;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.PollService;
 import com.example.polls.service.SectionService;
-import com.example.polls.security.CurrentUser;
-import com.example.polls.util.AppConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")

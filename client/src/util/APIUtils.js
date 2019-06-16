@@ -310,7 +310,7 @@ export function getUserVotedPolls(username, page, size) {
 }
 
 /**
- * Start of Criteria APIs
+ * Criteria APIs
  **/
 
 export function getAllCriteria(page, size) {
@@ -330,13 +330,47 @@ export function getUserCreatedCriteria(userId) {
   });
 }
 
-export function deleteCriteria(courseId) {
+export function deleteCriteria(criteriaId) {
   return request({
-    url: API_BASE_URL + "/criteria/" + courseId,
+    url: API_BASE_URL + "/criteria/" + criteriaId,
     method: "DELETE"
   });
 }
 
 /**
- * End of Student APIs
+ * Questionnaire APIs
  **/
+
+export function getAllQuestionnaires(page, size) {
+  page = page || 0;
+  size = size || COURSE_LIST_SIZE;
+
+  return request({
+    url: API_BASE_URL + "/questionnaire?page=" + page + "&size=" + size,
+    method: "GET"
+  });
+}
+
+export function getUserCreatedQuestionnaires(username, page, size) {
+  page = page || 0;
+  size = size || POLL_LIST_SIZE;
+
+  return request({
+    url:
+      API_BASE_URL +
+      "/users/" +
+      username +
+      "/questionnaires?page=" +
+      page +
+      "&size=" +
+      size,
+    method: "GET"
+  });
+}
+
+export function deleteQuestionnaire(questionnaireId) {
+  return request({
+    url: API_BASE_URL + "/questionnaire/" + questionnaireId,
+    method: "DELETE"
+  });
+}

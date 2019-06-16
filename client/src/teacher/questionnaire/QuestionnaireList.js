@@ -15,7 +15,11 @@ import {
 import "./QuestionnaireList.css";
 import PopUpModal from "../../common/PopUpModal";
 import { compareByAlph } from "../../util/Sorters";
-import { signup } from "../../util/APIUtils";
+import {
+  getAllQuestionnaires,
+  getUserCreatedQuestionnaires
+} from "../../util/APIUtils";
+import { QUESTIONNAIRE_LIST_SIZE } from "../../constants";
 
 const FormItem = Form.Item;
 const { Option } = Select;
@@ -54,19 +58,96 @@ const data = [
 ];
 
 class Questionnaire extends Component {
-  state = {
-    filteredInfo: null,
-    sortedInfo: null,
-    name: {
-      value: ""
-    }
-  };
-
   constructor(props) {
     super(props);
+    this.state = {
+      questionnaireList: [],
+      selectedQuestionnaireId: 0,
+      filteredInfo: null,
+      sortedInfo: null,
+      name: {
+        value: ""
+      },
+      page: 0,
+      size: 10,
+      totalElements: 0,
+      totalPages: 0,
+      last: true,
+      isLoading: false
+    };
+    this.loadQuestionnaireList = this.loadQuestionnaireList.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
+    // this.deleteCourseWithId = this.deleteCourseWithId.bind(this);
+
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
+  }
+
+  loadQuestionnaireList(page = 0, size = QUESTIONNAIRE_LIST_SIZE) {
+    let promise;
+    if (this.props.currentUser) {
+      promise = getUserCreatedQuestionnaires(
+        this.props.currentUser.username,
+        page,
+        size
+      );
+    } else {
+      promise = getAllQuestionnaires(page, size);
+    }
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        const questionnaires = this.state.questionnaireList.slice();
+
+        this.setState({
+          questionnaireList: questionnaires.concat(response.content),
+          page: response.page,
+          size: response.size,
+          totalElements: response.totalElements,
+          totalPages: response.totalPages,
+          last: response.last,
+          isLoading: false
+        });
+        console.log(questionnaires.concat(response.content));
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
+  componentDidMount() {
+    this.loadQuestionnaireList();
+  }
+
+  componentDidUpdate(nextProps) {
+    if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
+      // Reset State
+      this.setState({
+        questionnaires: [],
+        page: 0,
+        size: 10,
+        totalElements: 0,
+        totalPages: 0,
+        last: true,
+        isLoading: false
+      });
+      this.loadQuestionnaireList();
+    }
+  }
+
+  handleLoadMore() {
+    this.loadQuestionnaireList(this.state.page + 1);
   }
 
   handleInputChange(event, validationFun) {
@@ -83,7 +164,6 @@ class Questionnaire extends Component {
   }
 
   handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter
@@ -92,9 +172,7 @@ class Questionnaire extends Component {
 
   handleQuestionnaireChange(value) {
     this.setState({
-      questionnaire: {
-        value: value
-      }
+      selectedQuestionnaireId: value
     });
   }
 
@@ -104,21 +182,21 @@ class Questionnaire extends Component {
     const createRequest = {
       name: this.state.name.value
     };
-    signup(createRequest)
-      .then(response => {
-        notification.success({
-          message: "Smart Team",
-          description: "Success! You have successfully added a new course."
-        });
-        this.props.history.push("/login");
-      })
-      .catch(error => {
-        notification.error({
-          message: "Smart Team",
-          description:
-            error.message || "Sorry! Something went wrong. Please try again!"
-        });
-      });
+    // signup(createRequest)
+    //   .then(response => {
+    //     notification.success({
+    //       message: "Smart Team",
+    //       description: "Success! You have successfully added a new course."
+    //     });
+    //     this.props.history.push("/login");
+    //   })
+    //   .catch(error => {
+    //     notification.error({
+    //       message: "Smart Team",
+    //       description:
+    //         error.message || "Sorry! Something went wrong. Please try again!"
+    //     });
+    //   });
   }
 
   isFormInvalid() {
@@ -193,23 +271,11 @@ class Questionnaire extends Component {
       }
     ];
 
-    const questionnaire = [
-      { id: 1, name: "T01-2018-Q2", numQtns: 10 },
-      { id: 2, name: "T02-2019-Q1", numQtns: 40 },
-      { id: 3, name: "T05-2017-Q1", numQtns: 15 }
-    ];
-
     const criteria = [
       { id: 1, name: "Leadership", numQtns: 10 },
       { id: 2, name: "Skills", numQtns: 10 },
       { id: 3, name: "Teamwork", numQtns: 15 }
     ];
-
-    const questionnaireOptions = questionnaire.map((item, key) => (
-      <Option key={item.id}>
-        {item.name} ({item.numQtns})
-      </Option>
-    ));
 
     const criteriaOptions = criteria.map((item, key) => (
       <Option key={item.id}>
@@ -217,6 +283,7 @@ class Questionnaire extends Component {
       </Option>
     ));
 
+    const { questionnaireList, selectedQuestionnaireId, page } = this.state;
     return (
       <React.Fragment>
         <Row>
@@ -272,13 +339,20 @@ class Questionnaire extends Component {
             <Form onSubmit={this.handleSubmit} className="signup-form">
               <FormItem label="Select saved questionnaire">
                 <Select
+                  name="selectedQuestionnaireId"
                   size="large"
                   style={{ width: "100%" }}
                   placeholder="Please select"
                   defaultValue={[]}
                   onChange={event => this.handleQuestionnaireChange(event)}
                 >
-                  {questionnaireOptions}
+                  {this.state &&
+                    questionnaireList &&
+                    questionnaireList.map((questionnaire, index) => (
+                      <Option key={index}>
+                        {questionnaire.name} ({questionnaire.criteria.length})
+                      </Option>
+                    ))}
                 </Select>
               </FormItem>
             </Form>
@@ -288,8 +362,20 @@ class Questionnaire extends Component {
         <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
           <Col span={21}>
             <Title level={3}>
-              Criteria - Leadership{" "}
-              <Button type="danger" size="default" ghost>
+              Criteria
+              {selectedQuestionnaireId !== 0 &&
+                questionnaireList[this.state.selectedQuestionnaireId]
+                  .criteria[0] !== undefined &&
+                ` - ${
+                  questionnaireList[this.state.selectedQuestionnaireId]
+                    .criteria[0].name
+                }`}
+              <Button
+                type="danger"
+                size="default"
+                style={{ marginLeft: "8px" }}
+                ghost
+              >
                 Remove
               </Button>
             </Title>
@@ -324,7 +410,12 @@ class Questionnaire extends Component {
         <Row>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={
+              selectedQuestionnaireId !== 0 &&
+              questionnaireList[this.state.selectedQuestionnaireId]
+                .criteria[0] !== undefined &&
+              questionnaireList[this.state.selectedQuestionnaireId].criteria
+            }
             onChange={this.handleChange}
           />
         </Row>

@@ -26,3 +26,5 @@ export const COURSE_LIST_SIZE = 30;
 export const SECTION_LIST_SIZE = 30;
 
 export const CRITERIA_LIST_SIZE = 30;
+
+export const QUESTIONNAIRE_LIST_SIZE = 30;

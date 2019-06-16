@@ -2,35 +2,31 @@ package com.example.polls.service;
 
 import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.*;
+import com.example.polls.model.Questionnaire;
+import com.example.polls.model.User;
+import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.PagedResponse;
-import com.example.polls.payload.CriteriaRequest;
 import com.example.polls.payload.QuestionnaireRequest;
 import com.example.polls.payload.QuestionnaireResponse;
-import com.example.polls.payload.CriteriaResponse;
-import com.example.polls.repository.CriteriaRepository;
 import com.example.polls.repository.QuestionnaireRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.stereotype.Service;
-import com.example.polls.payload.ApiResponse;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collections;
-import java.util.Optional;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -43,13 +39,35 @@ public class QuestionnaireService {
     @Autowired
     private UserRepository userRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(QuestionnaireService.class);
+    public PagedResponse<QuestionnaireResponse> getAllQuestionnaires(int page, int size) {
+        validatePageNumberAndSize(page, size);
 
-    public Questionnaire createQuestionnaire(User user, QuestionnaireRequest questionnaireRequest) {
+        // Retrieve Questionnaires
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
+        Page<Questionnaire> questionnaires = questionnaireRepository.findAll(pageable);
+
+        if (questionnaires.getNumberOfElements() == 0) {
+            return new PagedResponse<>(Collections.emptyList(), questionnaires.getNumber(), questionnaires.getSize(),
+                    questionnaires.getTotalElements(), questionnaires.getTotalPages(), questionnaires.isLast());
+        }
+
+        // Map questionnaire to QuestionnaireResponse containing questionnaire creator
+        // details
+        Map<Long, User> creatorMap = getQuestionnaireCreatorMap(questionnaires.getContent());
+
+        List<QuestionnaireResponse> QuestionnaireResponses = questionnaires.map(questionnaire -> ModelMapper
+                .mapQuestionnaireToQuestionnaireResponse(questionnaire, creatorMap.get(questionnaire.getCreatedBy())))
+                .getContent();
+
+        return new PagedResponse<>(QuestionnaireResponses, questionnaires.getNumber(), questionnaires.getSize(),
+                questionnaires.getTotalElements(), questionnaires.getTotalPages(), questionnaires.isLast());
+    }
+
+    public Questionnaire createQuestionnaire(QuestionnaireRequest questionnaireRequest) {
         Questionnaire questionnaire = new Questionnaire();
-        questionnaire.setUser(user);
         questionnaire.setName(questionnaireRequest.getName());
         questionnaire.setInstruction(questionnaireRequest.getInstruction());
+
         return questionnaireRepository.save(questionnaire);
     }
 
@@ -114,19 +132,15 @@ public class QuestionnaireService {
         }
     }
 
-    /** PROTOTYPE OF UPDATE BY NAME **/
-    // public ResponseEntity<Object> updateCriteriaByName(@RequestBody Criteria
-    // criteria, @PathVariable String name) {
+    Map<Long, User> getQuestionnaireCreatorMap(List<Questionnaire> questionnaires) {
+        // Get Questionnaire Creator details of the given list of questionnaires
 
-    // Optional<Criteria> criteriaOptional = criteriaRepository.findByName(name);
+        List<Long> creatorIds = questionnaires.stream().map(Questionnaire::getCreatedBy).distinct()
+                .collect(Collectors.toList());
+        List<User> creators = userRepository.findByIdIn(creatorIds);
+        Map<Long, User> creatorMap = creators.stream().collect(Collectors.toMap(User::getId, Function.identity()));
 
-    // if (!criteriaOptional.isPresent())
-    // return ResponseEntity.notFound().build();
-
-    // criteria.setId(courseId);
-    // courseRepository.save(criteria);
-    // return ResponseEntity.ok(new ApiResponse(true, "Course Updated
-    // Successfully"));
-    // }
+        return creatorMap;
+    }
 
 }
