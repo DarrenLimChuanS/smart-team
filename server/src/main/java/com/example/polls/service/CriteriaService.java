@@ -2,34 +2,30 @@ package com.example.polls.service;
 
 import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.*;
-import com.example.polls.payload.PagedResponse;
+import com.example.polls.model.Criteria;
+import com.example.polls.model.User;
+import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.CriteriaRequest;
 import com.example.polls.payload.CriteriaResponse;
+import com.example.polls.payload.PagedResponse;
 import com.example.polls.repository.CriteriaRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.stereotype.Service;
-import com.example.polls.payload.ApiResponse;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collections;
-import java.util.Optional;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class CriteriaService {
@@ -67,9 +63,7 @@ public class CriteriaService {
         }
 
         // Map criterias to CriteriaResponses
-        List<CriteriaResponse> CriteriaResponses = criterias.map(criteria -> {
-            return ModelMapper.mapCriteriaToCriteriaResponse(criteria, user);
-        }).getContent();
+        List<CriteriaResponse> CriteriaResponses = criterias.map(criteria -> ModelMapper.mapCriteriaToCriteriaResponse(criteria, user)).getContent();
 
         return new PagedResponse<>(CriteriaResponses, criterias.getNumber(), criterias.getSize(),
                 criterias.getTotalElements(), criterias.getTotalPages(), criterias.isLast());

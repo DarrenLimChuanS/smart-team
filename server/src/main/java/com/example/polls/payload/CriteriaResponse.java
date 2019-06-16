@@ -13,7 +13,7 @@ public class CriteriaResponse {
     private String description;
     private String type;
     private Boolean graded;
-    private Set<Questionnaire> questionnaire = new HashSet<>();
+    private Set<Questionnaire> questionnaires = new HashSet<>();
     private UserSummary createdBy;
     private Instant creationDateTime;
 
@@ -57,12 +57,12 @@ public class CriteriaResponse {
         this.graded = graded;
     }
 
-    public Set<Questionnaire> getQuestionnaire() {
-        return questionnaire;
+    public Set<Questionnaire> getQuestionnaires() {
+        return questionnaires;
     }
 
-    public void setQuestionnaire(Set<Questionnaire> questionnaire) {
-        this.questionnaire = questionnaire;
+    public void setQuestionnaire(Set<Questionnaire> questionnaires) {
+        this.questionnaires = questionnaires;
     }
 
     public UserSummary getCreatedBy() {

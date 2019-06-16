@@ -10,6 +10,7 @@ import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
+import NewStudent from "../teacher/student/NewStudent";
 import StudentList from "../teacher/student/StudentList";
 import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
@@ -231,6 +232,18 @@ class App extends Component {
                   path="/section"
                   render={props => (
                     <SectionList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
+                  handleLogout={this.handleLogout}
+                />
+                <Route
+                  authenticated={this.state.isAuthenticated}
+                  path="/questionnaire"
+                  render={props => (
+                    <QuestionnaireList
                       isAuthenticated={this.state.isAuthenticated}
                       currentUser={this.state.currentUser}
                       {...props}

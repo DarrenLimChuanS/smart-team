@@ -2,12 +2,14 @@ package com.example.polls.util;
 
 import com.example.polls.model.Course;
 import com.example.polls.model.Poll;
+import com.example.polls.model.Questionnaire;
 import com.example.polls.model.User;
 import com.example.polls.model.Section;
 import com.example.polls.model.Criteria;
 import com.example.polls.payload.ChoiceResponse;
 import com.example.polls.payload.CourseResponse;
 import com.example.polls.payload.PollResponse;
+import com.example.polls.payload.QuestionnaireResponse;
 import com.example.polls.payload.SectionResponse;
 import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.UserSummary;
@@ -94,13 +96,27 @@ public class ModelMapper {
         criteriaResponse.setType(criteria.getType());
         criteriaResponse.setGraded(criteria.getGraded());
         criteriaResponse.setDescription(criteria.getDescription());
-        criteriaResponse.setQuestionnaire(criteria.getQuestionnaire());
+        criteriaResponse.setQuestionnaire(criteria.getQuestionnaires());
         criteriaResponse.setCreationDateTime(criteria.getCreatedAt());
 
         UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
         criteriaResponse.setCreatedBy(creatorSummary);
 
         return criteriaResponse;
+    }
+
+    public static QuestionnaireResponse mapQuestionnaireToQuestionnaireResponse(Questionnaire questionnaire,
+            User creator) {
+        QuestionnaireResponse questionnaireResponse = new QuestionnaireResponse();
+        questionnaireResponse.setQuestionnaireId(questionnaire.getQuestionnaireId());
+        questionnaireResponse.setName(questionnaire.getName());
+        questionnaireResponse.setInstruction(questionnaire.getInstruction());
+        questionnaireResponse.setCreationDateTime(questionnaire.getCreatedAt());
+
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        questionnaireResponse.setCreatedBy(creatorSummary);
+
+        return questionnaireResponse;
     }
 
 }

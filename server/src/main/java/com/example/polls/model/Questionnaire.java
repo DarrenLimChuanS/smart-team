@@ -1,30 +1,22 @@
 package com.example.polls.model;
 
-import com.example.polls.model.audit.DateAudit;
-import org.hibernate.annotations.NaturalId;
+import com.example.polls.model.audit.UserDateAudit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-/**
- * Created by rajeevkumarsingh on 01/08/17.
- */
 
 @Entity
-@Table(name = "questionnaire", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-            "name"
-        })
-})
-public class Questionnaire extends DateAudit {
+@Table(name = "questionnaire", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
+public class Questionnaire extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long questionnaire_id;
+    private Long questionnaireId;
 
     @NotBlank
     @Size(max = 255)
@@ -34,15 +26,18 @@ public class Questionnaire extends DateAudit {
     @Size(max = 255)
     private String instruction;
 
-    // MAPPING TESTING
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
 
-    // @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    // private Set<Criteria> criteria = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+    @JoinTable(name = "questionnaire_criteria", joinColumns = {
+            @JoinColumn(name = "criteria_id") }, inverseJoinColumns = { @JoinColumn(name = "questionnaire_id") })
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Set<Criteria> criteria = new HashSet<>();
 
     public Questionnaire() {
 
@@ -53,12 +48,12 @@ public class Questionnaire extends DateAudit {
         this.instruction = instruction;
     }
 
-    public Long getId() {
-        return questionnaire_id;
+    public Long getQuestionnaireId() {
+        return questionnaireId;
     }
 
-    public void setId(Long questionnaire_id) {
-        this.questionnaire_id = questionnaire_id;
+    public void setQuestionnaireId(Long questionnaireId) {
+        this.questionnaireId = questionnaireId;
     }
 
     public String getName() {
@@ -85,5 +80,11 @@ public class Questionnaire extends DateAudit {
         this.user = user;
     }
 
-    
+    public Set<Criteria> getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(Set<Criteria> criteria) {
+        this.criteria = criteria;
+    }
 }

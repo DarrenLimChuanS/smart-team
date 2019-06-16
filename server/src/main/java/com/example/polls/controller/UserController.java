@@ -3,18 +3,9 @@ package com.example.polls.controller;
 import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.User;
 import com.example.polls.payload.*;
-import com.example.polls.repository.CourseRepository;
-import com.example.polls.repository.PollRepository;
-import com.example.polls.repository.SectionRepository;
-import com.example.polls.repository.StudentRepository;
-import com.example.polls.repository.UserRepository;
-import com.example.polls.repository.CriteriaRepository;
-import com.example.polls.repository.VoteRepository;
+import com.example.polls.repository.*;
 import com.example.polls.security.UserPrincipal;
-import com.example.polls.service.CourseService;
-import com.example.polls.service.CriteriaService;
-import com.example.polls.service.PollService;
-import com.example.polls.service.SectionService;
+import com.example.polls.service.*;
 import com.example.polls.security.CurrentUser;
 import com.example.polls.util.AppConstants;
 import org.slf4j.Logger;
@@ -47,6 +38,9 @@ public class UserController {
     private StudentRepository studentRepository;
 
     @Autowired
+    private QuestionnaireRepository questionnaireRepository;
+
+    @Autowired
     private VoteRepository voteRepository;
 
     @Autowired
@@ -60,6 +54,9 @@ public class UserController {
 
     @Autowired
     private CriteriaService criteriaService;
+
+    @Autowired
+    private QuestionnaireService questionnaireService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -145,6 +142,14 @@ public class UserController {
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
         return criteriaService.getCriteriaCreatedBy(username, currentUser, page, size);
+    }
+
+    @GetMapping("/users/{username}/questionnaires")
+    public PagedResponse<QuestionnaireResponse> getQuestionnairesCreatedBy(
+            @PathVariable(value = "username") String username, @CurrentUser UserPrincipal currentUser,
+            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+        return questionnaireService.getQuestionnairesCreatedBy(username, currentUser, page, size);
     }
 
     @GetMapping("/users/{username}/votes")

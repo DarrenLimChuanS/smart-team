@@ -1,18 +1,14 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.DateAudit;
-import com.example.polls.model.Student;
 import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
-
-/**
- * Created by rajeevkumarsingh on 01/08/17.
- */
 
 @Entity
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
@@ -48,7 +44,7 @@ public class User extends DateAudit {
     private Set<Criteria> criteria;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Questionnaire> questionnaire;
+    private Set<Questionnaire> questionnaires;
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Student> students;
@@ -112,8 +108,6 @@ public class User extends DateAudit {
         this.roles = roles;
     }
 
-    <<<<<<<HEAD
-
     public Set<Criteria> getCriteria() {
         return criteria;
     }
@@ -122,13 +116,13 @@ public class User extends DateAudit {
         this.criteria = criteria;
     }
 
-    public Set<Questionnaire> getQuestionnaire() {
-        return questionnaire;
+    public Set<Questionnaire> getQuestionnaires() {
+        return questionnaires;
     }
 
-    public void setQuestionnaire(Set<Questionnaire> questionnaire) {
-        this.questionnaire = questionnaire;
-=======
+    public void setQuestionnaire(Set<Questionnaire> questionnaires) {
+        this.questionnaires = questionnaires;
+    }
 
     public Set<Student> getStudents() {
         return students;
@@ -136,6 +130,5 @@ public class User extends DateAudit {
 
     public void setStudents(Set<Student> students) {
         this.students = students;
->>>>>>> 5423e26dd4476e5b3fb3b140c948aa92487c4880
     }
 }

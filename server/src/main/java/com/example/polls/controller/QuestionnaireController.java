@@ -59,21 +59,21 @@ public class QuestionnaireController {
         return new QuestionnaireNameAvailability(isAvailable);
     }
 
-
     @GetMapping(("/questionnaire/getAllQuestionnaire"))
-    public List<Questionnaire> getQuestionnaire() {
+    public List<Questionnaire> getQuestionnaires() {
         return questionnaireRepository.findAll();
     }
 
     @PostMapping("/questionnaire/{user_id}/createQuestionnaire")
     // @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> createQuestionnaire(@PathVariable(value = "user_id") Long user_id,@RequestBody QuestionnaireRequest questionnaireRequest) {
-        
+    public ResponseEntity<?> createQuestionnaire(@PathVariable(value = "user_id") Long user_id,
+            @RequestBody QuestionnaireRequest questionnaireRequest) {
+
         return userRepository.findById(user_id).map(user -> {
-            Questionnaire questionnaire = questionnaireService.createQuestionnaire(user,questionnaireRequest);
+            Questionnaire questionnaire = questionnaireService.createQuestionnaire(user, questionnaireRequest);
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{questionnaire_Id}")
-                    .buildAndExpand(questionnaire.getId()).toUri();
+                    .buildAndExpand(questionnaire.getQuestionnaireId()).toUri();
 
             return ResponseEntity.created(location).body(new ApiResponse(true, "Questionnaire Created Successfully"));
         }).orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
@@ -81,17 +81,18 @@ public class QuestionnaireController {
 
     @PutMapping("/questionnaire/update/{questionnaire_id}/{user_id}")
     // @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Object> updateQuestionnaire(@RequestBody Questionnaire questionnaire, @PathVariable Long questionnaire_id, @PathVariable Long user_id) {
+    public ResponseEntity<Object> updateQuestionnaire(@RequestBody Questionnaire questionnaire,
+            @PathVariable Long questionnaire_id, @PathVariable Long user_id) {
         return userRepository.findById(user_id).map(user -> {
-            return questionnaireService.updateQuestionnaireById(questionnaire, questionnaire_id,user);
+            return questionnaireService.updateQuestionnaireById(questionnaire, questionnaire_id, user);
         }).orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
 
     }
+
     @DeleteMapping("/questionnaire/delete/{questionnaire_id}")
     // @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteQuestionnaire(@PathVariable long questionnaire_id) {
         return questionnaireService.deleteById(questionnaire_id);
     }
-
 
 }

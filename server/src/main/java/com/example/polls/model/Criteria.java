@@ -1,15 +1,15 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
-import org.hibernate.annotations.NaturalId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "criteria", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
@@ -32,15 +32,15 @@ public class Criteria extends UserDateAudit {
     @Size(max = 255)
     private String description;
 
-    // MAPPING TESTING
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "criteria_questionnaires", joinColumns = @JoinColumn(name = "criteriaId"), inverseJoinColumns = @JoinColumn(name = "questionnaire_id"))
-    private Set<Questionnaire> questionnaire = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "criteria")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Set<Questionnaire> questionnaires = new HashSet<>();
 
     public Criteria() {
 
@@ -101,12 +101,12 @@ public class Criteria extends UserDateAudit {
         this.user = user;
     }
 
-    public Set<Questionnaire> getQuestionnaire() {
-        return questionnaire;
+    public Set<Questionnaire> getQuestionnaires() {
+        return questionnaires;
     }
 
-    public void setQuestionnaire(Set<Questionnaire> questionnaire) {
-        this.questionnaire = questionnaire;
+    public void setQuestionnaires(Set<Questionnaire> questionnaires) {
+        this.questionnaires = questionnaires;
     }
 
 }
