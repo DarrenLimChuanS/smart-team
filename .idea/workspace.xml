@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3cb1c00-a57f-4e8b-b27d-e7c9fc70ce0d" name="Default Changelist" comment="Completed Student creation in UI and exposed API for view students">
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/app/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/app/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/courses/CourseInfo.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/courses/CourseInfo.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/src/courses/CourseInfo.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="65" column="115" selection-start-line="65" selection-start-column="82" selection-end-line="65" selection-end-column="115" />
+            <state relative-caret-position="-160">
+              <caret line="55" column="24" lean-forward="true" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="24" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -31,17 +31,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/courses/Course.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="64">
-              <caret line="133" column="17" lean-forward="true" selection-start-line="133" selection-start-column="17" selection-end-line="133" selection-end-column="17" />
+            <state relative-caret-position="2227">
+              <caret line="133" column="17" selection-start-line="133" selection-start-column="17" selection-end-line="133" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/src/app/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="185" column="66" lean-forward="true" selection-start-line="185" selection-start-column="66" selection-end-line="185" selection-end-column="66" />
+            <state relative-caret-position="265">
+              <caret line="200" column="27" lean-forward="true" selection-start-line="200" selection-start-column="27" selection-end-line="200" selection-end-column="51" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -109,7 +109,6 @@
         <option value="$PROJECT_DIR$/client/src/common/Sidebar.js" />
         <option value="$PROJECT_DIR$/client/src/courses/test2.js" />
         <option value="$PROJECT_DIR$/client/src/courses/Questionnaires.js" />
-        <option value="$PROJECT_DIR$/client/src/courses/CourseInfo.js" />
         <option value="$PROJECT_DIR$/client/src/courses/GroupStudent.js" />
         <option value="$PROJECT_DIR$/client/src/courses/QuestionnairesStudent.js" />
         <option value="$PROJECT_DIR$/client/src/courses/Course.js" />
@@ -133,6 +132,7 @@
         <option value="$PROJECT_DIR$/server/src/main/java/com/example/polls/controller/StudentController.java" />
         <option value="$PROJECT_DIR$/client/src/app/App.js" />
         <option value="$PROJECT_DIR$/client/src/app/App.js" />
+        <option value="$PROJECT_DIR$/client/src/courses/CourseInfo.js" />
       </list>
     </option>
   </component>
@@ -156,7 +156,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -186,6 +185,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -257,6 +257,7 @@
       <workItem from="1560352400530" duration="224000" />
       <workItem from="1560439307159" duration="965000" />
       <workItem from="1560736150232" duration="1507000" />
+      <workItem from="1560785039352" duration="712000" />
     </task>
     <task id="LOCAL-00001" summary="ManyToOne mapping for Student and User">
       <created>1560281255965</created>
@@ -269,13 +270,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49132000" />
+    <option name="totallyTimeSpent" value="49844000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-1088" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1663113" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16791044" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="Capture Tool" order="3" />
@@ -292,7 +293,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.3286119" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.21599169" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.21599169" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.3286119" />
       <window_info active="true" anchor="bottom" id="Messages" order="12" visible="true" weight="0.3286119" />
       <window_info anchor="right" id="Palette" order="0" />
@@ -684,23 +685,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/courses/CourseInfo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="65" column="115" selection-start-line="65" selection-start-column="82" selection-end-line="65" selection-end-column="115" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/src/courses/Course.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="133" column="17" lean-forward="true" selection-start-line="133" selection-start-column="17" selection-end-line="133" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/common/Sidebar.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
@@ -711,12 +695,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/courses/Course.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2227">
+          <caret line="133" column="17" selection-start-line="133" selection-start-column="17" selection-end-line="133" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client/src/app/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="185" column="66" lean-forward="true" selection-start-line="185" selection-start-column="66" selection-end-line="185" selection-end-column="66" />
+        <state relative-caret-position="265">
+          <caret line="200" column="27" lean-forward="true" selection-start-line="200" selection-start-column="27" selection-end-line="200" selection-end-column="51" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/src/courses/CourseInfo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-160">
+          <caret line="55" column="24" lean-forward="true" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>

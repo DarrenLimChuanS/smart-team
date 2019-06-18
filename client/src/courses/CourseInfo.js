@@ -54,7 +54,7 @@ class CourseInfo extends Component {
 
                 <Paragraph>
                     <ul>
-                        <Link to="/course/groups_student">
+                        <Link to="/courses/group_student">
                             <li>View group</li>
                         </Link>
                     </ul>
@@ -78,7 +78,7 @@ class CourseInfo extends Component {
                 <Divider/>
 
                 <div>
-                    <Card title="ICT1004" extra={                        <Link to="/course/groups_student">
+                    <Card title="ICT1004" extra={                        <Link to="/courses/group_student">
                         <li>View Group</li>
                     </Link>} style={{width: 600}}>
                         <p>After massive project practice and summaries, Ant Design, a design language for background

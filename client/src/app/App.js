@@ -196,6 +196,12 @@ class App extends Component {
                   component={NewSection}
                   handleLogout={this.handleLogout}
                 />
+                  <PrivateRoute
+                      authenticated={this.state.isAuthenticated}
+                      path="/courses/group_student"
+                      component={GroupStudent}
+                      handleLogout={this.handleLogout}
+                  />
                 <PrivateRoute
                     authenticated={this.state.isAuthenticated}
                     path="/courses/questionnaires_student"
