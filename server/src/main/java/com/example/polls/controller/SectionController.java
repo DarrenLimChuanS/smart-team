@@ -38,7 +38,6 @@ public class SectionController {
     private SectionService sectionService;
 
     @Autowired
-
     private CourseService courseService;
 
     @GetMapping

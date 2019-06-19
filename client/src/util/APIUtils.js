@@ -323,6 +323,23 @@ export function getAllCriteria(page, size) {
   });
 }
 
+export function getUserCreatedCriteria(username, page, size) {
+  page = page || 0;
+  size = size || POLL_LIST_SIZE;
+
+  return request({
+    url:
+      API_BASE_URL +
+      "/users/" +
+      username +
+      "/criteria?page=" +
+      page +
+      "&size=" +
+      size,
+    method: "GET"
+  });
+}
+
 export function getCriteriaById(criteriaId, page, size) {
   page = page || 0;
   size = size || COURSE_LIST_SIZE;
@@ -336,13 +353,6 @@ export function getCriteriaById(criteriaId, page, size) {
       page +
       "&size=" +
       size,
-    method: "GET"
-  });
-}
-
-export function getUserCreatedCriteria(userId) {
-  return request({
-    url: API_BASE_URL + "/users/" + userId + "/criteria",
     method: "GET"
   });
 }
@@ -390,6 +400,22 @@ export function getUserCreatedQuestionnaires(username, page, size) {
       "&size=" +
       size,
     method: "GET"
+  });
+}
+
+export function addCriteriaToQuestionnaire(questionnaireId, criteriaData) {
+  return request({
+    url: API_BASE_URL + "/questionnaires/" + questionnaireId + "/criteria",
+    method: "PUT",
+    body: JSON.stringify(criteriaData)
+  });
+}
+
+export function updateQuestionnaire(questionnaireId, questionnaireData) {
+  return request({
+    url: API_BASE_URL + "/questionnaires/" + questionnaireId,
+    method: "PUT",
+    body: JSON.stringify(questionnaireData)
   });
 }
 

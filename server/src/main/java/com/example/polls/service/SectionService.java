@@ -3,12 +3,14 @@ package com.example.polls.service;
 import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.Section;
+import com.example.polls.model.Student;
 import com.example.polls.model.User;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.PagedResponse;
 import com.example.polls.payload.SectionRequest;
 import com.example.polls.payload.SectionResponse;
 import com.example.polls.repository.SectionRepository;
+import com.example.polls.repository.StudentRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
@@ -23,14 +25,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 public class SectionService {
+
+    @Autowired
+    private StudentRepository studentRepository;
 
     @Autowired
     private SectionRepository sectionRepository;
@@ -61,8 +68,7 @@ public class SectionService {
                 sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
     }
 
-    public PagedResponse<SectionResponse> getSectionsCreatedBy(String username, int page,
-            int size) {
+    public PagedResponse<SectionResponse> getSectionsCreatedBy(String username, int page, int size) {
         validatePageNumberAndSize(page, size);
 
         User user = userRepository.findByUsername(username)
@@ -92,7 +98,12 @@ public class SectionService {
         section.setYear(sectionRequest.getYear());
         section.setStatus(sectionRequest.getStatus());
         section.setCourse(sectionRequest.getCourse());
-        section.setStudents(sectionRequest.getStudents());
+
+        for (Student student : sectionRequest.getStudents()) {
+            Student studentInfo = studentRepository.findById(student.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
+            section.getStudents().add(studentInfo);
+        }
 
         return sectionRepository.save(section);
     }

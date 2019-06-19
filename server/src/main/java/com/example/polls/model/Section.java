@@ -30,7 +30,7 @@ public class Section extends UserDateAudit {
 
     private String status;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", referencedColumnName = "id", nullable = false)
     private Course course;
 
@@ -45,11 +45,10 @@ public class Section extends UserDateAudit {
 
     }
 
-    public Section(String name, Long noOfStudents, Course course, Long year, String status, Student... students) {
+    public Section(String name, Long noOfStudents, Course course, Long year, String status, Set<Student> students) {
         this.name = name;
         this.noOfStudents = noOfStudents;
-        this.students = Stream.of(students).collect(Collectors.toSet());
-        this.students.forEach(x -> x.getSections().add(this));
+        this.students = students;
         this.course = course;
         this.year = year;
         this.status = status;

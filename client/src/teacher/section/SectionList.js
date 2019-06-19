@@ -163,11 +163,11 @@ class SectionList extends Component {
       },
       {
         title: "Course",
-        dataIndex: "course",
-        key: "course",
-        render: (text, record) => <span>{record.course.name}</span>,
-        sorter: (a, b) => a.course.name.length - b.course.name.length,
-        sortOrder: sortedInfo.columnKey === "course" && sortedInfo.order
+        dataIndex: "courseName",
+        key: "courseName",
+        render: (text, record) => <span>{record.courseName}</span>,
+        sorter: (a, b) => a.courseName.length - b.courseName.length,
+        sortOrder: sortedInfo.columnKey === "courseName" && sortedInfo.order
       },
       {
         title: "Year",

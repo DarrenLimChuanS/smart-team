@@ -17,57 +17,30 @@ import PopUpModal from "../../common/PopUpModal";
 import { compareByAlph } from "../../util/Sorters";
 import {
   createQuestionnaire,
-  getCriteriaById,
+  getUserCreatedQuestionnaires,
   getAllQuestionnaires,
-  getUserCreatedQuestionnaires
+  addCriteriaToQuestionnaire,
+  getCriteriaById,
+  getUserCreatedCriteria,
+  deleteCriteria
 } from "../../util/APIUtils";
 import { validateNotRequired, validateNotEmpty } from "../../util/Validators";
 
-import { QUESTIONNAIRE_LIST_SIZE } from "../../constants";
+import { CRITERIA_LIST_SIZE, QUESTIONNAIRE_LIST_SIZE } from "../../constants";
 
 const FormItem = Form.Item;
 const { Option } = Select;
 const { Title } = Typography;
 
-const data = [
-  {
-    key: "1",
-    question:
-      "Employees need to be supervised closely, or they are not likely to do their work.",
-    type: "Likert Scale"
-  },
-  {
-    key: "2",
-    question: "Employees want to be a part of the decision-making process.",
-    type: "Likert Scale"
-  },
-  {
-    key: "3",
-    question:
-      "In complex situations, leaders should let subordinates work problems out on their own.",
-    type: "Likert Scale"
-  },
-  {
-    key: "4",
-    question:
-      "It is fair to say that most employees in the general population are lazy.",
-    type: "Likert Scale"
-  },
-  {
-    key: "5",
-    question:
-      "Providing guidance without pressure is the key to being a good leader.",
-    type: "Likert Scale"
-  }
-];
-
 class Questionnaire extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      criteriaList: [],
       questionnaireList: [],
       selectedQuestionnaireId: 0,
       selectedCriteriaList: [],
+      selectedCriteriaId: 0,
       filteredInfo: null,
       sortedInfo: null,
       name: {
@@ -84,15 +57,56 @@ class Questionnaire extends Component {
       isLoading: false
     };
     this.loadQuestionnaireList = this.loadQuestionnaireList.bind(this);
+    this.loadCriteriaList = this.loadCriteriaList.bind(this);
     this.handleLoadMore = this.handleLoadMore.bind(this);
     // this.deleteCourseWithId = this.deleteCourseWithId.bind(this);
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAddCriteria = this.handleAddCriteria.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
   }
 
-  loadCriteriaList(criteriaId, page = 0, size = QUESTIONNAIRE_LIST_SIZE) {
+  loadCriteriaList(page = 0, size = CRITERIA_LIST_SIZE) {
+    let promise;
+
+    if (this.props.currentUser) {
+      promise = getUserCreatedCriteria(
+        this.props.currentUser.username,
+        page,
+        size
+      );
+    }
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        const criteria = this.state.criteriaList.slice();
+        this.setState({
+          criteriaList: criteria.concat(response.content),
+          page: response.page,
+          size: response.size,
+          totalElements: response.totalElements,
+          totalPages: response.totalPages,
+          last: response.last,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
+  loadCriteriaByID(criteriaId, page = 0, size = QUESTIONNAIRE_LIST_SIZE) {
     let promise;
     if (this.props.currentUser) {
       promise = getCriteriaById(criteriaId, page, size);
@@ -108,10 +122,9 @@ class Questionnaire extends Component {
 
     promise
       .then(response => {
-        console.log(response);
         const criteria = this.state.selectedCriteriaList.slice();
         this.setState({
-          selectedCriteriaList: criteria.concat(response.polls),
+          selectedCriteriaList: criteria.concat(response),
           page: response.page,
           size: response.size,
           totalElements: response.totalElements,
@@ -119,6 +132,7 @@ class Questionnaire extends Component {
           last: response.last,
           isLoading: false
         });
+        console.log(this.state.selectedCriteriaList);
       })
       .catch(error => {
         this.setState({
@@ -160,7 +174,6 @@ class Questionnaire extends Component {
           last: response.last,
           isLoading: false
         });
-        console.log(questionnaires.concat(response.content));
       })
       .catch(error => {
         this.setState({
@@ -171,6 +184,7 @@ class Questionnaire extends Component {
 
   componentDidMount() {
     this.loadQuestionnaireList();
+    this.loadCriteriaList();
   }
 
   componentDidUpdate(nextProps) {
@@ -219,8 +233,13 @@ class Questionnaire extends Component {
       selectedQuestionnaireId: value
     });
     this.state.questionnaireList[value].criteria.map(criteria => {
-      console.log(criteria.id);
-      this.loadCriteriaList(criteria.id);
+      this.loadCriteriaByID(criteria.id);
+    });
+  }
+
+  handleCriteriaChange(value) {
+    this.setState({
+      selectedCriteriaId: value
     });
   }
 
@@ -240,6 +259,35 @@ class Questionnaire extends Component {
             "Success! You have successfully created a new questionnaire."
         });
         this.props.history.push("/questionnaire");
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
+  }
+
+  handleAddCriteria() {
+    const {
+      questionnaireList,
+      selectedQuestionnaireId,
+      criteriaList,
+      selectedCriteriaId
+    } = this.state;
+    console.log(criteriaList[selectedCriteriaId]);
+    console.log(questionnaireList[selectedCriteriaId]);
+    addCriteriaToQuestionnaire(
+      questionnaireList[selectedQuestionnaireId].questionnaireId,
+      criteriaList[selectedCriteriaId]
+    )
+      .then(response => {
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully added a criteria."
+        });
+        this.props.history.push("/criteria");
       })
       .catch(error => {
         notification.error({
@@ -299,12 +347,12 @@ class Questionnaire extends Component {
     const criteriaColumns = [
       {
         title: "#",
-        dataIndex: "key",
-        key: "key",
-        filteredValue: filteredInfo.key || null,
-        onFilter: (value, record) => record.key.includes(value),
-        sorter: (a, b) => a.key - b.key,
-        sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
+        dataIndex: "id",
+        id: "id",
+        filteredValue: filteredInfo.id || null,
+        onFilter: (value, record) => record.id.includes(value),
+        sorter: (a, b) => a.id - b.id,
+        sortOrder: sortedInfo.columnid === "id" && sortedInfo.order
       },
       {
         title: "Question",
@@ -322,15 +370,9 @@ class Questionnaire extends Component {
       }
     ];
 
-    const criteria = [
-      { id: 1, name: "Leadership", numQtns: 10 },
-      { id: 2, name: "Skills", numQtns: 10 },
-      { id: 3, name: "Teamwork", numQtns: 15 }
-    ];
-
-    const criteriaOptions = criteria.map((item, key) => (
-      <Option key={item.id}>
-        {item.name} ({item.numQtns})
+    const criteriaOptions = this.state.criteriaList.map((item, index) => (
+      <Option key={index}>
+        {item.name} ({item.polls.length})
       </Option>
     ));
 
@@ -410,7 +452,7 @@ class Questionnaire extends Component {
                   name="selectedQuestionnaireId"
                   size="large"
                   style={{ width: "100%" }}
-                  placeholder="Please select"
+                  placeholder="Please select a questionnaire"
                   defaultValue={[]}
                   onChange={event => this.handleQuestionnaireChange(event)}
                 >
@@ -426,83 +468,89 @@ class Questionnaire extends Component {
             </Form>
           </Col>
         </Row>
+        <Row>
+          <p>
+            {selectedQuestionnaireId !== 0 &&
+              "Instructions: " +
+                questionnaireList[selectedQuestionnaireId].instruction}
+          </p>
+        </Row>
         <hr />
         <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
-          <Col span={21}>
-            <Title level={3}>
-              Criteria
-              {selectedQuestionnaireId !== 0 &&
-                questionnaireList[this.state.selectedQuestionnaireId]
-                  .criteria[0] !== undefined &&
-                ` - ${
-                  questionnaireList[this.state.selectedQuestionnaireId]
-                    .criteria[0].name
-                }`}
-              <Button
-                type="danger"
-                size="default"
-                style={{ marginLeft: "8px" }}
-                ghost
-              >
-                Remove
-              </Button>
-            </Title>
-          </Col>
+          <Col span={21} />
           <Col span={3}>
-            <PopUpModal
-              title="Add Criteria"
-              triggerButtonText="Add Criteria"
-              confirmText="Add Criteria"
-            >
-              <Form onSubmit={this.handleSubmit} className="signup-form">
-                <FormItem label="Select saved criteria">
-                  <Select
-                    size="large"
-                    style={{ width: "100%" }}
-                    placeholder="Please select"
-                    defaultValue={[]}
-                    onChange={event => this.handleQuestionnaireChange(event)}
-                  >
-                    {criteriaOptions}
-                  </Select>
-                </FormItem>
-              </Form>
+            {this.state.selectedQuestionnaireId !== 0 && (
+              <PopUpModal
+                title="Add Criteria"
+                triggerButtonText="Add Criteria"
+                confirmText="Add Criteria"
+                onSubmit={this.handleAddCriteria}
+              >
+                <Form onSubmit={this.handleSubmit} className="signup-form">
+                  <FormItem label="Select saved criteria">
+                    <Select
+                      size="large"
+                      style={{ width: "100%" }}
+                      placeholder="Please select a criteria"
+                      defaultValue={[]}
+                      onChange={value => this.handleCriteriaChange(value)}
+                    >
+                      {criteriaOptions}
+                    </Select>
+                  </FormItem>
+                </Form>
+                <Table
+                  columns={criteriaColumns}
+                  dataSource={
+                    this.state &&
+                    this.state.criteriaList[this.state.selectedCriteriaId] &&
+                    this.state.criteriaList[this.state.selectedCriteriaId].polls
+                  }
+                  onChange={this.handleChange}
+                />
+              </PopUpModal>
+            )}
+          </Col>
+        </Row>
+        <Row>
+          {selectedCriteriaList.map(criteria => (
+            <div>
+              <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
+                <Col span={21}>
+                  <Title level={3}>
+                    Criteria
+                    {selectedQuestionnaireId !== 0 &&
+                      questionnaireList[this.state.selectedQuestionnaireId]
+                        .criteria !== undefined &&
+                      ` - ${criteria.name}`}
+                    <Button
+                      type="danger"
+                      size="default"
+                      style={{ marginLeft: "8px" }}
+                      ghost
+                    >
+                      Remove
+                    </Button>
+                  </Title>
+                </Col>
+              </Row>
               <Table
-                columns={criteriaColumns}
-                dataSource={data}
+                columns={columns}
+                dataSource={
+                  selectedQuestionnaireId !== 0 &&
+                  criteria != undefined &&
+                  criteria.polls
+                }
                 onChange={this.handleChange}
               />
-            </PopUpModal>
-          </Col>
+            </div>
+          ))}
         </Row>
         <Row>
-          <Table
-            columns={columns}
-            // dataSource={
-            //   selectedQuestionnaireId !== 0 &&
-            //   questionnaireList[this.state.selectedQuestionnaireId]
-            //     .criteria[0] !== undefined &&
-            //   questionnaireList[this.state.selectedQuestionnaireId].criteria
-            // }
-
-            dataSource={
-              selectedQuestionnaireId !== 0 &&
-              selectedCriteriaList != undefined &&
-              selectedCriteriaList
-            }
-            onChange={this.handleChange}
-          />
-        </Row>
-        <Row>
-          <Col span={20} />
+          <Col span={22} />
           <Col span={2}>
             <Button type="primary" size="default" ghost>
               Export
-            </Button>
-          </Col>
-          <Col span={2}>
-            <Button type="primary" size="default">
-              Save
             </Button>
           </Col>
         </Row>

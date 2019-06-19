@@ -38,7 +38,6 @@ public class CriteriaService {
 
     public Criteria createCriteria(User user, CriteriaRequest criteriaRequest) {
         Criteria criteria = new Criteria();
-        criteria.setUser(user);
         criteria.setName(criteriaRequest.getName());
         criteria.setDescription(criteriaRequest.getDescription());
         criteria.setType(criteriaRequest.getType());
@@ -90,7 +89,6 @@ public class CriteriaService {
             return ResponseEntity.notFound().build();
 
         criteria.setId(criteriaId);
-        criteria.setUser(user);
         criteriaRepository.save(criteria);
         return ResponseEntity.ok(new ApiResponse(true, "Criteria Updated Successfully"));
 
@@ -117,20 +115,4 @@ public class CriteriaService {
             throw new BadRequestException("Page size must not be greater than " + AppConstants.MAX_PAGE_SIZE);
         }
     }
-
-    /** PROTOTYPE OF UPDATE BY NAME **/
-    // public ResponseEntity<Object> updateCriteriaByName(@RequestBody Criteria
-    // criteria, @PathVariable String name) {
-
-    // Optional<Criteria> criteriaOptional = criteriaRepository.findByName(name);
-
-    // if (!criteriaOptional.isPresent())
-    // return ResponseEntity.notFound().build();
-
-    // criteria.setId(criteriaId);
-    // courseRepository.save(criteria);
-    // return ResponseEntity.ok(new ApiResponse(true, "Course Updated
-    // Successfully"));
-    // }
-
 }

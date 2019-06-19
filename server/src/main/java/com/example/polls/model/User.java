@@ -40,9 +40,6 @@ public class User extends DateAudit {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Criteria> criteria;
-
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Student> students;
 
@@ -103,14 +100,6 @@ public class User extends DateAudit {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public Set<Criteria> getCriteria() {
-        return criteria;
-    }
-
-    public void setCriteria(Set<Criteria> criteria) {
-        this.criteria = criteria;
     }
 
     public Set<Student> getStudents() {

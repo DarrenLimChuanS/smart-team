@@ -2,6 +2,7 @@ package com.example.polls.service;
 
 import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
+import com.example.polls.model.Criteria;
 import com.example.polls.model.Questionnaire;
 import com.example.polls.model.User;
 import com.example.polls.payload.ApiResponse;
@@ -27,6 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -78,6 +80,7 @@ public class QuestionnaireService {
         Questionnaire questionnaire = new Questionnaire();
         questionnaire.setName(questionnaireRequest.getName());
         questionnaire.setInstruction(questionnaireRequest.getInstruction());
+
         return questionnaireRepository.save(questionnaire);
     }
 
@@ -121,6 +124,25 @@ public class QuestionnaireService {
         questionnaire.setCreatedBy(questionnaireOptional.get().getCreatedBy());
         questionnaireRepository.save(questionnaire);
         return ResponseEntity.ok(new ApiResponse(true, "Questionnaire Created Successfully"));
+    }
+
+    public ResponseEntity<Object> addCriteria(@RequestBody Criteria criteria, @PathVariable long questionnaireId) {
+
+        Optional<Questionnaire> questionnaire = questionnaireRepository.findByQuestionnaireId(questionnaireId);
+
+        if (questionnaire.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        Questionnaire updatedQuestionnaire = new Questionnaire();
+        updatedQuestionnaire.setQuestionnaireId(questionnaireId);
+        updatedQuestionnaire.setName(questionnaire.get().getName());
+        updatedQuestionnaire.setInstruction(questionnaire.get().getInstruction());
+        updatedQuestionnaire.setCreatedAt(questionnaire.get().getCreatedAt());
+        updatedQuestionnaire.setCreatedBy(questionnaire.get().getCreatedBy());
+        updatedQuestionnaire.setCriteria(questionnaire.get().getCriteria());
+        updatedQuestionnaire.getCriteria().add(criteria);
+        questionnaireRepository.save(questionnaire.get());
+        return ResponseEntity.ok(new ApiResponse(true, "Criteria added Successfully"));
     }
 
     public ResponseEntity<?> deleteById(Long questionnaire_id) {

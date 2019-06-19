@@ -32,11 +32,6 @@ public class Criteria extends UserDateAudit {
     @Size(max = 255)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
-    private User user;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "criteria")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
@@ -98,14 +93,6 @@ public class Criteria extends UserDateAudit {
 
     public void setGraded(Boolean graded) {
         this.graded = graded;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Set<Questionnaire> getQuestionnaires() {

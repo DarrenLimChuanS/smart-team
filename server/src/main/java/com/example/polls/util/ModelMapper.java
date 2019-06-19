@@ -76,9 +76,9 @@ public class ModelMapper {
         SectionResponse sectionResponse = new SectionResponse();
         sectionResponse.setSectionId(section.getSectionId());
         sectionResponse.setName(section.getName());
+        sectionResponse.setCourseName(section.getCourse().getName());
         sectionResponse.setNoOfStudents(section.getNoOfStudents());
         sectionResponse.setYear(section.getYear());
-        sectionResponse.setCourse(section.getCourse());
         sectionResponse.setStatus(section.getStatus());
         sectionResponse.setStudents(section.getStudents());
         sectionResponse.setCreationDateTime(section.getCreatedAt());

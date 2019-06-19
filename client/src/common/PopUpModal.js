@@ -18,6 +18,7 @@ class PopUpModal extends Component {
     setTimeout(() => {
       this.setState({ loading: false, visible: false });
     }, 3000);
+    this.props.onSubmit();
   };
 
   handleCancel = () => {
