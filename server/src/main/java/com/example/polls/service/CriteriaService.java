@@ -36,12 +36,13 @@ public class CriteriaService {
     @Autowired
     private UserRepository userRepository;
 
-    public Criteria createCriteria(User user, CriteriaRequest criteriaRequest) {
+    public Criteria createCriteria(CriteriaRequest criteriaRequest) {
         Criteria criteria = new Criteria();
         criteria.setName(criteriaRequest.getName());
         criteria.setDescription(criteriaRequest.getDescription());
         criteria.setType(criteriaRequest.getType());
         criteria.setGraded(criteriaRequest.getGraded());
+        criteria.setPolls(criteriaRequest.getPolls());
         return criteriaRepository.save(criteria);
     }
 

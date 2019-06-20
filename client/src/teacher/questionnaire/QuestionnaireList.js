@@ -460,7 +460,8 @@ class Questionnaire extends Component {
                     questionnaireList &&
                     questionnaireList.map((questionnaire, index) => (
                       <Option key={index}>
-                        {questionnaire.name} ({questionnaire.criteria.length})
+                        {questionnaire.questionnaireId} - {questionnaire.name} (
+                        {questionnaire.criteria.length} criteria)
                       </Option>
                     ))}
                 </Select>
@@ -477,7 +478,9 @@ class Questionnaire extends Component {
         </Row>
         <hr />
         <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
-          <Col span={21} />
+          <Col span={21}>
+            <Title level={2}>Criteria</Title>
+          </Col>
           <Col span={3}>
             {this.state.selectedQuestionnaireId !== 0 && (
               <PopUpModal
@@ -518,11 +521,10 @@ class Questionnaire extends Component {
               <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
                 <Col span={21}>
                   <Title level={3}>
-                    Criteria
                     {selectedQuestionnaireId !== 0 &&
                       questionnaireList[this.state.selectedQuestionnaireId]
                         .criteria !== undefined &&
-                      ` - ${criteria.name}`}
+                      `${criteria.name}`}
                     <Button
                       type="danger"
                       size="default"
