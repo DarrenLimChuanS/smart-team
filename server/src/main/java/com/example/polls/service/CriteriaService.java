@@ -4,7 +4,6 @@ import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.Criteria;
 import com.example.polls.model.User;
-import com.example.polls.model.Poll;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.CriteriaRequest;
 import com.example.polls.payload.CriteriaResponse;
@@ -47,10 +46,11 @@ public class CriteriaService {
         criteria.setDescription(criteriaRequest.getDescription());
         criteria.setType(criteriaRequest.getType());
         criteria.setGraded(criteriaRequest.getGraded());
-        // criteria.setPolls(criteriaRequest.getPolls());
-        criteriaRequest.getPolls().forEach(pollRequest -> {
-            criteria.getPolls().add(pollRequest);
+
+        criteriaRequest.getPolls().forEach(poll -> {
+            criteria.getPolls().add(poll);
         });
+
         return criteriaRepository.save(criteria);
     }
 

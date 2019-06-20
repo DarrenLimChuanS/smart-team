@@ -267,7 +267,6 @@ class Questionnaire extends Component {
             error.message || "Sorry! Something went wrong. Please try again!"
         });
       });
-    window.location.reload();
   }
 
   handleAddCriteria() {

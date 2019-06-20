@@ -4,14 +4,12 @@ import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.*;
 
-import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -77,7 +75,7 @@ public class Poll extends UserDateAudit {
         return criteria;
     }
 
-    public void setCriterias(Set<Criteria> criteria) {
+    public void setCriteria(Set<Criteria> criteria) {
         this.criteria = criteria;
     }
 }

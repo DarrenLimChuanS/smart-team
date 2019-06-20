@@ -177,10 +177,6 @@ public class PollService {
         Poll poll = pollRepository.findById(pollId)
                 .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", pollId));
 
-        if (poll.getExpirationDateTime().isBefore(Instant.now())) {
-            throw new BadRequestException("Sorry! This Poll has already expired");
-        }
-
         User user = userRepository.getOne(currentUser.getId());
 
         Choice selectedChoice = poll.getChoices().stream()
