@@ -34,8 +34,8 @@ public class Poll extends UserDateAudit {
     @BatchSize(size = 30)
     private List<Choice> choices = new ArrayList<>();
 
-    @NotNull
-    private Instant expirationDateTime;
+    // @NotNull
+    // private Instant expirationDateTime;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "polls")
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -66,13 +66,13 @@ public class Poll extends UserDateAudit {
         this.choices = choices;
     }
 
-    public Instant getExpirationDateTime() {
-        return expirationDateTime;
-    }
+    // public Instant getExpirationDateTime() {
+    // return expirationDateTime;
+    // }
 
-    public void setExpirationDateTime(Instant expirationDateTime) {
-        this.expirationDateTime = expirationDateTime;
-    }
+    // public void setExpirationDateTime(Instant expirationDateTime) {
+    // this.expirationDateTime = expirationDateTime;
+    // }
 
     public void addChoice(Choice choice) {
         choices.add(choice);

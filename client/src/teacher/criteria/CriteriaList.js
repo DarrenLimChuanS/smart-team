@@ -237,26 +237,11 @@ class Criteria extends Component {
             </Button>
           </Col>
           <Col span={2}>
-            <PopUpModal
-              title="Create Criteria"
-              triggerButtonText="Create"
-              confirmText={false}
-            >
-              <Row style={{ textAlign: "center" }}>
-                <Col span={12}>
-                  <Link to="/criteria/graded/new">
-                    <Button type="primary" size="large">
-                      Graded
-                    </Button>
-                  </Link>
-                </Col>
-                <Col span={12}>
-                  <Button type="primary" size="large">
-                    Ungraded
-                  </Button>
-                </Col>
-              </Row>
-            </PopUpModal>
+            <Link to="/criteria/new">
+              <Button type="primary" size="default">
+                Create
+              </Button>
+            </Link>
           </Col>
         </Row>
         <Row>

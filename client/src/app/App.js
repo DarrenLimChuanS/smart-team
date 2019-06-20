@@ -20,6 +20,7 @@ import NewSection from "../teacher/section/NewSection";
 import EditSection from "../teacher/section/EditSection";
 import SectionList from "../teacher/section/SectionList";
 import CriteriaList from "../teacher/criteria/CriteriaList";
+import NewCriteria from "../teacher/criteria/NewCriteria";
 import QuestionnaireList from "../teacher/questionnaire/QuestionnaireList";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
@@ -31,7 +32,6 @@ import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
 import { Layout, notification } from "antd";
-import NewGradedCriteria from "../teacher/criteria/NewGradedCriteria";
 const { Content } = Layout;
 
 class App extends Component {
@@ -251,6 +251,12 @@ class App extends Component {
                   )}
                   handleLogout={this.handleLogout}
                 />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/criteria/new"
+                  component={NewCriteria}
+                  handleLogout={this.handleLogout}
+                />
                 <Route
                   authenticated={this.state.isAuthenticated}
                   path="/criteria"
@@ -262,8 +268,6 @@ class App extends Component {
                     />
                   )}
                   handleLogout={this.handleLogout}
-                />
-                handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />
               </Switch>

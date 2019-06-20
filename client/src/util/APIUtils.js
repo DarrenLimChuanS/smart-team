@@ -313,6 +313,14 @@ export function getUserVotedPolls(username, page, size) {
  * Criteria APIs
  **/
 
+export function createCriteria(criteriaData) {
+  return request({
+    url: API_BASE_URL + "/criteria",
+    method: "POST",
+    body: JSON.stringify(criteriaData)
+  });
+}
+
 export function getAllCriteria(page, size) {
   page = page || 0;
   size = size || COURSE_LIST_SIZE;
