@@ -47,11 +47,10 @@ public class CriteriaService {
         criteria.setDescription(criteriaRequest.getDescription());
         criteria.setType(criteriaRequest.getType());
         criteria.setGraded(criteriaRequest.getGraded());
-        criteria.setPolls(criteriaRequest.getPolls());
-        // for (Poll poll : criteriaRequest.getPolls()) {
-        // Poll currentPoll = pollRepository.save(poll);
-        // criteria.getPolls().add(currentPoll);
-        // }
+        // criteria.setPolls(criteriaRequest.getPolls());
+        criteriaRequest.getPolls().forEach(pollRequest -> {
+            criteria.getPolls().add(pollRequest);
+        });
         return criteriaRepository.save(criteria);
     }
 

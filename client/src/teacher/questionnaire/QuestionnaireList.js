@@ -267,6 +267,7 @@ class Questionnaire extends Component {
             error.message || "Sorry! Something went wrong. Please try again!"
         });
       });
+    window.location.reload();
   }
 
   handleAddCriteria() {
@@ -287,7 +288,6 @@ class Questionnaire extends Component {
           message: "Smart Team",
           description: "Success! You have successfully added a criteria."
         });
-        this.props.history.push("/criteria");
       })
       .catch(error => {
         notification.error({
@@ -296,6 +296,7 @@ class Questionnaire extends Component {
             error.message || "Sorry! Something went wrong. Please try again!"
         });
       });
+    window.location.reload();
   }
 
   isFormInvalid() {
