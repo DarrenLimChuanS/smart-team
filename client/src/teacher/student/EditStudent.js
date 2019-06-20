@@ -194,7 +194,6 @@ class EditStudent extends Component {
               help={email.errorMsg}
             >
               <Input
-                disabled={id.value}
                 size="large"
                 name="email"
                 type="email"

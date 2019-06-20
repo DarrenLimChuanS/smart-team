@@ -114,7 +114,7 @@ public class QuestionnaireService {
 
         Optional<Questionnaire> questionnaireOptional = questionnaireRepository.findByQuestionnaireId(questionnaireId);
 
-        if (questionnaireOptional.isEmpty())
+        if (questionnaireOptional.isPresent())
             return ResponseEntity.notFound().build();
 
         questionnaire.setQuestionnaireId(questionnaireId);
@@ -130,7 +130,7 @@ public class QuestionnaireService {
 
         Optional<Questionnaire> questionnaire = questionnaireRepository.findByQuestionnaireId(questionnaireId);
 
-        if (questionnaire.isEmpty())
+        if (questionnaire.isPresent())
             return ResponseEntity.notFound().build();
 
         Questionnaire updatedQuestionnaire = new Questionnaire();

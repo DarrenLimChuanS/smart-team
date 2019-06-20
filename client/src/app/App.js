@@ -271,6 +271,18 @@ class App extends Component {
                 />
                 <Route
                   authenticated={this.state.isAuthenticated}
+                  path="/criteria/graded/new"
+                  render={props => (
+                    <NewGradedCriteria
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
+                  handleLogout={this.handleLogout}
+                />
+                <Route
+                  authenticated={this.state.isAuthenticated}
                   path="/criteria"
                   render={props => (
                     <CriteriaList
@@ -280,8 +292,6 @@ class App extends Component {
                     />
                   )}
                   handleLogout={this.handleLogout}
-                />
-                handleLogout={this.handleLogout}
                 />
                 <Route component={NotFound} />
               </Switch>

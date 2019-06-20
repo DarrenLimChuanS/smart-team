@@ -209,7 +209,7 @@ class NewGradedCriteria extends Component {
 
     return (
       <div className="new-poll-container">
-        <Title level={2}>Create Section</Title>
+        <Title level={2}>Create Graded Criteria</Title>
         <h1 className="page-title">Question 1</h1>
         <div className="new-poll-content">
           <Form onSubmit={this.handleSubmit} className="create-poll-form">

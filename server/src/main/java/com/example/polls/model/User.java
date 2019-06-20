@@ -1,7 +1,11 @@
 package com.example.polls.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.example.polls.model.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -40,8 +44,19 @@ public class User extends DateAudit {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Student> students;
+    // Mapping teachers to students
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST}
+    )
+    @JoinTable(
+            name = "user_students",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "student_id")}
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Set<Student> students = new HashSet<>();
 
     public User() {
 

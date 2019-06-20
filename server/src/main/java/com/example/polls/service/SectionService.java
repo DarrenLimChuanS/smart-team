@@ -129,7 +129,7 @@ public class SectionService {
 
         Optional<Section> sectionOptional = sectionRepository.findBySectionId(sectionId);
 
-        if (sectionOptional.isEmpty())
+        if (sectionOptional.isPresent())
             return ResponseEntity.notFound().build();
 
         section.setSectionId(sectionId);
