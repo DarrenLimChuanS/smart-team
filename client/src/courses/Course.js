@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import { Link, withRouter } from "react-router-dom";
+import { Button, Divider, Row, Col, Table, Typography, Menu } from "antd";
 
 const { Title } = Typography;
 
@@ -18,7 +18,7 @@ const data = [
     status: "Ongoing"
   },
   {
-    key: "4",
+    key: "3",
     name: "Embedded systems",
     module: "ICT1003",
     status: "Ongoing"
@@ -127,7 +127,9 @@ class Course extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">View more</a>
+            <Link to="/courses/info">
+              <a href="javascript:;">View more</a>
+            </Link>
             <Divider type="vertical" />
           </span>
         )
@@ -138,7 +140,7 @@ class Course extends Component {
       <React.Fragment>
         <Row>
           <Col span={22}>
-            <Title level={2}>Courses</Title>
+            <Title level={2}>Courses (For students)</Title>
           </Col>
           <Col span={2}>
             <Button type="primary" size={12}>

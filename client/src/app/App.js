@@ -14,7 +14,6 @@ import NewStudent from "../teacher/student/NewStudent";
 import StudentList from "../teacher/student/StudentList";
 import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
-import Course from "../courses/Course";
 import EditStudent from "../teacher/student/EditStudent";
 import NewSection from "../teacher/section/NewSection";
 import EditSection from "../teacher/section/EditSection";
@@ -26,6 +25,7 @@ import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
 import Courses from "../courses/Course";
 import CourseInfo from "../courses/CourseInfo";
+import GroupStudent from "../courses/GroupStudent";
 import QuestionnairesStudent from "../courses/QuestionnairesStudent";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
@@ -211,15 +211,33 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/courses"
-                  component={Course}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
                   path="/section/new"
                   component={NewSection}
                   handleLogout={this.handleLogout}
+                />
+                  <PrivateRoute
+                      authenticated={this.state.isAuthenticated}
+                      path="/courses/group_student"
+                      component={GroupStudent}
+                      handleLogout={this.handleLogout}
+                  />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/courses/questionnaires_student"
+                    component={QuestionnairesStudent}
+                    handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/courses/info"
+                    component={CourseInfo}
+                    handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/courses"
+                    component={Courses}
+                    handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}

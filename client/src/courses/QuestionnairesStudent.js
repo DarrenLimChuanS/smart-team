@@ -38,7 +38,7 @@ class QuestionnairesStudent extends Component {
 
         };
 
-        const {max = 20, min = 0} = this.props;
+        const {max ,min } = this.props;
         const {slider_value} = this.state;
         const mid = ((max - min) / 2).toFixed(5);
         const preColor = slider_value >= mid ? '' : 'rgba(0, 0, 0, .45)';
@@ -91,7 +91,7 @@ class QuestionnairesStudent extends Component {
                 <div className="icon-wrapper">
                     <p>How much would you like to be in a team? Sliding to the right indicates more likes.</p>
                     <Icon style={{color: preColor}} type="frown-o"/>
-                    <Slider {...this.props} onChange={this.handleChange} slider_value={slider_value }/>
+                    <Slider max={20}{...this.props} onChange={this.handleChange} slider_value={slider_value } style={{width: 300}}/>
                     <Icon style={{color: nextColor}} type="smile-o"/>
                 </div>
 

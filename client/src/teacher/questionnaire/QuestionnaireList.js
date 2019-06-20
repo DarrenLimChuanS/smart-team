@@ -553,10 +553,30 @@ class Questionnaire extends Component {
               Export
             </Button>
           </Col>
+          <Col span={2}>
+            <Button type="primary" size="default">
+              Save
+            </Button>
+          </Col>
         </Row>
       </React.Fragment>
     );
   }
+
+  // Validation Functions
+  validateName = name => {
+    if (name === "") {
+      return {
+        validateStatus: "error",
+        errorMsg: `Name cannot be empty.`
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+  };
 }
 
 export default withRouter(Questionnaire);
