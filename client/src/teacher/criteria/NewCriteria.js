@@ -32,7 +32,7 @@ class NewCriteria extends Component {
         text: ""
       },
       type: {
-        text: ""
+        text: "qwer1234"
       },
       graded: {
         value: 0
@@ -120,28 +120,28 @@ class NewCriteria extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state.questions);
-    let structuresQtns = [];
+    let structuredQtns = [];
     this.state.questions.map(question => {
-      let choices = [];
-      question.choices.map(choice => {
-        choices = choices.concat([choice.text]);
-      });
-      console.log(choices);
+      // let choices = [];
+      // question.choices.map(choice => {
+      //   choices = choices.concat({
+      //     text:
+      //   });
+      // });
       question = {
         question: question.question.text,
-        choices: choices
+        choices: question.choices
       };
-      structuresQtns = structuresQtns.concat([{ question }]);
-      console.log(structuresQtns);
+      structuredQtns = structuredQtns.concat(question);
     });
     const criteriaData = {
       name: this.state.name.text,
       description: this.state.description.text,
       type: this.state.type.text,
       graded: this.state.graded.value == 1 ? true : false,
-      polls: structuresQtns
+      polls: structuredQtns
     };
+    console.log(criteriaData);
 
     createCriteria(criteriaData)
       .then(response => {
@@ -182,8 +182,8 @@ class NewCriteria extends Component {
   handleQuestionChange(event, qtnIndex) {
     const questions = this.state.questions.slice();
     const value = event.target.value;
-    console.log(questions);
-    console.log(qtnIndex);
+    // console.log(questions);
+    // console.log(qtnIndex);
     questions[qtnIndex] = {
       question: {
         text: value,
