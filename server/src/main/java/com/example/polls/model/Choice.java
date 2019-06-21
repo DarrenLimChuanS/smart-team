@@ -1,11 +1,10 @@
 package com.example.polls.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import java.util.Objects;
 
 @Entity
@@ -19,6 +18,8 @@ public class Choice {
     @Size(max = 40)
     private String text;
 
+    private int score;
+
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "poll_id", nullable = false)
@@ -28,8 +29,9 @@ public class Choice {
 
     }
 
-    public Choice(String text) {
+    public Choice(String text, int score) {
         this.text = text;
+        this.score = score;
     }
 
     public Long getId() {
@@ -46,6 +48,14 @@ public class Choice {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public Poll getPoll() {

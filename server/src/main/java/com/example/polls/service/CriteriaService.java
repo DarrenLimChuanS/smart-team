@@ -49,14 +49,18 @@ public class CriteriaService {
         Criteria criteria = new Criteria();
         criteria.setName(criteriaRequest.getName());
         criteria.setDescription(criteriaRequest.getDescription());
-        criteria.setType(criteriaRequest.getType());
         criteria.setGraded(criteriaRequest.getGraded());
+        criteria.setQ1(criteriaRequest.getQ1());
+        criteria.setQ2(criteriaRequest.getQ2());
+        criteria.setQ3(criteriaRequest.getQ3());
+        criteria.setQ4(criteriaRequest.getQ4());
 
-        criteriaRequest.getPolls().forEach(pollRequest ->{
+        criteriaRequest.getPolls().forEach(pollRequest -> {
             Poll newPoll = new Poll();
             newPoll.setQuestion(pollRequest.getQuestion());
 
-            pollRequest.getChoices().forEach(choiceRequest -> newPoll.addChoice(new Choice(choiceRequest.getText())));
+            pollRequest.getChoices().forEach(
+                    choiceRequest -> newPoll.addChoice(new Choice(choiceRequest.getText(), choiceRequest.getScore())));
             criteria.addPoll(newPoll);
         });
 

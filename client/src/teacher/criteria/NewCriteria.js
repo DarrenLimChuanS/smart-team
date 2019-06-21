@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { createCriteria } from "../../util/APIUtils";
 import {
-  MAX_CHOICES,
   POLL_QUESTION_MAX_LENGTH,
-  POLL_CHOICE_MAX_LENGTH
+  POLL_CHOICE_MAX_LENGTH,
+  CHOICE_SCORE_MAX,
+  CHOICE_SCORE_MIN
 } from "../../constants";
 import "./NewCriteria.css";
 import { validateNotEmpty, validateNotRequired } from "../../util/Validators";
@@ -30,9 +31,6 @@ class NewCriteria extends Component {
       },
       description: {
         text: ""
-      },
-      type: {
-        text: "qwer1234"
       },
       graded: {
         value: 0
@@ -121,28 +119,43 @@ class NewCriteria extends Component {
   handleSubmit(event) {
     event.preventDefault();
     let structuredQtns = [];
+    let qnsChoiceMaxScores = [];
+    let totalScore = 0;
+    let averageScore = 0;
+
     this.state.questions.map(question => {
-      // let choices = [];
-      // question.choices.map(choice => {
-      //   choices = choices.concat({
-      //     text:
-      //   });
-      // });
+      let qnsMaxScore = 0;
+      question.choices.map(choice => {
+        if (choice.score > qnsMaxScore) {
+          qnsMaxScore = choice.score;
+        }
+      });
+      qnsChoiceMaxScores.push(qnsMaxScore);
       question = {
         question: question.question.text,
         choices: question.choices
       };
       structuredQtns = structuredQtns.concat(question);
     });
+    console.log(qnsChoiceMaxScores);
+    qnsChoiceMaxScores.map(score => (totalScore = totalScore + Number(score)));
+    averageScore = totalScore / 4;
+
+    console.log(totalScore);
+    console.log(averageScore);
+
     const criteriaData = {
       name: this.state.name.text,
       description: this.state.description.text,
-      type: this.state.type.text,
+      q1: averageScore,
+      q2: averageScore * 2,
+      q3: averageScore * 3,
+      q4: averageScore * 4,
       graded: this.state.graded.value == 1 ? true : false,
       polls: structuredQtns
     };
     console.log(criteriaData);
-
+    console.log(this.state);
     createCriteria(criteriaData)
       .then(response => {
         notification.success({
@@ -216,11 +229,36 @@ class NewCriteria extends Component {
     }
   };
 
+  validateScore = score => {
+    if (score.length === 0) {
+      return {
+        validateStatus: "error",
+        errorMsg: "Please enter a score!"
+      };
+    } else if (score > CHOICE_SCORE_MAX) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Score is too high (Maximum value of ${CHOICE_SCORE_MAX} allowed)`
+      };
+    } else if (score < CHOICE_SCORE_MIN) {
+      return {
+        validateStatus: "error",
+        errorMsg: `Score is too low (Minimum value of ${CHOICE_SCORE_MAX})`
+      };
+    } else {
+      return {
+        validateStatus: "success",
+        errorMsg: null
+      };
+    }
+  };
+
   handleChoiceChange(event, qtnIndex, choiceIndex) {
     const questions = this.state.questions.slice();
     const value = event.target.value;
     questions[qtnIndex].choices[choiceIndex] = {
       text: value,
+      score: questions[qtnIndex].choices[choiceIndex].score,
       ...this.validateChoice(value)
     };
 
@@ -229,6 +267,23 @@ class NewCriteria extends Component {
     });
 
     console.log(this.state);
+  }
+
+  handleScoreChange(event, qtnIndex, scoreIndex) {
+    const questions = this.state.questions.slice();
+    const value = event.target.value;
+    console.log(event.target.value);
+    questions[qtnIndex].choices[scoreIndex] = {
+      score: value,
+      text: questions[qtnIndex].choices[scoreIndex].text,
+      ...this.validateScore(value)
+    };
+
+    this.setState({
+      questions: questions
+    });
+
+    console.log(questions);
   }
 
   isFormInvalid() {
@@ -358,9 +413,13 @@ class NewCriteria extends Component {
                   <PollChoice
                     key={choiceIndex}
                     choice={choice}
+                    graded={graded.value}
                     choiceNumber={choiceIndex}
                     handleChoiceChange={event =>
                       this.handleChoiceChange(event, index, choiceIndex)
+                    }
+                    handleScoreChange={event =>
+                      this.handleScoreChange(event, index, choiceIndex)
                     }
                   />
                 ))}
@@ -392,17 +451,29 @@ class NewCriteria extends Component {
 function PollChoice(props) {
   return (
     <FormItem
-      hasFeedback
       validateStatus={props.choice.validateStatus}
       help={props.choice.errorMsg}
       className="poll-form-row"
     >
-      <Input
-        placeholder={"Choice " + (props.choiceNumber + 1)}
-        size="large"
-        value={props.choice.text}
-        onChange={props.handleChoiceChange}
-      />
+      <Col span={props.graded == 0 ? 24 : 18}>
+        <Input
+          placeholder={"Choice " + (props.choiceNumber + 1)}
+          size="large"
+          value={props.choice.text}
+          onChange={props.handleChoiceChange}
+        />
+      </Col>
+      {props.graded == 1 && (
+        <Col offset={1} span={5}>
+          <Input
+            type="number"
+            placeholder={"Score " + (props.choiceNumber + 1)}
+            size="large"
+            value={props.choice.score}
+            onChange={props.handleScoreChange}
+          />
+        </Col>
+      )}
     </FormItem>
   );
 }
