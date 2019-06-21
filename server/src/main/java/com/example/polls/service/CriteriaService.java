@@ -9,6 +9,7 @@ import com.example.polls.payload.CriteriaRequest;
 import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.PagedResponse;
 import com.example.polls.repository.CriteriaRepository;
+import com.example.polls.repository.PollRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
@@ -34,6 +35,9 @@ public class CriteriaService {
     private CriteriaRepository criteriaRepository;
 
     @Autowired
+    private PollRepository pollRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     public Criteria createCriteria(CriteriaRequest criteriaRequest) {
@@ -42,7 +46,11 @@ public class CriteriaService {
         criteria.setDescription(criteriaRequest.getDescription());
         criteria.setType(criteriaRequest.getType());
         criteria.setGraded(criteriaRequest.getGraded());
-        criteria.setPolls(criteriaRequest.getPolls());
+
+        criteriaRequest.getPolls().forEach(poll -> {
+            criteria.getPolls().add(poll);
+        });
+
         return criteriaRepository.save(criteria);
     }
 

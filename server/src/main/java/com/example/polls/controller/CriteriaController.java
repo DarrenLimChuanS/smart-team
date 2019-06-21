@@ -87,7 +87,7 @@ public class CriteriaController {
         Criteria criteria = criteriaService.createCriteria(criteriaRequest);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{criteriaId}")
-                .buildAndExpand(criteria.getCriteriaId()).toUri();
+                .buildAndExpand(criteria.getId()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "Criteria Created Successfully"));
     }

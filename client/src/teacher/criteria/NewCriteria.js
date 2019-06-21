@@ -6,6 +6,7 @@ import {
   POLL_CHOICE_MAX_LENGTH
 } from "../../constants";
 import "./NewCriteria.css";
+import { validateNotEmpty, validateNotRequired } from "../../util/Validators";
 import {
   Typography,
   Form,
@@ -24,6 +25,18 @@ class NewCriteria extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: {
+        text: ""
+      },
+      description: {
+        text: ""
+      },
+      type: {
+        text: "qwer1234"
+      },
+      graded: {
+        value: 0
+      },
       questions: [
         {
           question: {
@@ -107,13 +120,28 @@ class NewCriteria extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    let structuredQtns = [];
+    this.state.questions.map(question => {
+      // let choices = [];
+      // question.choices.map(choice => {
+      //   choices = choices.concat({
+      //     text:
+      //   });
+      // });
+      question = {
+        question: question.question.text,
+        choices: question.choices
+      };
+      structuredQtns = structuredQtns.concat(question);
+    });
     const criteriaData = {
-      name: this.state.name,
-      type: this.state.type,
-      description: this.state.description,
-      graded: this.state.graded,
-      polls: this.state.questions
+      name: this.state.name.text,
+      description: this.state.description.text,
+      type: this.state.type.text,
+      graded: this.state.graded.value == 1 ? true : false,
+      polls: structuredQtns
     };
+    console.log(criteriaData);
 
     createCriteria(criteriaData)
       .then(response => {
@@ -154,8 +182,8 @@ class NewCriteria extends Component {
   handleQuestionChange(event, qtnIndex) {
     const questions = this.state.questions.slice();
     const value = event.target.value;
-    console.log(questions);
-    console.log(qtnIndex);
+    // console.log(questions);
+    // console.log(qtnIndex);
     questions[qtnIndex] = {
       question: {
         text: value,
@@ -190,7 +218,6 @@ class NewCriteria extends Component {
 
   handleChoiceChange(event, qtnIndex, choiceIndex) {
     const questions = this.state.questions.slice();
-    // const choices = this.state.questions[qtnIndex].choices.slice();
     const value = event.target.value;
     questions[qtnIndex].choices[choiceIndex] = {
       text: value,
@@ -219,12 +246,85 @@ class NewCriteria extends Component {
     });
   }
 
+  handleInputChange(event, validationFun) {
+    const target = event.target;
+    const inputName = target.name;
+    const inputValue = target.value;
+
+    this.setState({
+      [inputName]: {
+        text: inputValue,
+        ...validationFun(inputValue, target.placeholder)
+      }
+    });
+  }
+
+  handleGradedChange(value) {
+    this.setState({
+      ...this.state,
+      graded: {
+        value: value
+      }
+    });
+  }
+
   render() {
+    const { graded, name, description } = this.state;
     return (
       <div className="new-poll-container">
         <Title level={2}>Create a Criteria</Title>
         <div className="new-poll-content">
           <Form onSubmit={this.handleSubmit} className="create-poll-form">
+            <FormItem
+              label="Graded"
+              hasFeedback
+              validateStatus={graded.validateStatus}
+              help={graded.errorMsg}
+            >
+              <Select
+                size="large"
+                style={{ width: "100%" }}
+                placeholder="Please select"
+                onChange={value => this.handleGradedChange(value)}
+              >
+                <Option key={0}>No</Option>
+                <Option key={1}>Yes</Option>
+              </Select>
+            </FormItem>
+            <FormItem
+              hasFeedback
+              validateStatus={name.validateStatus}
+              help={name.errorMsg}
+              className="poll-form-row"
+            >
+              <Input
+                placeholder="Enter criteria name"
+                style={{ fontSize: "16px" }}
+                name="name"
+                autoComplete="off"
+                value={name.text}
+                onChange={event =>
+                  this.handleInputChange(event, validateNotEmpty)
+                }
+              />
+            </FormItem>
+            <FormItem
+              hasFeedback
+              validateStatus={description.validateStatus}
+              help={description.errorMsg}
+              className="poll-form-row"
+            >
+              <TextArea
+                placeholder="Enter criteria description"
+                style={{ fontSize: "16px" }}
+                autosize={{ minRows: 3, maxRows: 6 }}
+                name="description"
+                value={description.text}
+                onChange={event =>
+                  this.handleInputChange(event, validateNotEmpty)
+                }
+              />
+            </FormItem>
             {this.state.questions.map((question, index) => (
               <React.Fragment>
                 <h1 className="page-title">

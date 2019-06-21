@@ -146,12 +146,6 @@ public class PollService {
             poll.addChoice(new Choice(choiceRequest.getText()));
         });
 
-        Instant now = Instant.now();
-        Instant expirationDateTime = now.plus(Duration.ofDays(pollRequest.getPollLength().getDays()))
-                .plus(Duration.ofHours(pollRequest.getPollLength().getHours()));
-
-        poll.setExpirationDateTime(expirationDateTime);
-
         return pollRepository.save(poll);
     }
 
@@ -182,10 +176,6 @@ public class PollService {
     public PollResponse castVoteAndGetUpdatedPoll(Long pollId, VoteRequest voteRequest, UserPrincipal currentUser) {
         Poll poll = pollRepository.findById(pollId)
                 .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", pollId));
-
-        if (poll.getExpirationDateTime().isBefore(Instant.now())) {
-            throw new BadRequestException("Sorry! This Poll has already expired");
-        }
 
         User user = userRepository.getOne(currentUser.getId());
 

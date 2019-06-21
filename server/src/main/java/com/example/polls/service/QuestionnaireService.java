@@ -9,6 +9,7 @@ import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.PagedResponse;
 import com.example.polls.payload.QuestionnaireRequest;
 import com.example.polls.payload.QuestionnaireResponse;
+import com.example.polls.repository.CriteriaRepository;
 import com.example.polls.repository.QuestionnaireRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.security.UserPrincipal;
@@ -40,6 +41,9 @@ public class QuestionnaireService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CriteriaRepository criteriaRepository;
 
     public PagedResponse<QuestionnaireResponse> getAllQuestionnaires(int page, int size) {
         validatePageNumberAndSize(page, size);
@@ -140,8 +144,9 @@ public class QuestionnaireService {
         updatedQuestionnaire.setCreatedAt(questionnaire.get().getCreatedAt());
         updatedQuestionnaire.setCreatedBy(questionnaire.get().getCreatedBy());
         updatedQuestionnaire.setCriteria(questionnaire.get().getCriteria());
-        updatedQuestionnaire.getCriteria().add(criteria);
-        questionnaireRepository.save(questionnaire.get());
+        Criteria newCriteria = criteriaRepository.findById(criteria.getId()).get();
+        updatedQuestionnaire.getCriteria().add(newCriteria);
+        questionnaireRepository.save(updatedQuestionnaire);
         return ResponseEntity.ok(new ApiResponse(true, "Criteria added Successfully"));
     }
 
