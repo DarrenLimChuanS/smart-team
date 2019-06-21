@@ -518,33 +518,35 @@ class Questionnaire extends Component {
         <Row>
           {selectedCriteriaList.map(criteria => (
             <div>
-              <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
-                <Col span={21}>
-                  <Title level={3}>
-                    {selectedQuestionnaireId !== 0 &&
-                      questionnaireList[this.state.selectedQuestionnaireId]
-                        .criteria !== undefined &&
-                      `${criteria.name}`}
-                    <Button
-                      type="danger"
-                      size="default"
-                      style={{ marginLeft: "8px" }}
-                      ghost
-                    >
-                      Remove
-                    </Button>
-                  </Title>
-                </Col>
-              </Row>
-              <Table
-                columns={columns}
-                dataSource={
-                  selectedQuestionnaireId !== 0 &&
-                  criteria != undefined &&
-                  criteria.polls
-                }
-                onChange={this.handleChange}
-              />
+              <div>
+                <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
+                  <Col span={21}>
+                    <Title level={3}>
+                      {selectedQuestionnaireId !== 0 &&
+                        questionnaireList[this.state.selectedQuestionnaireId]
+                          .criteria !== undefined &&
+                        `${criteria.name}`}
+                      <Button
+                        type="danger"
+                        size="default"
+                        style={{ marginLeft: "8px" }}
+                        ghost
+                      >
+                        Remove
+                      </Button>
+                    </Title>
+                  </Col>
+                </Row>
+                <Table
+                  columns={columns}
+                  dataSource={
+                    selectedQuestionnaireId !== 0 &&
+                    criteria != undefined &&
+                    criteria.polls
+                  }
+                  onChange={this.handleChange}
+                />
+              </div>
             </div>
           ))}
         </Row>

@@ -31,7 +31,7 @@ class Criteria extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      criterias: [],
+      criteria: [],
       page: 0,
       size: 10,
       totalElements: 0,
@@ -68,9 +68,9 @@ class Criteria extends Component {
     promise
       .then(response => {
         console.log(response);
-        const criterias = this.state.criterias.slice();
+        const criteria = this.state.criteria.slice();
         this.setState({
-          criterias: criterias.concat(response.content),
+          criteria: criteria.concat(response.content),
           page: response.page,
           size: response.size,
           totalElements: response.totalElements,
@@ -94,7 +94,7 @@ class Criteria extends Component {
     if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
       // Reset State
       this.setState({
-        criterias: [],
+        criteria: [],
         page: 0,
         size: 10,
         totalElements: 0,
@@ -141,10 +141,8 @@ class Criteria extends Component {
   deleteCriteriaWithId(id) {
     deleteCriteria(id)
       .then(response => {
-        let updatedCriterias = [...this.state.criterias].filter(
-          i => i.id !== id
-        );
-        this.setState({ criterias: updatedCriterias });
+        let updatedCriteria = [...this.state.criteria].filter(i => i.id !== id);
+        this.setState({ criteria: updatedCriteria });
         // this.loadCriteriaList();
         this.props.history.push("/criteria");
         notification.success({
@@ -248,7 +246,7 @@ class Criteria extends Component {
         <Row>
           <Table
             columns={columns}
-            dataSource={this.state.criterias}
+            dataSource={this.state.criteria}
             onChange={this.handleChange}
           />
         </Row>
