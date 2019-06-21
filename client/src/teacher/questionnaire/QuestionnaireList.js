@@ -280,7 +280,7 @@ class Questionnaire extends Component {
     console.log(questionnaireList[selectedCriteriaId]);
     addCriteriaToQuestionnaire(
       questionnaireList[selectedQuestionnaireId].questionnaireId,
-      criteriaList[selectedCriteriaId]
+      criteriaList[selectedCriteriaId].id
     )
       .then(response => {
         notification.success({
@@ -295,7 +295,6 @@ class Questionnaire extends Component {
             error.message || "Sorry! Something went wrong. Please try again!"
         });
       });
-    window.location.reload();
   }
 
   isFormInvalid() {

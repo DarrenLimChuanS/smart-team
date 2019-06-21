@@ -1,6 +1,5 @@
 package com.example.polls.controller;
 
-import com.example.polls.model.Criteria;
 import com.example.polls.model.Questionnaire;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.PagedResponse;
@@ -76,10 +75,10 @@ public class QuestionnaireController {
         return questionnaireService.updateQuestionnaireById(questionnaire, questionnaireId);
     }
 
-    @PutMapping("/{questionnaireId}/criteria")
+    @PutMapping("/{questionnaireId}/criteria/{criteriaId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Object> addCriteria(@RequestBody Criteria criteria, @PathVariable long questionnaireId) {
-        return questionnaireService.addCriteria(criteria, questionnaireId);
+    public ResponseEntity<Object> addCriteria(@PathVariable long questionnaireId, @PathVariable long criteriaId) {
+        return questionnaireService.addCriteria(questionnaireId, criteriaId);
     }
 
     @DeleteMapping("/{questionnaireId}")

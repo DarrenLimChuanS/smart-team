@@ -411,11 +411,15 @@ export function getUserCreatedQuestionnaires(username, page, size) {
   });
 }
 
-export function addCriteriaToQuestionnaire(questionnaireId, criteriaData) {
+export function addCriteriaToQuestionnaire(questionnaireId, criteriaId) {
   return request({
-    url: API_BASE_URL + "/questionnaires/" + questionnaireId + "/criteria",
-    method: "PUT",
-    body: JSON.stringify(criteriaData)
+    url:
+      API_BASE_URL +
+      "/questionnaires/" +
+      questionnaireId +
+      "/criteria/" +
+      criteriaId,
+    method: "PUT"
   });
 }
 

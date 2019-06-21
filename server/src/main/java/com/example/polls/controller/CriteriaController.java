@@ -62,25 +62,6 @@ public class CriteriaController {
         return criteriaService.getCriteriaById(criteriaId);
     }
 
-    // @PostMapping
-    // @PreAuthorize("hasRole('USER')")
-    // public ResponseEntity<?> createCriteria(@PathVariable(value = "userId") Long
-    // userId,
-    // @RequestBody CriteriaRequest criteriaRequest) {
-
-    // return userRepository.findById(userId).map(user -> {
-
-    // Criteria criteria = criteriaService.createCriteria(user, criteriaRequest);
-
-    // URI location =
-    // ServletUriComponentsBuilder.fromCurrentRequest().path("/{criteriaId}")
-    // .buildAndExpand(criteria.getId()).toUri();
-
-    // return ResponseEntity.created(location).body(new ApiResponse(true, "Criteria
-    // Created Successfully"));
-    // }).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-    // }
-
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createCriteria(@Valid @RequestBody CriteriaRequest criteriaRequest) {

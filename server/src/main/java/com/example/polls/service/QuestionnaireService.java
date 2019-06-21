@@ -15,6 +15,8 @@ import com.example.polls.repository.UserRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +31,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,8 @@ public class QuestionnaireService {
 
     @Autowired
     private CriteriaRepository criteriaRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(QuestionnaireService.class);
 
     public PagedResponse<QuestionnaireResponse> getAllQuestionnaires(int page, int size) {
         validatePageNumberAndSize(page, size);
@@ -130,23 +133,16 @@ public class QuestionnaireService {
         return ResponseEntity.ok(new ApiResponse(true, "Questionnaire Created Successfully"));
     }
 
-    public ResponseEntity<Object> addCriteria(@RequestBody Criteria criteria, @PathVariable long questionnaireId) {
+    public ResponseEntity<Object> addCriteria(@PathVariable long questionnaireId, @PathVariable long criteriaId) {
+        Questionnaire questionnaire = questionnaireRepository.findByQuestionnaireId(questionnaireId)
+                .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "id", questionnaireId));
 
-        Optional<Questionnaire> questionnaire = questionnaireRepository.findByQuestionnaireId(questionnaireId);
+        Criteria criteria = criteriaRepository.findByCriteriaId(criteriaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", criteriaId));
 
-        if (questionnaire.isPresent())
-            return ResponseEntity.notFound().build();
+        questionnaire.getCriteria().add(criteria);
 
-        Questionnaire updatedQuestionnaire = new Questionnaire();
-        updatedQuestionnaire.setQuestionnaireId(questionnaireId);
-        updatedQuestionnaire.setName(questionnaire.get().getName());
-        updatedQuestionnaire.setInstruction(questionnaire.get().getInstruction());
-        updatedQuestionnaire.setCreatedAt(questionnaire.get().getCreatedAt());
-        updatedQuestionnaire.setCreatedBy(questionnaire.get().getCreatedBy());
-        updatedQuestionnaire.setCriteria(questionnaire.get().getCriteria());
-        Criteria newCriteria = criteriaRepository.findById(criteria.getId()).get();
-        updatedQuestionnaire.getCriteria().add(newCriteria);
-        questionnaireRepository.save(updatedQuestionnaire);
+        questionnaireRepository.save(questionnaire);
         return ResponseEntity.ok(new ApiResponse(true, "Criteria added Successfully"));
     }
 
