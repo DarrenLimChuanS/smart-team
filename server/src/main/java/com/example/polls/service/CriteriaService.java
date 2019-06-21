@@ -2,7 +2,9 @@ package com.example.polls.service;
 
 import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
+import com.example.polls.model.Choice;
 import com.example.polls.model.Criteria;
+import com.example.polls.model.Poll;
 import com.example.polls.model.User;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.CriteriaRequest;
@@ -40,6 +42,9 @@ public class CriteriaService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PollService pollService;
+
     public Criteria createCriteria(CriteriaRequest criteriaRequest) {
         Criteria criteria = new Criteria();
         criteria.setName(criteriaRequest.getName());
@@ -47,8 +52,12 @@ public class CriteriaService {
         criteria.setType(criteriaRequest.getType());
         criteria.setGraded(criteriaRequest.getGraded());
 
-        criteriaRequest.getPolls().forEach(poll -> {
-            criteria.getPolls().add(poll);
+        criteriaRequest.getPolls().forEach(pollRequest ->{
+            Poll newPoll = new Poll();
+            newPoll.setQuestion(pollRequest.getQuestion());
+
+            pollRequest.getChoices().forEach(choiceRequest -> newPoll.addChoice(new Choice(choiceRequest.getText())));
+            criteria.addPoll(newPoll);
         });
 
         return criteriaRepository.save(criteria);

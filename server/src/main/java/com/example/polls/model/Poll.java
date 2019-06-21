@@ -1,7 +1,10 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import org.hibernate.annotations.*;
 
 import javax.persistence.CascadeType;
@@ -11,9 +14,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "polls")
@@ -30,12 +31,13 @@ public class Poll extends UserDateAudit {
     @Size(min = 2, max = 6)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 30)
+    @JsonManagedReference
     private List<Choice> choices = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "polls")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private Set<Criteria> criteria = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "criteria_id", nullable = false)
+    @JsonBackReference
+    private Criteria criteria;
 
     public Long getId() {
         return id;
@@ -71,11 +73,11 @@ public class Poll extends UserDateAudit {
         choice.setPoll(null);
     }
 
-    public Set<Criteria> getCriteria() {
+    public Criteria getCriteria() {
         return criteria;
     }
 
-    public void setCriteria(Set<Criteria> criteria) {
+    public void setCriteria(Criteria criteria) {
         this.criteria = criteria;
     }
 }

@@ -2,6 +2,8 @@ package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -28,7 +30,7 @@ public class Questionnaire extends UserDateAudit {
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinTable(name = "questionnaire_criteria", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "criteria_id") })
-
+    @JsonManagedReference
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Set<Criteria> criteria = new HashSet<>();
