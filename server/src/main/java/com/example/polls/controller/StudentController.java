@@ -1,36 +1,28 @@
 package com.example.polls.controller;
 
-import com.example.polls.exception.AppException;
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.Role;
-import com.example.polls.model.RoleName;
 import com.example.polls.model.Student;
 import com.example.polls.payload.*;
-import com.example.polls.repository.PollRepository;
-import com.example.polls.repository.VoteRepository;
-import com.example.polls.repository.StudentRepository;
-import com.example.polls.repository.UserRepository;
-import com.example.polls.repository.RoleRepository;
-import com.example.polls.repository.SectionRepository;
+import com.example.polls.repository.*;
+import com.example.polls.security.CurrentUser;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.PollService;
 import com.example.polls.service.SectionService;
-import com.example.polls.security.CurrentUser;
-import com.example.polls.util.AppConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -101,20 +93,20 @@ public class StudentController {
 
     // Function to select all Student
     @GetMapping("/students")
-    public List<Student> getStudent() {
-        return studentRepository.findAll();
+    public Page<Student> getStudent(Pageable pageable) {
+        return this.studentRepository.findAll(pageable);
     }
 
     // Function to get all students under a teacher
-    @GetMapping("/users/{teacherId}/students")
-    public List<Student> getStudentByTeacherId(@PathVariable(value = "teacherId") Long teacherId) {
+    // @GetMapping("/users/{teacherId}/students")
+    // public List<Student> getStudentByTeacherId(@PathVariable(value = "teacherId") Long teacherId) {
 
-        if (!userRepository.existsById(teacherId)) {
-            throw new ResourceNotFoundException("User", "id", teacherId);
-        }
+    //     if (!userRepository.existsById(teacherId)) {
+    //         throw new ResourceNotFoundException("User", "id", teacherId);
+    //     }
 
-        return studentRepository.findByTeacherId(teacherId);
-    }
+    //     return studentRepository.findByTeacherId(teacherId);
+    // }
 
     // Function to create Student tied to Teacher
     @PostMapping("/users/{teacherId}/students")
@@ -134,9 +126,12 @@ public class StudentController {
 
         student.setPassword(passwordEncoder.encode(student.getPassword()));
 
-        return userRepository.findById(teacherId).map(teacher -> {
-            student.setTeacher(teacher);
-            Student result = studentRepository.save(student);
+        Student result = studentRepository.save(student);
+
+        return this.userRepository.findById(teacherId).map((teacher) -> {            
+            // Map student into teacher
+            teacher.getStudents().add(student);
+            this.userRepository.save(teacher);
 
             URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/student/{username}")
                     .buildAndExpand(result.getUsername()).toUri();
@@ -170,7 +165,7 @@ public class StudentController {
         temp.setName(studentDetails.getName());
         temp.setEmail(studentDetails.getEmail());
         temp.setPassword(studentDetails.getPassword());
-        temp.setTeacher(studentDetails.getTeacher());
+        // temp.setTeacher(studentDetails.getTeacher());
 
         Student updateStudent = studentRepository.save(temp);
         return ResponseEntity.ok().body(updateStudent);

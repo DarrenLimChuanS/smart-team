@@ -21,7 +21,6 @@ public class Course extends UserDateAudit {
     @Column(length = 60)
     private String name;
 
-    @Column(length = 255)
     private String description;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
@@ -31,8 +30,7 @@ public class Course extends UserDateAudit {
 
     }
 
-    public Course(Long id, String course_code, String name, String description, String available,
-            Set<Section> sections) {
+    public Course(Long id, String course_code, String name, String description, Set<Section> sections) {
         this.id = id;
         this.course_code = course_code;
         this.name = name;

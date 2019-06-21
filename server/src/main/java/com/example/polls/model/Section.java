@@ -2,17 +2,15 @@ package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-
 import java.util.HashSet;
 import java.util.Set;
-import com.example.polls.model.Student;
-
-import javax.persistence.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "section")
@@ -25,22 +23,20 @@ public class Section extends UserDateAudit {
     @Column(length = 60)
     private String name;
 
-    @Column(length = 255)
     private Long noOfStudents;
 
     @Column(length = 6)
     private Long year;
 
-    @Column(length = 255)
     private String status;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "course_id", referencedColumnName = "id", nullable = false)
     private Course course;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinTable(name = "section_students", joinColumns = { @JoinColumn(name = "section_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "id") })
+    @JoinTable(name = "section_student", joinColumns = { @JoinColumn(name = "section_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "student_id", referencedColumnName = "id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Set<Student> students = new HashSet<>();
@@ -49,7 +45,7 @@ public class Section extends UserDateAudit {
 
     }
 
-    public Section(String name, Long noOfStudents, Set<Student> students, Course course, Long year, String status) {
+    public Section(String name, Long noOfStudents, Course course, Long year, String status, Set<Student> students) {
         this.name = name;
         this.noOfStudents = noOfStudents;
         this.students = students;

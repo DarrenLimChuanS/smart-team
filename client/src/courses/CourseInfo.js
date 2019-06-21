@@ -30,9 +30,12 @@ class CourseInfo extends Component {
 
                 <Paragraph>
                     <ul>
-                        <Link to="/courses/questionnaires_student">
-                            <li>Attempt questionnaire</li>
-                        </Link>
+                        <li>
+                            <Link to="/course/questionnaires">Attempt questionnaire</Link>
+                        </li>
+                        <li>
+                            <a href="/docs/resource/download">Resource Download</a>
+                        </li>
                     </ul>
                 </Paragraph>
 
@@ -54,9 +57,14 @@ class CourseInfo extends Component {
 
                 <Paragraph>
                     <ul>
-                        <Link to="/courses/group_student">
-                            <li>View group</li>
+                        <Link to="/courses/questionnaires_student">
+                            <li>Attempt questionnaire</li>
                         </Link>
+                        <li>
+                            <a href="../courses/questionnaires_student">
+                                Resource Download
+                            </a>
+                        </li>
                     </ul>
                 </Paragraph>
 

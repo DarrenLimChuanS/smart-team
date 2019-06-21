@@ -82,8 +82,7 @@ public class CourseService {
                     courses.getTotalElements(), courses.getTotalPages(), courses.isLast());
         }
 
-        // Map courses to CourseResponses containing vote counts and course creator
-        // details
+        // Map courses to CourseResponses containing course creator details
         List<CourseResponse> CourseResponses = courses.map(course -> {
             return ModelMapper.mapCourseToCourseResponse(course, user);
         }).getContent();

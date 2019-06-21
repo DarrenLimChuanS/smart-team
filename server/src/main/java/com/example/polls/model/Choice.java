@@ -3,11 +3,10 @@ package com.example.polls.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Objects;
 
-/**
- * Created by rajeevkumarsingh on 20/11/17.
- */
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "choices")
@@ -20,6 +19,7 @@ public class Choice {
     @Size(max = 40)
     private String text;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "poll_id", nullable = false)
     private Poll poll;
@@ -58,8 +58,10 @@ public class Choice {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Choice choice = (Choice) o;
         return Objects.equals(id, choice.id);
     }

@@ -21,9 +21,8 @@ class NewSection extends Component {
         value: ""
       },
       students: {
-        value: []
+        value: {}
       },
-      // courseList: [],
       course: {
         value: {}
       },
@@ -72,13 +71,13 @@ class NewSection extends Component {
     });
   }
 
-  handleStudentChange(studentIds) {
-    const students = studentIds.map(
+  handleStudentChange(studentIndex) {
+    const studentIds = studentIndex.map(
       studentId => this.state.studentList[studentId]
     );
     this.setState({
       students: {
-        value: students
+        value: studentIds
       }
     });
   }
@@ -102,13 +101,14 @@ class NewSection extends Component {
       course: this.state.course.value,
       students: this.state.students.value
     };
+
     createSection(sectionRequest)
       .then(response => {
         notification.success({
           message: "Smart Team",
           description: "Success! You have successfully added a new student."
         });
-        this.props.history.push("/login");
+        this.props.history.push("/section");
       })
       .catch(error => {
         notification.error({
@@ -161,14 +161,13 @@ class NewSection extends Component {
                 mode="multiple"
                 style={{ width: "100%" }}
                 placeholder="Please select a student"
-                defaultValue={[]}
                 onChange={value => this.handleStudentChange(value)}
               >
                 {this.state &&
                   studentList &&
                   studentList.map((student, index) => (
                     <Option key={index}>
-                      {index} - {student.id} - {student.name}
+                      {student.id} - {student.name}
                     </Option>
                   ))}
               </Select>

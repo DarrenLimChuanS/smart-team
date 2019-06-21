@@ -1,5 +1,7 @@
 package com.example.polls.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.example.polls.model.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.OnDelete;
@@ -12,8 +14,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /* Map this entity class to student table. */
 @Entity
@@ -45,10 +45,15 @@ public class Student extends DateAudit {
     @Size(max = 100)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "teacher_id", nullable = false)
+    // Mapping students to teachers
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST}, 
+            mappedBy = "students"
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private User teacher;
+    private Set<User> teachers = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "students")
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -116,12 +121,12 @@ public class Student extends DateAudit {
         this.password = password;
     }
 
-    public User getTeacher() {
-        return teacher;
+    public Set<User> getTeachers() {
+        return teachers;
     }
 
-    public void setTeacher(User teacher) {
-        this.teacher = teacher;
+    public void setTeacher(Set<User> teachers) {
+        this.teachers = teachers;
     }
 
     public Set<Section> getSections() {

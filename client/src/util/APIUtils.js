@@ -308,3 +308,128 @@ export function getUserVotedPolls(username, page, size) {
     method: "GET"
   });
 }
+
+/**
+ * Criteria APIs
+ **/
+
+export function createCriteria(criteriaData) {
+  return request({
+    url: API_BASE_URL + "/criteria",
+    method: "POST",
+    body: JSON.stringify(criteriaData)
+  });
+}
+
+export function getAllCriteria(page, size) {
+  page = page || 0;
+  size = size || COURSE_LIST_SIZE;
+
+  return request({
+    url: API_BASE_URL + "/criteria?page=" + page + "&size=" + size,
+    method: "GET"
+  });
+}
+
+export function getUserCreatedCriteria(username, page, size) {
+  page = page || 0;
+  size = size || POLL_LIST_SIZE;
+
+  return request({
+    url:
+      API_BASE_URL +
+      "/users/" +
+      username +
+      "/criteria?page=" +
+      page +
+      "&size=" +
+      size,
+    method: "GET"
+  });
+}
+
+export function getCriteriaById(criteriaId, page, size) {
+  page = page || 0;
+  size = size || COURSE_LIST_SIZE;
+
+  return request({
+    url:
+      API_BASE_URL +
+      "/criteria/" +
+      criteriaId +
+      "?page=" +
+      page +
+      "&size=" +
+      size,
+    method: "GET"
+  });
+}
+
+export function deleteCriteria(criteriaId) {
+  return request({
+    url: API_BASE_URL + "/criteria/" + criteriaId,
+    method: "DELETE"
+  });
+}
+
+/**
+ * Questionnaire APIs
+ **/
+
+export function createQuestionnaire(questionnaireData) {
+  return request({
+    url: API_BASE_URL + "/questionnaires",
+    method: "POST",
+    body: JSON.stringify(questionnaireData)
+  });
+}
+
+export function getAllQuestionnaires(page, size) {
+  page = page || 0;
+  size = size || COURSE_LIST_SIZE;
+
+  return request({
+    url: API_BASE_URL + "/questionnaire?page=" + page + "&size=" + size,
+    method: "GET"
+  });
+}
+
+export function getUserCreatedQuestionnaires(username, page, size) {
+  page = page || 0;
+  size = size || POLL_LIST_SIZE;
+
+  return request({
+    url:
+      API_BASE_URL +
+      "/users/" +
+      username +
+      "/questionnaires?page=" +
+      page +
+      "&size=" +
+      size,
+    method: "GET"
+  });
+}
+
+export function addCriteriaToQuestionnaire(questionnaireId, criteriaData) {
+  return request({
+    url: API_BASE_URL + "/questionnaires/" + questionnaireId + "/criteria",
+    method: "PUT",
+    body: JSON.stringify(criteriaData)
+  });
+}
+
+export function updateQuestionnaire(questionnaireId, questionnaireData) {
+  return request({
+    url: API_BASE_URL + "/questionnaires/" + questionnaireId,
+    method: "PUT",
+    body: JSON.stringify(questionnaireData)
+  });
+}
+
+export function deleteQuestionnaire(questionnaireId) {
+  return request({
+    url: API_BASE_URL + "/questionnaire/" + questionnaireId,
+    method: "DELETE"
+  });
+}

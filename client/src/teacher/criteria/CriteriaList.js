@@ -1,49 +1,114 @@
 import React, { Component } from "react";
+import {
+  getAllCriteria,
+  getUserCreatedCriteria,
+  deleteCriteria
+} from "../../util/APIUtils";
 import { Link, withRouter } from "react-router-dom";
-import { Button, Divider, Row, Col, Table, Typography } from "antd";
+import {
+  notification,
+  Button,
+  Divider,
+  Row,
+  Col,
+  Table,
+  Typography
+} from "antd";
 import "./CriteriaList.css";
 import PopUpModal from "../../common/PopUpModal";
 
-const { Title } = Typography;
+import { compareByAlph } from "../../util/Sorters";
+import { CRITERIA_LIST_SIZE } from "../../constants";
 
-const data = [
-  {
-    key: "1",
-    name: "Name",
-    type: "Single",
-    noOfQuestions: 1
-  },
-  {
-    key: "2",
-    name: "Age",
-    type: "Single",
-    noOfQuestions: 1
-  },
-  {
-    key: "3",
-    name: "GPA",
-    type: "Single",
-    noOfQuestions: 1
-  },
-  {
-    key: "4",
-    name: "Leadership",
-    type: "Multiple",
-    noOfQuestions: 10
-  },
-  {
-    key: "5",
-    name: "Field of Interest",
-    type: "Multiple",
-    noOfQuestions: 3
-  }
-];
+const { Title } = Typography;
 
 class Criteria extends Component {
   state = {
     filteredInfo: null,
     sortedInfo: null
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      criteria: [],
+      page: 0,
+      size: 10,
+      totalElements: 0,
+      totalPages: 0,
+      last: true,
+      isLoading: false
+    };
+    this.loadCriteriaList = this.loadCriteriaList.bind(this);
+    this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.deleteCriteriaWithId = this.deleteCriteriaWithId.bind(this);
+  }
+
+  loadCriteriaList(page = 0, size = CRITERIA_LIST_SIZE) {
+    let promise;
+
+    if (this.props.currentUser) {
+      promise = getUserCreatedCriteria(
+        this.props.currentUser.username,
+        page,
+        size
+      );
+    } else {
+      promise = getAllCriteria(page, size);
+    }
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        console.log(response);
+        const criteria = this.state.criteria.slice();
+        this.setState({
+          criteria: criteria.concat(response.content),
+          page: response.page,
+          size: response.size,
+          totalElements: response.totalElements,
+          totalPages: response.totalPages,
+          last: response.last,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
+  componentDidMount() {
+    this.loadCriteriaList();
+  }
+
+  componentDidUpdate(nextProps) {
+    if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
+      // Reset State
+      this.setState({
+        criteria: [],
+        page: 0,
+        size: 10,
+        totalElements: 0,
+        totalPages: 0,
+        last: true,
+        isLoading: false
+      });
+      this.loadCriteriaList();
+    }
+  }
+
+  handleLoadMore() {
+    this.loadCriteriaList(this.state.page + 1);
+  }
 
   handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -73,6 +138,27 @@ class Criteria extends Component {
     });
   };
 
+  deleteCriteriaWithId(id) {
+    deleteCriteria(id)
+      .then(response => {
+        let updatedCriteria = [...this.state.criteria].filter(i => i.id !== id);
+        this.setState({ criteria: updatedCriteria });
+        // this.loadCriteriaList();
+        this.props.history.push("/criteria");
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully deleted a criteria."
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
+  }
+
   render() {
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
@@ -81,12 +167,10 @@ class Criteria extends Component {
     const columns = [
       {
         title: "#",
-        dataIndex: "key",
-        key: "key",
-        filteredValue: filteredInfo.key || null,
-        onFilter: (value, record) => record.key.includes(value),
-        sorter: (a, b) => a.key - b.key,
-        sortOrder: sortedInfo.columnKey === "key" && sortedInfo.order
+        dataIndex: "id",
+        key: "id",
+        sorter: (a, b) => compareByAlph(a.id, b.id),
+        sortOrder: sortedInfo.columnKey === "id" && sortedInfo.order
       },
       {
         title: "Name",
@@ -106,13 +190,21 @@ class Criteria extends Component {
         sortOrder: sortedInfo.columnKey === "type" && sortedInfo.order
       },
       {
-        title: "No. of Questions",
-        dataIndex: "noOfQuestions",
-        key: "noOfQuestions",
-        filteredValue: filteredInfo.noOfQuestions || null,
-        onFilter: (value, record) => record.noOfQuestions.includes(value),
-        sorter: (a, b) => a.noOfQuestions - b.noOfQuestions,
-        sortOrder: sortedInfo.columnKey === "noOfQuestions" && sortedInfo.order
+        title: "Graded",
+        dataIndex: "graded",
+        key: "graded",
+        render: (text, record) => (
+          <span>{record.graded ? "Graded" : "Non-Graded"}</span>
+        ),
+        sorter: (a, b) => a.graded - b.graded,
+        sortOrder: sortedInfo.columnKey === "graded" && sortedInfo.order
+      },
+      {
+        title: "Description",
+        dataIndex: "description",
+        key: "description",
+        sorter: (a, b) => a.description - b.description,
+        sortOrder: sortedInfo.columnKey === "description" && sortedInfo.order
       },
       {
         title: "Action",
@@ -121,7 +213,7 @@ class Criteria extends Component {
           <span>
             <a href="javascript:;">Edit</a>
             <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <a onClick={() => this.deleteCriteriaWithId(record.id)}>Delete</a>
           </span>
         )
       }
@@ -130,10 +222,10 @@ class Criteria extends Component {
     return (
       <React.Fragment>
         <Row>
-          <Col span={18}>
+          <Col span={22}>
             <Title level={2}>Criteria</Title>
           </Col>
-          <Col span={2}>
+          {/* <Col span={2}>
             <Button type="primary" size="default">
               Export
             </Button>
@@ -142,34 +234,19 @@ class Criteria extends Component {
             <Button type="primary" size="default">
               Import
             </Button>
-          </Col>
+          </Col> */}
           <Col span={2}>
-            <PopUpModal
-              title="Create Criteria"
-              triggerButtonText="Create"
-              confirmText={false}
-            >
-              <Row style={{ textAlign: "center" }}>
-                <Col span={12}>
-                  <Link to="/criteria/graded/new">
-                    <Button type="primary" size="large">
-                      Graded
-                    </Button>
-                  </Link>
-                </Col>
-                <Col span={12}>
-                  <Button type="primary" size="large">
-                    Ungraded
-                  </Button>
-                </Col>
-              </Row>
-            </PopUpModal>
+            <Link to="/criteria/new">
+              <Button type="primary" size="default">
+                Create
+              </Button>
+            </Link>
           </Col>
         </Row>
         <Row>
           <Table
             columns={columns}
-            dataSource={data}
+            dataSource={this.state.criteria}
             onChange={this.handleChange}
           />
         </Row>

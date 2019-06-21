@@ -1,29 +1,20 @@
 package com.example.polls.controller;
 
 import com.example.polls.model.Course;
-import com.example.polls.model.Section;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.CourseRequest;
 import com.example.polls.payload.CourseResponse;
 import com.example.polls.payload.PagedResponse;
-import com.example.polls.payload.SectionResponse;
-import com.example.polls.repository.CourseRepository;
-import com.example.polls.repository.UserRepository;
-import com.example.polls.repository.SectionRepository;
-import com.example.polls.service.CourseService;
-import com.example.polls.service.SectionService;
-import com.example.polls.util.AppConstants;
 import com.example.polls.security.CurrentUser;
 import com.example.polls.security.UserPrincipal;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.polls.service.CourseService;
+import com.example.polls.util.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -32,21 +23,7 @@ import java.net.URI;
 public class CourseController {
 
     @Autowired
-    private CourseRepository courseRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private SectionRepository sectionRepository;
-
-    @Autowired
     private CourseService courseService;
-
-    @Autowired
-    private SectionService sectionService;
-
-    private static final Logger logger = LoggerFactory.getLogger(CourseController.class);
 
     @GetMapping
     public PagedResponse<CourseResponse> getCourses(@CurrentUser UserPrincipal currentUser,

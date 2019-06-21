@@ -1,20 +1,21 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import org.hibernate.annotations.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by rajeevkumarsingh on 20/11/17.
- */
 @Entity
 @Table(name = "polls")
 public class Poll extends UserDateAudit {
@@ -30,10 +31,13 @@ public class Poll extends UserDateAudit {
     @Size(min = 2, max = 6)
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 30)
+    @JsonManagedReference
     private List<Choice> choices = new ArrayList<>();
 
-    @NotNull
-    private Instant expirationDateTime;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "criteria_id", nullable = false)
+    @JsonBackReference
+    private Criteria criteria;
 
     public Long getId() {
         return id;
@@ -59,14 +63,6 @@ public class Poll extends UserDateAudit {
         this.choices = choices;
     }
 
-    public Instant getExpirationDateTime() {
-        return expirationDateTime;
-    }
-
-    public void setExpirationDateTime(Instant expirationDateTime) {
-        this.expirationDateTime = expirationDateTime;
-    }
-
     public void addChoice(Choice choice) {
         choices.add(choice);
         choice.setPoll(this);
@@ -75,5 +71,13 @@ public class Poll extends UserDateAudit {
     public void removeChoice(Choice choice) {
         choices.remove(choice);
         choice.setPoll(null);
+    }
+
+    public Criteria getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(Criteria criteria) {
+        this.criteria = criteria;
     }
 }

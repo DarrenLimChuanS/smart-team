@@ -44,7 +44,6 @@ class EditCourse extends Component {
         ...validationFun(inputValue, target.placeholder)
       }
     });
-    console.log(this.state);
   }
 
   handleSubmit(event) {

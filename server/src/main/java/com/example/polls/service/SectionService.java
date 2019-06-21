@@ -2,17 +2,18 @@ package com.example.polls.service;
 
 import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.*;
+import com.example.polls.model.Section;
+import com.example.polls.model.Student;
+import com.example.polls.model.User;
+import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.PagedResponse;
 import com.example.polls.payload.SectionRequest;
 import com.example.polls.payload.SectionResponse;
 import com.example.polls.repository.SectionRepository;
+import com.example.polls.repository.StudentRepository;
 import com.example.polls.repository.UserRepository;
-import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,12 +23,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import com.example.polls.payload.ApiResponse;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -35,14 +37,15 @@ import java.util.stream.Collectors;
 public class SectionService {
 
     @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
     private SectionRepository sectionRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(SectionService.class);
-
-    public PagedResponse<SectionResponse> getAllSections(UserPrincipal currentUser, int page, int size) {
+    public PagedResponse<SectionResponse> getAllSections(int page, int size) {
         validatePageNumberAndSize(page, size);
 
         // Retrieve Sections
@@ -54,20 +57,18 @@ public class SectionService {
                     sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
         }
 
-        // Map section to SectionResponse containing vote counts and section creator
-        // details
+        // Map section to SectionResponse containing section creator details
         Map<Long, User> creatorMap = getSectionCreatorMap(sections.getContent());
 
-        List<SectionResponse> SectionResponses = sections.map(section -> {
-            return ModelMapper.mapSectionToSectionResponse(section, creatorMap.get(section.getCreatedBy()));
-        }).getContent();
+        List<SectionResponse> SectionResponses = sections.map(
+                section -> ModelMapper.mapSectionToSectionResponse(section, creatorMap.get(section.getCreatedBy())))
+                .getContent();
 
         return new PagedResponse<>(SectionResponses, sections.getNumber(), sections.getSize(),
                 sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
     }
 
-    public PagedResponse<SectionResponse> getSectionsCreatedBy(String username, UserPrincipal currentUser, int page,
-            int size) {
+    public PagedResponse<SectionResponse> getSectionsCreatedBy(String username, int page, int size) {
         validatePageNumberAndSize(page, size);
 
         User user = userRepository.findByUsername(username)
@@ -82,11 +83,9 @@ public class SectionService {
                     sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
         }
 
-        // Map sections to SectionResponses containing vote counts and section creator
-        // details
-        List<SectionResponse> SectionResponses = sections.map(section -> {
-            return ModelMapper.mapSectionToSectionResponse(section, user);
-        }).getContent();
+        // Map sections to SectionResponses
+        List<SectionResponse> SectionResponses = sections
+                .map(section -> ModelMapper.mapSectionToSectionResponse(section, user)).getContent();
 
         return new PagedResponse<>(SectionResponses, sections.getNumber(), sections.getSize(),
                 sections.getTotalElements(), sections.getTotalPages(), sections.isLast());
@@ -99,12 +98,17 @@ public class SectionService {
         section.setYear(sectionRequest.getYear());
         section.setStatus(sectionRequest.getStatus());
         section.setCourse(sectionRequest.getCourse());
-        section.setStudents(sectionRequest.getStudents());
+
+        for (Student student : sectionRequest.getStudents()) {
+            Student studentInfo = studentRepository.findById(student.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
+            section.getStudents().add(studentInfo);
+        }
 
         return sectionRepository.save(section);
     }
 
-    public SectionResponse getSectionById(Long sectionId, UserPrincipal currentUser) {
+    public SectionResponse getSectionById(Long sectionId) {
         Section section = sectionRepository.findBySectionId(sectionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Section", "id", sectionId));
 
@@ -125,7 +129,7 @@ public class SectionService {
 
         Optional<Section> sectionOptional = sectionRepository.findBySectionId(sectionId);
 
-        if (!sectionOptional.isPresent())
+        if (sectionOptional.isPresent())
             return ResponseEntity.notFound().build();
 
         section.setSectionId(sectionId);

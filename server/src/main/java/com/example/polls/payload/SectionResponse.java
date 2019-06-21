@@ -11,10 +11,11 @@ public class SectionResponse {
     private Long sectionId;
     private String name;
     private Long noOfStudents;
+    private String courseName;
     private Long year;
     private String status;
-    private Course course;
     private Set<Student> students = new HashSet<>();
+    private Course course;
     private UserSummary createdBy;
     private Instant creationDateTime;
 
@@ -38,6 +39,14 @@ public class SectionResponse {
         this.noOfStudents = noOfStudents;
     }
 
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
     public Long getYear() {
         return year;
     }
@@ -58,20 +67,20 @@ public class SectionResponse {
         this.status = status;
     }
 
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
     public Set<Student> getStudents() {
         return students;
     }
 
     public void setStudents(Set<Student> students) {
         this.students = students;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public UserSummary getCreatedBy() {
