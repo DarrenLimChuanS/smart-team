@@ -1,7 +1,8 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -12,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "criteria", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
+@Table(name = "criteria")
 public class Criteria extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,26 +35,12 @@ public class Criteria extends UserDateAudit {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "criteria")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
+    @JsonBackReference
     private Set<Questionnaire> questionnaires = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinTable(name = "criteria_polls", joinColumns = { @JoinColumn(name = "criteria_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "poll_id", referencedColumnName = "id") })
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
+    @OneToMany(mappedBy = "criteria", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
     private Set<Poll> polls = new HashSet<>();
-
-    public Criteria() {
-
-    }
-
-    public Criteria(String name, String type, boolean graded, String description) {
-        this.name = name;
-        this.type = type;
-        this.graded = graded;
-        this.description = description;
-    }
 
     public Long getId() {
         return criteriaId;
@@ -107,8 +94,14 @@ public class Criteria extends UserDateAudit {
         return polls;
     }
 
-    public void setPolls(Set<Poll> polls) {
-        this.polls = polls;
+    public void addPoll(Poll poll) {
+        polls.add(poll);
+        poll.setCriteria(this);
+    }
+
+    public void removePoll(Poll poll) {
+        polls.remove(poll);
+        poll.setCriteria(null);
     }
 
 }

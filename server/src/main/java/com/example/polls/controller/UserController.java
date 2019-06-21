@@ -26,21 +26,6 @@ public class UserController {
     private PollRepository pollRepository;
 
     @Autowired
-    private CourseRepository courseRepository;
-
-    @Autowired
-    private SectionRepository sectionRepository;
-
-    @Autowired
-    private CriteriaRepository criteriaRepository;
-
-    @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
-    private QuestionnaireRepository questionnaireRepository;
-
-    @Autowired
     private VoteRepository voteRepository;
 
     @Autowired
@@ -57,8 +42,6 @@ public class UserController {
 
     @Autowired
     private QuestionnaireService questionnaireService;
-
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")

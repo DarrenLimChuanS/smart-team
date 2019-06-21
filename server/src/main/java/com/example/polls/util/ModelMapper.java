@@ -96,7 +96,7 @@ public class ModelMapper {
         criteriaResponse.setType(criteria.getType());
         criteriaResponse.setGraded(criteria.getGraded());
         criteriaResponse.setDescription(criteria.getDescription());
-        criteriaResponse.setPolls(criteria.getPolls());
+        // criteriaResponse.setPolls(criteria.getPolls());
         criteriaResponse.setQuestionnaires(criteria.getQuestionnaires());
         criteriaResponse.setCreationDateTime(criteria.getCreatedAt());
 

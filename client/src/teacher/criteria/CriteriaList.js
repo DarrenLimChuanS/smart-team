@@ -67,6 +67,7 @@ class Criteria extends Component {
 
     promise
       .then(response => {
+        console.log(response);
         const criterias = this.state.criterias.slice();
         this.setState({
           criterias: criterias.concat(response.content),
@@ -223,10 +224,10 @@ class Criteria extends Component {
     return (
       <React.Fragment>
         <Row>
-          <Col span={18}>
+          <Col span={22}>
             <Title level={2}>Criteria</Title>
           </Col>
-          <Col span={2}>
+          {/* <Col span={2}>
             <Button type="primary" size="default">
               Export
             </Button>
@@ -235,7 +236,7 @@ class Criteria extends Component {
             <Button type="primary" size="default">
               Import
             </Button>
-          </Col>
+          </Col> */}
           <Col span={2}>
             <Link to="/criteria/new">
               <Button type="primary" size="default">
