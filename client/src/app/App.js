@@ -13,18 +13,24 @@ import Profile from "../user/profile/Profile";
 import StudentList from "../teacher/student/StudentList";
 import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
-import Course from "../courses/Course";
 import EditStudent from "../teacher/student/EditStudent";
 import NewSection from "../teacher/section/NewSection";
 import EditSection from "../teacher/section/EditSection";
 import SectionList from "../teacher/section/SectionList";
+import CriteriaList from "../teacher/criteria/CriteriaList";
+import QuestionnaireList from "../teacher/questionnaire/QuestionnaireList";
 import AppHeader from "../common/AppHeader";
 import Sidebar from "../common/Sidebar";
 import NotFound from "../common/NotFound";
+import Courses from "../courses/Course";
+import CourseInfo from "../courses/CourseInfo";
+import GroupStudent from "../courses/GroupStudent";
+import QuestionnairesStudent from "../courses/QuestionnairesStudent";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
 import { Layout, notification } from "antd";
+import NewGradedCriteria from "../teacher/criteria/NewGradedCriteria";
 const { Content } = Layout;
 
 class App extends Component {
@@ -109,7 +115,7 @@ class App extends Component {
           currentUser={this.state.currentUser}
           onLogout={this.handleLogout}
         />
-        <Sidebar>
+        <Sidebar currentUser={this.state.currentUser}>
           <Content className="app-content">
             <div className="container">
               <Switch>
@@ -186,15 +192,33 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/courses"
-                  component={Course}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
                   path="/section/new"
                   component={NewSection}
                   handleLogout={this.handleLogout}
+                />
+                  <PrivateRoute
+                      authenticated={this.state.isAuthenticated}
+                      path="/courses/group_student"
+                      component={GroupStudent}
+                      handleLogout={this.handleLogout}
+                  />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/courses/questionnaires_student"
+                    component={QuestionnairesStudent}
+                    handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/courses/info"
+                    component={CourseInfo}
+                    handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/courses"
+                    component={Courses}
+                    handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
