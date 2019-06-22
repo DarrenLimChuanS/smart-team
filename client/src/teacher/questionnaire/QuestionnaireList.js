@@ -244,8 +244,6 @@ class Questionnaire extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
-
     const createRequest = {
       name: this.state.name.value,
       instruction: this.state.instruction.value,
@@ -253,6 +251,19 @@ class Questionnaire extends Component {
     };
     createQuestionnaire(createRequest)
       .then(response => {
+        console.log(response);
+        this.setState({
+          questionnaireList: update(this.state.questionnaireList, {
+            $push: [
+              {
+                questionnaireId: Number(response.message),
+                name: this.state.name.value,
+                instruction: this.state.instruction.value,
+                criteria: []
+              }
+            ]
+          })
+        });
         notification.success({
           message: "Smart Team",
           description:
@@ -433,9 +444,10 @@ class Questionnaire extends Component {
             <PopUpModal
               title="Create Questionnaire"
               triggerButtonText="Create"
-              confirmText={false}
+              confirmText="Create Questionnaire"
+              onSubmit={this.handleSubmit}
             >
-              <Form onSubmit={this.handleSubmit} className="signup-form">
+              <Form className="signup-form">
                 <FormItem
                   label="Name"
                   hasFeedback
@@ -465,24 +477,13 @@ class Questionnaire extends Component {
                     }
                   />
                 </FormItem>
-                <FormItem>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    size="large"
-                    className="signup-form-button"
-                    disabled={this.isFormInvalid()}
-                  >
-                    Create
-                  </Button>
-                </FormItem>
               </Form>
             </PopUpModal>
           </Col>
         </Row>
         <Row>
           <Col span={8}>
-            <Form onSubmit={this.handleSubmit} className="signup-form">
+            <Form className="signup-form">
               <FormItem label="Select saved questionnaire">
                 <Select
                   name="selectedQuestionnaireId"

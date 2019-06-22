@@ -45,7 +45,8 @@ public class QuestionnaireController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{questionnaireId}")
                 .buildAndExpand(questionnaire.getQuestionnaireId()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "Questionnaire Created Successfully"));
+        return ResponseEntity.created(location)
+                .body(new ApiResponse(true, questionnaire.getQuestionnaireId().toString()));
     }
 
     @GetMapping("/{questionnaireId}")
