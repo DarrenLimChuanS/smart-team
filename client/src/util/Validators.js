@@ -114,3 +114,22 @@ export const validatePassword = password => {
     };
   }
 };
+
+export const validateYear = year => {
+  if (year === "") {
+    return {
+      validateStatus: "error",
+      errorMsg: `Year cannot be empty.`
+    };
+  } else if (year < 0) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Year cannot be less than 0.`
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null
+    };
+  }
+};

@@ -46,17 +46,6 @@ public class StudentController {
     @Autowired
     private VoteRepository voteRepository;
 
-    @Autowired
-    private PollService pollService;
-
-    @Autowired
-    private SectionRepository sectionRepository;
-
-    @Autowired
-    private SectionService sectionService;
-
-    private static final Logger logger = LoggerFactory.getLogger(StudentController.class);
-
     @GetMapping("/student/me")
     @PreAuthorize("hasRole('STUDENT')")
     public UserSummary getCurrentStudent(@CurrentUser UserPrincipal currentUser) {
@@ -97,17 +86,6 @@ public class StudentController {
         return this.studentRepository.findAll(pageable);
     }
 
-    // Function to get all students under a teacher
-    // @GetMapping("/users/{teacherId}/students")
-    // public List<Student> getStudentByTeacherId(@PathVariable(value = "teacherId") Long teacherId) {
-
-    //     if (!userRepository.existsById(teacherId)) {
-    //         throw new ResourceNotFoundException("User", "id", teacherId);
-    //     }
-
-    //     return studentRepository.findByTeacherId(teacherId);
-    // }
-
     // Function to create Student tied to Teacher
     @PostMapping("/users/{teacherId}/students")
     public ResponseEntity<?> addStudent(@PathVariable(value = "teacherId") Long teacherId,
@@ -128,7 +106,7 @@ public class StudentController {
 
         Student result = studentRepository.save(student);
 
-        return this.userRepository.findById(teacherId).map((teacher) -> {            
+        return this.userRepository.findById(teacherId).map((teacher) -> {
             // Map student into teacher
             teacher.getStudents().add(student);
             this.userRepository.save(teacher);
