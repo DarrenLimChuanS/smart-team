@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import update from "immutability-helper";
 import { withRouter } from "react-router-dom";
 import {
   Button,
@@ -18,11 +19,10 @@ import { compareByAlph } from "../../util/Sorters";
 import {
   createQuestionnaire,
   getUserCreatedQuestionnaires,
-  getAllQuestionnaires,
   addCriteriaToQuestionnaire,
+  removeCriteriaFromQuestionnaire,
   getCriteriaById,
-  getUserCreatedCriteria,
-  deleteCriteria
+  getUserCreatedCriteria
 } from "../../util/APIUtils";
 import { validateNotRequired, validateNotEmpty } from "../../util/Validators";
 
@@ -40,7 +40,7 @@ class Questionnaire extends Component {
       questionnaireList: [],
       selectedQuestionnaireId: 0,
       selectedCriteriaList: [],
-      selectedCriteriaId: 0,
+      selectedCriteriaId: null,
       filteredInfo: null,
       sortedInfo: null,
       name: {
@@ -59,11 +59,10 @@ class Questionnaire extends Component {
     this.loadQuestionnaireList = this.loadQuestionnaireList.bind(this);
     this.loadCriteriaList = this.loadCriteriaList.bind(this);
     this.handleLoadMore = this.handleLoadMore.bind(this);
-    // this.deleteCourseWithId = this.deleteCourseWithId.bind(this);
-
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleAddCriteria = this.handleAddCriteria.bind(this);
+    this.handleRemoveCriteria = this.handleRemoveCriteria.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
   }
 
@@ -132,7 +131,6 @@ class Questionnaire extends Component {
           last: response.last,
           isLoading: false
         });
-        console.log(this.state.selectedCriteriaList);
       })
       .catch(error => {
         this.setState({
@@ -149,8 +147,6 @@ class Questionnaire extends Component {
         page,
         size
       );
-    } else {
-      promise = getAllQuestionnaires(page, size);
     }
 
     if (!promise) {
@@ -187,18 +183,22 @@ class Questionnaire extends Component {
     this.loadCriteriaList();
   }
 
+  resetState() {
+    this.setState({
+      questionnaires: [],
+      page: 0,
+      size: 10,
+      totalElements: 0,
+      totalPages: 0,
+      last: true,
+      isLoading: false
+    });
+  }
+
   componentDidUpdate(nextProps) {
     if (this.props.isAuthenticated !== nextProps.isAuthenticated) {
       // Reset State
-      this.setState({
-        questionnaires: [],
-        page: 0,
-        size: 10,
-        totalElements: 0,
-        totalPages: 0,
-        last: true,
-        isLoading: false
-      });
+      this.resetState();
       this.loadQuestionnaireList();
     }
   }
@@ -272,20 +272,64 @@ class Questionnaire extends Component {
   handleAddCriteria() {
     const {
       questionnaireList,
+      selectedCriteriaList,
       selectedQuestionnaireId,
       criteriaList,
       selectedCriteriaId
     } = this.state;
-    console.log(criteriaList[selectedCriteriaId]);
-    console.log(questionnaireList[selectedCriteriaId]);
     addCriteriaToQuestionnaire(
       questionnaireList[selectedQuestionnaireId].questionnaireId,
       criteriaList[selectedCriteriaId].id
     )
       .then(response => {
+        this.setState({
+          questionnaireList: update(questionnaireList, {
+            [selectedQuestionnaireId]: {
+              criteria: { $push: [criteriaList[selectedCriteriaId]] }
+            }
+          }),
+          selectedCriteriaList: update(selectedCriteriaList, {
+            $push: [criteriaList[selectedCriteriaId]]
+          })
+        });
         notification.success({
           message: "Smart Team",
           description: "Success! You have successfully added a criteria."
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
+  }
+
+  handleRemoveCriteria(criteriaId, criteriaIndex) {
+    const {
+      questionnaireList,
+      selectedQuestionnaireId,
+      selectedCriteriaList
+    } = this.state;
+    removeCriteriaFromQuestionnaire(
+      questionnaireList[selectedQuestionnaireId].questionnaireId,
+      criteriaId
+    )
+      .then(response => {
+        this.setState({
+          questionnaireList: update(questionnaireList, {
+            [selectedQuestionnaireId]: {
+              criteria: { $splice: [[criteriaIndex, 1]] }
+            }
+          }),
+          selectedCriteriaList: update(selectedCriteriaList, {
+            $splice: [[criteriaIndex, 1]]
+          })
+        });
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully removed a criteria."
         });
       })
       .catch(error => {
@@ -323,13 +367,6 @@ class Questionnaire extends Component {
         sorter: (a, b) => compareByAlph(a.question, b.question),
         sortOrder: sortedInfo.columnKey === "question" && sortedInfo.order
       },
-      // {
-      //   title: "Type",
-      //   dataIndex: "type",
-      //   key: "type",
-      //   sorter: (a, b) => a.type - b.type,
-      //   sortOrder: sortedInfo.columnKey === "type" && sortedInfo.order
-      // },
       {
         title: "Action",
         key: "action",
@@ -452,8 +489,7 @@ class Questionnaire extends Component {
                   size="large"
                   style={{ width: "100%" }}
                   placeholder="Please select a questionnaire"
-                  defaultValue={[]}
-                  onChange={event => this.handleQuestionnaireChange(event)}
+                  onChange={index => this.handleQuestionnaireChange(index)}
                 >
                   {this.state &&
                     questionnaireList &&
@@ -502,6 +538,7 @@ class Questionnaire extends Component {
                   </FormItem>
                 </Form>
                 <Table
+                  rowKey="id"
                   columns={criteriaColumns}
                   dataSource={
                     this.state &&
@@ -515,9 +552,11 @@ class Questionnaire extends Component {
           </Col>
         </Row>
         <Row>
-          {selectedCriteriaList.map(criteria => (
-            <div>
-              <div>
+          {selectedQuestionnaireId === 0 ? (
+            <Table rowKey="id" columns={criteriaColumns} />
+          ) : (
+            selectedCriteriaList.map((criteria, index) => (
+              <React.Fragment key={criteria.id}>
                 <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
                   <Col span={21}>
                     <Title level={3}>
@@ -529,6 +568,9 @@ class Questionnaire extends Component {
                         type="danger"
                         size="default"
                         style={{ marginLeft: "8px" }}
+                        onClick={() =>
+                          this.handleRemoveCriteria(criteria.id, index)
+                        }
                         ghost
                       >
                         Remove
@@ -537,6 +579,7 @@ class Questionnaire extends Component {
                   </Col>
                 </Row>
                 <Table
+                  rowKey="id"
                   columns={columns}
                   dataSource={
                     selectedQuestionnaireId !== 0 &&
@@ -545,22 +588,9 @@ class Questionnaire extends Component {
                   }
                   onChange={this.handleChange}
                 />
-              </div>
-            </div>
-          ))}
-        </Row>
-        <Row>
-          <Col span={22} />
-          <Col span={2}>
-            <Button type="primary" size="default" ghost>
-              Export
-            </Button>
-          </Col>
-          <Col span={2}>
-            <Button type="primary" size="default">
-              Save
-            </Button>
-          </Col>
+              </React.Fragment>
+            ))
+          )}
         </Row>
       </React.Fragment>
     );

@@ -164,6 +164,19 @@ public class QuestionnaireService {
         }
     }
 
+    public ResponseEntity<Object> removeCriteria(@PathVariable long questionnaireId, @PathVariable long criteriaId) {
+        Questionnaire questionnaire = questionnaireRepository.findByQuestionnaireId(questionnaireId)
+                .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "id", questionnaireId));
+
+        Criteria criteria = criteriaRepository.findByCriteriaId(criteriaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", criteriaId));
+
+        questionnaire.getCriteria().remove(criteria);
+
+        questionnaireRepository.save(questionnaire);
+        return ResponseEntity.ok(new ApiResponse(true, "Criteria removed Successfully"));
+    }
+
     Map<Long, User> getQuestionnaireCreatorMap(List<Questionnaire> questionnaires) {
         // Get Questionnaire Creator details of the given list of questionnaires
 

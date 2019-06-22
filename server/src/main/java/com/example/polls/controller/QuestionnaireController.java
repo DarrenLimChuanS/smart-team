@@ -28,19 +28,7 @@ import java.net.URI;
 public class QuestionnaireController {
 
     @Autowired
-    private QuestionnaireRepository questionnaireRepository;
-
-    @Autowired
-    private CourseRepository courseRepository;
-
-    @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
     private QuestionnaireService questionnaireService;
-
-    @Autowired
-    private CourseService courseService;
 
     @GetMapping
     public PagedResponse<QuestionnaireResponse> getQuestionnaires(
@@ -86,5 +74,12 @@ public class QuestionnaireController {
     @Transactional
     public ResponseEntity<?> deleteQuestionnaire(@PathVariable long questionnaireId) {
         return questionnaireService.deleteById(questionnaireId);
+    }
+
+    @DeleteMapping("/{questionnaireId}/criteria/{criteriaId}")
+    @PreAuthorize("hasRole('USER')")
+    @Transactional
+    public ResponseEntity<?> removeCriteria(@PathVariable long questionnaireId, @PathVariable long criteriaId) {
+        return questionnaireService.removeCriteria(questionnaireId, criteriaId);
     }
 }

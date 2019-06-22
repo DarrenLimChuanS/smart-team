@@ -437,3 +437,15 @@ export function deleteQuestionnaire(questionnaireId) {
     method: "DELETE"
   });
 }
+
+export function removeCriteriaFromQuestionnaire(questionnaireId, criteriaId) {
+  return request({
+    url:
+      API_BASE_URL +
+      "/questionnaires/" +
+      questionnaireId +
+      "/criteria/" +
+      criteriaId,
+    method: "DELETE"
+  });
+}
