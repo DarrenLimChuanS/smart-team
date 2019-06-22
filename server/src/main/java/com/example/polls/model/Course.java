@@ -77,4 +77,14 @@ public class Course extends UserDateAudit {
     public void setSections(Set<Section> sections) {
         this.sections = sections;
     }
+
+    public void addSection(Section section) {
+        sections.add(section);
+        section.setCourse(this);
+    }
+
+    public void removeSection(Section section) {
+        sections.remove(section);
+        section.setCourse(null);
+    }
 }

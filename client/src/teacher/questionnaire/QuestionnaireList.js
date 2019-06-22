@@ -21,6 +21,7 @@ import {
   getUserCreatedQuestionnaires,
   addCriteriaToQuestionnaire,
   removeCriteriaFromQuestionnaire,
+  deleteQuestionnaire,
   getCriteriaById,
   getUserCreatedCriteria
 } from "../../util/APIUtils";
@@ -61,6 +62,7 @@ class Questionnaire extends Component {
     this.handleLoadMore = this.handleLoadMore.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDeleteQuestionnaire = this.handleDeleteQuestionnaire.bind(this);
     this.handleAddCriteria = this.handleAddCriteria.bind(this);
     this.handleRemoveCriteria = this.handleRemoveCriteria.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
@@ -241,6 +243,38 @@ class Questionnaire extends Component {
     this.setState({
       selectedCriteriaId: value
     });
+  }
+
+  handleDeleteQuestionnaire(index) {
+    const id = this.state.questionnaireList[index].questionnaireId;
+    console.log(id);
+    deleteQuestionnaire(id)
+      .then(response => {
+        console.log("success");
+        // let updatedQuestionnaires = [...this.state.questionnairesList].filter(
+        //   i => i.id !== id
+        // );
+
+        // console.log(updatedQuestionnaires);
+        this.setState({
+          selectedQuestionnaireId: 0,
+          questionnaireList: update(this.state.questionnaireList, {
+            $splice: [[index, 1]]
+          })
+        });
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully deleted a questionnaire."
+        });
+      })
+      .catch(error => {
+        console.log("error");
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
   }
 
   handleSubmit(event) {
@@ -504,6 +538,23 @@ class Questionnaire extends Component {
               </FormItem>
             </Form>
           </Col>
+          {this.state.selectedQuestionnaireId !== 0 && (
+            <Col span={4}>
+              <Button
+                type="danger"
+                size="default"
+                style={{ marginLeft: "8px", marginTop: "42px" }}
+                onClick={() =>
+                  this.handleDeleteQuestionnaire(
+                    this.state.selectedQuestionnaireId
+                  )
+                }
+                ghost
+              >
+                Remove
+              </Button>
+            </Col>
+          )}
         </Row>
         <Row>
           <p>

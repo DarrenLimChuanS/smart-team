@@ -52,7 +52,7 @@ public class CriteriaService {
         criteria.setType(criteriaRequest.getType());
         criteria.setGraded(criteriaRequest.getGraded());
 
-        criteriaRequest.getPolls().forEach(pollRequest ->{
+        criteriaRequest.getPolls().forEach(pollRequest -> {
             Poll newPoll = new Poll();
             newPoll.setQuestion(pollRequest.getQuestion());
 

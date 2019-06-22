@@ -433,7 +433,7 @@ export function updateQuestionnaire(questionnaireId, questionnaireData) {
 
 export function deleteQuestionnaire(questionnaireId) {
   return request({
-    url: API_BASE_URL + "/questionnaire/" + questionnaireId,
+    url: API_BASE_URL + "/questionnaires/" + questionnaireId,
     method: "DELETE"
   });
 }

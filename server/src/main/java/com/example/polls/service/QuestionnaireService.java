@@ -146,12 +146,12 @@ public class QuestionnaireService {
         return ResponseEntity.ok(new ApiResponse(true, "Criteria added Successfully"));
     }
 
-    public ResponseEntity<?> deleteById(Long questionnaire_id) {
-        if (questionnaireRepository.findById(questionnaire_id).isPresent()) {
-            questionnaireRepository.deleteById(questionnaire_id);
+    public ResponseEntity<?> deleteById(Long questionnaireId) {
+        if (questionnaireRepository.findById(questionnaireId).isPresent()) {
+            questionnaireRepository.deleteById(questionnaireId);
             return ResponseEntity.ok(new ApiResponse(true, "Questionnaire Deleted Successfully"));
         }
-        return ResponseEntity.ok(new ApiResponse(false, "Questionnaire Deleted is Unsuccessful"));
+        return ResponseEntity.ok(new ApiResponse(false, "Questionnaire ID cannot be found."));
     }
 
     private void validatePageNumberAndSize(int page, int size) {
