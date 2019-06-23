@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.example.polls.model.Student;
+import com.example.polls.model.User;
 import com.example.polls.model.Course;
 
 public class SectionRequest {
@@ -23,7 +23,7 @@ public class SectionRequest {
 
     private Course course;
 
-    private Set<Student> students = new HashSet<>();
+    private Set<User> students = new HashSet<>();
 
     public String getName() {
         return name;
@@ -65,11 +65,11 @@ public class SectionRequest {
         this.status = status;
     }
 
-    public Set<Student> getStudents() {
+    public Set<User> getStudents() {
         return students;
     }
 
-    public void setStudents(Set<Student> students) {
+    public void setStudents(Set<User> students) {
         this.students = students;
     }
 }

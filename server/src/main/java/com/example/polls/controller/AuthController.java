@@ -19,10 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -48,6 +45,19 @@ public class AuthController {
         @Autowired
         JwtTokenProvider tokenProvider;
 
+        private RoleName getRole(String role) {
+                switch (role) {
+                case "teacher":
+                        return RoleName.ROLE_USER;
+                case "student":
+                        return RoleName.ROLE_STUDENT;
+                case "admin":
+                        return RoleName.ROLE_ADMIN;
+                default:
+                        return RoleName.ROLE_USER;
+                }
+        }
+
         @PostMapping("/signin")
         public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -61,8 +71,9 @@ public class AuthController {
                 return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
         }
 
-        @PostMapping("/signup")
-        public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        @PostMapping("/signup/{role}")
+        public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest,
+                        @PathVariable String role) {
                 if (userRepository.existsByUsername(signUpRequest.getUsername())) {
                         return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                                         HttpStatus.BAD_REQUEST);
@@ -79,7 +90,7 @@ public class AuthController {
 
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-                Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                Role userRole = roleRepository.findByName(getRole(role))
                                 .orElseThrow(() -> new AppException("User Role not set."));
 
                 user.setRoles(Collections.singleton(userRole));

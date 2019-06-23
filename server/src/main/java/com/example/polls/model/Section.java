@@ -35,17 +35,17 @@ public class Section extends UserDateAudit {
     private Course course;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-    @JoinTable(name = "section_student", joinColumns = { @JoinColumn(name = "section_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "student_id", referencedColumnName = "id") })
+    @JoinTable(name = "section_users", joinColumns = { @JoinColumn(name = "section_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private Set<Student> students = new HashSet<>();
+    private Set<User> students = new HashSet<>();
 
     public Section() {
 
     }
 
-    public Section(String name, Long noOfStudents, Course course, Long year, String status, Set<Student> students) {
+    public Section(String name, Long noOfStudents, Course course, Long year, String status, Set<User> students) {
         this.name = name;
         this.noOfStudents = noOfStudents;
         this.students = students;
@@ -102,11 +102,11 @@ public class Section extends UserDateAudit {
         this.course = course;
     }
 
-    public Set<Student> getStudents() {
+    public Set<User> getStudents() {
         return students;
     }
 
-    public void setStudents(Set<Student> students) {
+    public void setStudents(Set<User> students) {
         this.students = students;
     }
 }

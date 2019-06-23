@@ -2,13 +2,27 @@ package com.example.polls.util;
 
 import com.example.polls.model.*;
 import com.example.polls.payload.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 public class ModelMapper {
 
+    public static UserResponse mapUserToUserResponse(User user, User creator) {
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
+        userResponse.setName(user.getName());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setCreationDateTime(user.getCreatedAt());
+
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        userResponse.setCreatedBy(creatorSummary);
+
+        return userResponse;
+    }
+    
     public static PollResponse mapPollToPollResponse(Poll poll, Map<Long, Long> choiceVotesMap, User creator,
             Long userVote) {
         PollResponse pollResponse = new PollResponse();

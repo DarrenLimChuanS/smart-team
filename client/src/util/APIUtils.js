@@ -145,9 +145,9 @@ export function login(loginRequest) {
   });
 }
 
-export function signup(signupRequest) {
+export function signup(signupRequest, role) {
   return request({
-    url: API_BASE_URL + "/auth/signup",
+    url: API_BASE_URL + "/auth/signup/" + role,
     method: "POST",
     body: JSON.stringify(signupRequest)
   });
@@ -285,9 +285,16 @@ export function getUserCreatedSections(username, page, size) {
   });
 }
 
-export function getUserCreatedStudents(userId) {
+export function getUserCreatedStudents(username, page, size) {
   return request({
-    url: API_BASE_URL + "/users/" + userId + "/students",
+    url:
+      API_BASE_URL +
+      "/users/" +
+      username +
+      "/students?page=" +
+      page +
+      "&size=" +
+      size,
     method: "GET"
   });
 }

@@ -3,14 +3,12 @@ package com.example.polls.service;
 import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.Section;
-import com.example.polls.model.Student;
 import com.example.polls.model.User;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.PagedResponse;
 import com.example.polls.payload.SectionRequest;
 import com.example.polls.payload.SectionResponse;
 import com.example.polls.repository.SectionRepository;
-import com.example.polls.repository.StudentRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
@@ -35,9 +33,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class SectionService {
-
-    @Autowired
-    private StudentRepository studentRepository;
 
     @Autowired
     private SectionRepository sectionRepository;
@@ -99,11 +94,11 @@ public class SectionService {
         section.setStatus(sectionRequest.getStatus());
         section.setCourse(sectionRequest.getCourse());
 
-        for (Student student : sectionRequest.getStudents()) {
-            Student studentInfo = studentRepository.findById(student.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
-            section.getStudents().add(studentInfo);
-        }
+        // for (Student student : sectionRequest.getStudents()) {
+        //     Student studentInfo = studentRepository.findById(student.getId())
+        //             .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
+        //     section.getStudents().add(studentInfo);
+        // }
 
         return sectionRepository.save(section);
     }

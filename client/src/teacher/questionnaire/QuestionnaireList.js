@@ -323,13 +323,6 @@ class Questionnaire extends Component {
         sorter: (a, b) => compareByAlph(a.question, b.question),
         sortOrder: sortedInfo.columnKey === "question" && sortedInfo.order
       },
-      // {
-      //   title: "Type",
-      //   dataIndex: "type",
-      //   key: "type",
-      //   sorter: (a, b) => a.type - b.type,
-      //   sortOrder: sortedInfo.columnKey === "type" && sortedInfo.order
-      // },
       {
         title: "Action",
         key: "action",

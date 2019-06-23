@@ -15,8 +15,6 @@ import com.example.polls.repository.UserRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,8 +43,6 @@ public class QuestionnaireService {
 
     @Autowired
     private CriteriaRepository criteriaRepository;
-
-    private static final Logger logger = LoggerFactory.getLogger(QuestionnaireService.class);
 
     public PagedResponse<QuestionnaireResponse> getAllQuestionnaires(int page, int size) {
         validatePageNumberAndSize(page, size);
@@ -146,12 +142,12 @@ public class QuestionnaireService {
         return ResponseEntity.ok(new ApiResponse(true, "Criteria added Successfully"));
     }
 
-    public ResponseEntity<?> deleteById(Long questionnaire_id) {
-        if (questionnaireRepository.findById(questionnaire_id).isPresent()) {
-            questionnaireRepository.deleteById(questionnaire_id);
+    public ResponseEntity<?> deleteById(Long questionnaireId) {
+        if (questionnaireRepository.findById(questionnaireId).isPresent()) {
+            questionnaireRepository.deleteById(questionnaireId);
             return ResponseEntity.ok(new ApiResponse(true, "Questionnaire Deleted Successfully"));
         }
-        return ResponseEntity.ok(new ApiResponse(false, "Questionnaire Deleted is Unsuccessful"));
+        return ResponseEntity.ok(new ApiResponse(false, "Questionnaire ID cannot be found."));
     }
 
     private void validatePageNumberAndSize(int page, int size) {
@@ -162,6 +158,19 @@ public class QuestionnaireService {
         if (size > AppConstants.MAX_PAGE_SIZE) {
             throw new BadRequestException("Page size must not be greater than " + AppConstants.MAX_PAGE_SIZE);
         }
+    }
+
+    public ResponseEntity<Object> removeCriteria(@PathVariable long questionnaireId, @PathVariable long criteriaId) {
+        Questionnaire questionnaire = questionnaireRepository.findByQuestionnaireId(questionnaireId)
+                .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "id", questionnaireId));
+
+        Criteria criteria = criteriaRepository.findByCriteriaId(criteriaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", criteriaId));
+
+        questionnaire.getCriteria().remove(criteria);
+
+        questionnaireRepository.save(questionnaire);
+        return ResponseEntity.ok(new ApiResponse(true, "Criteria removed Successfully"));
     }
 
     Map<Long, User> getQuestionnaireCreatorMap(List<Questionnaire> questionnaires) {

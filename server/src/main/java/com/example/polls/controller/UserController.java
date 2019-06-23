@@ -1,23 +1,20 @@
 package com.example.polls.controller;
 
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.Student;
 import com.example.polls.model.User;
 import com.example.polls.payload.*;
-import com.example.polls.repository.*;
+import com.example.polls.repository.PollRepository;
+import com.example.polls.repository.UserRepository;
+import com.example.polls.repository.VoteRepository;
+import com.example.polls.security.CurrentUser;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.*;
-import com.example.polls.security.CurrentUser;
 import com.example.polls.util.AppConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -31,6 +28,9 @@ public class UserController {
 
     @Autowired
     private VoteRepository voteRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private PollService pollService;
@@ -48,7 +48,7 @@ public class UserController {
     private QuestionnaireService questionnaireService;
 
     @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
         UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(),
                 currentUser.getName());
@@ -69,7 +69,8 @@ public class UserController {
 
     @GetMapping("/users/{username}")
     public UserProfile getUserProfile(@PathVariable(value = "username") String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
         long pollCount = pollRepository.countByCreatedBy(user.getId());
         long voteCount = voteRepository.countByUserId(user.getId());
@@ -97,15 +98,6 @@ public class UserController {
     public void deleteUser(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
-    
-    // Function to get Students
-    @GetMapping("/users/{id}/students")
-    public Set<Student> getStudents(@PathVariable Long id){
-        // Finds lecturer by id and returns it's recorded students, otherwise throws exception 
-        return this.userRepository.findById(id).map((user) -> {
-            return user.getStudents();
-        }).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
-    }
 
     @GetMapping("/users/{username}/polls")
     public PagedResponse<PollResponse> getPollsCreatedBy(@PathVariable(value = "username") String username,
@@ -113,6 +105,13 @@ public class UserController {
             @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
         return pollService.getPollsCreatedBy(username, currentUser, page, size);
+    }
+
+    @GetMapping("/users/{username}/students")
+    public PagedResponse<UserResponse> getStudentsCreatedBy(@PathVariable(value = "username") String username,
+            @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+        return userService.getUsersCreatedBy(username, page, size);
     }
 
     @GetMapping("/users/{username}/courses")

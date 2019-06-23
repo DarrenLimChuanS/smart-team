@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import {
-  createStudent,
   checkUsernameAvailability,
   checkEmailAvailability,
   getStudentById,
   updateStudent,
-  getCurrentUser
+  getCurrentUser,
+  signup
 } from "../../util/APIUtils";
 import { Student } from "../../util/FeatureStates";
 import { Form, Input, Button, notification, Typography } from "antd";
 import {
-  validateNotEmpty,
   validateName,
   validateEmail,
   validateUsername,
@@ -39,7 +38,6 @@ class EditStudent extends Component {
         this.setState(
           Student(
             response.id,
-            response.batch_no,
             response.name,
             response.username,
             response.email,
@@ -48,7 +46,6 @@ class EditStudent extends Component {
             response.createdAt
           )
         );
-        console.log(response);
       });
     } else {
       getCurrentUser().then(response => {
@@ -75,29 +72,20 @@ class EditStudent extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const {
-      id,
-      batch_no,
-      name,
-      username,
-      email,
-      password,
-      currentUser
-    } = this.state;
+    const { id, name, username, email, password, currentUser } = this.state;
     console.log(this.state);
 
     const studentRequest = {
-      batch_no: batch_no.value,
       name: name.value,
       username: username.value,
       email: email.value,
       password: password.value
     };
-    
+
     // Execute create / edit student API with studentRequest body
     (id.value
       ? updateStudent(id.value, studentRequest)
-      : createStudent(studentRequest, currentUser.id)
+      : signup(studentRequest, "student")
     )
       .then(response => {
         notification.success({
@@ -120,7 +108,6 @@ class EditStudent extends Component {
 
   isFormInvalid() {
     return !(
-      this.state.batch_no.validateStatus === "success" &&
       this.state.name.validateStatus === "success" &&
       this.state.username.validateStatus === "success" &&
       this.state.email.validateStatus === "success" &&
@@ -129,31 +116,13 @@ class EditStudent extends Component {
   }
 
   render() {
-    const { id, batch_no, name, username, email, password } = this.state;
+    const { id, name, username, email, password } = this.state;
     return (
       <div className="signup-container">
         <Title level={2}>{id.value ? "Edit " : "Create "} Student</Title>
         <div className="signup-content">
           {this.state.user}
           <Form onSubmit={this.handleSubmit} className="signup-form">
-            <FormItem
-              label="Batch Number"
-              hasFeedback
-              validateStatus={batch_no.validateStatus}
-              help={batch_no.errorMsg}
-            >
-              <Input
-                size="large"
-                name="batch_no"
-                type="number"
-                autoComplete="off"
-                placeholder="Batch Number"
-                value={batch_no.value}
-                onChange={event =>
-                  this.handleInputChange(event, validateNotEmpty)
-                }
-              />
-            </FormItem>
             <FormItem
               label="Name"
               hasFeedback
