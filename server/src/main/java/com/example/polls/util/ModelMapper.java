@@ -1,20 +1,8 @@
 package com.example.polls.util;
 
-import com.example.polls.model.Course;
-import com.example.polls.model.Poll;
-import com.example.polls.model.Questionnaire;
-import com.example.polls.model.User;
-import com.example.polls.model.Section;
-import com.example.polls.model.Criteria;
-import com.example.polls.payload.ChoiceResponse;
-import com.example.polls.payload.CourseResponse;
-import com.example.polls.payload.PollResponse;
-import com.example.polls.payload.QuestionnaireResponse;
-import com.example.polls.payload.SectionResponse;
-import com.example.polls.payload.CriteriaResponse;
-import com.example.polls.payload.UserSummary;
+import com.example.polls.model.*;
+import com.example.polls.payload.*;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -93,9 +81,12 @@ public class ModelMapper {
         CriteriaResponse criteriaResponse = new CriteriaResponse();
         criteriaResponse.setId(criteria.getId());
         criteriaResponse.setName(criteria.getName());
-        criteriaResponse.setType(criteria.getType());
         criteriaResponse.setGraded(criteria.getGraded());
         criteriaResponse.setDescription(criteria.getDescription());
+        criteriaResponse.setQ1(criteria.getQ1());
+        criteriaResponse.setQ2(criteria.getQ2());
+        criteriaResponse.setQ3(criteria.getQ3());
+        criteriaResponse.setQ4(criteria.getQ4());
         criteriaResponse.setPolls(criteria.getPolls());
         criteriaResponse.setQuestionnaires(criteria.getQuestionnaires());
         criteriaResponse.setCreationDateTime(criteria.getCreatedAt());
