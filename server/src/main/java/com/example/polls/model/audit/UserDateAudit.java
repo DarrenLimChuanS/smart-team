@@ -6,15 +6,8 @@ import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.MappedSuperclass;
 
-/**
- * Created by rajeevkumarsingh on 19/08/17.
- */
-
 @MappedSuperclass
-@JsonIgnoreProperties(
-        value = {"createdBy", "updatedBy"},
-        allowGetters = true
-)
+@JsonIgnoreProperties(value = { "createdBy", "updatedBy" }, allowGetters = true)
 public abstract class UserDateAudit extends DateAudit {
 
     @CreatedBy
