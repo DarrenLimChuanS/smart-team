@@ -19,10 +19,14 @@ class Sidebar extends Component {
     const { currentUser } = this.props;
 
     const isUser =
-      currentUser && this.props.currentUser.roles[0].name === "ROLE_USER";
+      currentUser &&
+      currentUser.roles &&
+      currentUser.roles[0].name === "ROLE_USER";
 
     const isStudent =
-      currentUser && this.props.currentUser.roles[0].name === "ROLE_STUDENT";
+      currentUser &&
+      currentUser.roles &&
+      currentUser.roles[0].name === "ROLE_STUDENT";
 
     return (
       <Layout>
