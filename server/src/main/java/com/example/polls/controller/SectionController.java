@@ -5,10 +5,6 @@ import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.PagedResponse;
 import com.example.polls.payload.SectionRequest;
 import com.example.polls.payload.SectionResponse;
-import com.example.polls.repository.CourseRepository;
-import com.example.polls.repository.SectionRepository;
-import com.example.polls.repository.StudentRepository;
-import com.example.polls.service.CourseService;
 import com.example.polls.service.SectionService;
 import com.example.polls.util.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +22,7 @@ import java.net.URI;
 public class SectionController {
 
     @Autowired
-    private SectionRepository sectionRepository;
-
-    @Autowired
-    private CourseRepository courseRepository;
-
-    @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
     private SectionService sectionService;
-
-    @Autowired
-    private CourseService courseService;
 
     @GetMapping
     public PagedResponse<SectionResponse> getSections(

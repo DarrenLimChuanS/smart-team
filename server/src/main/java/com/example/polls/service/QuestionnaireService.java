@@ -15,8 +15,6 @@ import com.example.polls.repository.UserRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,8 +43,6 @@ public class QuestionnaireService {
 
     @Autowired
     private CriteriaRepository criteriaRepository;
-
-    private static final Logger logger = LoggerFactory.getLogger(QuestionnaireService.class);
 
     public PagedResponse<QuestionnaireResponse> getAllQuestionnaires(int page, int size) {
         validatePageNumberAndSize(page, size);

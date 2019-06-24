@@ -1,29 +1,22 @@
 package com.example.polls.controller;
 
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.User;
 import com.example.polls.model.Criteria;
-import com.example.polls.payload.*;
-import com.example.polls.repository.PollRepository;
-import com.example.polls.repository.UserRepository;
+import com.example.polls.payload.ApiResponse;
+import com.example.polls.payload.CriteriaNameAvailability;
+import com.example.polls.payload.CriteriaRequest;
+import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.repository.CriteriaRepository;
-import com.example.polls.repository.VoteRepository;
-import com.example.polls.security.UserPrincipal;
-import com.example.polls.service.PollService;
+import com.example.polls.repository.UserRepository;
 import com.example.polls.service.CriteriaService;
-import com.example.polls.security.CurrentUser;
-import com.example.polls.util.AppConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import javax.validation.Valid;
 import java.net.URI;
-
 import java.util.List;
 
 @RestController
@@ -34,16 +27,10 @@ public class CriteriaController {
     private UserRepository userRepository;
 
     @Autowired
-    private PollRepository pollRepository;
-
-    @Autowired
     private CriteriaRepository criteriaRepository;
 
     @Autowired
     private CriteriaService criteriaService;
-
-    @Autowired
-    private PollService pollService;
 
     @GetMapping("/checkNameAvailability")
     public CriteriaNameAvailability checkNameAvailability(@RequestParam(value = "name") String name) {
@@ -77,9 +64,7 @@ public class CriteriaController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> updateCriteria(@RequestBody Criteria criteria, @PathVariable Long criteriaId,
             @PathVariable Long user_id) {
-        return userRepository.findById(user_id).map(user -> {
-            return criteriaService.updateCriteriaById(criteria, criteriaId, user);
-        }).orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
+        return userRepository.findById(user_id).map(user -> criteriaService.updateCriteriaById(criteria, criteriaId)).orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
     }
 
     @DeleteMapping("/{criteriaId}")

@@ -11,6 +11,7 @@ import {
   notification
 } from "antd";
 import Moment from "react-moment";
+import { STUDENT_LIST_SIZE } from "../../constants";
 
 const { Title } = Typography;
 
@@ -31,12 +32,12 @@ class StudentList extends Component {
     this.loadStudentList = this.loadStudentList.bind(this);
   }
 
-  loadStudentList() {
+  loadStudentList(page = 0, size = STUDENT_LIST_SIZE) {
     const { currentUser } = this.props;
     let promise;
 
     if (currentUser) {
-      promise = getUserCreatedStudents(currentUser.id);
+      promise = getUserCreatedStudents(currentUser.username, page, size);
     }
 
     if (!promise) {
@@ -51,7 +52,7 @@ class StudentList extends Component {
       .then(response => {
         const students = this.state.students.slice();
         this.setState({
-          students: students.concat(response),
+          students: students.concat(response.content),
           isLoading: false
         });
       })
@@ -90,7 +91,6 @@ class StudentList extends Component {
       .then(response => {
         let updatedStudents = [...this.state.students].filter(i => i.id !== id);
         this.setState({ students: updatedStudents });
-        this.props.history.push("/student");
         notification.success({
           message: "Smart Team",
           description: "Success! You have successfully deleted a student."
@@ -119,15 +119,6 @@ class StudentList extends Component {
         onFilter: (value, record) => record.id.includes(value),
         sorter: (a, b) => a.id - b.id,
         sortOrder: sortedInfo.columnKey === "id" && sortedInfo.order
-      },
-      {
-        title: "Batch_No",
-        dataIndex: "batch_no",
-        key: "batch_no",
-        filteredValue: filteredInfo.batch_no || null,
-        onFilter: (value, record) => record.batch_no.includes(value),
-        sorter: (a, b) => a.batch_no - b.batch_no,
-        sortOrder: sortedInfo.columnKey === "batch_no" && sortedInfo.order
       },
       {
         title: "Name",

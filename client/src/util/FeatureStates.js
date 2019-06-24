@@ -1,6 +1,5 @@
 export const Student = (
   id,
-  batch_no,
   name,
   username,
   email,
@@ -10,10 +9,6 @@ export const Student = (
 ) => ({
   id: {
     value: id,
-    validateStatus: id ? "success" : ""
-  },
-  batch_no: {
-    value: batch_no,
     validateStatus: id ? "success" : ""
   },
   name: {
@@ -29,7 +24,7 @@ export const Student = (
     validateStatus: id ? "success" : ""
   },
   password: {
-    value: password
+    value: password || ""
   },
   createdBy: createdBy,
   createdAt: createdAt

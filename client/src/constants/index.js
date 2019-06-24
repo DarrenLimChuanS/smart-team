@@ -30,3 +30,4 @@ export const CHOICE_SCORE_MAX = 5;
 export const CHOICE_SCORE_MIN = 0;
 
 export const QUESTIONNAIRE_LIST_SIZE = 30;
+export const STUDENT_LIST_SIZE = 30;

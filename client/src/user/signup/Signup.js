@@ -67,7 +67,7 @@ class Signup extends Component {
       username: this.state.username.value,
       password: this.state.password.value
     };
-    signup(signupRequest)
+    signup(signupRequest, "teacher")
       .then(response => {
         notification.success({
           message: "Smart Team",

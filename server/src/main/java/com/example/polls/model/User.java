@@ -1,8 +1,8 @@
 package com.example.polls.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.polls.model.audit.UserDateAudit;
 
-import com.example.polls.model.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
         @UniqueConstraint(columnNames = { "email" }) })
-public class User extends DateAudit {
+public class User extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,19 +44,10 @@ public class User extends DateAudit {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    // Mapping teachers to students
-    @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST}
-    )
-    @JoinTable(
-            name = "user_students",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "student_id")}
-    )
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "students")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private Set<Student> students = new HashSet<>();
+    private Set<Section> sections = new HashSet<>();
 
     public User() {
 
@@ -117,11 +108,11 @@ public class User extends DateAudit {
         this.roles = roles;
     }
 
-    public Set<Student> getStudents() {
-        return students;
+    public Set<Section> getSections() {
+        return sections;
     }
 
-    public void setStudents(Set<Student> students) {
-        this.students = students;
+    public void setSections(Set<Section> sections) {
+        this.sections = sections;
     }
 }

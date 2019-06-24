@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.example.polls.model.Student;
+import com.example.polls.model.User;
 import com.example.polls.model.Course;
 
 public class SectionResponse {
@@ -14,7 +14,7 @@ public class SectionResponse {
     private String courseName;
     private Long year;
     private String status;
-    private Set<Student> students = new HashSet<>();
+    private Set<User> students = new HashSet<>();
     private Course course;
     private UserSummary createdBy;
     private Instant creationDateTime;
@@ -67,11 +67,11 @@ public class SectionResponse {
         this.status = status;
     }
 
-    public Set<Student> getStudents() {
+    public Set<User> getStudents() {
         return students;
     }
 
-    public void setStudents(Set<Student> students) {
+    public void setStudents(Set<User> students) {
         this.students = students;
     }
 

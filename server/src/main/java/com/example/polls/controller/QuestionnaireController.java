@@ -7,7 +7,6 @@ import com.example.polls.payload.QuestionnaireRequest;
 import com.example.polls.payload.QuestionnaireResponse;
 import com.example.polls.repository.CourseRepository;
 import com.example.polls.repository.QuestionnaireRepository;
-import com.example.polls.repository.StudentRepository;
 import com.example.polls.security.CurrentUser;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.CourseService;
@@ -26,7 +25,6 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/questionnaires")
 public class QuestionnaireController {
-
     @Autowired
     private QuestionnaireService questionnaireService;
 

@@ -1,14 +1,22 @@
 package com.example.polls.payload;
 
+import com.example.polls.model.Role;
+
+import java.util.HashSet;
+import java.util.Set;
+
+
 public class UserSummary {
     private Long id;
     private String username;
     private String name;
+    private Set<Role> roles = new HashSet<>();
 
-    public UserSummary(Long id, String username, String name) {
+    public UserSummary(Long id, String username, String name, Set<Role> roles) {
         this.id = id;
         this.username = username;
         this.name = name;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -33,5 +41,13 @@ public class UserSummary {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
