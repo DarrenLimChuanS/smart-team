@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Layout, Menu, Breadcrumb, Icon } from "antd";
+import { isUser, isStudent } from "../util/Helpers";
 const { Sider } = Layout;
 
 class Sidebar extends Component {
@@ -15,9 +16,17 @@ class Sidebar extends Component {
   };
 
   render() {
+    const { currentUser } = this.props;
+
+    const isUser =
+      currentUser && this.props.currentUser.roles[0].name === "ROLE_USER";
+
+    const isStudent =
+      currentUser && this.props.currentUser.roles[0].name === "ROLE_STUDENT";
+
     return (
       <Layout>
-        {this.props.currentUser && (
+        {currentUser && isUser && (
           <Sider
             width={200}
             style={{
@@ -31,7 +40,7 @@ class Sidebar extends Component {
           >
             <Menu
               mode="inline"
-              defaultSelectedKeys={["1"]}
+              // defaultSelectedKeys={["1"]}
               defaultOpenKeys={["submenu"]}
               style={{
                 height: "100%",
@@ -74,10 +83,34 @@ class Sidebar extends Component {
                   <span>Questionnaires</span>
                 </Link>
               </Menu.Item>
+            </Menu>
+          </Sider>
+        )}
+        {currentUser && isStudent && (
+          <Sider
+            width={200}
+            style={{
+              background: "#fff",
+              marginTop: "80px",
+              borderRight: "solid 1px #EEf2f5"
+            }}
+            trigger={null}
+            collapsible
+            collapsed={this.state.collapsed}
+          >
+            <Menu
+              mode="inline"
+              // defaultSelectedKeys={["1"]}
+              defaultOpenKeys={["submenu"]}
+              style={{
+                height: "100%",
+                borderRight: 0
+              }}
+            >
               <Menu.Item key="8">
                 <Link to="/courses">
                   <Icon type="home" />
-                  <span>My courses (As students)</span>
+                  <span>My courses</span>
                 </Link>
               </Menu.Item>
             </Menu>
