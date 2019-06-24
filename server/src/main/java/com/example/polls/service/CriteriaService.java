@@ -102,8 +102,7 @@ public class CriteriaService {
         return ModelMapper.mapCriteriaToCriteriaResponse(criteria, creator);
     }
 
-    public ResponseEntity<Object> updateCriteriaById(@RequestBody Criteria criteria, @PathVariable Long criteriaId,
-            User user) {
+    public ResponseEntity<Object> updateCriteriaById(@RequestBody Criteria criteria, @PathVariable Long criteriaId) {
 
         Optional<Criteria> criteriaOptional = criteriaRepository.findById(criteriaId);
 

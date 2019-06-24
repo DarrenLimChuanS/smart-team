@@ -1,8 +1,6 @@
 package com.example.polls.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import com.example.polls.model.audit.DateAudit;
 import com.example.polls.model.audit.UserDateAudit;
 
 import org.hibernate.annotations.NaturalId;

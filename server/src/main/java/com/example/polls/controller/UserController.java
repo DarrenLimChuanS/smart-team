@@ -13,6 +13,7 @@ import com.example.polls.util.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,8 +51,9 @@ public class UserController {
     @GetMapping("/user/me")
     @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(),
-                currentUser.getName());
+        User user = userRepository.findById(currentUser.getId()).get();
+        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName(),
+                user.getRoles());
         return userSummary;
     }
 
@@ -95,8 +97,8 @@ public class UserController {
 
     // Function to delete User
     @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        return userService.deleteById(id);
     }
 
     @GetMapping("/users/{username}/polls")

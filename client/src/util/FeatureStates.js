@@ -1,6 +1,5 @@
 export const Student = (
   id,
-  batch_no,
   name,
   username,
   email,
@@ -9,22 +8,19 @@ export const Student = (
   createdAt
 ) => ({
   id: {
-    value: id
-  },
-  batch_no: {
-    value: batch_no
+    value: id || ""
   },
   name: {
-    value: name
+    value: name || ""
   },
   username: {
-    value: username
+    value: username || ""
   },
   email: {
-    value: email
+    value: email || ""
   },
   password: {
-    value: password
+    value: password || ""
   },
   createdBy: createdBy,
   createdAt: createdAt
@@ -39,16 +35,16 @@ export const Course = (
   createdAt
 ) => ({
   id: {
-    value: id
+    value: id || ""
   },
   courseCode: {
-    value: courseCode
+    value: courseCode || ""
   },
   name: {
-    value: name
+    value: name || ""
   },
   description: {
-    value: description
+    value: description || ""
   },
   createdBy: createdBy,
   createdAt: createdAt

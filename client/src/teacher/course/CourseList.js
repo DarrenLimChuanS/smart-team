@@ -120,7 +120,6 @@ class CourseList extends Component {
       .then(response => {
         let updatedCourses = [...this.state.courses].filter(i => i.id !== id);
         this.setState({ courses: updatedCourses });
-        // this.loadCourseList();
         this.props.history.push("/course");
         notification.success({
           message: "Smart Team",

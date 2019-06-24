@@ -15,9 +15,10 @@ public class ModelMapper {
         userResponse.setName(user.getName());
         userResponse.setUsername(user.getUsername());
         userResponse.setEmail(user.getEmail());
+        userResponse.setRoles(user.getRoles());
         userResponse.setCreationDateTime(user.getCreatedAt());
 
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
         userResponse.setCreatedBy(creatorSummary);
 
         return userResponse;
@@ -47,7 +48,7 @@ public class ModelMapper {
         }).collect(Collectors.toList());
 
         pollResponse.setChoices(choiceResponses);
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
         pollResponse.setCreatedBy(creatorSummary);
 
         if (userVote != null) {
@@ -68,7 +69,7 @@ public class ModelMapper {
         courseResponse.setDescription(course.getDescription());
         courseResponse.setCreationDateTime(course.getCreatedAt());
 
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
         courseResponse.setCreatedBy(creatorSummary);
 
         return courseResponse;
@@ -85,7 +86,7 @@ public class ModelMapper {
         sectionResponse.setStudents(section.getStudents());
         sectionResponse.setCreationDateTime(section.getCreatedAt());
 
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
         sectionResponse.setCreatedBy(creatorSummary);
 
         return sectionResponse;
@@ -105,7 +106,7 @@ public class ModelMapper {
         criteriaResponse.setQuestionnaires(criteria.getQuestionnaires());
         criteriaResponse.setCreationDateTime(criteria.getCreatedAt());
 
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
         criteriaResponse.setCreatedBy(creatorSummary);
 
         return criteriaResponse;
@@ -120,7 +121,7 @@ public class ModelMapper {
         questionnaireResponse.setCriteria(questionnaire.getCriteria());
         questionnaireResponse.setCreationDateTime(questionnaire.getCreatedAt());
 
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
         questionnaireResponse.setCreatedBy(creatorSummary);
 
         return questionnaireResponse;

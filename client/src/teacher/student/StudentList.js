@@ -91,7 +91,6 @@ class StudentList extends Component {
       .then(response => {
         let updatedStudents = [...this.state.students].filter(i => i.id !== id);
         this.setState({ students: updatedStudents });
-        this.props.history.push("/student");
         notification.success({
           message: "Smart Team",
           description: "Success! You have successfully deleted a student."

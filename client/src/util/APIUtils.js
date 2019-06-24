@@ -176,7 +176,7 @@ export function getStudentsByTeacher(userid) {
 // Function to retrieve student information by ID
 export function getStudentById(studentId) {
   return request({
-    url: API_BASE_URL + "/students/" + studentId,
+    url: API_BASE_URL + "/users/id/" + studentId,
     method: "GET"
   });
 }
@@ -192,9 +192,8 @@ export function updateStudent(studentId, studentData) {
 
 // Function to delete student by ID
 export function deleteStudent(studentId) {
-  console.log(studentId);
   return request({
-    url: API_BASE_URL + "/student/" + studentId,
+    url: API_BASE_URL + "/users/" + studentId,
     method: "DELETE"
   });
 }

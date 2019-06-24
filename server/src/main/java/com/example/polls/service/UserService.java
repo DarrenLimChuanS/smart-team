@@ -9,23 +9,25 @@ import com.example.polls.payload.UserResponse;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
-import java.util.Collections;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
-
-
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
 
     public PagedResponse<UserResponse> getUsersCreatedBy(String username, int page, int size) {
         validatePageNumberAndSize(page, size);
@@ -43,18 +45,34 @@ public class UserService {
         }
 
         // Map users to UserResponses containing user creator details
-        List<UserResponse> UserResponses = users.map(userInfo -> ModelMapper.mapUserToUserResponse(userInfo, creator)).getContent();
+        List<UserResponse> UserResponses = users.map(userInfo -> ModelMapper.mapUserToUserResponse(userInfo, creator))
+                .getContent();
 
         return new PagedResponse<>(UserResponses, users.getNumber(), users.getSize(), users.getTotalElements(),
                 users.getTotalPages(), users.isLast());
     }
 
-    public ResponseEntity<?> deleteById(Long userId) {
-        if (userRepository.findById(userId).isPresent())
-            userRepository.deleteById(userId);
-        return ResponseEntity.ok(new ApiResponse(true, "User Deleted Successfully"));
+    public ResponseEntity<Object> updateUserById(@RequestBody User user, @PathVariable Long userId) {
+
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        if (!userOptional.isPresent())
+            return ResponseEntity.notFound().build();
+
+        user.setId(userId);
+        userRepository.save(user);
+        return ResponseEntity.ok(new ApiResponse(true, "User Updated Successfully"));
+
     }
-    
+
+    public ResponseEntity<?> deleteById(Long userId) {
+        if (userRepository.findById(userId).isPresent()) {
+            userRepository.deleteById(userId);
+            return ResponseEntity.ok(new ApiResponse(true, "Student Deleted Successfully"));
+        }
+        return ResponseEntity.ok(new ApiResponse(false, "Student cannot be found."));
+    }
+
     private void validatePageNumberAndSize(int page, int size) {
         if (page < 0) {
             throw new BadRequestException("Page number cannot be less than zero.");

@@ -49,9 +49,9 @@ class NewSection extends Component {
           ...this.state
         });
       });
-      getUserCreatedStudents(response.id).then(response => {
+      getUserCreatedStudents(response.username, 0, 50).then(response => {
         this.setState({
-          studentList: response,
+          studentList: response.content,
           ...this.state
         });
       });
