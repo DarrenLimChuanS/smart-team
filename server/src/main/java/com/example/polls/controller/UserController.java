@@ -1,6 +1,8 @@
 package com.example.polls.controller;
 
 import com.example.polls.exception.ResourceNotFoundException;
+import com.example.polls.model.Course;
+import com.example.polls.model.Section;
 import com.example.polls.model.User;
 import com.example.polls.payload.*;
 import com.example.polls.repository.PollRepository;
@@ -16,6 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
 
 @RestController
 @RequestMapping("/api")
@@ -81,6 +87,22 @@ public class UserController {
                 pollCount, voteCount);
 
         return userProfile;
+    }
+
+    // Function to select all courses the User is in
+    @GetMapping("/users/{username}/courses/in")
+    public UserCourses getUserCourses(@PathVariable(value = "username") String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+        Set<Course> userInCourses = new HashSet<>();
+        for (Section section : user.getSections()) {
+            Course course = new Course(section.getCourse().getId(), section.getCourse().getCourseCode(), section.getCourse().getName(), section.getCourse().getDescription());
+            userInCourses.add(course);
+        }
+
+        UserCourses userCourses = new UserCourses(user.getId(), user.getUsername(), user.getName(), userInCourses);
+
+        return userCourses;
     }
 
     // Function to select all User
