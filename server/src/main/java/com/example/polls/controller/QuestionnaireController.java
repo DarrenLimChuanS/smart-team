@@ -43,7 +43,8 @@ public class QuestionnaireController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{questionnaireId}")
                 .buildAndExpand(questionnaire.getQuestionnaireId()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "Questionnaire Created Successfully"));
+        return ResponseEntity.created(location)
+                .body(new ApiResponse(true, questionnaire.getQuestionnaireId().toString()));
     }
 
     @GetMapping("/{questionnaireId}")
@@ -72,5 +73,12 @@ public class QuestionnaireController {
     @Transactional
     public ResponseEntity<?> deleteQuestionnaire(@PathVariable long questionnaireId) {
         return questionnaireService.deleteById(questionnaireId);
+    }
+
+    @DeleteMapping("/{questionnaireId}/criteria/{criteriaId}")
+    @PreAuthorize("hasRole('USER')")
+    @Transactional
+    public ResponseEntity<?> removeCriteria(@PathVariable long questionnaireId, @PathVariable long criteriaId) {
+        return questionnaireService.removeCriteria(questionnaireId, criteriaId);
     }
 }

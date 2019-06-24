@@ -7,7 +7,8 @@ import {
   createSection,
   getCurrentUser
 } from "../../util/APIUtils";
-
+import { validateName, validateYear } from "../../util/Validators";
+import { Section } from "../../util/FeatureStates";
 import { Form, Input, Button, notification, Select, Typography } from "antd";
 const { Option } = Select;
 const { Title } = Typography;
@@ -16,20 +17,7 @@ const FormItem = Form.Item;
 class NewSection extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: {
-        value: ""
-      },
-      students: {
-        value: {}
-      },
-      course: {
-        value: {}
-      },
-      year: {
-        value: ""
-      }
-    };
+    this.state = Section();
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleStudentChange = this.handleStudentChange.bind(this);
     this.handleCourseChange = this.handleCourseChange.bind(this);
@@ -93,15 +81,15 @@ class NewSection extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    const { name, students, year, course } = this.state;
     const sectionRequest = {
-      name: this.state.name.value,
-      noOfStudents: this.state.students.value.length,
-      year: this.state.year.value,
+      name: name.value,
+      noOfStudents: students.value.length,
+      year: year.value,
       status: "Not Grouped",
-      course: this.state.course.value,
-      students: this.state.students.value
+      course: course.value,
+      students: students.value
     };
-
     createSection(sectionRequest)
       .then(response => {
         notification.success({
@@ -127,7 +115,14 @@ class NewSection extends Component {
   }
 
   render() {
-    const { courseList, studentList } = this.state;
+    const {
+      courseList,
+      studentList,
+      name,
+      students,
+      course,
+      year
+    } = this.state;
     return (
       <div className="signup-container">
         <Title level={2}>Create Section</Title>
@@ -136,25 +131,23 @@ class NewSection extends Component {
             <FormItem
               label="Name"
               hasFeedback
-              validateStatus={this.state.name.validateStatus}
-              help={this.state.name.errorMsg}
+              validateStatus={name.validateStatus}
+              help={name.errorMsg}
             >
               <Input
                 size="large"
                 name="name"
                 autoComplete="off"
                 placeholder="Name"
-                value={this.state.name.value}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateName)
-                }
+                value={name.value}
+                onChange={event => this.handleInputChange(event, validateName)}
               />
             </FormItem>
             <FormItem
               label="Students"
               hasFeedback
-              validateStatus={this.state.students.validateStatus}
-              help={this.state.students.errorMsg}
+              validateStatus={students.validateStatus}
+              help={students.errorMsg}
             >
               <Select
                 size="large"
@@ -175,14 +168,13 @@ class NewSection extends Component {
             <FormItem
               label="Course"
               hasFeedback
-              validateStatus={this.state.course.validateStatus}
-              help={this.state.course.errorMsg}
+              validateStatus={course.validateStatus}
+              help={course.errorMsg}
             >
               <Select
                 name="course"
                 size="large"
                 placeHolder="Please select a course"
-                style={{ width: "32%" }}
                 onChange={value => this.handleCourseChange(value)}
               >
                 {this.state &&
@@ -195,8 +187,8 @@ class NewSection extends Component {
             <FormItem
               label="Year"
               hasFeedback
-              validateStatus={this.state.year.validateStatus}
-              help={this.state.year.errorMsg}
+              validateStatus={year.validateStatus}
+              help={year.errorMsg}
             >
               <Input
                 size="large"
@@ -204,10 +196,8 @@ class NewSection extends Component {
                 type="number"
                 autoComplete="off"
                 placeholder="Year"
-                value={this.state.year.value}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateYear)
-                }
+                value={year.value}
+                onChange={event => this.handleInputChange(event, validateYear)}
               />
             </FormItem>
             <FormItem>
@@ -226,40 +216,6 @@ class NewSection extends Component {
       </div>
     );
   }
-
-  // Validation Functions
-  validateName = name => {
-    if (name === "") {
-      return {
-        validateStatus: "error",
-        errorMsg: `Name cannot be empty.`
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
-    }
-  };
-
-  validateYear = year => {
-    if (year === "") {
-      return {
-        validateStatus: "error",
-        errorMsg: `Year cannot be empty.`
-      };
-    } else if (year < 0) {
-      return {
-        validateStatus: "error",
-        errorMsg: `Year cannot be less than 0.`
-      };
-    } else {
-      return {
-        validateStatus: "success",
-        errorMsg: null
-      };
-    }
-  };
 }
 
 export default NewSection;
