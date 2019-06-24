@@ -40,8 +40,6 @@ public class CourseService {
     @Autowired
     private UserRepository userRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(CourseService.class);
-
     public PagedResponse<CourseResponse> getAllCourses(UserPrincipal currentUser, int page, int size) {
         validatePageNumberAndSize(page, size);
 

@@ -30,8 +30,8 @@ public class Questionnaire extends UserDateAudit {
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinTable(name = "questionnaire_criteria", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "criteria_id") })
-    @JsonManagedReference
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonManagedReference
     @JsonIgnore
     private Set<Criteria> criteria = new HashSet<>();
 
