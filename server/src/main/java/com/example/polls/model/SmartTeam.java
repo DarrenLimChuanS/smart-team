@@ -1,0 +1,103 @@
+package com.example.polls.model;
+
+import com.example.polls.model.audit.DateAudit;
+
+import java.util.Date;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "smartteam")
+public class SmartTeam extends DateAudit {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long smartteamId;
+
+    /* 
+    DateAudit's Created_at and Updated_at
+    */
+
+    // SmartTeam start date, also the end time for the questionnaire
+    private Date smartteamStartdate;
+
+    // SmartTeam end date, validity after team is formed
+    private Date smartteamEnddate;
+
+    // Questionnaire that is selected for SmartTeam formation session
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "queestionnaire_id", nullable = false)
+    private Questionnaire questionnaire;
+
+    // User ID of Teacher that initiated SmartTeam formation session
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "initiated_by", nullable = false)
+    private User user;
+
+    // Section it was initiated on
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "section_id", nullable = false)
+    private Section section;
+
+    /* START OF GETTERS AND SETTERS */
+
+    public Long getSmartteamId() {
+        return this.smartteamId;
+    }
+
+    public void setSmartteamId(Long smartteamId) {
+        this.smartteamId = smartteamId;
+    }
+
+    public Date getSmartteamStartdate() {
+        return this.smartteamStartdate;
+    }
+
+    public void setSmartteamStartdate(Date smartteamStartdate) {
+        this.smartteamStartdate = smartteamStartdate;
+    }
+
+    public Date getSmartteamEnddate() {
+        return this.smartteamEnddate;
+    }
+
+    public void setSmartteamEnddate(Date smartteamEnddate) {
+        this.smartteamEnddate = smartteamEnddate;
+    }
+
+    public Questionnaire getQuestionnaire() {
+        return this.questionnaire;
+    }
+
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Section getSection() {
+        return this.section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " smartteamId='" + getSmartteamId() + "'" +
+            ", smartteamStartdate='" + getSmartteamStartdate() + "'" +
+            ", smartteamEnddate='" + getSmartteamEnddate() + "'" +
+            ", questionnaire='" + getQuestionnaire() + "'" +
+            ", user='" + getUser() + "'" +
+            ", section='" + getSection() + "'" +
+            "}";
+    }
+    /* END OF GETTERS AND SETTERS */
+}
