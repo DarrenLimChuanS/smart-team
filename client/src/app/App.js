@@ -18,6 +18,7 @@ import EditStudent from "../teacher/student/EditStudent";
 import NewSection from "../teacher/section/NewSection";
 import EditSection from "../teacher/section/EditSection";
 import SectionList from "../teacher/section/SectionList";
+import NewSmartTeam from "../teacher/section/NewSmartTeam";
 import CriteriaList from "../teacher/criteria/CriteriaList";
 import NewCriteria from "../teacher/criteria/NewCriteria";
 import QuestionnaireList from "../teacher/questionnaire/QuestionnaireList";
@@ -215,12 +216,12 @@ class App extends Component {
                   component={NewSection}
                   handleLogout={this.handleLogout}
                 />
-                  <PrivateRoute
-                      authenticated={this.state.isAuthenticated}
-                      path="/courses/group_student"
-                      component={GroupStudent}
-                      handleLogout={this.handleLogout}
-                  />
+                <PrivateRoute
+                    authenticated={this.state.isAuthenticated}
+                    path="/courses/group_student"
+                    component={GroupStudent}
+                    handleLogout={this.handleLogout}
+                />
                 <PrivateRoute
                     authenticated={this.state.isAuthenticated}
                     path="/courses/questionnaires_student"
@@ -238,6 +239,18 @@ class App extends Component {
                     path="/courses"
                     component={Courses}
                     handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/section/:id/smartteam"
+                  component={NewSmartTeam}
+                  handleLogout={this.handleLogout}
+                />
+                <PrivateRoute
+                  authenticated={this.state.isAuthenticated}
+                  path="/section/:id"
+                  component={EditSection}
+                  handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}

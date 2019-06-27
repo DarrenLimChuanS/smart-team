@@ -17,6 +17,9 @@ public class SmartTeam extends DateAudit {
     DateAudit's Created_at and Updated_at
     */
 
+    // SmartTeam name for purpose of initiation
+    private String name;
+
     // SmartTeam start date, also the end time for the questionnaire
     private Date smartteamStartdate;
 
@@ -25,7 +28,7 @@ public class SmartTeam extends DateAudit {
 
     // Questionnaire that is selected for SmartTeam formation session
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "queestionnaire_id", nullable = false)
+    @JoinColumn(name = "questionnaire_id", nullable = false)
     private Questionnaire questionnaire;
 
     // User ID of Teacher that initiated SmartTeam formation session
@@ -46,6 +49,14 @@ public class SmartTeam extends DateAudit {
 
     public void setSmartteamId(Long smartteamId) {
         this.smartteamId = smartteamId;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getSmartteamStartdate() {
