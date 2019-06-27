@@ -3,7 +3,7 @@ node_js:
   - "stable"
 before_install:
   - cd client
-  - npm install react-app-rewired@^1.4.1
+  - npm install
 cache: npm install
 script:
   - npm test
