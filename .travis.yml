@@ -1,9 +1,10 @@
 nlanguage: node_js
 node_js:
   - "stable"
-cache: npm install
 before_install:
   - cd client
+  - npm install react-app-rewired
+cache: npm install
 script:
   - npm test
   - npm run build
