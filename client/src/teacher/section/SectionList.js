@@ -198,9 +198,9 @@ class SectionList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">Assign Group</a>
+            <Link to={"/section/" + record.sectionId + "/smartteam"}>Assign Group</Link>
             <Divider type="vertical" />
-            <Link to="/section/edit">Edit</Link>
+            <Link to={"/section/" + record.sectionId}>Edit</Link>
             <Divider type="vertical" />
             <a onClick={() => this.deleteSectionWithId(record.sectionId)}>
               Delete

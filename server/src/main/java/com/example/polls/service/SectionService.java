@@ -94,11 +94,11 @@ public class SectionService {
         section.setStatus(sectionRequest.getStatus());
         section.setCourse(sectionRequest.getCourse());
 
-        // for (Student student : sectionRequest.getStudents()) {
-        //     Student studentInfo = studentRepository.findById(student.getId())
-        //             .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
-        //     section.getStudents().add(studentInfo);
-        // }
+        for (User student : sectionRequest.getStudents()) {
+            User studentInfo = userRepository.findById(student.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
+            section.getStudents().add(studentInfo);
+        }
 
         return sectionRepository.save(section);
     }
