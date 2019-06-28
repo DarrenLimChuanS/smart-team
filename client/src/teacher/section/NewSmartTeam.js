@@ -3,11 +3,20 @@ import { Link } from "react-router-dom";
 import {
   getSectionById,
   getUserCreatedQuestionnaires,
-  getCurrentUser
+  getCurrentUser,
+  createSmartTeam
 } from "../../util/APIUtils";
 import { validateName, validateYear } from "../../util/Validators";
 import { SmartTeam } from "../../util/FeatureStates";
-import { Form, Input, Button, Col, Select, Typography } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Col,
+  Select,
+  Typography,
+  notification
+} from "antd";
 const { Option } = Select;
 const { Title } = Typography;
 const FormItem = Form.Item;
@@ -19,7 +28,9 @@ class NewSmartTeam extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleQuestionnaireChange = this.handleQuestionnaireChange.bind(this);
     this.handlePollStartDaysChange = this.handlePollStartDaysChange.bind(this);
-    this.handlePollStartHoursChange = this.handlePollStartHoursChange.bind(this);
+    this.handlePollStartHoursChange = this.handlePollStartHoursChange.bind(
+      this
+    );
     this.handlePollEndDaysChange = this.handlePollEndDaysChange.bind(this);
     this.handlePollEndHoursChange = this.handlePollEndHoursChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,7 +41,7 @@ class NewSmartTeam extends Component {
     if (this.props.match.params.id !== "new") {
       getSectionById(this.props.match.params.id).then(response => {
         this.setState({
-          section : response
+          section: response
         });
       });
     }
@@ -71,28 +82,36 @@ class NewSmartTeam extends Component {
   }
 
   handlePollStartDaysChange(value) {
-    const pollStart = Object.assign(this.state.pollStart, { days: parseInt(value) });
+    const pollStart = Object.assign(this.state.pollStart, {
+      days: parseInt(value)
+    });
     this.setState({
       pollStart: pollStart
     });
   }
 
   handlePollStartHoursChange(value) {
-    const pollStart = Object.assign(this.state.pollStart, { hours: parseInt(value) });
+    const pollStart = Object.assign(this.state.pollStart, {
+      hours: parseInt(value)
+    });
     this.setState({
       pollStart: pollStart
     });
   }
 
   handlePollEndDaysChange(value) {
-    const pollEnd = Object.assign(this.state.pollEnd, { days: parseInt(value) });
+    const pollEnd = Object.assign(this.state.pollEnd, {
+      days: parseInt(value)
+    });
     this.setState({
       pollEnd: pollEnd
     });
   }
 
   handlePollEndHoursChange(value) {
-    const pollEnd = Object.assign(this.state.pollEnd, { hours: parseInt(value) });
+    const pollEnd = Object.assign(this.state.pollEnd, {
+      hours: parseInt(value)
+    });
     this.setState({
       pollEnd: pollEnd
     });
@@ -104,56 +123,66 @@ class NewSmartTeam extends Component {
     var startDate = new Date();
     startDate.setDate(startDate.getDate() + this.state.pollStart.days);
     startDate.setHours(startDate.getHours() + this.state.pollStart.hours);
+    var cStartDate =
+      startDate.getFullYear() +
+      "-" +
+      ("00" + (startDate.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("00" + startDate.getDate()).slice(-2) +
+      " " +
+      ("00" + startDate.getHours()).slice(-2) +
+      ":" +
+      ("00" + startDate.getMinutes()).slice(-2) +
+      ":" +
+      ("00" + startDate.getSeconds()).slice(-2);
     var endDate = new Date(startDate.getTime());
     endDate.setDate(endDate.getDate() + this.state.pollEnd.days);
     endDate.setHours(endDate.getHours() + this.state.pollEnd.hours);
+    var cEndDate =
+      endDate.getFullYear() +
+      "-" +
+      ("00" + (endDate.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("00" + endDate.getDate()).slice(-2) +
+      " " +
+      ("00" + endDate.getHours()).slice(-2) +
+      ":" +
+      ("00" + endDate.getMinutes()).slice(-2) +
+      ":" +
+      ("00" + endDate.getSeconds()).slice(-2);
     const smartteamRequest = {
-      name : this.state.name.value,
-      smartteamStartdate: startDate,
-      smartteamEnddate: endDate,
-      questionnaire : this.state.questionnaire.value,
-      user : this.state.currentUser,
-      section : this.state.section
+      name: this.state.name.value,
+      smartteamStartdate: cStartDate,
+      smartteamEnddate: cEndDate,
+      questionnaire: this.state.questionnaire.value,
+      user: this.state.currentUser,
+      section: this.state.section
     };
     console.log(smartteamRequest);
-    // const { name, students, year, course } = this.state;
-    // const sectionRequest = {
-    //   name: name.value,
-    //   noOfStudents: students.value.length,
-    //   year: year.value,
-    //   status: "Not Grouped",
-    //   course: course.value,
-    //   students: students.value
-    // };
-    // createSection(sectionRequest)
-    //   .then(response => {
-    //     notification.success({
-    //       message: "Smart Team",
-    //       description: "Success! You have successfully added a new student."
-    //     });
-    //     this.props.history.push("/section");
-    //   })
-    //   .catch(error => {
-    //     notification.error({
-    //       message: "Smart Team",
-    //       description:
-    //         error.message || "Sorry! Something went wrong. Please try again!"
-    //     });
-    //   });
+    createSmartTeam(smartteamRequest)
+      .then(response => {
+        notification.success({
+          message: "Smart Team",
+          description:
+            "Success! You have successfully initiated a new SmartTeam."
+        });
+        this.props.history.push("/section");
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
   }
 
   isFormInvalid() {
-    return !(
-      this.state.name.validateStatus === "success"
-    );
+    return !(this.state.name.validateStatus === "success");
   }
 
   render() {
-    const {
-      name,
-      questionnaireList,
-      questionnaire,
-    } = this.state;
+    const { name, questionnaireList, questionnaire } = this.state;
     return (
       <div className="signup-container">
         <Title level={2}>Initiate SmartTeam</Title>

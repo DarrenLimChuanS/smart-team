@@ -316,6 +316,20 @@ export function getUserVotedPolls(username, page, size) {
 }
 
 /**
+ * Start of SmartTeam APIs
+ **/
+export function createSmartTeam(smartTeamData) {
+  return request({
+    url: API_BASE_URL + "/smartteam",
+    method: "POST",
+    body: JSON.stringify(smartTeamData)
+  });
+}
+/**
+ * End of SmartTeam APIs
+ **/
+
+/**
  * Criteria APIs
  **/
 

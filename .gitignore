@@ -6,3 +6,5 @@ client/package-lock.json
 client/package-lock.json
 .idea/workspace.xml
 .idea/workspace.xml
+.vscode/launch.json
+.vscode/settings.json
