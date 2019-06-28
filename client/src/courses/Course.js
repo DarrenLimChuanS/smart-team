@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Button, Divider, Row, Col, Table, Typography, Menu } from "antd";
+import { Button, Divider, Row, Col, Table, Typography } from "antd";
 
 const { Title } = Typography;
 
@@ -128,7 +128,7 @@ class Course extends Component {
         render: (text, record) => (
           <span>
             <Link to="/courses/info">
-              <a href="javascript:;">View more</a>
+              <a href="/">View more</a>
             </Link>
             <Divider type="vertical" />
           </span>

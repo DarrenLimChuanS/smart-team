@@ -123,9 +123,9 @@ class NewCriteria extends Component {
     let totalScore = 0;
     let averageScore = 0;
 
-    this.state.questions.map(question => {
+    this.state.questions.forEach(question => {
       let qnsMaxScore = 0;
-      question.choices.map(choice => {
+      question.choices.forEach(choice => {
         if (choice.score > qnsMaxScore) {
           qnsMaxScore = choice.score;
         }
@@ -298,6 +298,7 @@ class NewCriteria extends Component {
           return true;
         }
       }
+      return false;
     });
   }
 
