@@ -15,7 +15,6 @@ import {
   Typography
 } from "antd";
 import "./CriteriaList.css";
-import PopUpModal from "../../common/PopUpModal";
 
 import { compareByAlph } from "../../util/Sorters";
 import { CRITERIA_LIST_SIZE } from "../../constants";
