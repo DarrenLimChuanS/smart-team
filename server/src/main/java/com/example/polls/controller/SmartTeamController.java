@@ -2,7 +2,11 @@ package com.example.polls.controller;
 
 import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.Criteria;
+import com.example.polls.model.Poll;
+import com.example.polls.model.Section;
 import com.example.polls.model.SmartTeam;
+import com.example.polls.model.User;
+import com.example.polls.model.Vote;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.CriteriaNameAvailability;
 import com.example.polls.payload.CriteriaRequest;
@@ -11,7 +15,9 @@ import com.example.polls.payload.SmartTeamRequest;
 import com.example.polls.repository.CriteriaRepository;
 import com.example.polls.repository.SmartTeamRepository;
 import com.example.polls.repository.UserRepository;
+import com.example.polls.repository.VoteRepository;
 import com.example.polls.service.CriteriaService;
+import com.example.polls.service.SectionService;
 import com.example.polls.service.SmartTeamService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,19 +41,19 @@ public class SmartTeamController {
     private CriteriaRepository criteriaRepository;
 
     @Autowired
+    private VoteRepository voteRepository;
+
+    @Autowired
     private CriteriaService criteriaService;
+
+    @Autowired
+    private SectionService sectionService;
 
     @Autowired
     private SmartTeamRepository smartTeamRepository;
 
     @Autowired
     private SmartTeamService smartTeamService;
-
-    @GetMapping("/checkNameAvailability")
-    public CriteriaNameAvailability checkNameAvailability(@RequestParam(value = "name") String name) {
-        Boolean isAvailable = !criteriaRepository.existsByName(name);
-        return new CriteriaNameAvailability(isAvailable);
-    }
 
     // @GetMapping()
     // public List<Criteria> getCriteria() {
@@ -63,7 +69,9 @@ public class SmartTeamController {
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createSmartTeam(@Valid @RequestBody SmartTeamRequest smartTeamRequest) {
+        // Create a SmartTeam request
         SmartTeam smartteam = smartTeamService.createSmartTeam(smartTeamRequest);
+        smartTeamService.populateSmartTeam(smartteam.getSmartteamId());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{smartTeamId}")
                 .buildAndExpand(smartteam.getSmartteamId()).toUri();

@@ -80,8 +80,8 @@ public class SmartTeamRequest {
     public String toString() {
         return "{" +
             " name='" + getName() + "'" +
-            ", smartteamStartDate='" + getSmartteamStartDate() + "'" +
-            ", smartteamEndDate='" + getSmartteamEndDate() + "'" +
+            ", smartteamStartdate='" + getSmartteamStartdate() + "'" +
+            ", smartteamEnddate='" + getSmartteamEnddate() + "'" +
             ", questionnaire='" + getQuestionnaire() + "'" +
             ", user='" + getUser() + "'" +
             ", section='" + getSection() + "'" +
