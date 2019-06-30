@@ -4,10 +4,12 @@ import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.User;
 import com.example.polls.model.Criteria;
 import com.example.polls.model.Outcome;
+import com.example.polls.model.Choice;
 import com.example.polls.payload.*;
 import com.example.polls.repository.PollRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.repository.CriteriaRepository;
+import com.example.polls.repository.ChoiceRepository;
 import com.example.polls.repository.VoteRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.service.PollService;
@@ -48,23 +50,24 @@ public class OutcomeController {
     private OutcomeService outcomeService;
 
     @Autowired
+    private ChoiceRepository choiceRepository;
+
+    @Autowired
     private PollService pollService;
-
-    /* CALL TO GET OUTCOME OF CATEGORISING */
-    // @GetMapping
-    // @PreAuthorize("hasRole('USER')")
-    // public Outcome getOutcome(@RequestBody OutcomeRequest outcomeRequest) {
-    //     int totalScore = outcomeService.calculateTotalScore(outcomeRequest.getScore());
-
-    //     return outcomeService.categorise(outcomeRequest, totalScore);
-    // }
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
-    public Outcome getOutcome(@RequestBody OutcomeRequest outcomeRequest) {
-        int totalScore = outcomeService.calculateTotalScore(outcomeRequest.getScore());
+    public ResponseEntity<Object> getOutcomeAndUpdate(@RequestBody OutcomeRequest outcomeRequest) {
 
-        return outcomeService.categorise(outcomeRequest, totalScore);
+        // Retrieve choice to get score
+        Choice choice = choiceRepository.findById(outcomeRequest.getChoiceId())
+                .orElseThrow(() -> new ResourceNotFoundException("Choice", "id", outcomeRequest.getChoiceId()));
+
+        // Call service to get category
+        Outcome outcome = outcomeService.categorise(outcomeRequest, choice.getScore());
+
+        //Update vote table
+        return outcomeService.updateVote(outcomeRequest,choice,outcome.getOutcome());
     }
 
 

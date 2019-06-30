@@ -5,6 +5,7 @@ import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.Choice;
 import com.example.polls.model.Criteria;
 import com.example.polls.model.Outcome;
+import com.example.polls.model.Vote;
 import com.example.polls.model.Poll;
 import com.example.polls.model.User;
 import com.example.polls.payload.ApiResponse;
@@ -13,6 +14,8 @@ import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.OutcomeRequest;
 import com.example.polls.payload.PagedResponse;
 import com.example.polls.repository.CriteriaRepository;
+import com.example.polls.repository.ChoiceRepository;
+import com.example.polls.repository.VoteRepository;
 import com.example.polls.repository.PollRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.security.UserPrincipal;
@@ -46,15 +49,13 @@ public class OutcomeService {
     private UserRepository userRepository;
 
     @Autowired
-    private PollService pollService;
+    private ChoiceRepository choiceRepository;
 
-    /* TO CALCULATE TOTAL SCORE */
-    public int calculateTotalScore(ArrayList<Integer> score) {
-        int totalScore = 0;
-        for(int temp : score)
-            totalScore += temp;
-        return totalScore;
-    }
+    @Autowired
+    private VoteRepository voteRepository;
+
+    @Autowired
+    private PollService pollService;
 
     /* TO GET CATEGORISE RESULT */
     public Outcome categorise(OutcomeRequest outcomeRequest, int totalScore){
@@ -77,14 +78,20 @@ public class OutcomeService {
         else if (totalScore <= q4)
             outcome.setOutcome("q4");
 
-        outcome.setName(outcomeRequest.getName());
         outcome.setCriteriaId(outcomeRequest.getCriteriaId());
 
         return outcome;
     }
 
-    public int calculateTotalScore(OutcomeRequest outcomeRequest) {
-        Vote tempVote = voteRepository.findByUserIdAndPollIdIn(outcomeRequest.getUserId(),outcomeRequest.getPollId(),outcomeRequest.getSmartteamId(),outcomeRequest.getCriteriaId());
+    /* TO UPDATE VOTE TABLE */
+    public ResponseEntity<Object> updateVote(OutcomeRequest outcomeRequest, Choice choice, String outcome) {
+
+        Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),outcomeRequest.getPollId(),outcomeRequest.getSmartteamId(),outcomeRequest.getCriteriaId());
+        
+        tempVote.setChoice(choice);
+        tempVote.setOutcome(outcome);
+        voteRepository.save(tempVote);
+        return ResponseEntity.ok(new ApiResponse(true, "Vote Updated Successfully"));
     }
     
 }
