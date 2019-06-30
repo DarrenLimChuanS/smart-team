@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { getQuestionnaireById } from "../util/APIUtils";
-import QuestionnaireInstructions from "./QuestionnaireInstructions";
-import Questionnaire from "./Questionnaire";
+import QuestionnaireInstructions from "../common/questionnaire/QuestionnaireInstructions";
+import Questionnaire from "../common/questionnaire/Questionnaire";
 
 class StudentQuestionnaire extends Component {
   constructor(props) {

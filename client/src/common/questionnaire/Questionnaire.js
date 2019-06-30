@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import Question from "./Question";
-import { castVote } from "../util/APIUtils";
-import LoadingIndicator from "../common/LoadingIndicator";
+import { castVote } from "../../util/APIUtils";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import { Divider, Typography, notification, Icon, Steps, Button } from "antd";
 import { withRouter } from "react-router-dom";
 import "./Questionnaire.css";
+import PopUpModal from "../PopUpModal";
 
 const { Step } = Steps;
 const { Title } = Typography;
@@ -22,9 +24,9 @@ class Questionnaire extends Component {
       last: true,
       currentPage: 0,
       currentVotes: [],
-      isLoading: false
+      isLoading: false,
+      redirect: false
     };
-    // this.loadQuestions = this.loadQuestions.bind(this);
     this.handleLoadMore = this.handleLoadMore.bind(this);
   }
 
@@ -110,6 +112,21 @@ class Questionnaire extends Component {
       });
   }
 
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    });
+  };
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      notification.success({
+        message: "Smart Team",
+        description: "Success! You have successfully completed the survey."
+      });
+      return <Redirect to="/courses" />;
+    }
+  };
+
   render() {
     const {
       criteriaSteps,
@@ -124,6 +141,7 @@ class Questionnaire extends Component {
 
     return (
       <React.Fragment>
+        {this.renderRedirect()}
         <Title level={1} style={{ textAlign: "center" }}>
           {questionnaire.name}
         </Title>
@@ -185,13 +203,18 @@ class Questionnaire extends Component {
               >
                 <Icon type="left" /> Back
               </Button>
-              <Button
-                type="default"
-                disabled={isLoading}
+              <PopUpModal
+                title="Complete Confirmation"
+                triggerButtonType="default"
+                triggerButtonText="Finish"
+                submitButtonType="primary"
+                confirmText="Confirm"
                 style={{ float: "right" }}
+                onSubmit={this.setRedirect}
               >
-                <Icon type="logout" /> Finish
-              </Button>
+                Are you sure you want to end the questionnaire? <br />
+                You will not be able to amend the survey after confirming.
+              </PopUpModal>
             </div>
           )}
           {isLoading ? <LoadingIndicator /> : null}
