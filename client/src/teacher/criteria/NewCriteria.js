@@ -319,7 +319,7 @@ class NewCriteria extends Component {
     this.setState({
       ...this.state,
       graded: {
-        value: value
+        value: Number(value)
       }
     });
   }

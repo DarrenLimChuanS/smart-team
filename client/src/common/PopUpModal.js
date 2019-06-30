@@ -27,35 +27,50 @@ class PopUpModal extends Component {
 
   render() {
     const { visible, loading } = this.state;
+    const {
+      children,
+      confirmText,
+      submitButtonType,
+      title,
+      triggerButtonType,
+      triggerButtonText,
+      linkTo,
+      ...rest
+    } = this.props;
     return (
-      <div>
-        <Button type="primary" onClick={this.showModal}>
-          {this.props.triggerButtonText}
+      <React.Fragment>
+        <Button
+          type={triggerButtonType || "primary"}
+          onClick={this.showModal}
+          {...rest}
+        >
+          {triggerButtonText}
         </Button>
         <Modal
           visible={visible}
-          title={this.props.title}
+          title={title}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
+          linkTo={linkTo}
           footer={
-            this.props.confirmText && [
+            confirmText && [
               <Button key="back" onClick={this.handleCancel}>
                 Cancel
               </Button>,
               <Button
                 key="submit"
-                type="primary"
+                type={submitButtonType || "primary"}
                 loading={loading}
                 onClick={this.handleOk}
               >
-                {this.props.confirmText}
+                {confirmText}
               </Button>
             ]
           }
         >
-          {this.props.children}
+          {children}
         </Modal>
-      </div>
+      </React.Fragment>
     );
   }
 }
