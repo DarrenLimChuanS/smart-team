@@ -179,7 +179,7 @@ class Questionnaire extends Component {
               <Button
                 type="default"
                 onClick={() => this.handleLoadMore(-1)}
-                disabled={isLoading || currentPage == 0}
+                disabled={isLoading || currentPage === 0}
                 style={{ float: "left" }}
               >
                 <Icon type="left" /> Back
@@ -198,7 +198,7 @@ class Questionnaire extends Component {
               <Button
                 type="default"
                 onClick={() => this.handleLoadMore(-1)}
-                disabled={isLoading || currentPage == 0}
+                disabled={isLoading || currentPage === 0}
                 style={{ float: "left" }}
               >
                 <Icon type="left" /> Back
