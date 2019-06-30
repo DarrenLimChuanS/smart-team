@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Layout, Menu, Breadcrumb, Icon } from "antd";
-import { isUser, isStudent } from "../util/Helpers";
 const { Sider } = Layout;
 
 class Sidebar extends Component {

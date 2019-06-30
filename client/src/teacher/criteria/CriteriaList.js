@@ -210,7 +210,7 @@ class Criteria extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">Edit</a>
+            <a href="/">Edit</a>
             <Divider type="vertical" />
             <a onClick={() => this.deleteCriteriaWithId(record.id)}>Delete</a>
           </span>

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import {
   getSectionById,
   getUserCreatedQuestionnaires,
   getCurrentUser,
   createSmartTeam
 } from "../../util/APIUtils";
-import { validateName, validateYear } from "../../util/Validators";
+import { validateName } from "../../util/Validators";
 import { SmartTeam } from "../../util/FeatureStates";
 import {
   Form,
@@ -83,7 +82,7 @@ class NewSmartTeam extends Component {
 
   handlePollStartDaysChange(value) {
     const pollStart = Object.assign(this.state.pollStart, {
-      days: parseInt(value)
+      days: parseInt(value, 10)
     });
     this.setState({
       pollStart: pollStart
@@ -92,7 +91,7 @@ class NewSmartTeam extends Component {
 
   handlePollStartHoursChange(value) {
     const pollStart = Object.assign(this.state.pollStart, {
-      hours: parseInt(value)
+      hours: parseInt(value, 10)
     });
     this.setState({
       pollStart: pollStart
@@ -101,7 +100,7 @@ class NewSmartTeam extends Component {
 
   handlePollEndDaysChange(value) {
     const pollEnd = Object.assign(this.state.pollEnd, {
-      days: parseInt(value)
+      days: parseInt(value, 10)
     });
     this.setState({
       pollEnd: pollEnd
@@ -110,7 +109,7 @@ class NewSmartTeam extends Component {
 
   handlePollEndHoursChange(value) {
     const pollEnd = Object.assign(this.state.pollEnd, {
-      hours: parseInt(value)
+      hours: parseInt(value, 10)
     });
     this.setState({
       pollEnd: pollEnd

@@ -72,7 +72,7 @@ class EditStudent extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { id, name, username, email, password, currentUser } = this.state;
+    const { id, name, username, email, password } = this.state;
     console.log(this.state);
 
     const studentRequest = {
