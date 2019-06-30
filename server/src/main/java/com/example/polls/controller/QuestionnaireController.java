@@ -1,15 +1,9 @@
 package com.example.polls.controller;
 
 import com.example.polls.model.Questionnaire;
-import com.example.polls.payload.ApiResponse;
-import com.example.polls.payload.PagedResponse;
-import com.example.polls.payload.QuestionnaireRequest;
-import com.example.polls.payload.QuestionnaireResponse;
-import com.example.polls.repository.CourseRepository;
-import com.example.polls.repository.QuestionnaireRepository;
+import com.example.polls.payload.*;
 import com.example.polls.security.CurrentUser;
 import com.example.polls.security.UserPrincipal;
-import com.example.polls.service.CourseService;
 import com.example.polls.service.QuestionnaireService;
 import com.example.polls.util.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +42,7 @@ public class QuestionnaireController {
     }
 
     @GetMapping("/{questionnaireId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
     public QuestionnaireResponse getQuestionnaireById(@CurrentUser UserPrincipal currentUser,
 
             @PathVariable Long questionnaireId) {
