@@ -6,36 +6,53 @@ import java.util.ArrayList;
 
 public class OutcomeRequest {
 
-    private String name;
-
     private Long criteriaId;
 
-    private ArrayList<Integer> score =new ArrayList<Integer>();
+    private Long smartteamId;
 
-    public String getName() {
-        return name;
-    }
+    private Long choiceId;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private Long pollId;
+
+    private Long userId;
 
     public Long getCriteriaId() {
-        return criteriaId;
+        return this.criteriaId;
     }
 
     public void setCriteriaId(Long criteriaId) {
         this.criteriaId = criteriaId;
     }
 
-    public ArrayList getScore() {
-        return score;
+    public Long getSmartteamId() {
+        return this.smartteamId;
     }
 
-    public void setScore(ArrayList<Integer> scores) {
-        this.score.clear();
-        for(int i = 0; i < scores.size(); i++)
-            this.score.add(scores.get(i));
+    public void setSmartteamId(Long smartteamId) {
+        this.smartteamId = smartteamId;
     }
 
+    public Long getChoiceId() {
+        return this.choiceId;
+    }
+
+    public void setChoiceId(Long choiceId) {
+        this.choiceId = choiceId;
+    }
+
+    public Long getPollId() {
+        return this.pollId;
+    }
+
+    public void setPollId(Long pollId) {
+        this.pollId = pollId;
+    }
+
+    public Long getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

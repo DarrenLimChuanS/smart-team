@@ -51,6 +51,14 @@ public class OutcomeController {
     private PollService pollService;
 
     /* CALL TO GET OUTCOME OF CATEGORISING */
+    // @GetMapping
+    // @PreAuthorize("hasRole('USER')")
+    // public Outcome getOutcome(@RequestBody OutcomeRequest outcomeRequest) {
+    //     int totalScore = outcomeService.calculateTotalScore(outcomeRequest.getScore());
+
+    //     return outcomeService.categorise(outcomeRequest, totalScore);
+    // }
+
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     public Outcome getOutcome(@RequestBody OutcomeRequest outcomeRequest) {

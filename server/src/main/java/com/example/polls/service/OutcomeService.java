@@ -82,4 +82,9 @@ public class OutcomeService {
 
         return outcome;
     }
+
+    public int calculateTotalScore(OutcomeRequest outcomeRequest) {
+        Vote tempVote = voteRepository.findByUserIdAndPollIdIn(outcomeRequest.getUserId(),outcomeRequest.getPollId(),outcomeRequest.getSmartteamId(),outcomeRequest.getCriteriaId());
+    }
+    
 }
