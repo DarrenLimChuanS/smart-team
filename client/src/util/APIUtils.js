@@ -404,6 +404,13 @@ export function createQuestionnaire(questionnaireData) {
   });
 }
 
+export function getQuestionnaireById(questionnaireId) {
+  return request({
+    url: API_BASE_URL + "/questionnaires/" + questionnaireId,
+    method: "GET"
+  });
+}
+
 export function getAllQuestionnaires(page, size) {
   page = page || 0;
   size = size || COURSE_LIST_SIZE;
