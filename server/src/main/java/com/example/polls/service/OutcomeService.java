@@ -1,40 +1,16 @@
 package com.example.polls.service;
 
-import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.Choice;
 import com.example.polls.model.Criteria;
 import com.example.polls.model.Outcome;
 import com.example.polls.model.Vote;
-import com.example.polls.model.Poll;
-import com.example.polls.model.User;
 import com.example.polls.payload.ApiResponse;
-import com.example.polls.payload.CriteriaRequest;
-import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.OutcomeRequest;
-import com.example.polls.payload.PagedResponse;
-import com.example.polls.repository.CriteriaRepository;
-import com.example.polls.repository.ChoiceRepository;
-import com.example.polls.repository.VoteRepository;
-import com.example.polls.repository.PollRepository;
-import com.example.polls.repository.UserRepository;
-import com.example.polls.security.UserPrincipal;
-import com.example.polls.util.AppConstants;
-import com.example.polls.util.ModelMapper;
+import com.example.polls.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 public class OutcomeService {
@@ -43,19 +19,7 @@ public class OutcomeService {
     private CriteriaRepository criteriaRepository;
 
     @Autowired
-    private PollRepository pollRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ChoiceRepository choiceRepository;
-
-    @Autowired
     private VoteRepository voteRepository;
-
-    @Autowired
-    private PollService pollService;
 
     /* TO GET CATEGORISE RESULT */
     public Outcome categorise(OutcomeRequest outcomeRequest, int totalScore){
@@ -85,6 +49,9 @@ public class OutcomeService {
 
     /* TO UPDATE VOTE TABLE */
     public ResponseEntity<Object> updateVote(OutcomeRequest outcomeRequest, Choice choice, String outcome) {
+        System.out.println(outcomeRequest);
+        System.out.println(choice);
+        System.out.println(outcome);
 
         Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),outcomeRequest.getPollId(),outcomeRequest.getSmartteamId(),outcomeRequest.getCriteriaId());
         

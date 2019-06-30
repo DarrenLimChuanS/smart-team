@@ -1,9 +1,5 @@
 package com.example.polls.payload;
 
-import java.util.*;  
-import java.util.ArrayList;
-
-
 public class OutcomeRequest {
 
     private Long criteriaId;

@@ -1,8 +1,10 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
-import javax.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +26,7 @@ public class Course extends UserDateAudit {
     private String description;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JsonManagedReference
     private Set<Section> sections = new HashSet<>();
 
     public Course() {

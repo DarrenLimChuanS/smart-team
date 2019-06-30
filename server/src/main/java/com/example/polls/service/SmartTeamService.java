@@ -51,9 +51,6 @@ public class SmartTeamService {
     private SmartTeamRepository smartTeamRepository;
 
     @Autowired
-    private PollRepository pollRepository;
-    
-    @Autowired
     private SectionRepository sectionRepository;
 
     @Autowired
@@ -68,13 +65,9 @@ public class SmartTeamService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PollService pollService;
-
     public SmartTeam createSmartTeam(SmartTeamRequest smartTeamRequest) {
         SmartTeam smartteam = new SmartTeam();
         smartteam.setName(smartTeamRequest.getName());
-        System.out.println(smartTeamRequest.getSmartteamStartdate());
         smartteam.setSmartteamStartdate(smartTeamRequest.getSmartteamStartdate());
         smartteam.setSmartteamEnddate(smartTeamRequest.getSmartteamEnddate());
         smartteam.setQuestionnaire(smartTeamRequest.getQuestionnaire());
@@ -83,25 +76,29 @@ public class SmartTeamService {
 
         // Update status of Section
         Section tempSection = sectionRepository.findBySectionId(smartTeamRequest.getSection().getSectionId())
-        .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID", smartTeamRequest.getSection().getSectionId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID",
+                        smartTeamRequest.getSection().getSectionId()));
         tempSection.setStatus("Grouping");
         sectionService.updateSectionById(tempSection, tempSection.getSectionId());
-            
+
         return smartTeamRepository.save(smartteam);
     }
 
     public void populateSmartTeam(Long smartTeamId) {
         // Fetch SmartTeam
         SmartTeam tempSmartTeam = smartTeamRepository.findBySmartteamId(smartTeamId)
-        .orElseThrow(() -> new ResourceNotFoundException("SmartTeam", "SmartTeam ID", smartTeamId));
+                .orElseThrow(() -> new ResourceNotFoundException("SmartTeam", "SmartTeam ID", smartTeamId));
 
         // Fetch Section in SmartTeam
         Section tempSection = sectionRepository.findBySectionId(tempSmartTeam.getSection().getSectionId())
-        .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID", tempSmartTeam.getSection().getSectionId()));
-        
+                .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID",
+                        tempSmartTeam.getSection().getSectionId()));
+
         // Fetch Section in SmartTeam
-        Questionnaire tempQuestionnaire = questionnaireRepository.findByQuestionnaireId(tempSmartTeam.getQuestionnaire().getQuestionnaireId())
-        .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "Questionnaire ID", tempSmartTeam.getQuestionnaire().getQuestionnaireId()));
+        Questionnaire tempQuestionnaire = questionnaireRepository
+                .findByQuestionnaireId(tempSmartTeam.getQuestionnaire().getQuestionnaireId())
+                .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "Questionnaire ID",
+                        tempSmartTeam.getQuestionnaire().getQuestionnaireId()));
 
         // Create Master list in Vote table
         // Loop through students in section
@@ -118,7 +115,7 @@ public class SmartTeamService {
                     voteRepository.save(tempVote);
                 }
             }
-        }   
+        }
     }
 
     public PagedResponse<CriteriaResponse> getCriteriaCreatedBy(String username, UserPrincipal currentUser, int page,

@@ -29,6 +29,17 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public UserResponse getUserById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        // Retrieve user creator details
+        User creator = userRepository.findById(user.getCreatedBy())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", user.getCreatedBy()));
+
+        return ModelMapper.mapUserToUserResponse(user, creator);
+    }
+
     public PagedResponse<UserResponse> getUsersCreatedBy(String username, int page, int size) {
         validatePageNumberAndSize(page, size);
 

@@ -1,20 +1,23 @@
 package com.example.polls.payload;
 
+import com.example.polls.model.Course;
+import com.example.polls.model.SmartTeam;
+import com.example.polls.model.User;
+
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.example.polls.model.User;
-import com.example.polls.model.Course;
 
 public class SectionResponse {
     private Long sectionId;
     private String name;
     private Long noOfStudents;
     private String courseName;
+    private String courseDescription;
     private Long year;
     private String status;
     private Set<User> students = new HashSet<>();
+    private Set<SmartTeam> smartteams = new HashSet<>();
     private Course course;
     private UserSummary createdBy;
     private Instant creationDateTime;
@@ -45,6 +48,14 @@ public class SectionResponse {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public String getCourseDescription() {
+        return courseDescription;
+    }
+
+    public void setCourseDescription(String courseDescription) {
+        this.courseDescription = courseDescription;
     }
 
     public Long getYear() {
@@ -97,5 +108,13 @@ public class SectionResponse {
 
     public void setCreationDateTime(Instant creationDateTime) {
         this.creationDateTime = creationDateTime;
+    }
+
+    public Set<SmartTeam> getSmartTeams() {
+        return smartteams;
+    }
+
+    public void setSmartTeams(Set<SmartTeam> smartteams) {
+        this.smartteams = smartteams;
     }
 }

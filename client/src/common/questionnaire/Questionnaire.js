@@ -31,6 +31,8 @@ class Questionnaire extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.currentUser);
+
     let criteriaSteps = this.state.criteriaSteps.slice();
     this.props.questionnaire.criteria.forEach(criterion => {
       const newStep = {
@@ -49,39 +51,44 @@ class Questionnaire extends Component {
     this.setState({ currentPage: this.state.currentPage + noOfPages });
   }
 
-  handleChoiceChange(event, pollId) {
+  handleChoiceChange(event, poll, pollIndex) {
     const currentVotes = this.state.currentVotes.slice();
-    currentVotes[pollId] = event.target.value;
+    currentVotes[poll.id] = event.target.value;
 
     this.setState({
       currentVotes: currentVotes
     });
-    console.log(currentVotes);
   }
 
   handleSaveSubmit(event, criteriaIndex, pollIndex) {
     event.preventDefault();
-    if (!this.props.isAuthenticated) {
-      this.props.history.push("/login");
-      notification.info({
-        message: "Smart Team",
-        description: "Please login to vote."
-      });
-      return;
-    }
+    // if (!this.props.isAuthenticated) {
+    //   this.props.history.push("/login");
+    //   notification.info({
+    //     message: "Smart Team",
+    //     description: "Please login to vote."
+    //   });
+    //   return;
+    // }
 
-    const poll = this.state.questionnaire.criteria[criteriaIndex].polls[
+    const selectedChoice = this.state.currentVotes[pollIndex];
+    const criteriaId = this.state.questionnaire.criteria[criteriaIndex]
+      .criteriaId;
+    const pollId = this.state.questionnaire.criteria[criteriaIndex].polls[
       pollIndex
-    ];
-    const selectedChoice = this.state.questionnaire.criteria[criteriaIndex]
-      .currentVotes[pollIndex];
+    ].id;
 
-    const voteData = {
-      pollId: poll.id,
-      choiceId: selectedChoice
+    const choiceData = {
+      choiceId: Number(selectedChoice),
+      criteriaId: Number(criteriaId),
+      userId: this.props.currentUser.getUserId(),
+      // smartteamId: questionnai,
+      pollId: Number(pollId)
     };
 
-    castVote(voteData)
+    console.log(choiceData);
+
+    castVote(choiceData)
       .then(response => {
         const criteria = this.state.questionnaire.criteria.slice();
         const polls = this.state.questionnaire.criteria[
@@ -162,10 +169,10 @@ class Questionnaire extends Component {
               pollIndex={++questionId}
               currentVote={currentVotes[poll.id]}
               handleChoiceChange={event =>
-                this.handleChoiceChange(event, poll.id)
+                this.handleChoiceChange(event, poll, pollIndex)
               }
               handleSaveSubmit={event =>
-                this.handleSaveSubmit(event, pollIndex)
+                this.handleSaveSubmit(event, currentPage, pollIndex)
               }
             />
           ))}

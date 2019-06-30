@@ -1,6 +1,7 @@
 package com.example.polls.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.example.polls.model.audit.UserDateAudit;
 
 import org.hibernate.annotations.NaturalId;
@@ -48,6 +49,10 @@ public class User extends UserDateAudit {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Set<Section> sections = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<SmartTeam> smartTeams = new HashSet<>();
 
     public User() {
 
@@ -114,5 +119,13 @@ public class User extends UserDateAudit {
 
     public void setSections(Set<Section> sections) {
         this.sections = sections;
+    }
+
+    public Set<SmartTeam> getSmartTeams() {
+        return smartTeams;
+    }
+
+    public void setSmartTeams(Set<SmartTeam> smartTeams) {
+        this.smartTeams = smartTeams;
     }
 }

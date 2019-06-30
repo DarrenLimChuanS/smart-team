@@ -1,7 +1,9 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -9,8 +11,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Entity
 @Table(name = "section")
@@ -32,6 +32,7 @@ public class Section extends UserDateAudit {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference
     private Course course;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
@@ -40,6 +41,10 @@ public class Section extends UserDateAudit {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Set<User> students = new HashSet<>();
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<SmartTeam> smartteams = new HashSet<>();
 
     public Section() {
 
@@ -108,5 +113,13 @@ public class Section extends UserDateAudit {
 
     public void setStudents(Set<User> students) {
         this.students = students;
+    }
+
+    public Set<SmartTeam> getSmartTeams() {
+        return smartteams;
+    }
+
+    public void setSmartTeams(Set<SmartTeam> smartteams) {
+        this.smartteams = smartteams;
     }
 }

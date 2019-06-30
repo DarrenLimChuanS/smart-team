@@ -2,6 +2,8 @@ package com.example.polls.payload;
 
 import com.example.polls.model.Role;
 import com.example.polls.model.Section;
+import com.example.polls.model.SmartTeam;
+
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +16,7 @@ public class UserResponse {
     private String password;
     private Set<Role> roles = new HashSet<>();
     private Set<Section> sections = new HashSet<>();
+    private Set<SmartTeam> smartTeams = new HashSet<>();
     private UserSummary createdBy;
     private Instant creationDateTime;
 
@@ -73,6 +76,14 @@ public class UserResponse {
         this.sections = sections;
     }
 
+    public Set<SmartTeam> getSmartTeams() {
+        return smartTeams;
+    }
+
+    public void setSmartTeams(Set<SmartTeam> smartTeams) {
+        this.smartTeams = smartTeams;
+    }
+
     public UserSummary getCreatedBy() {
         return createdBy;
     }
@@ -88,4 +99,5 @@ public class UserResponse {
     public void setCreationDateTime(Instant creationDateTime) {
         this.creationDateTime = creationDateTime;
     }
+
 }
