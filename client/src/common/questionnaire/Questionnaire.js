@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Question from "./Question";
-import { castVote } from "../../util/APIUtils";
+import { castVote, updateChoices } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import { Divider, Typography, notification, Icon, Steps, Button } from "antd";
 import { withRouter } from "react-router-dom";
@@ -60,7 +60,7 @@ class Questionnaire extends Component {
     });
   }
 
-  handleSaveSubmit(event, criteriaIndex, pollIndex) {
+  handleSaveSubmit(event, criteriaId, pollId) {
     event.preventDefault();
     // if (!this.props.isAuthenticated) {
     //   this.props.history.push("/login");
@@ -70,36 +70,42 @@ class Questionnaire extends Component {
     //   });
     //   return;
     // }
-
-    const selectedChoice = this.state.currentVotes[pollIndex];
-    const criteriaId = this.state.questionnaire.criteria[criteriaIndex]
-      .criteriaId;
-    const pollId = this.state.questionnaire.criteria[criteriaIndex].polls[
-      pollIndex
-    ].id;
+    const selectedChoice = this.state.currentVotes[pollId];
+    console.log(this.state);
+    // const choiceData = {
+    //   choiceId: Number(selectedChoice),
+    //   criteriaId: Number(criteriaId),
+    //   userId: this.props.currentUser.id,
+    //   smartteamId: Number(this.props.match.params.smartTeamId),
+    //   pollId: Number(pollId)
+    // };
 
     const choiceData = {
       choiceId: Number(selectedChoice),
       criteriaId: Number(criteriaId),
-      userId: this.props.currentUser.getUserId(),
-      // smartteamId: questionnai,
+      userId: this.props.currentUser.id,
+      smartteamId: Number(this.props.match.params.smartTeamId),
       pollId: Number(pollId)
     };
 
     console.log(choiceData);
 
-    castVote(choiceData)
+    updateChoices(choiceData)
       .then(response => {
-        const criteria = this.state.questionnaire.criteria.slice();
-        const polls = this.state.questionnaire.criteria[
-          criteriaIndex
-        ].polls.slice();
-        polls[pollIndex] = response;
-        criteria[criteria].polls = polls;
-        this.setState({
-          questionnaire: {
-            criteria
-          }
+        // const criteria = this.state.questionnaire.criteria.slice();
+        // const polls = this.state.questionnaire.criteria[
+        //   criteriaIndex
+        // ].polls.slice();
+        // polls[pollIndex] = response;
+        // criteria[criteria].polls = polls;
+        // this.setState({
+        //   questionnaire: {
+        //     criteria
+        //   }
+        // });
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully submitted a question."
         });
       })
       .catch(error => {
@@ -172,7 +178,11 @@ class Questionnaire extends Component {
                 this.handleChoiceChange(event, poll, pollIndex)
               }
               handleSaveSubmit={event =>
-                this.handleSaveSubmit(event, currentPage, pollIndex)
+                this.handleSaveSubmit(
+                  event,
+                  questionnaire.criteria[currentPage].id,
+                  poll.id
+                )
               }
             />
           ))}
