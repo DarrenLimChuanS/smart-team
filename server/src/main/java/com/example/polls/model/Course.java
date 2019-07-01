@@ -33,6 +33,13 @@ public class Course extends UserDateAudit {
 
     }
 
+    public Course(Long id, String course_code, String name, String description) {
+        this.id = id;
+        this.course_code = course_code;
+        this.name = name;
+        this.description = description;
+    }
+
     public Course(Long id, String course_code, String name, String description, Set<Section> sections) {
         this.id = id;
         this.course_code = course_code;

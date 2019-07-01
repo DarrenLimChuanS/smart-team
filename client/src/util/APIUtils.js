@@ -298,6 +298,13 @@ export function getUserCreatedStudents(username, page, size) {
   });
 }
 
+export function getStudentCourses(username) {
+  return request({
+    url: API_BASE_URL + "/users/" + username + "/courses/in",
+    method: "GET"
+  });
+}
+
 export function getUserVotedPolls(username, page, size) {
   page = page || 0;
   size = size || POLL_LIST_SIZE;
