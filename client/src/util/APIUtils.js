@@ -323,6 +323,20 @@ export function getUserVotedPolls(username, page, size) {
 }
 
 /**
+ * Start of SmartTeam APIs
+ **/
+export function createSmartTeam(smartTeamData) {
+  return request({
+    url: API_BASE_URL + "/smartteam",
+    method: "POST",
+    body: JSON.stringify(smartTeamData)
+  });
+}
+/**
+ * End of SmartTeam APIs
+ **/
+
+/**
  * Criteria APIs
  **/
 
@@ -394,6 +408,13 @@ export function createQuestionnaire(questionnaireData) {
     url: API_BASE_URL + "/questionnaires",
     method: "POST",
     body: JSON.stringify(questionnaireData)
+  });
+}
+
+export function getQuestionnaireById(questionnaireId) {
+  return request({
+    url: API_BASE_URL + "/questionnaires/" + questionnaireId,
+    method: "GET"
   });
 }
 

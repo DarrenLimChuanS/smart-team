@@ -7,7 +7,7 @@ import {
   CHOICE_SCORE_MIN
 } from "../../constants";
 import "./NewCriteria.css";
-import { validateNotEmpty, validateNotRequired } from "../../util/Validators";
+import { validateNotEmpty } from "../../util/Validators";
 import {
   Typography,
   Form,
@@ -123,9 +123,9 @@ class NewCriteria extends Component {
     let totalScore = 0;
     let averageScore = 0;
 
-    this.state.questions.map(question => {
+    this.state.questions.forEach(question => {
       let qnsMaxScore = 0;
-      question.choices.map(choice => {
+      question.choices.forEach(choice => {
         if (choice.score > qnsMaxScore) {
           qnsMaxScore = choice.score;
         }
@@ -151,7 +151,7 @@ class NewCriteria extends Component {
       q2: averageScore * 2,
       q3: averageScore * 3,
       q4: averageScore * 4,
-      graded: this.state.graded.value == 1 ? true : false,
+      graded: this.state.graded.value === 1 ? true : false,
       polls: structuredQtns
     };
     console.log(criteriaData);
@@ -298,6 +298,7 @@ class NewCriteria extends Component {
           return true;
         }
       }
+      return false;
     });
   }
 
@@ -318,7 +319,7 @@ class NewCriteria extends Component {
     this.setState({
       ...this.state,
       graded: {
-        value: value
+        value: Number(value)
       }
     });
   }
@@ -455,7 +456,7 @@ function PollChoice(props) {
       help={props.choice.errorMsg}
       className="poll-form-row"
     >
-      <Col span={props.graded == 0 ? 24 : 18}>
+      <Col span={props.graded === 0 ? 24 : 18}>
         <Input
           placeholder={"Choice " + (props.choiceNumber + 1)}
           size="large"
@@ -463,7 +464,7 @@ function PollChoice(props) {
           onChange={props.handleChoiceChange}
         />
       </Col>
-      {props.graded == 1 && (
+      {props.graded === 1 && (
         <Col offset={1} span={5}>
           <Input
             type="number"

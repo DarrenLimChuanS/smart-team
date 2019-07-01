@@ -234,7 +234,7 @@ class Questionnaire extends Component {
       selectedCriteriaList: [],
       selectedQuestionnaireId: value
     });
-    this.state.questionnaireList[value].criteria.map(criteria => {
+    this.state.questionnaireList[value].criteria.forEach(criteria => {
       this.loadCriteriaByID(criteria.id);
     });
   }
@@ -247,15 +247,8 @@ class Questionnaire extends Component {
 
   handleDeleteQuestionnaire(index) {
     const id = this.state.questionnaireList[index].questionnaireId;
-    console.log(id);
     deleteQuestionnaire(id)
       .then(response => {
-        console.log("success");
-        // let updatedQuestionnaires = [...this.state.questionnairesList].filter(
-        //   i => i.id !== id
-        // );
-
-        // console.log(updatedQuestionnaires);
         this.setState({
           selectedQuestionnaireId: 0,
           questionnaireList: update(this.state.questionnaireList, {
@@ -417,9 +410,9 @@ class Questionnaire extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">Edit</a>
+            <a href="/">Edit</a>
             <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
+            <a href="/">Delete</a>
           </span>
         )
       }
@@ -460,8 +453,7 @@ class Questionnaire extends Component {
     const {
       questionnaireList,
       selectedQuestionnaireId,
-      selectedCriteriaList,
-      page
+      selectedCriteriaList
     } = this.state;
     return (
       <React.Fragment>
@@ -635,7 +627,7 @@ class Questionnaire extends Component {
                   columns={columns}
                   dataSource={
                     selectedQuestionnaireId !== 0 &&
-                    criteria != undefined &&
+                    criteria !== undefined &&
                     criteria.polls
                   }
                   onChange={this.handleChange}

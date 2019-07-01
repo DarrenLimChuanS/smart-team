@@ -4,7 +4,7 @@ import {
   getUserCreatedCourses,
   deleteCourse
 } from "../../util/APIUtils";
-import { Redirect, Link, withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import {
   Button,
   Divider,
@@ -184,7 +184,7 @@ class CourseList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">View Sections</a>
+            <a href="/">View Sections</a>
             <Divider type="vertical" />
             <Link to={"/course/" + record.id}>Edit</Link>
             <Divider type="vertical" />

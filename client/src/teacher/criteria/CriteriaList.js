@@ -15,7 +15,6 @@ import {
   Typography
 } from "antd";
 import "./CriteriaList.css";
-import PopUpModal from "../../common/PopUpModal";
 
 import { compareByAlph } from "../../util/Sorters";
 import { CRITERIA_LIST_SIZE } from "../../constants";
@@ -211,7 +210,7 @@ class Criteria extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="javascript:;">Edit</a>
+            <a href="/">Edit</a>
             <Divider type="vertical" />
             <a onClick={() => this.deleteCriteriaWithId(record.id)}>Delete</a>
           </span>

@@ -5,13 +5,23 @@ import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.Choice;
 import com.example.polls.model.Criteria;
 import com.example.polls.model.Poll;
+import com.example.polls.model.Questionnaire;
+import com.example.polls.model.Section;
+import com.example.polls.model.SmartTeam;
 import com.example.polls.model.User;
+import com.example.polls.model.Vote;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.CriteriaRequest;
 import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.PagedResponse;
+import com.example.polls.payload.SmartTeamRequest;
 import com.example.polls.repository.CriteriaRepository;
+import com.example.polls.repository.PollRepository;
+import com.example.polls.repository.QuestionnaireRepository;
+import com.example.polls.repository.SectionRepository;
+import com.example.polls.repository.SmartTeamRepository;
 import com.example.polls.repository.UserRepository;
+import com.example.polls.repository.VoteRepository;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
@@ -25,39 +35,90 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CriteriaService {
+public class SmartTeamService {
 
     @Autowired
     private CriteriaRepository criteriaRepository;
 
     @Autowired
+    private SmartTeamRepository smartTeamRepository;
+
+    @Autowired
+    private PollRepository pollRepository;
+    
+    @Autowired
+    private SectionRepository sectionRepository;
+
+    @Autowired
+    private QuestionnaireRepository questionnaireRepository;
+
+    @Autowired
+    private SectionService sectionService;
+
+    @Autowired
+    private VoteRepository voteRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
-    public Criteria createCriteria(CriteriaRequest criteriaRequest) {
-        Criteria criteria = new Criteria();
-        criteria.setName(criteriaRequest.getName());
-        criteria.setDescription(criteriaRequest.getDescription());
-        criteria.setGraded(criteriaRequest.getGraded());
-        criteria.setQ1(criteriaRequest.getQ1());
-        criteria.setQ2(criteriaRequest.getQ2());
-        criteria.setQ3(criteriaRequest.getQ3());
-        criteria.setQ4(criteriaRequest.getQ4());
+    @Autowired
+    private PollService pollService;
 
-        criteriaRequest.getPolls().forEach(pollRequest -> {
-            Poll newPoll = new Poll();
-            newPoll.setQuestion(pollRequest.getQuestion());
+    public SmartTeam createSmartTeam(SmartTeamRequest smartTeamRequest) {
+        SmartTeam smartteam = new SmartTeam();
+        smartteam.setName(smartTeamRequest.getName());
+        System.out.println(smartTeamRequest.getSmartteamStartdate());
+        smartteam.setSmartteamStartdate(smartTeamRequest.getSmartteamStartdate());
+        smartteam.setSmartteamEnddate(smartTeamRequest.getSmartteamEnddate());
+        smartteam.setQuestionnaire(smartTeamRequest.getQuestionnaire());
+        smartteam.setUser(smartTeamRequest.getUser());
+        smartteam.setSection(smartTeamRequest.getSection());
 
-            pollRequest.getChoices().forEach(
-                    choiceRequest -> newPoll.addChoice(new Choice(choiceRequest.getText(), choiceRequest.getScore())));
-            criteria.addPoll(newPoll);
-        });
+        // Update status of Section
+        Section tempSection = sectionRepository.findBySectionId(smartTeamRequest.getSection().getSectionId())
+        .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID", smartTeamRequest.getSection().getSectionId()));
+        tempSection.setStatus("Grouping");
+        sectionService.updateSectionById(tempSection, tempSection.getSectionId());
+            
+        return smartTeamRepository.save(smartteam);
+    }
 
-        return criteriaRepository.save(criteria);
+    public void populateSmartTeam(Long smartTeamId) {
+        // Fetch SmartTeam
+        SmartTeam tempSmartTeam = smartTeamRepository.findBySmartteamId(smartTeamId)
+        .orElseThrow(() -> new ResourceNotFoundException("SmartTeam", "SmartTeam ID", smartTeamId));
+
+        // Fetch Section in SmartTeam
+        Section tempSection = sectionRepository.findBySectionId(tempSmartTeam.getSection().getSectionId())
+        .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID", tempSmartTeam.getSection().getSectionId()));
+        
+        // Fetch Section in SmartTeam
+        Questionnaire tempQuestionnaire = questionnaireRepository.findByQuestionnaireId(tempSmartTeam.getQuestionnaire().getQuestionnaireId())
+        .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "Questionnaire ID", tempSmartTeam.getQuestionnaire().getQuestionnaireId()));
+
+        // Create Master list in Vote table
+        // Loop through students in section
+        for (User student : tempSection.getStudents()) {
+            // Loop through criterias of questionnaire
+            for (Criteria criteria : tempQuestionnaire.getCriteria()) {
+                // Loop through questions in criteria
+                for (Poll poll : criteria.getPolls()) {
+                    Vote tempVote = new Vote();
+                    tempVote.setSmartteam(tempSmartTeam);
+                    tempVote.setUser(student);
+                    tempVote.setCriteria(criteria);
+                    tempVote.setPoll(poll);
+                    voteRepository.save(tempVote);
+                }
+            }
+        }   
     }
 
     public PagedResponse<CriteriaResponse> getCriteriaCreatedBy(String username, UserPrincipal currentUser, int page,

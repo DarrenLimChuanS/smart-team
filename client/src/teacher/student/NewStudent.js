@@ -1,20 +1,11 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import {
   createStudent,
   checkUsernameAvailability,
   checkEmailAvailability,
   getStudentById
 } from "../../util/APIUtils";
-import {
-  DatePicker,
-  Form,
-  Input,
-  Button,
-  notification,
-  Select,
-  Typography
-} from "antd";
+import { Form, Input, Button, notification, Typography } from "antd";
 import {
   NAME_MIN_LENGTH,
   NAME_MAX_LENGTH,
@@ -24,7 +15,6 @@ import {
   PASSWORD_MIN_LENGTH,
   PASSWORD_MAX_LENGTH
 } from "../../constants";
-const { Option } = Select;
 const { Title } = Typography;
 const FormItem = Form.Item;
 

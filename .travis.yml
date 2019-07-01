@@ -1,0 +1,10 @@
+nlanguage: node_js
+node_js:
+  - "stable"
+before_install:
+  - cd client
+  - npm install
+cache: npm install
+script:
+  - npm test
+  - npm run build

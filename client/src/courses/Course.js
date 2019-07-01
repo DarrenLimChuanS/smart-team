@@ -61,15 +61,8 @@ class Courses extends Component {
           {this.state &&
             courses &&
             courses.map(course => (
-              <Col span={8}>
-                <Card
-                  title={course.name}
-                  extra={
-                    <Link to="/courses/questionnaires_student">
-                      <li>View Sections</li>
-                    </Link>
-                  }
-                >
+              <Col span={8} style={{ padding: "8px" }}>
+                <Card title={course.name}>
                   <p>{course.description}</p>
                   <div style={{ textAlign: "center" }}>
                     <Link to="/courses/questionnaires_student">
