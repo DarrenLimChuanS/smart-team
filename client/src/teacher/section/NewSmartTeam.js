@@ -157,7 +157,6 @@ class NewSmartTeam extends Component {
       user: this.state.currentUser,
       section: this.state.section
     };
-    console.log(smartteamRequest);
     createSmartTeam(smartteamRequest)
       .then(response => {
         notification.success({

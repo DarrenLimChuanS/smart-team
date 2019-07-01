@@ -75,8 +75,6 @@ class EditSection extends Component {
         ...validationFun(inputValue)
       }
     });
-
-    console.log(this.state);
   }
 
   handleStudentChange(value) {
@@ -106,7 +104,6 @@ class EditSection extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
     const createSectionRequest = {
       name: this.state.name.value,
       noOfStudents: this.state.students.value.length,

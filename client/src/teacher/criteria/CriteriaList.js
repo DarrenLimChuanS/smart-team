@@ -66,7 +66,6 @@ class Criteria extends Component {
 
     promise
       .then(response => {
-        console.log(response);
         const criteria = this.state.criteria.slice();
         this.setState({
           criteria: criteria.concat(response.content),

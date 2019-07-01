@@ -137,12 +137,8 @@ class NewCriteria extends Component {
       };
       structuredQtns = structuredQtns.concat(question);
     });
-    console.log(qnsChoiceMaxScores);
     qnsChoiceMaxScores.map(score => (totalScore = totalScore + Number(score)));
     averageScore = totalScore / 4;
-
-    console.log(totalScore);
-    console.log(averageScore);
 
     const criteriaData = {
       name: this.state.name.text,
@@ -154,8 +150,6 @@ class NewCriteria extends Component {
       graded: this.state.graded.value === 1 ? true : false,
       polls: structuredQtns
     };
-    console.log(criteriaData);
-    console.log(this.state);
     createCriteria(criteriaData)
       .then(response => {
         notification.success({
@@ -195,8 +189,6 @@ class NewCriteria extends Component {
   handleQuestionChange(event, qtnIndex) {
     const questions = this.state.questions.slice();
     const value = event.target.value;
-    // console.log(questions);
-    // console.log(qtnIndex);
     questions[qtnIndex] = {
       question: {
         text: value,
@@ -265,14 +257,11 @@ class NewCriteria extends Component {
     this.setState({
       questions: questions
     });
-
-    console.log(this.state);
   }
 
   handleScoreChange(event, qtnIndex, scoreIndex) {
     const questions = this.state.questions.slice();
     const value = event.target.value;
-    console.log(event.target.value);
     questions[qtnIndex].choices[scoreIndex] = {
       score: value,
       text: questions[qtnIndex].choices[scoreIndex].text,
@@ -282,8 +271,6 @@ class NewCriteria extends Component {
     this.setState({
       questions: questions
     });
-
-    console.log(questions);
   }
 
   isFormInvalid() {

@@ -33,7 +33,6 @@ class Courses extends Component {
     promise
       .then(response => {
         const courses = this.state.courses.slice();
-        console.log(response);
         this.setState({
           courses: courses.concat(response),
           isLoading: false

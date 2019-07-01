@@ -73,7 +73,6 @@ class NewStudent extends Component {
             response.createdAt
           )
         );
-        console.log(response);
       });
     }
   }

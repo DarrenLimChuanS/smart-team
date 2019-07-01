@@ -71,7 +71,6 @@ class SectionList extends Component {
           last: response.last,
           isLoading: false
         });
-        console.log(sections.concat(response.content));
       })
       .catch(error => {
         this.setState({
@@ -198,7 +197,9 @@ class SectionList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <Link to={"/section/" + record.sectionId + "/smartteam"}>Assign Group</Link>
+            <Link to={"/section/" + record.sectionId + "/smartteam"}>
+              Assign Group
+            </Link>
             <Divider type="vertical" />
             <Link to={"/section/" + record.sectionId}>Edit</Link>
             <Divider type="vertical" />

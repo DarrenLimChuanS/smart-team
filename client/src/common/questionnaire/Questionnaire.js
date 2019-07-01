@@ -31,8 +31,6 @@ class Questionnaire extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.currentUser);
-
     let criteriaSteps = this.state.criteriaSteps.slice();
     this.props.questionnaire.criteria.forEach(criterion => {
       const newStep = {
@@ -62,23 +60,15 @@ class Questionnaire extends Component {
 
   handleSaveSubmit(event, criteriaId, pollId) {
     event.preventDefault();
-    // if (!this.props.isAuthenticated) {
-    //   this.props.history.push("/login");
-    //   notification.info({
-    //     message: "Smart Team",
-    //     description: "Please login to vote."
-    //   });
-    //   return;
-    // }
+    if (!this.props.isAuthenticated) {
+      this.props.history.push("/login");
+      notification.info({
+        message: "Smart Team",
+        description: "Please login to vote."
+      });
+      return;
+    }
     const selectedChoice = this.state.currentVotes[pollId];
-    console.log(this.state);
-    // const choiceData = {
-    //   choiceId: Number(selectedChoice),
-    //   criteriaId: Number(criteriaId),
-    //   userId: this.props.currentUser.id,
-    //   smartteamId: Number(this.props.match.params.smartTeamId),
-    //   pollId: Number(pollId)
-    // };
 
     const choiceData = {
       choiceId: Number(selectedChoice),
@@ -88,21 +78,8 @@ class Questionnaire extends Component {
       pollId: Number(pollId)
     };
 
-    console.log(choiceData);
-
     updateChoices(choiceData)
       .then(response => {
-        // const criteria = this.state.questionnaire.criteria.slice();
-        // const polls = this.state.questionnaire.criteria[
-        //   criteriaIndex
-        // ].polls.slice();
-        // polls[pollIndex] = response;
-        // criteria[criteria].polls = polls;
-        // this.setState({
-        //   questionnaire: {
-        //     criteria
-        //   }
-        // });
         notification.success({
           message: "Smart Team",
           description: "Success! You have successfully submitted a question."

@@ -70,7 +70,6 @@ class ModuleList extends Component {
 
     promise
       .then(response => {
-        console.log(response);
         const modules = this.state.modules.slice();
         const currentVotes = this.state.currentVotes.slice();
 
