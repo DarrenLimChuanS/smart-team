@@ -31,22 +31,26 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/smartteam")
+@RequestMapping("/api/smartteams")
 public class SmartTeamController {
 
     @Autowired
     private SmartTeamService smartTeamService;
+
+    @Autowired
+    private SmartTeamRepository smartTeamRepository;
 
     // @GetMapping()
     // public List<Criteria> getCriteria() {
     // return criteriaRepository.findAll();
     // }
 
-    // @GetMapping("/{criteriaId}")
-    // @PreAuthorize("hasRole('USER')")
-    // public CriteriaResponse getCriteriaById(@PathVariable Long criteriaId) {
-    // return criteriaService.getCriteriaById(criteriaId);
-    // }
+    @GetMapping("/{smartTeamId}")
+    @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
+    public SmartTeam getBySmartTeamId(@PathVariable Long smartTeamId) {
+        return smartTeamRepository.findBySmartteamId(smartTeamId)
+                .orElseThrow(() -> new ResourceNotFoundException("Smart Team", "id", smartTeamId));
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('USER')")

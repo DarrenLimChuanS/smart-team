@@ -39,8 +39,8 @@ public class Section extends UserDateAudit {
     @JoinTable(name = "section_users", joinColumns = { @JoinColumn(name = "section_id") }, inverseJoinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private Set<User> students = new HashSet<>();
+    @JsonBackReference
+    private Set<User> users = new HashSet<>();
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
@@ -53,7 +53,7 @@ public class Section extends UserDateAudit {
     public Section(String name, Long noOfStudents, Course course, Long year, String status, Set<User> students) {
         this.name = name;
         this.noOfStudents = noOfStudents;
-        this.students = students;
+        this.users = students;
         this.course = course;
         this.year = year;
         this.status = status;
@@ -107,19 +107,19 @@ public class Section extends UserDateAudit {
         this.course = course;
     }
 
-    public Set<User> getStudents() {
-        return students;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setStudents(Set<User> students) {
-        this.students = students;
+    public void setUsers(Set<User> students) {
+        this.users = students;
     }
 
-    public Set<SmartTeam> getSmartTeams() {
+    public Set<SmartTeam> getSmartteams() {
         return smartteams;
     }
 
-    public void setSmartTeams(Set<SmartTeam> smartteams) {
+    public void setSmartteams(Set<SmartTeam> smartteams) {
         this.smartteams = smartteams;
     }
 }

@@ -16,7 +16,7 @@ public class SectionResponse {
     private String courseDescription;
     private Long year;
     private String status;
-    private Set<User> students = new HashSet<>();
+    private Set<User> users = new HashSet<>();
     private Set<SmartTeam> smartteams = new HashSet<>();
     private Course course;
     private UserSummary createdBy;
@@ -78,12 +78,12 @@ public class SectionResponse {
         this.status = status;
     }
 
-    public Set<User> getStudents() {
-        return students;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setStudents(Set<User> students) {
-        this.students = students;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public Course getCourse() {
@@ -110,11 +110,11 @@ public class SectionResponse {
         this.creationDateTime = creationDateTime;
     }
 
-    public Set<SmartTeam> getSmartTeams() {
+    public Set<SmartTeam> getSmartteams() {
         return smartteams;
     }
 
-    public void setSmartTeams(Set<SmartTeam> smartteams) {
+    public void setSmartteams(Set<SmartTeam> smartteams) {
         this.smartteams = smartteams;
     }
 }

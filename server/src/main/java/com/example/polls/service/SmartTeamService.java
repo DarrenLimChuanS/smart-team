@@ -2,26 +2,12 @@ package com.example.polls.service;
 
 import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.Choice;
-import com.example.polls.model.Criteria;
-import com.example.polls.model.Poll;
-import com.example.polls.model.Questionnaire;
-import com.example.polls.model.Section;
-import com.example.polls.model.SmartTeam;
-import com.example.polls.model.User;
-import com.example.polls.model.Vote;
+import com.example.polls.model.*;
 import com.example.polls.payload.ApiResponse;
-import com.example.polls.payload.CriteriaRequest;
 import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.PagedResponse;
 import com.example.polls.payload.SmartTeamRequest;
-import com.example.polls.repository.CriteriaRepository;
-import com.example.polls.repository.PollRepository;
-import com.example.polls.repository.QuestionnaireRepository;
-import com.example.polls.repository.SectionRepository;
-import com.example.polls.repository.SmartTeamRepository;
-import com.example.polls.repository.UserRepository;
-import com.example.polls.repository.VoteRepository;
+import com.example.polls.repository.*;
 import com.example.polls.security.UserPrincipal;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
@@ -35,8 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -102,7 +86,7 @@ public class SmartTeamService {
 
         // Create Master list in Vote table
         // Loop through students in section
-        for (User student : tempSection.getStudents()) {
+        for (User student : tempSection.getUsers()) {
             // Loop through criterias of questionnaire
             for (Criteria criteria : tempQuestionnaire.getCriteria()) {
                 // Loop through questions in criteria

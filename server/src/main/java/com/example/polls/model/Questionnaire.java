@@ -1,6 +1,7 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -32,8 +33,11 @@ public class Questionnaire extends UserDateAudit {
             @JoinColumn(name = "criteria_id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
-    @JsonIgnore
     private Set<Criteria> criteria = new HashSet<>();
+
+    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonBackReference
+    private Set<SmartTeam> smartteams = new HashSet<>();
 
     public Questionnaire() {
 
@@ -74,5 +78,14 @@ public class Questionnaire extends UserDateAudit {
 
     public void setCriteria(Set<Criteria> criteria) {
         this.criteria = criteria;
+
+    }
+
+    public Set<SmartTeam> getSmartteams() {
+        return smartteams;
+    }
+
+    public void setSmartTeams(Set<SmartTeam> smartteams) {
+        this.smartteams = smartteams;
     }
 }

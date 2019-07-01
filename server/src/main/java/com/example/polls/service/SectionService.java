@@ -23,11 +23,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -94,10 +92,10 @@ public class SectionService {
         section.setStatus(sectionRequest.getStatus());
         section.setCourse(sectionRequest.getCourse());
 
-        for (User student : sectionRequest.getStudents()) {
+        for (User student : sectionRequest.getUsers()) {
             User studentInfo = userRepository.findById(student.getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
-            section.getStudents().add(studentInfo);
+            section.getUsers().add(studentInfo);
         }
 
         return sectionRepository.save(section);

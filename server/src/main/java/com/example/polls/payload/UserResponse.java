@@ -16,7 +16,7 @@ public class UserResponse {
     private String password;
     private Set<Role> roles = new HashSet<>();
     private Set<Section> sections = new HashSet<>();
-    private Set<SmartTeam> smartTeams = new HashSet<>();
+    private Set<SmartTeam> smartteams = new HashSet<>();
     private UserSummary createdBy;
     private Instant creationDateTime;
 
@@ -76,12 +76,12 @@ public class UserResponse {
         this.sections = sections;
     }
 
-    public Set<SmartTeam> getSmartTeams() {
-        return smartTeams;
+    public Set<SmartTeam> getSmartteams() {
+        return smartteams;
     }
 
-    public void setSmartTeams(Set<SmartTeam> smartTeams) {
-        this.smartTeams = smartTeams;
+    public void setSmartteams(Set<SmartTeam> smartteams) {
+        this.smartteams = smartteams;
     }
 
     public UserSummary getCreatedBy() {

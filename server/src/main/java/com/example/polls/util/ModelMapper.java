@@ -16,7 +16,7 @@ public class ModelMapper {
         userResponse.setEmail(user.getEmail());
         userResponse.setRoles(user.getRoles());
         userResponse.setSections(user.getSections());
-        userResponse.setSmartTeams(user.getSmartTeams());
+        userResponse.setSmartteams(user.getSmartteams());
         userResponse.setCreationDateTime(user.getCreatedAt());
 
         UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),
@@ -89,8 +89,8 @@ public class ModelMapper {
         sectionResponse.setNoOfStudents(section.getNoOfStudents());
         sectionResponse.setYear(section.getYear());
         sectionResponse.setStatus(section.getStatus());
-        sectionResponse.setStudents(section.getStudents());
-        sectionResponse.setSmartTeams(section.getSmartTeams());
+        // sectionResponse.setUsers(section.getUsers());
+        sectionResponse.setSmartteams(section.getSmartteams());
         sectionResponse.setCreationDateTime(section.getCreatedAt());
 
         UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),

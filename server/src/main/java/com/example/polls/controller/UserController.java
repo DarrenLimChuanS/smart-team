@@ -92,7 +92,6 @@ public class UserController {
     // Function to select User by ID
     @GetMapping("/users/id/{id}")
     public User getUserById(@PathVariable Long id) {
-//        return userService.getUserById(id);
          return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 

@@ -3,6 +3,8 @@ package com.example.polls.model;
 import com.example.polls.model.audit.DateAudit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,10 +31,10 @@ public class SmartTeam extends DateAudit {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date smartteamEnddate;
 
-    // Questionnaire that is selected for SmartTeam formation session
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "questionnaire_id", nullable = false)
-    @JsonBackReference
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    @JsonManagedReference
     private Questionnaire questionnaire;
 
     // User ID of Teacher that initiated SmartTeam formation session
