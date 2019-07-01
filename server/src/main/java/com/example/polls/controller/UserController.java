@@ -1,8 +1,8 @@
 package com.example.polls.controller;
 
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.Course;
 import com.example.polls.model.Section;
+import com.example.polls.model.SmartTeam;
 import com.example.polls.model.User;
 import com.example.polls.payload.*;
 import com.example.polls.repository.PollRepository;
@@ -19,9 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 
 @RestController
 @RequestMapping("/api")
@@ -91,18 +92,25 @@ public class UserController {
 
     // Function to select all courses the User is in
     @GetMapping("/users/{username}/courses/in")
-    public UserCourses getUserCourses(@PathVariable(value = "username") String username) {
+    public Set<UserCourse> getUserCourses(@PathVariable(value = "username") String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
-        Set<Course> userInCourses = new HashSet<>();
+        Set<UserCourse> userInCourses = new HashSet<>();
         for (Section section : user.getSections()) {
-            Course course = new Course(section.getCourse().getId(), section.getCourse().getCourseCode(), section.getCourse().getName(), section.getCourse().getDescription());
+            UserCourse course = new UserCourse(section.getCourse().getId(), section.getCourse().getName(),
+                    section.getCourse().getDescription());
+            for (SmartTeam smartteam : section.getSmartteams()) {
+                Instant instant = Instant.now();
+                Date now = Date.from(instant);
+                Date startDate = smartteam.getSmartteamStartdate();
+                Date endDate = smartteam.getSmartteamEnddate();
+                if (now.compareTo(startDate) >= 0 && now.compareTo(endDate) <= 0) {
+                    course.setSection(section);
+                }
+            }
             userInCourses.add(course);
         }
-
-        UserCourses userCourses = new UserCourses(user.getId(), user.getUsername(), user.getName(), userInCourses);
-
-        return userCourses;
+        return userInCourses;
     }
 
     // Function to select all User
@@ -114,7 +122,7 @@ public class UserController {
     // Function to select User by ID
     @GetMapping("/users/id/{id}")
     public User getUserById(@PathVariable Long id) {
-         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 
     // Function to delete User
