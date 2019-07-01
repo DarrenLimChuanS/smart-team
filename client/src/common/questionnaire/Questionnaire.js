@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Question from "./Question";
-import { castVote, updateChoices } from "../../util/APIUtils";
+import { updateChoices } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import { Divider, Typography, notification, Icon, Steps, Button } from "antd";
 import { withRouter } from "react-router-dom";
