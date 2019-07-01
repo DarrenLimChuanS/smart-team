@@ -457,6 +457,14 @@ export function addCriteriaToQuestionnaire(questionnaireId, criteriaId) {
   });
 }
 
+export function updateChoices(choiceData) {
+  return request({
+    url: API_BASE_URL + "/outcome/update",
+    method: "PUT",
+    body: JSON.stringify(choiceData)
+  });
+}
+
 export function updateQuestionnaire(questionnaireId, questionnaireData) {
   return request({
     url: API_BASE_URL + "/questionnaires/" + questionnaireId,

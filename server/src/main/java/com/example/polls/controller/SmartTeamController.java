@@ -31,40 +31,26 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/smartteam")
+@RequestMapping("/api/smartteams")
 public class SmartTeamController {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private CriteriaRepository criteriaRepository;
-
-    @Autowired
-    private VoteRepository voteRepository;
-
-    @Autowired
-    private CriteriaService criteriaService;
-
-    @Autowired
-    private SectionService sectionService;
-
-    @Autowired
-    private SmartTeamRepository smartTeamRepository;
 
     @Autowired
     private SmartTeamService smartTeamService;
 
+    @Autowired
+    private SmartTeamRepository smartTeamRepository;
+
     // @GetMapping()
     // public List<Criteria> getCriteria() {
-    //     return criteriaRepository.findAll();
+    // return criteriaRepository.findAll();
     // }
 
-    // @GetMapping("/{criteriaId}")
-    // @PreAuthorize("hasRole('USER')")
-    // public CriteriaResponse getCriteriaById(@PathVariable Long criteriaId) {
-    //     return criteriaService.getCriteriaById(criteriaId);
-    // }
+    @GetMapping("/{smartTeamId}")
+    @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
+    public SmartTeam getBySmartTeamId(@PathVariable Long smartTeamId) {
+        return smartTeamRepository.findBySmartteamId(smartTeamId)
+                .orElseThrow(() -> new ResourceNotFoundException("Smart Team", "id", smartTeamId));
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('USER')")
@@ -81,15 +67,18 @@ public class SmartTeamController {
 
     // @PutMapping("/{criteriaId}")
     // @PreAuthorize("hasRole('USER')")
-    // public ResponseEntity<Object> updateCriteria(@RequestBody Criteria criteria, @PathVariable Long criteriaId,
-    //         @PathVariable Long user_id) {
-    //     return userRepository.findById(user_id).map(user -> criteriaService.updateCriteriaById(criteria, criteriaId)).orElseThrow(() -> new ResourceNotFoundException("User", "id", user_id));
+    // public ResponseEntity<Object> updateCriteria(@RequestBody Criteria criteria,
+    // @PathVariable Long criteriaId,
+    // @PathVariable Long user_id) {
+    // return userRepository.findById(user_id).map(user ->
+    // criteriaService.updateCriteriaById(criteria, criteriaId)).orElseThrow(() ->
+    // new ResourceNotFoundException("User", "id", user_id));
     // }
 
     // @DeleteMapping("/{criteriaId}")
     // @PreAuthorize("hasRole('USER')")
     // public ResponseEntity<?> deleteCriteria(@PathVariable long criteriaId) {
-    //     return criteriaService.deleteById(criteriaId);
+    // return criteriaService.deleteById(criteriaId);
     // }
 
 }

@@ -261,7 +261,6 @@ class Questionnaire extends Component {
         });
       })
       .catch(error => {
-        console.log("error");
         notification.error({
           message: "Smart Team",
           description:
@@ -278,7 +277,6 @@ class Questionnaire extends Component {
     };
     createQuestionnaire(createRequest)
       .then(response => {
-        console.log(response);
         this.setState({
           questionnaireList: update(this.state.questionnaireList, {
             $push: [

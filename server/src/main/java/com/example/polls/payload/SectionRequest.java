@@ -1,13 +1,12 @@
 package com.example.polls.payload;
 
-import java.util.HashSet;
-import java.util.Set;
+import com.example.polls.model.Course;
+import com.example.polls.model.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import com.example.polls.model.User;
-import com.example.polls.model.Course;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SectionRequest {
     @NotBlank
@@ -23,7 +22,7 @@ public class SectionRequest {
 
     private Course course;
 
-    private Set<User> students = new HashSet<>();
+    private Set<User> users = new HashSet<>();
 
     public String getName() {
         return name;
@@ -65,11 +64,11 @@ public class SectionRequest {
         this.status = status;
     }
 
-    public Set<User> getStudents() {
-        return students;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setStudents(Set<User> students) {
-        this.students = students;
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

@@ -1,8 +1,8 @@
 package com.example.polls.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.example.polls.model.audit.UserDateAudit;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -44,10 +44,14 @@ public class User extends UserDateAudit {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "students")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "users")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
+    @JsonManagedReference
     private Set<Section> sections = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<SmartTeam> smartteams = new HashSet<>();
 
     public User() {
 
@@ -114,5 +118,13 @@ public class User extends UserDateAudit {
 
     public void setSections(Set<Section> sections) {
         this.sections = sections;
+    }
+
+    public Set<SmartTeam> getSmartteams() {
+        return smartteams;
+    }
+
+    public void setSmartTeams(Set<SmartTeam> smartteams) {
+        this.smartteams = smartteams;
     }
 }

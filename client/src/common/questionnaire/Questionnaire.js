@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Question from "./Question";
-import { castVote } from "../../util/APIUtils";
+import { updateChoices } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import { Divider, Typography, notification, Icon, Steps, Button } from "antd";
 import { withRouter } from "react-router-dom";
@@ -49,17 +49,16 @@ class Questionnaire extends Component {
     this.setState({ currentPage: this.state.currentPage + noOfPages });
   }
 
-  handleChoiceChange(event, pollId) {
+  handleChoiceChange(event, poll, pollIndex) {
     const currentVotes = this.state.currentVotes.slice();
-    currentVotes[pollId] = event.target.value;
+    currentVotes[poll.id] = event.target.value;
 
     this.setState({
       currentVotes: currentVotes
     });
-    console.log(currentVotes);
   }
 
-  handleSaveSubmit(event, criteriaIndex, pollIndex) {
+  handleSaveSubmit(event, criteriaId, pollId) {
     event.preventDefault();
     if (!this.props.isAuthenticated) {
       this.props.history.push("/login");
@@ -69,30 +68,21 @@ class Questionnaire extends Component {
       });
       return;
     }
+    const selectedChoice = this.state.currentVotes[pollId];
 
-    const poll = this.state.questionnaire.criteria[criteriaIndex].polls[
-      pollIndex
-    ];
-    const selectedChoice = this.state.questionnaire.criteria[criteriaIndex]
-      .currentVotes[pollIndex];
-
-    const voteData = {
-      pollId: poll.id,
-      choiceId: selectedChoice
+    const choiceData = {
+      choiceId: Number(selectedChoice),
+      criteriaId: Number(criteriaId),
+      userId: this.props.currentUser.id,
+      smartteamId: Number(this.props.match.params.smartTeamId),
+      pollId: Number(pollId)
     };
 
-    castVote(voteData)
+    updateChoices(choiceData)
       .then(response => {
-        const criteria = this.state.questionnaire.criteria.slice();
-        const polls = this.state.questionnaire.criteria[
-          criteriaIndex
-        ].polls.slice();
-        polls[pollIndex] = response;
-        criteria[criteria].polls = polls;
-        this.setState({
-          questionnaire: {
-            criteria
-          }
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully submitted a question."
         });
       })
       .catch(error => {
@@ -162,10 +152,14 @@ class Questionnaire extends Component {
               pollIndex={++questionId}
               currentVote={currentVotes[poll.id]}
               handleChoiceChange={event =>
-                this.handleChoiceChange(event, poll.id)
+                this.handleChoiceChange(event, poll, pollIndex)
               }
               handleSaveSubmit={event =>
-                this.handleSaveSubmit(event, pollIndex)
+                this.handleSaveSubmit(
+                  event,
+                  questionnaire.criteria[currentPage].id,
+                  poll.id
+                )
               }
             />
           ))}

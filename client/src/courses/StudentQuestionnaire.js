@@ -65,7 +65,11 @@ class StudentQuestionnaire extends Component {
             buttonOnClick={this.toggleShowInstructions}
           />
         ) : (
-          <Questionnaire questionnaire={questionnaire} />
+          <Questionnaire
+            questionnaire={questionnaire}
+            isAuthenticated={this.props.isAuthenticated}
+            currentUser={this.props.currentUser}
+          />
         )}
       </React.Fragment>
     );

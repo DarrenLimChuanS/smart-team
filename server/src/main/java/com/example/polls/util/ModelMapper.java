@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 public class ModelMapper {
 
     public static UserResponse mapUserToUserResponse(User user, User creator) {
@@ -16,14 +15,17 @@ public class ModelMapper {
         userResponse.setUsername(user.getUsername());
         userResponse.setEmail(user.getEmail());
         userResponse.setRoles(user.getRoles());
+        userResponse.setSections(user.getSections());
+        userResponse.setSmartteams(user.getSmartteams());
         userResponse.setCreationDateTime(user.getCreatedAt());
 
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),
+                creator.getRoles());
         userResponse.setCreatedBy(creatorSummary);
 
         return userResponse;
     }
-    
+
     public static PollResponse mapPollToPollResponse(Poll poll, Map<Long, Long> choiceVotesMap, User creator,
             Long userVote) {
         PollResponse pollResponse = new PollResponse();
@@ -48,7 +50,8 @@ public class ModelMapper {
         }).collect(Collectors.toList());
 
         pollResponse.setChoices(choiceResponses);
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),
+                creator.getRoles());
         pollResponse.setCreatedBy(creatorSummary);
 
         if (userVote != null) {
@@ -67,9 +70,11 @@ public class ModelMapper {
         courseResponse.setCourseCode(course.getCourseCode());
         courseResponse.setName(course.getName());
         courseResponse.setDescription(course.getDescription());
+        courseResponse.setSections(course.getSections());
         courseResponse.setCreationDateTime(course.getCreatedAt());
 
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),
+                creator.getRoles());
         courseResponse.setCreatedBy(creatorSummary);
 
         return courseResponse;
@@ -80,13 +85,16 @@ public class ModelMapper {
         sectionResponse.setSectionId(section.getSectionId());
         sectionResponse.setName(section.getName());
         sectionResponse.setCourseName(section.getCourse().getName());
+        sectionResponse.setCourseDescription(section.getCourse().getDescription());
         sectionResponse.setNoOfStudents(section.getNoOfStudents());
         sectionResponse.setYear(section.getYear());
         sectionResponse.setStatus(section.getStatus());
-        sectionResponse.setStudents(section.getStudents());
+        // sectionResponse.setUsers(section.getUsers());
+        sectionResponse.setSmartteams(section.getSmartteams());
         sectionResponse.setCreationDateTime(section.getCreatedAt());
 
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),
+                creator.getRoles());
         sectionResponse.setCreatedBy(creatorSummary);
 
         return sectionResponse;
@@ -103,10 +111,10 @@ public class ModelMapper {
         criteriaResponse.setQ3(criteria.getQ3());
         criteriaResponse.setQ4(criteria.getQ4());
         criteriaResponse.setPolls(criteria.getPolls());
-        criteriaResponse.setQuestionnaires(criteria.getQuestionnaires());
         criteriaResponse.setCreationDateTime(criteria.getCreatedAt());
 
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),
+                creator.getRoles());
         criteriaResponse.setCreatedBy(creatorSummary);
 
         return criteriaResponse;
@@ -121,7 +129,8 @@ public class ModelMapper {
         questionnaireResponse.setCriteria(questionnaire.getCriteria());
         questionnaireResponse.setCreationDateTime(questionnaire.getCreatedAt());
 
-        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(), creator.getRoles());
+        UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),
+                creator.getRoles());
         questionnaireResponse.setCreatedBy(creatorSummary);
 
         return questionnaireResponse;

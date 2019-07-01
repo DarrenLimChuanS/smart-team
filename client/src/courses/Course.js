@@ -33,10 +33,8 @@ class Courses extends Component {
     promise
       .then(response => {
         const courses = this.state.courses.slice();
-        console.log("Hello");
-        console.log(response);
         this.setState({
-          courses: courses.concat(response.courses),
+          courses: courses.concat(response),
           isLoading: false
         });
       })
@@ -62,14 +60,25 @@ class Courses extends Component {
             courses &&
             courses.map(course => (
               <Col span={8} style={{ padding: "8px" }}>
-                <Card title={course.name}>
-                  <p>{course.description}</p>
+                <Card title={course.courseName}>
+                  <p>{course.courseDescription}</p>
                   <div style={{ textAlign: "center" }}>
-                    <Link to="/courses/questionnaires_student">
-                      <Button type="primary" size="large">
-                        Attempt Questionnaire
-                      </Button>
-                    </Link>
+                    {course.section && course.section.smartteams && (
+                      <Link
+                        // to=""
+                        to={
+                          "/allocation/" +
+                          course.section.smartteams[0].smartteamId +
+                          "/questionnaire/" +
+                          course.section.smartteams[0].questionnaire
+                            .questionnaireId
+                        }
+                      >
+                        <Button type="primary" size="large">
+                          Attempt Questionnaire
+                        </Button>
+                      </Link>
+                    )}
 
                     <div style={{ marginTop: "8px" }}>
                       <Link to="/courses/questionnaires_student">

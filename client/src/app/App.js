@@ -234,7 +234,7 @@ class App extends Component {
                 />
                 <Route
                   authenticated={this.state.isAuthenticated}
-                  path="/courses/questionnaire/:id"
+                  path="/allocation/:smartTeamId/questionnaire/:id"
                   render={props => (
                     <StudentQuestionnaire
                       isAuthenticated={this.state.isAuthenticated}
