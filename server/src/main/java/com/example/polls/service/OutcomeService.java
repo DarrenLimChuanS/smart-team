@@ -11,6 +11,7 @@ import com.example.polls.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import java.util.*;  
 
 @Service
 public class OutcomeService {
@@ -20,6 +21,14 @@ public class OutcomeService {
 
     @Autowired
     private VoteRepository voteRepository;
+
+    /* CALCULATE TOTAL SCORE  ( NOT IN USE)*/ 
+    // public int calculateScore(OutcomeRequest outcomeRequest, List<Long> choiceList){
+    //     // ArrayList<Vote> voteList =new ArrayList<Vote>();
+    //     int totalScore 
+
+    // }
+
 
     /* TO GET CATEGORISE RESULT */
     public Outcome categorise(OutcomeRequest outcomeRequest, int totalScore){
@@ -42,22 +51,29 @@ public class OutcomeService {
         else if (totalScore <= q4)
             outcome.setOutcome("q4");
 
+        System.out.println(totalScore + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+
+
         outcome.setCriteriaId(outcomeRequest.getCriteriaId());
 
         return outcome;
     }
 
     /* TO UPDATE VOTE TABLE */
-    public ResponseEntity<Object> updateVote(OutcomeRequest outcomeRequest, Choice choice, String outcome) {
-        System.out.println(outcomeRequest);
-        System.out.println(choice);
-        System.out.println(outcome);
-
-        Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),outcomeRequest.getPollId(),outcomeRequest.getSmartteamId(),outcomeRequest.getCriteriaId());
+    public ResponseEntity<Object> updateVote(OutcomeRequest outcomeRequest, ArrayList<Choice> choiceObjectList, ArrayList<Long> pollIdList, String outcome) {
+        // System.out.println(outcomeRequest);
+        // System.out.println(choice);
+        // System.out.println(outcome);
+        for (int i = 0; i < choiceObjectList.size(); i++) {
+            Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),pollIdList.get(i),outcomeRequest.getSmartteamId(),outcomeRequest.getCriteriaId());
+            tempVote.setChoice(choiceObjectList.get(i));
+            tempVote.setOutcome(outcome);
+            voteRepository.save(tempVote);
+        }
         
-        tempVote.setChoice(choice);
-        tempVote.setOutcome(outcome);
-        voteRepository.save(tempVote);
+        // tempVote.setChoice(choice);
+        // tempVote.setOutcome(outcome);
+        // voteRepository.save(tempVote);
         return ResponseEntity.ok(new ApiResponse(true, "Vote Updated Successfully"));
     }
     
