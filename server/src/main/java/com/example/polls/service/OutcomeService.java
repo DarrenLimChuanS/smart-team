@@ -37,9 +37,9 @@ public class OutcomeService {
 
         if(totalScore <= q1)
             outcome.setOutcome("q1");
-        else if (totalScore > q1 && totalScore <= q2)
+        else if (totalScore <= q2)
             outcome.setOutcome("q2");
-        else if (totalScore > q2 && totalScore <= q3)
+        else if (totalScore <= q3)
             outcome.setOutcome("q3");
         else if (totalScore <= q4)
             outcome.setOutcome("q4");

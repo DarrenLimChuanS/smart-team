@@ -67,7 +67,6 @@ public class OutcomeController {
 
         // Call service to get category
         Outcome outcome = outcomeService.categorise(outcomeRequest, totalScore);
-        System.out.println(outcome);
 
         // Update vote table
         return outcomeService.updateVote(outcomeRequest, choiceObjectList, pollIdList, outcome.getOutcome());
