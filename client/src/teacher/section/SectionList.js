@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import {
-  getAllSections,
-  getUserCreatedSections,
-  deleteSection
-} from "../../util/APIUtils";
+import { getUserCreatedSections, deleteSection } from "../../util/APIUtils";
 import {
   Button,
   Divider,
@@ -46,8 +42,6 @@ class SectionList extends Component {
         page,
         size
       );
-    } else {
-      promise = getAllSections(page, size);
     }
 
     if (!promise) {

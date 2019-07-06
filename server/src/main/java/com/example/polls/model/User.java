@@ -3,6 +3,7 @@ package com.example.polls.model;
 import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -49,7 +50,7 @@ public class User extends UserDateAudit {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "users")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "sectionId")
+    @JsonBackReference
     private Set<Section> sections = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
