@@ -20,9 +20,9 @@ public class Choice {
 
     private int score;
 
-    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "poll_id", nullable = false)
+    @JsonBackReference
     private Poll poll;
 
     public Choice() {

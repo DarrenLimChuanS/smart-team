@@ -89,7 +89,7 @@ public class ModelMapper {
         sectionResponse.setNoOfStudents(section.getNoOfStudents());
         sectionResponse.setYear(section.getYear());
         sectionResponse.setStatus(section.getStatus());
-        // sectionResponse.setUsers(section.getUsers());
+        sectionResponse.setUsers(section.getUsers());
         sectionResponse.setSmartteams(section.getSmartteams());
         sectionResponse.setCreationDateTime(section.getCreatedAt());
 
