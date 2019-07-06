@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.example.polls.repository.*;
-import java.util.*;  
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/outcome")
@@ -28,13 +28,10 @@ public class OutcomeController {
     private VoteRepository voteRepository;
 
     @Autowired
-    private PollRepository pollRepository;
-
-    @Autowired
     private CriteriaRepository criteriaRepository;
 
     @PutMapping("/update")
-    // @PreAuthorize("hasAnyRole('USER','STUDENT')")
+    @PreAuthorize("hasAnyRole('USER','STUDENT')")
     public ResponseEntity<Object> getOutcomeAndUpdate(@RequestBody OutcomeRequest outcomeRequest) {
         int totalScore = 0;
         ArrayList<Long> choiceIdList = new ArrayList<Long>();
@@ -46,23 +43,26 @@ public class OutcomeController {
                 .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", outcomeRequest.getCriteriaId()));
 
         // Get a list of choiceId and Check choices that already made in vote table
-        for (Poll tempPollObject : criteria.getPolls()){
-            Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),tempPollObject.getId(),outcomeRequest.getSmartteamId(),outcomeRequest.getCriteriaId());
-            if (tempVote.getChoice() != null){
+        for (Poll tempPollObject : criteria.getPolls()) {
+            Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),
+                    tempPollObject.getId(), outcomeRequest.getSmartteamId(), outcomeRequest.getCriteriaId());
+            if (tempVote.getChoice() != null) {
                 choiceIdList.add(tempVote.getChoice().getId());
-                pollIdList.add(tempPollObject.getId());            }
+                pollIdList.add(tempPollObject.getId());
+            }
         }
 
         // Add current request into list
         choiceIdList.add(outcomeRequest.getChoiceId());
         pollIdList.add(outcomeRequest.getPollId());
 
-        // Retrieve Choice object to gather a list for update later and to get and count scores
-        for (Long choiceId : choiceIdList){
+        // Retrieve Choice object to gather a list for update later and to get and count
+        // scores
+        for (Long choiceId : choiceIdList) {
             Choice choice = choiceRepository.findById(choiceId)
-                .orElseThrow(() -> new ResourceNotFoundException("Choice", "id", choiceId));
+                    .orElseThrow(() -> new ResourceNotFoundException("Choice", "id", choiceId));
             choiceObjectList.add(choice);
-            totalScore += choice.getScore(); 
+            totalScore += choice.getScore();
         }
 
         // Call service to get category
