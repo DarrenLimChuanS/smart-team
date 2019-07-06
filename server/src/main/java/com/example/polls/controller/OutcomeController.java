@@ -46,7 +46,8 @@ public class OutcomeController {
         for (Poll tempPollObject : criteria.getPolls()) {
             Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),
                     tempPollObject.getId(), outcomeRequest.getSmartteamId(), outcomeRequest.getCriteriaId());
-            if (tempVote.getChoice() != null) {
+            // Get answered poll's pollIds and choiceIds
+            if (tempVote.getChoice() != null && !tempVote.getPoll().getId().equals(outcomeRequest.getPollId())) {
                 choiceIdList.add(tempVote.getChoice().getId());
                 pollIdList.add(tempPollObject.getId());
             }
@@ -56,8 +57,7 @@ public class OutcomeController {
         choiceIdList.add(outcomeRequest.getChoiceId());
         pollIdList.add(outcomeRequest.getPollId());
 
-        // Retrieve Choice object to gather a list for update later and to get and count
-        // scores
+        // Retrieve Choice object to gather a list for update later and to get and count scores
         for (Long choiceId : choiceIdList) {
             Choice choice = choiceRepository.findById(choiceId)
                     .orElseThrow(() -> new ResourceNotFoundException("Choice", "id", choiceId));
