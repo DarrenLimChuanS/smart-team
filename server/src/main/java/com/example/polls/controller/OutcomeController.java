@@ -39,15 +39,9 @@ public class OutcomeController {
         int totalScore = 0;
         ArrayList<Long> choiceIdList = new ArrayList<Long>();
         ArrayList<Long> pollIdList = new ArrayList<Long>();
-        ArrayList<Poll> pollObjectList = new ArrayList<Poll>();
-        ArrayList<Poll> finalPollObjectList = new ArrayList<Poll>();
         ArrayList<Choice> choiceObjectList = new ArrayList<Choice>();
 
-        // Retrieve choice to get score (NOT IN USE! FOR REFERENCE)
-        // Choice choice = choiceRepository.findById(outcomeRequest.getChoiceId())
-        //         .orElseThrow(() -> new ResourceNotFoundException("Choice", "id", outcomeRequest.getChoiceId()));
-
-        // Get all pollIds in criteria
+        // Get all pollIds using criteriaId
         Criteria criteria = criteriaRepository.findByCriteriaId(outcomeRequest.getCriteriaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", outcomeRequest.getCriteriaId()));
 
@@ -56,9 +50,7 @@ public class OutcomeController {
             Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),tempPollObject.getId(),outcomeRequest.getSmartteamId(),outcomeRequest.getCriteriaId());
             if (tempVote.getChoice() != null){
                 choiceIdList.add(tempVote.getChoice().getId());
-                pollIdList.add(tempPollObject.getId());
-                finalPollObjectList.add(tempVote.getPoll());
-            }
+                pollIdList.add(tempPollObject.getId());            }
         }
 
         // Add current request into list
@@ -72,9 +64,6 @@ public class OutcomeController {
             choiceObjectList.add(choice);
             totalScore += choice.getScore(); 
         }
-
-        // Calculate Totalscore ( NOT IN USE)
-        // int totalScore = outcomeService.calculateScore(outcomeRequest, choiceList);
 
         // Call service to get category
         Outcome outcome = outcomeService.categorise(outcomeRequest, totalScore);
