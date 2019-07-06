@@ -12,7 +12,8 @@ import {
   notification,
   Col,
   Table,
-  Typography
+  Typography,
+  Popconfirm
 } from "antd";
 import Moment from "react-moment";
 import { compareByAlph } from "../../util/Sorters";
@@ -188,7 +189,12 @@ class CourseList extends Component {
             <Divider type="vertical" />
             <Link to={"/course/" + record.id}>Edit</Link>
             <Divider type="vertical" />
-            <a onClick={() => this.deleteCourseWithId(record.id)}>Delete</a>
+            <Popconfirm
+              title="Delete?"
+              onConfirm={() => this.deleteCourseWithId(record.id)}
+            >
+              <a>Delete</a>
+            </Popconfirm>
           </span>
         )
       }

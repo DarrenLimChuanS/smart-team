@@ -12,7 +12,8 @@ import {
   Row,
   Col,
   Table,
-  Typography
+  Typography,
+  Popconfirm
 } from "antd";
 import "./CriteriaList.css";
 
@@ -211,7 +212,12 @@ class Criteria extends Component {
           <span>
             <a href="/">Edit</a>
             <Divider type="vertical" />
-            <a onClick={() => this.deleteCriteriaWithId(record.id)}>Delete</a>
+            <Popconfirm
+              title="Delete?"
+              onConfirm={() => this.deleteCriteriaWithId(record.id)}
+            >
+              <a>Delete</a>
+            </Popconfirm>
           </span>
         )
       }

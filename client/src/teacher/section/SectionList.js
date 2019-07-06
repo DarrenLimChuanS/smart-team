@@ -8,7 +8,8 @@ import {
   Col,
   Table,
   Typography,
-  notification
+  notification,
+  Popconfirm
 } from "antd";
 import "./SectionList.css";
 import { SECTION_LIST_SIZE } from "../../constants";
@@ -197,9 +198,12 @@ class SectionList extends Component {
             <Divider type="vertical" />
             <Link to={"/section/" + record.sectionId}>Edit</Link>
             <Divider type="vertical" />
-            <a onClick={() => this.deleteSectionWithId(record.sectionId)}>
-              Delete
-            </a>
+            <Popconfirm
+              title="Delete?"
+              onConfirm={() => this.deleteSectionWithId(record.sectionId)}
+            >
+              <a>Delete</a>
+            </Popconfirm>
           </span>
         )
       }
