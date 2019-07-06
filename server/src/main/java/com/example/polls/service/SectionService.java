@@ -21,6 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +39,8 @@ public class SectionService {
 
     @Autowired
     private UserRepository userRepository;
+
+    Logger logger = LoggerFactory.getLogger(SectionService.class);
 
     public PagedResponse<SectionResponse> getAllSections(int page, int size) {
         validatePageNumberAndSize(page, size);

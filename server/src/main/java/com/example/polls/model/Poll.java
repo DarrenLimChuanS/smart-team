@@ -35,7 +35,7 @@ public class Poll extends UserDateAudit {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "criteria_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("criteria_polls")
     private Criteria criteria;
 
     public Long getId() {

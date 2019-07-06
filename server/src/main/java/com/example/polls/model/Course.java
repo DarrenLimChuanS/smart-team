@@ -26,7 +26,7 @@ public class Course extends UserDateAudit {
     private String description;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("course_sections")
     private Set<Section> sections = new HashSet<>();
 
     public Course() {
