@@ -52,7 +52,6 @@ class Questionnaire extends Component {
   handleChoiceChange(event, poll, pollIndex) {
     const currentVotes = this.state.currentVotes.slice();
     currentVotes[poll.id] = event.target.value;
-
     this.setState({
       currentVotes: currentVotes
     });
