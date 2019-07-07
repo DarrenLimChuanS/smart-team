@@ -192,9 +192,16 @@ class SectionList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <Link to={"/section/" + record.sectionId + "/smartteam"}>
-              Assign Group
-            </Link>
+            {record.status === "Not Grouped" && (
+              <Link to={"/section/" + record.sectionId + "/smartteam"}>
+                Assign Group
+              </Link>
+            )}
+            {record.status === "Grouping" && (
+              <Link to={"/section/" + record.sectionId + "/smartteam"}>
+                View Results
+              </Link>
+            )}
             <Divider type="vertical" />
             <Link to={"/section/" + record.sectionId}>Edit</Link>
             <Divider type="vertical" />
