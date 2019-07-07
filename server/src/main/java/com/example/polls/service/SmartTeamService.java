@@ -52,11 +52,18 @@ public class SmartTeamService {
     public SmartTeam createSmartTeam(SmartTeamRequest smartTeamRequest) {
         SmartTeam smartteam = new SmartTeam();
         smartteam.setName(smartTeamRequest.getName());
-        smartteam.setSmartteamStartdate(smartTeamRequest.getSmartteamStartdate());
-        smartteam.setSmartteamEnddate(smartTeamRequest.getSmartteamEnddate());
-        smartteam.setQuestionnaire(smartTeamRequest.getQuestionnaire());
         smartteam.setUser(smartTeamRequest.getUser());
         smartteam.setSection(smartTeamRequest.getSection());
+
+        // Get questionnaire information based on the provided questionnaire id
+        Questionnaire questionnaireData = questionnaireRepository
+                .findByQuestionnaireId(smartTeamRequest.getQuestionnaire().getQuestionnaireId())
+                .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "Questionnaire ID",
+                        smartTeamRequest.getQuestionnaire().getQuestionnaireId()));
+        smartteam.setQuestionnaire(questionnaireData);
+
+        smartteam.setSmartteamStartdate(smartTeamRequest.getSmartteamStartdate());
+        smartteam.setSmartteamEnddate(smartTeamRequest.getSmartteamEnddate());
 
         // Update status of Section
         Section tempSection = sectionRepository.findBySectionId(smartTeamRequest.getSection().getSectionId())

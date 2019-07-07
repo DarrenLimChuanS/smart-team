@@ -11,6 +11,7 @@ import {
   Select,
   Table,
   Typography,
+  Popconfirm,
   notification
 } from "antd";
 import "./QuestionnaireList.css";
@@ -530,19 +531,23 @@ class Questionnaire extends Component {
           </Col>
           {this.state.selectedQuestionnaireId !== 0 && (
             <Col span={4}>
-              <Button
-                type="danger"
-                size="default"
-                style={{ marginLeft: "8px", marginTop: "42px" }}
-                onClick={() =>
+              <Popconfirm
+                title="Delete?"
+                onConfirm={() =>
                   this.handleDeleteQuestionnaire(
                     this.state.selectedQuestionnaireId
                   )
                 }
-                ghost
               >
-                Remove
-              </Button>
+                <Button
+                  type="danger"
+                  size="default"
+                  style={{ marginLeft: "8px", marginTop: "42px" }}
+                  ghost
+                >
+                  Delete
+                </Button>
+              </Popconfirm>
             </Col>
           )}
         </Row>
@@ -606,17 +611,22 @@ class Questionnaire extends Component {
                         questionnaireList[this.state.selectedQuestionnaireId]
                           .criteria !== undefined &&
                         `${criteria.name}`}
-                      <Button
-                        type="danger"
-                        size="default"
-                        style={{ marginLeft: "8px" }}
-                        onClick={() =>
+
+                      <Popconfirm
+                        title="Remove?"
+                        onConfirm={() =>
                           this.handleRemoveCriteria(criteria.id, index)
                         }
-                        ghost
                       >
-                        Remove
-                      </Button>
+                        <Button
+                          type="danger"
+                          size="default"
+                          style={{ marginLeft: "8px" }}
+                          ghost
+                        >
+                          Remove
+                        </Button>
+                      </Popconfirm>
                     </Title>
                   </Col>
                 </Row>

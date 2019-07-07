@@ -327,7 +327,7 @@ export function getUserVotedPolls(username, page, size) {
  **/
 export function createSmartTeam(smartTeamData) {
   return request({
-    url: API_BASE_URL + "/smartteam",
+    url: API_BASE_URL + "/smartteams",
     method: "POST",
     body: JSON.stringify(smartTeamData)
   });

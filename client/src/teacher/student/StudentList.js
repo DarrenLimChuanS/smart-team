@@ -8,7 +8,8 @@ import {
   Col,
   Table,
   Typography,
-  notification
+  notification,
+  Popconfirm
 } from "antd";
 import Moment from "react-moment";
 import { STUDENT_LIST_SIZE } from "../../constants";
@@ -164,7 +165,12 @@ class StudentList extends Component {
           <span>
             <Link to={"/student/" + record.id}>Edit</Link>
             <Divider type="vertical" />
-            <a onClick={() => this.deleteStudentWithId(record.id)}>Delete</a>
+            <Popconfirm
+              title="Delete?"
+              onConfirm={() => this.deleteStudentWithId(record.id)}
+            >
+              <a>Delete</a>
+            </Popconfirm>
           </span>
         )
       }
