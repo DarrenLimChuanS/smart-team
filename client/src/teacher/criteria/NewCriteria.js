@@ -377,6 +377,7 @@ class NewCriteria extends Component {
                       size="small"
                       type="danger"
                       onClick={() => this.removeQuestion(index)}
+                      ghost
                     >
                       Remove
                     </Button>

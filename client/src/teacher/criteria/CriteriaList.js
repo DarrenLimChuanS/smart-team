@@ -182,13 +182,6 @@ class Criteria extends Component {
         sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order
       },
       {
-        title: "Type",
-        dataIndex: "type",
-        key: "type",
-        sorter: (a, b) => a.type - b.type,
-        sortOrder: sortedInfo.columnKey === "type" && sortedInfo.order
-      },
-      {
         title: "Graded",
         dataIndex: "graded",
         key: "graded",
