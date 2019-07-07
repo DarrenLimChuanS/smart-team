@@ -28,6 +28,7 @@ import NotFound from "../common/NotFound";
 import Courses from "../courses/Course";
 import GroupStudent from "../courses/GroupStudent";
 import StudentQuestionnaire from "../courses/StudentQuestionnaire";
+import SectionGroup from "../teacher/section/Group";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
@@ -303,6 +304,18 @@ class App extends Component {
                   path="/criteria"
                   render={props => (
                     <CriteriaList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
+                  handleLogout={this.handleLogout}
+                />
+                <Route
+                  authenticated={this.state.isAuthenticated}
+                  path="/grouping"
+                  render={props => (
+                    <SectionGroup
                       isAuthenticated={this.state.isAuthenticated}
                       currentUser={this.state.currentUser}
                       {...props}
