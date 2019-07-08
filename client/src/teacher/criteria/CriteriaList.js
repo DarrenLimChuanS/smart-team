@@ -12,7 +12,8 @@ import {
   Row,
   Col,
   Table,
-  Typography
+  Typography,
+  Popconfirm
 } from "antd";
 import "./CriteriaList.css";
 
@@ -181,13 +182,6 @@ class Criteria extends Component {
         sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order
       },
       {
-        title: "Type",
-        dataIndex: "type",
-        key: "type",
-        sorter: (a, b) => a.type - b.type,
-        sortOrder: sortedInfo.columnKey === "type" && sortedInfo.order
-      },
-      {
         title: "Graded",
         dataIndex: "graded",
         key: "graded",
@@ -211,7 +205,12 @@ class Criteria extends Component {
           <span>
             <a href="/">Edit</a>
             <Divider type="vertical" />
-            <a onClick={() => this.deleteCriteriaWithId(record.id)}>Delete</a>
+            <Popconfirm
+              title="Delete?"
+              onConfirm={() => this.deleteCriteriaWithId(record.id)}
+            >
+              <a>Delete</a>
+            </Popconfirm>
           </span>
         )
       }

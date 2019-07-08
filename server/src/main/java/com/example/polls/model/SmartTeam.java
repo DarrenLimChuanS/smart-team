@@ -3,8 +3,10 @@ package com.example.polls.model;
 import com.example.polls.model.audit.DateAudit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -34,19 +36,19 @@ public class SmartTeam extends DateAudit {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "questionnaire_id", nullable = false)
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @JsonManagedReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "questionnaireId")
     private Questionnaire questionnaire;
 
     // User ID of Teacher that initiated SmartTeam formation session
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "initiated_by", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("smartteam_initiator")
     private User user;
 
     // Section it was initiated on
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "section_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("smartteam_section")
     private Section section;
 
     public SmartTeam() {

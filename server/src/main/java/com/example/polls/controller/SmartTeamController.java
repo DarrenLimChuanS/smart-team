@@ -40,11 +40,6 @@ public class SmartTeamController {
     @Autowired
     private SmartTeamRepository smartTeamRepository;
 
-    // @GetMapping()
-    // public List<Criteria> getCriteria() {
-    // return criteriaRepository.findAll();
-    // }
-
     @GetMapping("/{smartTeamId}")
     @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
     public SmartTeam getBySmartTeamId(@PathVariable Long smartTeamId) {
@@ -64,21 +59,5 @@ public class SmartTeamController {
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "SmartTeam Created Successfully"));
     }
-
-    // @PutMapping("/{criteriaId}")
-    // @PreAuthorize("hasRole('USER')")
-    // public ResponseEntity<Object> updateCriteria(@RequestBody Criteria criteria,
-    // @PathVariable Long criteriaId,
-    // @PathVariable Long user_id) {
-    // return userRepository.findById(user_id).map(user ->
-    // criteriaService.updateCriteriaById(criteria, criteriaId)).orElseThrow(() ->
-    // new ResourceNotFoundException("User", "id", user_id));
-    // }
-
-    // @DeleteMapping("/{criteriaId}")
-    // @PreAuthorize("hasRole('USER')")
-    // public ResponseEntity<?> deleteCriteria(@PathVariable long criteriaId) {
-    // return criteriaService.deleteById(criteriaId);
-    // }
 
 }

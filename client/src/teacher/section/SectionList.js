@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import {
-  getAllSections,
-  getUserCreatedSections,
-  deleteSection
-} from "../../util/APIUtils";
+import { getUserCreatedSections, deleteSection } from "../../util/APIUtils";
 import {
   Button,
   Divider,
@@ -12,7 +8,8 @@ import {
   Col,
   Table,
   Typography,
-  notification
+  notification,
+  Popconfirm
 } from "antd";
 import "./SectionList.css";
 import { SECTION_LIST_SIZE } from "../../constants";
@@ -46,8 +43,6 @@ class SectionList extends Component {
         page,
         size
       );
-    } else {
-      promise = getAllSections(page, size);
     }
 
     if (!promise) {
@@ -197,21 +192,25 @@ class SectionList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            {record.status === "Not Grouped" ? (
-              <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
+            {record.status === "Not Grouped" && (
+              <Link to={"/section/" + record.sectionId + "/smartteam"}>
                 Assign Group
               </Link>
-            ) : (
-              <Link to={"/section/" + record.sectionId + "/viewsmartteam"}>
-                View SmartTeam
+            )}
+            {record.status === "Grouping" && (
+              <Link to={"/section/" + record.sectionId + "/smartteam"}>
+                View Results
               </Link>
             )}
             <Divider type="vertical" />
             <Link to={"/section/" + record.sectionId}>Edit</Link>
             <Divider type="vertical" />
-            <a onClick={() => this.deleteSectionWithId(record.sectionId)}>
-              Delete
-            </a>
+            <Popconfirm
+              title="Delete?"
+              onConfirm={() => this.deleteSectionWithId(record.sectionId)}
+            >
+              <a>Delete</a>
+            </Popconfirm>
           </span>
         )
       }

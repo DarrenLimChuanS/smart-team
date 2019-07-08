@@ -82,11 +82,11 @@ class NewSection extends Component {
     const { name, students, year, course } = this.state;
     const sectionRequest = {
       name: name.value,
-      noOfStudents: students.value.length,
+      noOfStudents: students.value === undefined ? 0 : students.value.length,
       year: year.value,
       status: "Not Grouped",
       course: course.value,
-      students: students.value
+      users: students.value
     };
     createSection(sectionRequest)
       .then(response => {
