@@ -70,7 +70,7 @@ class NewAutoTeam extends Component {
     const { teamSize, noOfTeams, sectionData } = this.state;
     return (
       <Typography>
-        <Title>Self-Grouping</Title>
+        <Title>Smart Team Allocation</Title>
         <Divider />
         <Row />
         <Row>
