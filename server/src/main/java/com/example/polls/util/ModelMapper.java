@@ -90,7 +90,6 @@ public class ModelMapper {
         sectionResponse.setYear(section.getYear());
         sectionResponse.setStatus(section.getStatus());
         sectionResponse.setUsers(section.getUsers());
-        sectionResponse.setSmartteams(section.getSmartteams());
         sectionResponse.setCreationDateTime(section.getCreatedAt());
 
         UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),

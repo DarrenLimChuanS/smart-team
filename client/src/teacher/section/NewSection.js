@@ -62,7 +62,7 @@ class NewSection extends Component {
       studentId => this.state.studentList[studentId]
     );
     this.setState({
-      students: {
+      users: {
         value: studentIds
       }
     });
@@ -79,15 +79,16 @@ class NewSection extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const { name, students, year, course } = this.state;
+    const { name, users, year, course } = this.state;
     const sectionRequest = {
       name: name.value,
-      noOfStudents: students.value === undefined ? 0 : students.value.length,
+      noOfStudents: users.value === undefined ? 0 : users.value.length,
       year: year.value,
       status: "Not Grouped",
       course: course.value,
-      users: students.value
+      users: users.value
     };
+    console.log(sectionRequest);
     createSection(sectionRequest)
       .then(response => {
         notification.success({
@@ -113,14 +114,7 @@ class NewSection extends Component {
   }
 
   render() {
-    const {
-      courseList,
-      studentList,
-      name,
-      students,
-      course,
-      year
-    } = this.state;
+    const { courseList, studentList, name, users, course, year } = this.state;
     return (
       <div className="signup-container">
         <Title level={2}>Create Section</Title>
@@ -144,8 +138,8 @@ class NewSection extends Component {
             <FormItem
               label="Students"
               hasFeedback
-              validateStatus={students.validateStatus}
-              help={students.errorMsg}
+              validateStatus={users.validateStatus}
+              help={users.errorMsg}
             >
               <Select
                 size="large"
@@ -156,9 +150,9 @@ class NewSection extends Component {
               >
                 {this.state &&
                   studentList &&
-                  studentList.map((student, index) => (
+                  studentList.map((users, index) => (
                     <Option key={index}>
-                      {student.id} - {student.name}
+                      {users.id} - {users.name}
                     </Option>
                   ))}
               </Select>

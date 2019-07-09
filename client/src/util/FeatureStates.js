@@ -63,7 +63,7 @@ export const Section = (
   name,
   year,
   noOfStudents,
-  students,
+  users,
   course,
   status,
   createdBy,
@@ -85,8 +85,8 @@ export const Section = (
     value: noOfStudents,
     validateStatus: id ? "success" : ""
   },
-  students: {
-    value: students,
+  users: {
+    value: users,
     validateStatus: id ? "success" : ""
   },
   course: {

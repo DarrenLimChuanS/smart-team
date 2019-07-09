@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class SmartTeamService {
@@ -85,7 +86,13 @@ public class SmartTeamService {
                 .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID",
                         tempSmartTeam.getSection().getSectionId()));
 
-        // Fetch Section in SmartTeam
+        // Update Section with the SmartTeam
+        Set<SmartTeam> smartteamList = tempSection.getSmartteams();
+        smartteamList.add(tempSmartTeam);
+        tempSection.setSmartteams(smartteamList);
+        sectionService.updateSectionById(tempSection, tempSection.getSectionId());
+
+        // Fetch Questionnaire in SmartTeam
         Questionnaire tempQuestionnaire = questionnaireRepository
                 .findByQuestionnaireId(tempSmartTeam.getQuestionnaire().getQuestionnaireId())
                 .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "Questionnaire ID",

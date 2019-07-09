@@ -2,12 +2,14 @@ package com.example.polls.service;
 
 import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
+import com.example.polls.model.Course;
 import com.example.polls.model.Section;
 import com.example.polls.model.User;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.PagedResponse;
 import com.example.polls.payload.SectionRequest;
 import com.example.polls.payload.SectionResponse;
+import com.example.polls.repository.CourseRepository;
 import com.example.polls.repository.SectionRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.util.AppConstants;
@@ -39,6 +41,9 @@ public class SectionService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     Logger logger = LoggerFactory.getLogger(SectionService.class);
 
@@ -94,7 +99,13 @@ public class SectionService {
         section.setNoOfStudents(sectionRequest.getNoOfStudents());
         section.setYear(sectionRequest.getYear());
         section.setStatus(sectionRequest.getStatus());
-        section.setCourse(sectionRequest.getCourse());
+        System.out.println("HEYHEY");
+
+        Course course = sectionRequest.getCourse();
+        Course courseInfo = courseRepository.findById(course.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", course.getId()));
+        section.setCourse(courseInfo);
+        System.out.println("HEYHEY2");
 
         for (User student : sectionRequest.getUsers()) {
             User studentInfo = userRepository.findById(student.getId())
@@ -133,7 +144,7 @@ public class SectionService {
         section.setCreatedAt(sectionOptional.get().getCreatedAt());
         section.setCreatedBy(sectionOptional.get().getCreatedBy());
         sectionRepository.save(section);
-        return ResponseEntity.ok(new ApiResponse(true, "Section Created Successfully"));
+        return ResponseEntity.ok(new ApiResponse(true, "Section Updated Successfully"));
     }
 
     private void validatePageNumberAndSize(int page, int size) {
