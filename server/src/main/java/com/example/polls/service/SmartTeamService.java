@@ -116,7 +116,6 @@ public class SmartTeamService {
         smartteamList = tempSection.getSmartteams();
         smartteamList.add(tempSmartTeam);
         tempSection.setSmartteams(smartteamList);
-        tempSection.setName("test");
         sectionRepository.save(tempSection);
         return ResponseEntity.ok(new ApiResponse(true, "Section Updated Successfully"));
     }

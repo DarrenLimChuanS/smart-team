@@ -91,7 +91,6 @@ public class ModelMapper {
         sectionResponse.setStatus(section.getStatus());
         sectionResponse.setUsers(section.getUsers());
         sectionResponse.setSmartteams(section.getSmartteams());
-        sectionResponse.setCourse(section.getCourse());
         sectionResponse.setCreationDateTime(section.getCreatedAt());
 
         UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),

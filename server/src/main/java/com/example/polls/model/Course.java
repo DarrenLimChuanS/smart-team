@@ -1,7 +1,6 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -11,7 +10,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "courses")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Course extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

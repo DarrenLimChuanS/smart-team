@@ -3,7 +3,6 @@ package com.example.polls.model;
 import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -15,7 +14,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "section")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Section extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
