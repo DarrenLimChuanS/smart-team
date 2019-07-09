@@ -46,6 +46,11 @@ class EditStudent extends Component {
             response.createdAt
           )
         );
+        this.setState({
+          oldusername: response.username,
+          oldemail: response.email,
+          ...this.state
+        });
       });
     } else {
       getCurrentUser().then(response => {
@@ -210,29 +215,58 @@ class EditStudent extends Component {
   validateUsernameAvailability() {
     // First check for client side errors in username
     const usernameValue = this.state.username.value;
-    const usernameValidation = validateUsername(usernameValue);
-
-    if (usernameValidation.validateStatus === "error") {
+    // Initial username so ignore validation
+    if (usernameValue == this.state.oldusername) {
       this.setState({
         username: {
           value: usernameValue,
-          ...usernameValidation
+          validateStatus: "success",
+          errorMsg: null
         }
       });
-      return;
-    }
+    } else {
+      const usernameValidation = validateUsername(usernameValue);
 
-    this.setState({
-      username: {
-        value: usernameValue,
-        validateStatus: "validating",
-        errorMsg: null
+      if (usernameValidation.validateStatus === "error") {
+        this.setState({
+          username: {
+            value: usernameValue,
+            ...usernameValidation
+          }
+        });
+        return;
       }
-    });
 
-    checkUsernameAvailability(usernameValue)
-      .then(response => {
-        if (response.available) {
+      this.setState({
+        username: {
+          value: usernameValue,
+          validateStatus: "validating",
+          errorMsg: null
+        }
+      });
+
+      checkUsernameAvailability(usernameValue)
+        .then(response => {
+          if (response.available) {
+            this.setState({
+              username: {
+                value: usernameValue,
+                validateStatus: "success",
+                errorMsg: null
+              }
+            });
+          } else {
+            this.setState({
+              username: {
+                value: usernameValue,
+                validateStatus: "error",
+                errorMsg: "This username is already taken"
+              }
+            });
+          }
+        })
+        .catch(error => {
+          // Marking validateStatus as success, Form will be recchecked at server
           this.setState({
             username: {
               value: usernameValue,
@@ -240,54 +274,65 @@ class EditStudent extends Component {
               errorMsg: null
             }
           });
-        } else {
-          this.setState({
-            username: {
-              value: usernameValue,
-              validateStatus: "error",
-              errorMsg: "This username is already taken"
-            }
-          });
-        }
-      })
-      .catch(error => {
-        // Marking validateStatus as success, Form will be recchecked at server
-        this.setState({
-          username: {
-            value: usernameValue,
-            validateStatus: "success",
-            errorMsg: null
-          }
         });
-      });
+    }
   }
 
   validateEmailAvailability() {
     // First check for client side errors in email
     const emailValue = this.state.email.value;
-    const emailValidation = validateEmail(emailValue);
-
-    if (emailValidation.validateStatus === "error") {
+    // Initial email so ignore validation
+    if (emailValue == this.state.oldemail) {
       this.setState({
         email: {
           value: emailValue,
-          ...emailValidation
+          validateStatus: "success",
+          errorMsg: null
         }
       });
-      return;
-    }
+    } else {
+      const emailValidation = validateEmail(emailValue);
 
-    this.setState({
-      email: {
-        value: emailValue,
-        validateStatus: "validating",
-        errorMsg: null
+      if (emailValidation.validateStatus === "error") {
+        this.setState({
+          email: {
+            value: emailValue,
+            ...emailValidation
+          }
+        });
+        return;
       }
-    });
 
-    checkEmailAvailability(emailValue)
-      .then(response => {
-        if (response.available) {
+      this.setState({
+        email: {
+          value: emailValue,
+          validateStatus: "validating",
+          errorMsg: null
+        }
+      });
+
+      checkEmailAvailability(emailValue)
+        .then(response => {
+          if (response.available) {
+            this.setState({
+              email: {
+                value: emailValue,
+                validateStatus: "success",
+                errorMsg: null
+              }
+            });
+          } else {
+            this.setState({
+              email: {
+                value: emailValue,
+                validateStatus: "error",
+                errorMsg: "This Email is already registered"
+              }
+            });
+          }
+        })
+        .catch(error => {
+          // Marking validateStatus as success, Form will be recchecked at server
           this.setState({
             email: {
               value: emailValue,
@@ -295,26 +340,8 @@ class EditStudent extends Component {
               errorMsg: null
             }
           });
-        } else {
-          this.setState({
-            email: {
-              value: emailValue,
-              validateStatus: "error",
-              errorMsg: "This Email is already registered"
-            }
-          });
-        }
-      })
-      .catch(error => {
-        // Marking validateStatus as success, Form will be recchecked at server
-        this.setState({
-          email: {
-            value: emailValue,
-            validateStatus: "success",
-            errorMsg: null
-          }
         });
-      });
+    }
   }
 }
 

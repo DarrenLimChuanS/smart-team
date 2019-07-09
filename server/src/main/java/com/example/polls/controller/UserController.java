@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -129,6 +131,26 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         return userService.deleteById(id);
+    }
+
+    // Function to update User
+    @PutMapping("/student/{id}")
+    public ResponseEntity<User> updateStudent(@PathVariable(value = "id") Long id,
+            @Valid @RequestBody User userDetails) {
+
+        User temp = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+        if (temp == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        temp.setUsername(userDetails.getUsername());
+        temp.setName(userDetails.getName());
+        temp.setEmail(userDetails.getEmail());
+        temp.setPassword(userDetails.getPassword());
+
+        User updateUser = userRepository.save(temp);
+        return ResponseEntity.ok().body(updateUser);
     }
 
     @GetMapping("/users/{username}/polls")
