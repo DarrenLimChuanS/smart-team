@@ -115,7 +115,7 @@ public class CourseService {
         return ResponseEntity.ok(new ApiResponse(true, "Course Deleted Successfully"));
     }
 
-    public ResponseEntity<Object> updateStudentById(@RequestBody Course course, @PathVariable long courseId) {
+    public ResponseEntity<Object> updateCourseById(@RequestBody Course course, @PathVariable long courseId) {
 
         Optional<Course> courseOptional = courseRepository.findById(courseId);
 

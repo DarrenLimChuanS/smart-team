@@ -332,6 +332,13 @@ export function createSmartTeam(smartTeamData) {
     body: JSON.stringify(smartTeamData)
   });
 }
+
+export function populateSmartTeam(smartTeamId) {
+  return request({
+    url: API_BASE_URL + "/smartteams/" + smartTeamId,
+    method: "PUT"
+  });
+}
 /**
  * End of SmartTeam APIs
  **/

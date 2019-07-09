@@ -9,11 +9,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class SmartTeamRequest {
 
     @NotBlank
     private String name;
+
+    @NotNull
+    private Long noOfTeams;
     
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date smartteamStartdate;
@@ -36,6 +40,14 @@ public class SmartTeamRequest {
         this.name = name;
     }
 
+    public Long getNoOfTeams() {
+        return this.noOfTeams;
+    }
+
+    public void setNoOfTeams(Long noOfTeams) {
+        this.noOfTeams = noOfTeams;
+    }
+    
     public Date getSmartteamStartdate() {
         return this.smartteamStartdate;
     }

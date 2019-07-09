@@ -25,6 +25,9 @@ public class SmartTeam extends DateAudit {
     // SmartTeam name for purpose of initiation
     private String name;
 
+    // Number of Teams
+    private Long noOfTeams;
+
     // SmartTeam start date, also the end time for the questionnaire
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date smartteamStartdate;
@@ -55,9 +58,10 @@ public class SmartTeam extends DateAudit {
 
     }
 
-    public SmartTeam(Long smartteamId, String name, Date smartteamStartdate, Date smartteamEnddate) {
+    public SmartTeam(Long smartteamId, String name, Long noOfTeams, Date smartteamStartdate, Date smartteamEnddate) {
         this.smartteamId = smartteamId;
         this.name = name;
+        this.noOfTeams = noOfTeams;
         this.smartteamStartdate = smartteamStartdate;
         this.smartteamEnddate = smartteamEnddate;
     }
@@ -77,6 +81,14 @@ public class SmartTeam extends DateAudit {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getNoOfTeams() {
+        return this.noOfTeams;
+    }
+
+    public void setNoOfTeams(Long noOfTeams) {
+        this.noOfTeams = noOfTeams;
     }
 
     public Date getSmartteamStartdate() {

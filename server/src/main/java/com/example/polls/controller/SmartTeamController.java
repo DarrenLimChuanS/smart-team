@@ -13,6 +13,7 @@ import com.example.polls.payload.CriteriaRequest;
 import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.SmartTeamRequest;
 import com.example.polls.repository.CriteriaRepository;
+import com.example.polls.repository.SectionRepository;
 import com.example.polls.repository.SmartTeamRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.repository.VoteRepository;
@@ -40,6 +41,9 @@ public class SmartTeamController {
     @Autowired
     private SmartTeamRepository smartTeamRepository;
 
+    @Autowired
+    private SectionRepository sectionRepository;
+
     @GetMapping("/{smartTeamId}")
     @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
     public SmartTeam getBySmartTeamId(@PathVariable Long smartTeamId) {
@@ -52,12 +56,16 @@ public class SmartTeamController {
     public ResponseEntity<?> createSmartTeam(@Valid @RequestBody SmartTeamRequest smartTeamRequest) {
         // Create a SmartTeam request
         SmartTeam smartteam = smartTeamService.createSmartTeam(smartTeamRequest);
-        smartTeamService.populateSmartTeam(smartteam.getSmartteamId());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{smartTeamId}")
                 .buildAndExpand(smartteam.getSmartteamId()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "SmartTeam Created Successfully"));
+        return ResponseEntity.created(location).body(new ApiResponse(true, smartteam.getSmartteamId().toString()));
     }
 
+    @PutMapping("/{smartTeamId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> populateSmartTeam(@PathVariable Long smartTeamId) {
+        return smartTeamService.populateSmartTeam(smartTeamId);
+    }
 }

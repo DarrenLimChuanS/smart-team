@@ -3,7 +3,8 @@ import {
   getSectionById,
   getUserCreatedQuestionnaires,
   getCurrentUser,
-  createSmartTeam
+  createSmartTeam,
+  populateSmartTeam
 } from "../../util/APIUtils";
 import { validateName } from "../../util/Validators";
 import { SmartTeam } from "../../util/FeatureStates";
@@ -151,6 +152,7 @@ class NewSmartTeam extends Component {
       ("00" + endDate.getSeconds()).slice(-2);
     const smartteamRequest = {
       name: this.state.name.value,
+      noOfTeams: "5",
       smartteamStartdate: cStartDate,
       smartteamEnddate: cEndDate,
       questionnaire: this.state.questionnaire.value,
@@ -159,6 +161,7 @@ class NewSmartTeam extends Component {
     };
     createSmartTeam(smartteamRequest)
       .then(response => {
+        populateSmartTeam(response.message);
         notification.success({
           message: "Smart Team",
           description:
