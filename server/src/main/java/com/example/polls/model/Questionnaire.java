@@ -4,6 +4,7 @@ import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -35,12 +36,17 @@ public class Questionnaire extends UserDateAudit {
     @JoinTable(name = "questionnaire_criteria", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "criteria_id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @JsonIdentityInfo(scope = Criteria.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private Set<Criteria> criteria = new HashSet<>();
 
     @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "smartteamId")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    // @JsonIdentityInfo(scope = SmartTeam.class, generator =
+    // ObjectIdGenerators.PropertyGenerator.class, property = "smartteamId")
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    @JsonIgnore
+    // @JsonBackReference
+    // @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Set<SmartTeam> smartteams = new HashSet<>();
 
     public Questionnaire() {

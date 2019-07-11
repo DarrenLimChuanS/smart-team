@@ -138,8 +138,7 @@ public class UserController {
     public ResponseEntity<User> updateStudent(@PathVariable(value = "id") Long id,
             @Valid @RequestBody User userDetails) {
 
-        User temp = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+        User temp = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
         if (temp == null) {
             return ResponseEntity.notFound().build();
         }

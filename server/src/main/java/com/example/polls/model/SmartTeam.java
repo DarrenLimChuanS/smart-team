@@ -39,7 +39,7 @@ public class SmartTeam extends DateAudit {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "questionnaire_id", nullable = false)
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "questionnaireId")
+    @JsonIdentityInfo(scope = Questionnaire.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "questionnaireId")
     private Questionnaire questionnaire;
 
     // User ID of Teacher that initiated SmartTeam formation session
@@ -51,7 +51,7 @@ public class SmartTeam extends DateAudit {
     // Section it was initiated on
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "section_id", nullable = false)
-    @JsonBackReference("smartteam_section")
+    @JsonBackReference("section_smartteam")
     private Section section;
 
     public SmartTeam() {

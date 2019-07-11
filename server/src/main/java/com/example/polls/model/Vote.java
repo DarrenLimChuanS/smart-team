@@ -1,48 +1,51 @@
 package com.example.polls.model;
 
 import com.example.polls.model.audit.DateAudit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-                "smartteam_id",
-                "poll_id",
-                "user_id"
-        })
-})
+        @UniqueConstraint(columnNames = { "smartteam_id", "poll_id", "user_id" }) })
 public class Vote extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /* 
-    DateAudit's Created_at and Updated_at
-    */
+    /*
+     * DateAudit's Created_at and Updated_at
+     */
 
     // SmartTeam ID to determine SmartTeam formation session
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "smartteam_id", nullable = false)
+    @JsonIgnore
     private SmartTeam smartteam;
 
     // User ID of Student for response
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private User user;
 
     // Criteria ID of the questionnaire
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "criteria_id", nullable = false)
+    @JsonIgnore
     private Criteria criteria;
 
     // Poll ID of the criteria
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "poll_id", nullable = false)
+    @JsonIgnore
     private Poll poll;
 
     // Choice ID to be nullable, updated when student responded
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "choice_id", nullable = true)
+    @JsonIgnore
     private Choice choice;
 
     // Outcome to be nullable, updated when student responded
@@ -107,15 +110,9 @@ public class Vote extends DateAudit {
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", smartteam='" + getSmartteam() + "'" +
-            ", user='" + getUser() + "'" +
-            ", criteria='" + getCriteria() + "'" +
-            ", poll='" + getPoll() + "'" +
-            ", choice='" + getChoice() + "'" +
-            ", outcome='" + getOutcome() + "'" +
-            "}";
+        return "{" + " id='" + getId() + "'" + ", smartteam='" + getSmartteam() + "'" + ", user='" + getUser() + "'"
+                + ", criteria='" + getCriteria() + "'" + ", poll='" + getPoll() + "'" + ", choice='" + getChoice() + "'"
+                + ", outcome='" + getOutcome() + "'" + "}";
     }
     /* END OF GETTERS AND SETTERS */
 }

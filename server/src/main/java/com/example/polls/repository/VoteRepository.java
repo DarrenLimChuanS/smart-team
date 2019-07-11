@@ -32,8 +32,13 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     Page<Long> findVotedPollIdsByUserId(@Param("userId") Long userId, Pageable pageable);
 
     @Query("SELECT v FROM Vote v where v.user.id = :userId and v.poll.id = :pollId and v.smartteam.id = :smartteamId and v.criteria.id = :criteriaId")
-    Vote findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(@Param("userId") Long userId, @Param("pollId") Long pollId, @Param("smartteamId") Long smartteamId, @Param("criteriaId") Long criteriaId);
+    Vote findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(@Param("userId") Long userId, @Param("pollId") Long pollId,
+            @Param("smartteamId") Long smartteamId, @Param("criteriaId") Long criteriaId);
 
     @Query("SELECT v FROM Vote v where v.user.id = :userId and v.smartteam.id = :smartteamId and v.criteria.id = :criteriaId")
-    Vote findAllByUserIdAndSmartteamIdAndCriteriaId(@Param("userId") Long userId, @Param("smartteamId") Long smartteamId, @Param("criteriaId") Long criteriaId);
+    Vote findAllByUserIdAndSmartteamIdAndCriteriaId(@Param("userId") Long userId,
+            @Param("smartteamId") Long smartteamId, @Param("criteriaId") Long criteriaId);
+
+    @Query("SELECT v FROM Vote v where v.smartteam.id = :smartteamId")
+    List<Vote> findAllBySmartteamId(@Param("smartteamId") Long smartteamId);
 }

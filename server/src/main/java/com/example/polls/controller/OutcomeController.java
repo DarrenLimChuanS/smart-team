@@ -57,7 +57,8 @@ public class OutcomeController {
         choiceIdList.add(outcomeRequest.getChoiceId());
         pollIdList.add(outcomeRequest.getPollId());
 
-        // Retrieve Choice object to gather a list for update later and to get and count scores
+        // Retrieve Choice object to gather a list for update later and to get and count
+        // scores
         for (Long choiceId : choiceIdList) {
             Choice choice = choiceRepository.findById(choiceId)
                     .orElseThrow(() -> new ResourceNotFoundException("Choice", "id", choiceId));
@@ -72,4 +73,9 @@ public class OutcomeController {
         return outcomeService.updateVote(outcomeRequest, choiceObjectList, pollIdList, outcome.getOutcome());
     }
 
+    @GetMapping("/smartteam/{smartteamId}")
+    // @PreAuthorize("hasAnyRole('USER','STUDENT')")
+    public List<Vote> getVotesBySmartteamId(@PathVariable long smartteamId) {
+        return voteRepository.findAllBySmartteamId(smartteamId);
+    }
 }
