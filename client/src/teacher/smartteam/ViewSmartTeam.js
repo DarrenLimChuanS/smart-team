@@ -1,17 +1,14 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer
 } from "recharts";
-import { Row, Col, Typography, Divider, Slider, Icon, Button } from "antd";
+import { Row, Col, Typography, Divider, Slider } from "antd";
 import { Card } from "antd";
 import { getSectionById } from "../../util/APIUtils";
 const { Title } = Typography;

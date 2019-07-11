@@ -216,7 +216,7 @@ class EditStudent extends Component {
     // First check for client side errors in username
     const usernameValue = this.state.username.value;
     // Initial username so ignore validation
-    if (usernameValue == this.state.oldusername) {
+    if (usernameValue === this.state.oldusername) {
       this.setState({
         username: {
           value: usernameValue,
@@ -282,7 +282,7 @@ class EditStudent extends Component {
     // First check for client side errors in email
     const emailValue = this.state.email.value;
     // Initial email so ignore validation
-    if (emailValue == this.state.oldemail) {
+    if (emailValue === this.state.oldemail) {
       this.setState({
         email: {
           value: emailValue,
