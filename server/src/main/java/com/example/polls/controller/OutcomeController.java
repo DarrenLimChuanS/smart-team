@@ -74,7 +74,7 @@ public class OutcomeController {
     }
 
     @GetMapping("/smartteam/{smartteamId}")
-    // @PreAuthorize("hasAnyRole('USER','STUDENT')")
+    @PreAuthorize("hasAnyRole('USER','STUDENT')")
     public List<Vote> getVotesBySmartteamId(@PathVariable long smartteamId) {
         return voteRepository.findAllBySmartteamId(smartteamId);
     }

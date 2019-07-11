@@ -10,7 +10,6 @@ import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
-import NewStudent from "../teacher/student/NewStudent";
 import StudentList from "../teacher/student/StudentList";
 import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
@@ -166,18 +165,6 @@ class App extends Component {
                       {...props}
                     />
                   )}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/student/new"
-                  component={NewStudent}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/student/edit"
-                  component={EditStudent}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute

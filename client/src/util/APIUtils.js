@@ -153,18 +153,6 @@ export function signup(signupRequest, role) {
   });
 }
 
-/**
- * Start of Student APIs
- **/
-// Function to create student under a teacher
-export function createStudent(studentRequest, userid) {
-  return request({
-    url: API_BASE_URL + "/users/" + userid + "/students",
-    method: "POST",
-    body: JSON.stringify(studentRequest)
-  });
-}
-
 // Function to retrieve all students of a teacher
 export function getStudentsByTeacher(userid) {
   return request({
