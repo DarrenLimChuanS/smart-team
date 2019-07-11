@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
@@ -56,6 +57,9 @@ public class UserController {
 
     @Autowired
     private QuestionnaireService questionnaireService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @GetMapping("/user/me")
     @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
@@ -146,7 +150,7 @@ public class UserController {
         temp.setUsername(userDetails.getUsername());
         temp.setName(userDetails.getName());
         temp.setEmail(userDetails.getEmail());
-        temp.setPassword(userDetails.getPassword());
+        temp.setPassword(passwordEncoder.encode(userDetails.getPassword()));
 
         User updateUser = userRepository.save(temp);
         return ResponseEntity.ok().body(updateUser);
