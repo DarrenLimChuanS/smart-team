@@ -28,7 +28,6 @@ class EditSection extends Component {
 
   async componentDidMount() {
     getCurrentUser().then(response => {
-      let userCreatedCourses = [];
       this.setState({
         currentUser: response,
         ...this.state
@@ -40,7 +39,6 @@ class EditSection extends Component {
         });
       });
       getUserCreatedStudents(response.username, 0, 50).then(response => {
-        userCreatedCourses = response.content;
         this.setState({
           studentList: response.content,
           ...this.state
@@ -57,7 +55,7 @@ class EditSection extends Component {
       getSectionById(this.props.match.params.id).then(response => {
         let students = response.users;
         let studentIds = [];
-        students.map(student => studentIds.push(parseInt(student.id)));
+        students.forEach(student => studentIds.push(parseInt(student.id)));
         this.setState(
           Section(
             response.sectionId,
@@ -95,7 +93,7 @@ class EditSection extends Component {
   handleStudentChange(value) {
     const { studentList } = this.state;
     const students = [];
-    value.map(studentId => {
+    value.forEach(studentId => {
       const studentIndex = studentList.findIndex(
         student => student.id === studentId
       );
@@ -115,6 +113,7 @@ class EditSection extends Component {
     const { courseList } = this.state;
     const courseIndex = courseList.findIndex(course => course.id === courseId);
     const course = courseList[courseIndex];
+    console.log(course);
     this.setState({
       course: {
         value: course
