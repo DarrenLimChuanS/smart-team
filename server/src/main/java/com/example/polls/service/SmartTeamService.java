@@ -1,30 +1,15 @@
 package com.example.polls.service;
 
-import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.*;
 import com.example.polls.payload.ApiResponse;
-import com.example.polls.payload.CriteriaResponse;
-import com.example.polls.payload.PagedResponse;
 import com.example.polls.payload.SmartTeamRequest;
 import com.example.polls.repository.*;
-import com.example.polls.security.UserPrincipal;
-import com.example.polls.util.AppConstants;
-import com.example.polls.util.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -73,7 +58,7 @@ public class SmartTeamService {
                 .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID",
                         smartTeamRequest.getSection().getSectionId()));
         tempSection.setStatus("Grouping");
-        sectionService.updateSectionById(tempSection, tempSection.getSectionId());
+        sectionService.updateSectionById(tempSection.getSectionId(), tempSection);
 
         return smartTeamRepository.save(smartteam);
     }

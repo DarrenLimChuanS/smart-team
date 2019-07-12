@@ -50,8 +50,8 @@ public class SectionController {
 
     @PutMapping("/{sectionId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Object> updateSection(@RequestBody Section section, @PathVariable long sectionId) {
-        return sectionService.updateSectionById(section, sectionId);
+    public ResponseEntity<Object> updateSection(@PathVariable long sectionId, @RequestBody Section section) {
+        return sectionService.updateSectionById(sectionId, section);
     }
 
     @DeleteMapping("/{sectionId}")

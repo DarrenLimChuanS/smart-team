@@ -85,6 +85,7 @@ public class ModelMapper {
         sectionResponse.setSectionId(section.getSectionId());
         sectionResponse.setName(section.getName());
         sectionResponse.setNoOfStudents(section.getNoOfStudents());
+        sectionResponse.setCourseId(section.getCourse().getId());
         sectionResponse.setCourseName(section.getCourse().getName());
         sectionResponse.setCourseDescription(section.getCourse().getDescription());
         sectionResponse.setYear(section.getYear());

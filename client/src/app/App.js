@@ -14,7 +14,6 @@ import StudentList from "../teacher/student/StudentList";
 import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
 import EditStudent from "../teacher/student/EditStudent";
-import NewSection from "../teacher/section/NewSection";
 import EditSection from "../teacher/section/EditSection";
 import SectionList from "../teacher/section/SectionList";
 import NewSmartTeam from "../teacher/smartteam/NewSmartTeam";
@@ -199,12 +198,6 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/section/new"
-                  component={NewSection}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
                   path="/courses/group_student"
                   component={GroupStudent}
                   handleLogout={this.handleLogout}
@@ -253,12 +246,6 @@ class App extends Component {
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
                   path="/section/:id"
-                  component={EditSection}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/section/edit"
                   component={EditSection}
                   handleLogout={this.handleLogout}
                 />

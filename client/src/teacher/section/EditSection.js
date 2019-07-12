@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import {
+  getUserCreatedCourses,
+  getUserCreatedStudents,
   createSection,
+  getCurrentUser,
   updateSection,
   getSectionById
 } from "../../util/APIUtils";
-
+import { validateName } from "../../util/Validators";
+import { Section } from "../../util/FeatureStates";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import { Form, Input, Button, notification, Select, Typography } from "antd";
 const { Option } = Select;
 const { Title } = Typography;
@@ -13,52 +18,63 @@ const FormItem = Form.Item;
 class EditSection extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      sectionId: {
-        value: ""
-      },
-      name: {
-        value: ""
-      },
-      students: {
-        value: []
-      },
-      course: {
-        value: ""
-      },
-      year: {
-        value: ""
-      }
-    };
+    this.state = Section();
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleStudentChange = this.handleStudentChange.bind(this);
-    this.handleYearPicker = this.handleYearPicker.bind(this);
     this.handleCourseChange = this.handleCourseChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
   }
 
   async componentDidMount() {
+    getCurrentUser().then(response => {
+      let userCreatedCourses = [];
+      this.setState({
+        currentUser: response,
+        ...this.state
+      });
+      getUserCreatedCourses(response.username, 0, 50).then(response => {
+        this.setState({
+          courseList: response.content,
+          ...this.state
+        });
+      });
+      getUserCreatedStudents(response.username, 0, 50).then(response => {
+        userCreatedCourses = response.content;
+        this.setState({
+          studentList: response.content,
+          ...this.state
+        });
+        if (this.props.match.params.id === "new") {
+          this.setState({
+            isLoading: false
+          });
+        }
+      });
+    });
+
     if (this.props.match.params.id !== "new") {
       getSectionById(this.props.match.params.id).then(response => {
+        let students = response.users;
+        let studentIds = [];
+        students.map(student => studentIds.push(parseInt(student.id)));
+        this.setState(
+          Section(
+            response.sectionId,
+            response.name,
+            response.year,
+            response.noOfStudents,
+            "",
+            response.users,
+            response.status,
+            response.createdBy,
+            response.createdAt
+          )
+        );
         this.setState({
-          sectionId: {
-            value: response.sectionId
-          },
-          name: {
-            value: response.name
-          },
-          students: {
-            value: response.students
-          },
-          course: {
-            value: response.course
-          },
-          year: {
-            value: response.year
-          },
-          createdBy: response.createdBy,
-          createdAt: response.createdAt
+          selectedStudents: { value: studentIds },
+          selectedCourse: { value: response.courseId },
+          isLoading: false
         });
       });
     }
@@ -68,7 +84,6 @@ class EditSection extends Component {
     const target = event.target;
     const inputName = target.name;
     const inputValue = target.value;
-
     this.setState({
       [inputName]: {
         value: inputValue,
@@ -78,58 +93,58 @@ class EditSection extends Component {
   }
 
   handleStudentChange(value) {
+    const { studentList } = this.state;
+    const students = [];
+    value.map(studentId => {
+      const studentIndex = studentList.findIndex(
+        student => student.id === studentId
+      );
+      students.push(studentList[studentIndex]);
+    });
     this.setState({
       students: {
+        value: students
+      },
+      selectedStudents: {
         value: value
       }
     });
   }
 
-  handleYearPicker(date, dateString, validationFun) {
-    this.setState({
-      year: {
-        value: date,
-        ...validationFun(date)
-      }
-    });
-  }
-
-  handleCourseChange(course) {
+  handleCourseChange(courseId) {
+    const { courseList } = this.state;
+    const courseIndex = courseList.findIndex(course => course.id === courseId);
+    const course = courseList[courseIndex];
     this.setState({
       course: {
         value: course
+      },
+      selectedCourse: {
+        value: courseId
       }
     });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const createSectionRequest = {
-      name: this.state.name.value,
-      noOfStudents: this.state.students.value.length,
-      status: "Not Grouped",
-      students: this.state.students.value,
-      course: this.state.course.value,
-      year: this.state.year.value
-    };
 
-    const updateSectionRequest = {
-      name: this.state.name.value,
-      students: this.state.students.value,
-      course: this.state.course.value,
-      year: this.state.year.value
+    const { name, students, year, course, sectionId } = this.state;
+    const sectionRequest = {
+      name: name.value,
+      noOfStudents: students.value === undefined ? 0 : students.value.length,
+      year: year.value,
+      status: "Not Grouped",
+      course: course.value,
+      users: students.value
     };
-    (this.state.id.value
-      ? updateSection(this.state.id.value, updateSectionRequest)
-      : createSection(createSectionRequest)
+    (sectionId.value
+      ? updateSection(sectionId.value, sectionRequest)
+      : createSection(sectionRequest)
     )
       .then(response => {
         notification.success({
           message: "Smart Team",
-          description:
-            "Success! You have successfully " +
-            (this.state.id.value ? "updated" : "created") +
-            " a section."
+          description: "Success! You have successfully added a new student."
         });
         this.props.history.push("/section");
       })
@@ -150,75 +165,92 @@ class EditSection extends Component {
   }
 
   render() {
-    const students = [
-      { studentId: 10023132, name: "John Smith" },
-      { studentId: 10023133, name: "Daniel Lim" },
-      { studentId: 10023134, name: "Mary Chiah" }
-    ];
-
-    const studentOptions = students.map((item, key) => (
-      <Option key={item.studentId}>
-        {item.studentId} - {item.name}
-      </Option>
-    ));
-    return (
+    const {
+      courseList,
+      studentList,
+      sectionId,
+      name,
+      students,
+      course,
+      selectedCourse,
+      selectedStudents,
+      isLoading
+    } = this.state;
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <div className="signup-container">
-        <Title level={2}>Edit Section</Title>
+        <Title level={2}>{sectionId.value ? "Edit" : "Create"} Section</Title>
         <div className="signup-content">
           <Form onSubmit={this.handleSubmit} className="signup-form">
             <FormItem
               label="Name"
               hasFeedback
-              validateStatus={this.state.name.validateStatus}
-              help={this.state.name.errorMsg}
+              validateStatus={name.validateStatus}
+              help={name.errorMsg}
             >
               <Input
                 size="large"
                 name="name"
                 autoComplete="off"
                 placeholder="Name"
-                value={this.state.name.value}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateName)
-                }
+                value={name.value}
+                onChange={event => this.handleInputChange(event, validateName)}
               />
             </FormItem>
+
             <FormItem
               label="Students"
               hasFeedback
-              validateStatus={this.state.students.validateStatus}
-              help={this.state.students.errorMsg}
+              validateStatus={students.validateStatus}
+              help={students.errorMsg}
             >
               <Select
                 size="large"
                 mode="multiple"
                 style={{ width: "100%" }}
-                placeholder="Please select"
-                defaultValue={[]}
-                onChange={event => this.handleStudentChange(event)}
+                placeholder={"Please select the students"}
+                defaultValue={
+                  this.state && selectedStudents && selectedStudents.value
+                }
+                onChange={value => this.handleStudentChange(value)}
               >
-                {studentOptions}
+                {this.state &&
+                  studentList &&
+                  studentList.map((student, index) => (
+                    <Option key={student.id} value={student.id}>
+                      {`${student.id} - ${student.name}`}
+                    </Option>
+                  ))}
               </Select>
             </FormItem>
+
             <FormItem
               label="Course"
               hasFeedback
-              validateStatus={this.state.course.validateStatus}
-              help={this.state.course.errorMsg}
+              validateStatus={course.validateStatus}
+              help={course.errorMsg}
             >
               <Select
                 name="course"
                 size="large"
-                defaultValue="ict1001"
-                style={{ width: "32%" }}
+                defaultActiveFirstOption={true}
+                placeHolder="Please select a course"
+                defaultValue={
+                  this.state && selectedCourse && selectedCourse.value
+                }
                 onChange={value => this.handleCourseChange(value)}
               >
-                <Option value="ict1001">ICT1001</Option>
-                <Option value="ict1002">ICT1002</Option>
-                <Option value="ict1003">ICT1003</Option>
-                <Option value="ict1004">ICT1004</Option>
+                {this.state &&
+                  courseList &&
+                  courseList.map((course, index) => (
+                    <Option key={course.id} value={course.id}>
+                      {course.id} - {course.name}
+                    </Option>
+                  ))}
               </Select>
             </FormItem>
+
             <FormItem
               label="Year"
               hasFeedback
@@ -245,7 +277,7 @@ class EditSection extends Component {
                 className="signup-form-button"
                 disabled={this.isFormInvalid()}
               >
-                Update
+                {sectionId.value ? "Update" : "Create"}
               </Button>
             </FormItem>
           </Form>

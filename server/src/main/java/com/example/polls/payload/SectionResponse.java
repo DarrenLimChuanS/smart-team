@@ -12,6 +12,7 @@ public class SectionResponse {
     private Long sectionId;
     private String name;
     private Long noOfStudents;
+    private Long courseId;
     private String courseName;
     private String courseDescription;
     private Long year;
@@ -40,6 +41,14 @@ public class SectionResponse {
 
     public void setNoOfStudents(Long noOfStudents) {
         this.noOfStudents = noOfStudents;
+    }
+
+    public Long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 
     public String getCourseName() {
