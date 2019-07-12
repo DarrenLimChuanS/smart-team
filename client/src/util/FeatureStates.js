@@ -122,6 +122,14 @@ export const SmartTeam = (
     value: name,
     validateStatus: id ? "success" : ""
   },
+  teamnumbertype: {
+    value: 0,
+    validateStatus: id ? "success" : ""
+  },
+  noOfTeams: {
+    value: 0,
+    validateStatus: id ? "success" : ""
+  },
   pollStart: {
     days: 1,
     hours: 0

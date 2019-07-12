@@ -41,22 +41,25 @@ class NewSmartTeam extends Component {
     if (this.props.match.params.id !== "new") {
       getSectionById(this.props.match.params.id).then(response => {
         this.setState({
+          ...this.state,
           section: response
         });
       });
-    }
-    getCurrentUser().then(response => {
-      this.setState({
-        currentUser: response,
-        ...this.state
-      });
-      getUserCreatedQuestionnaires(response.username, 0, 50).then(response => {
+      getCurrentUser().then(response => {
         this.setState({
-          questionnaireList: response.content,
-          ...this.state
+          ...this.state,
+          currentUser: response
         });
+        getUserCreatedQuestionnaires(response.username, 0, 50).then(
+          response => {
+            this.setState({
+              questionnaireList: response.content,
+              ...this.state
+            });
+          }
+        );
       });
-    });
+    }
   }
 
   handleInputChange(event, validationFun) {
@@ -76,11 +79,13 @@ class NewSmartTeam extends Component {
   handleQuestionnaireChange(questionnaireId) {
     this.setState({
       questionnaire: {
-        value: this.state.questionnaireList[questionnaireId]
+        value: this.state.questionnaireList[questionnaireId],
+        validateStatus: "success"
       }
     });
   }
 
+  /* Start Of Poll duration input changes */
   handlePollStartDaysChange(value) {
     const pollStart = Object.assign(this.state.pollStart, {
       days: parseInt(value, 10)
@@ -115,6 +120,92 @@ class NewSmartTeam extends Component {
     this.setState({
       pollEnd: pollEnd
     });
+  }
+  /* End Of Poll duration input changes */
+
+  // Handle toggle of Team Number Type
+  handleTeamNumberTypeChange(value) {
+    this.setState({
+      ...this.state,
+      teamnumbertype: {
+        value: Number(value),
+        validateStatus: "success"
+      }
+    });
+  }
+
+  // Handle Number of Teams
+  handleNoOfTeamChange(event) {
+    // Number of students in the section
+    const numberofstudents = this.state.section;
+    // There is no value, display error
+    if (event.target.value === "") {
+      this.setState({
+        ...this.state,
+        noOfTeams: {
+          value: 0,
+          validateStatus: "error",
+          errorMsg: "This field cannot be empty"
+        }
+      });
+    } else if (event.target.value > numberofstudents.noOfStudents) {
+      this.setState({
+        ...this.state,
+        noOfTeams: {
+          value: 0,
+          validateStatus: "error",
+          errorMsg: "This combination is impossible."
+        }
+      });
+    } else {
+      // Set input value
+      this.setState({
+        ...this.state,
+        noOfTeams: {
+          value: parseInt(event.target.value, 10),
+          validateStatus: "success"
+        }
+      });
+    }
+  }
+
+  // Handle Number of Pax in a Team
+  handleNoOfPaxChange(event) {
+    // Number of students in the section
+    const numberofstudents = this.state.section;
+    // There is no value, display error
+    if (event.target.value === "") {
+      this.setState({
+        ...this.state,
+        noOfTeams: {
+          value: 0,
+          validateStatus: "error",
+          errorMsg: "This field cannot be empty."
+        }
+      });
+    } else if (event.target.value > numberofstudents.noOfStudents) {
+      this.setState({
+        ...this.state,
+        noOfTeams: {
+          value: 0,
+          validateStatus: "error",
+          errorMsg: "This combination is impossible."
+        }
+      });
+    } else {
+      // TODO Include more validation and sort teams
+      // Divide while rounding up
+      const divider = Math.ceil(
+        numberofstudents.noOfStudents / event.target.value
+      );
+      this.setState({
+        ...this.state,
+        noOfTeams: {
+          value: divider,
+          validateStatus: "success"
+        }
+      });
+    }
   }
 
   handleSubmit(event) {
@@ -152,7 +243,7 @@ class NewSmartTeam extends Component {
       ("00" + endDate.getSeconds()).slice(-2);
     const smartteamRequest = {
       name: this.state.name.value,
-      noOfTeams: "5",
+      noOfTeams: this.state.noOfTeams.value,
       smartteamStartdate: cStartDate,
       smartteamEnddate: cEndDate,
       questionnaire: this.state.questionnaire.value,
@@ -179,16 +270,54 @@ class NewSmartTeam extends Component {
   }
 
   isFormInvalid() {
-    return !(this.state.name.validateStatus === "success");
+    return !(
+      this.state.name.validateStatus === "success" &&
+      this.state.questionnaire.validateStatus === "success" &&
+      this.state.teamnumbertype.validateStatus === "success" &&
+      this.state.noOfTeams.validateStatus === "success"
+    );
   }
 
   render() {
-    const { name, questionnaireList, questionnaire } = this.state;
+    const {
+      name,
+      teamnumbertype,
+      questionnaireList,
+      questionnaire
+    } = this.state;
     return (
       <div className="signup-container">
         <Title level={2}>Initiate SmartTeam</Title>
         <div className="signup-content">
           <Form onSubmit={this.handleSubmit} className="signup-form">
+            <FormItem
+              label="Team Type"
+              hasFeedback
+              validateStatus={teamnumbertype.validateStatus}
+              help={teamnumbertype.errorMsg}
+            >
+              <Select
+                size="large"
+                style={{ width: "100%" }}
+                placeholder="Please select"
+                onChange={value => this.handleTeamNumberTypeChange(value)}
+              >
+                <Option key={1}>Number of Teams</Option>
+                <Option key={2}>Number of Maximum pax in a Team</Option>
+              </Select>
+            </FormItem>
+            <TeamType
+              noOfTeams={this.state.noOfTeams}
+              teamnumbertype={this.state.teamnumbertype.value}
+              handleNoOfTeamChange={event => this.handleNoOfTeamChange(event)}
+              handleNoOfPaxChange={event => this.handleNoOfPaxChange(event)}
+            />
+            {this.state.teamnumbertype.value !== 0 &&
+              this.state.noOfTeams.value !== 0 && (
+                <FormItem>
+                  *{this.state.noOfTeams.value} teams will be generated.
+                </FormItem>
+              )}
             <FormItem
               label="Name"
               hasFeedback
@@ -312,6 +441,43 @@ class NewSmartTeam extends Component {
       </div>
     );
   }
+}
+
+function TeamType(props) {
+  return (
+    <div>
+      {props.teamnumbertype === 1 && (
+        <FormItem
+          label="Number of Teams"
+          hasFeedback
+          validateStatus={props.noOfTeams.validateStatus}
+          help={props.noOfTeams.errorMsg}
+        >
+          <Input
+            type="number"
+            placeholder="Enter total number of teams"
+            size="large"
+            onChange={props.handleNoOfTeamChange}
+          />
+        </FormItem>
+      )}
+      {props.teamnumbertype === 2 && (
+        <FormItem
+          label="Number of Pax"
+          hasFeedback
+          validateStatus={props.noOfTeams.validateStatus}
+          help={props.noOfTeams.errorMsg}
+        >
+          <Input
+            type="number"
+            placeholder="Enter maximum pax in a team"
+            size="large"
+            onChange={props.handleNoOfPaxChange}
+          />
+        </FormItem>
+      )}
+    </div>
+  );
 }
 
 export default NewSmartTeam;
