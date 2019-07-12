@@ -41,12 +41,8 @@ public class Questionnaire extends UserDateAudit {
     private Set<Criteria> criteria = new HashSet<>();
 
     @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    // @JsonIdentityInfo(scope = SmartTeam.class, generator =
-    // ObjectIdGenerators.PropertyGenerator.class, property = "smartteamId")
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @JsonIgnore
-    // @JsonBackReference
-    // @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Set<SmartTeam> smartteams = new HashSet<>();
 
     public Questionnaire() {

@@ -96,13 +96,10 @@ public class SectionService {
         section.setNoOfStudents(sectionRequest.getNoOfStudents());
         section.setYear(sectionRequest.getYear());
         section.setStatus(sectionRequest.getStatus());
-        section.setCourse(sectionRequest.getCourse());
 
-        // Course course = sectionRequest.getCourse();
-        // Course courseInfo = courseRepository.findById(course.getId())
-        // .orElseThrow(() -> new ResourceNotFoundException("Course", "id",
-        // course.getId()));
-        // section.setCourse(courseInfo);
+        Course courseInfo = courseRepository.findById(sectionRequest.getCourse().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", sectionRequest.getCourse().getId()));
+        section.setCourse(courseInfo);
 
         for (User student : sectionRequest.getUsers()) {
             User studentInfo = userRepository.findById(student.getId())
