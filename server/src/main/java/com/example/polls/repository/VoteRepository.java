@@ -1,7 +1,6 @@
 package com.example.polls.repository;
 
 import com.example.polls.model.ChoiceVoteCount;
-import com.example.polls.model.SmartTeamOutcomeCount;
 import com.example.polls.model.Vote;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,8 +43,13 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     List<Vote> findAllBySmartteamId(@Param("smartteamId") Long smartteamId);
 
     // Query to fetch count of Smart Team outcome
-//     @Query(nativeQuery = true, value = "SELECT NEW com.example.polls.model.SmartTeamOutcomeCount(criteria.id, outcome, count(outcome)) FROM (SELECT v FROM Vote v WHERE v.smartteam.id = :smartteamId GROUP BY v.criteria.id, v.user.id) a GROUP BY outcome, criteria.id ORDER BY criteria.id, outcome")
-//     List<SmartTeamOutcomeCount> countByOutcomeGroupByCriteriaId(@Param("smartteamId") Long smartteamId);
-    @Query(nativeQuery = true, value = "SELECT criteria_id, outcome, count(outcome) AS `count` FROM (SELECT * FROM smart_team.votes WHERE smartteam_id = 1 GROUP BY criteria_id, user_id) a GROUP BY outcome, criteria_id ORDER BY criteria_id, outcome;")
-    List<Object[][][]> countByOutcomeGroupByCriteriaId(@Param("smartteamId") Long smartteamId);
+    @Query(nativeQuery = true, value = "SELECT criteria_id AS CriteriaId, outcome AS Outcome, count(outcome) AS `OutcomeCount` FROM (SELECT * FROM smart_team.votes WHERE smartteam_id = 1 GROUP BY criteria_id, user_id) a GROUP BY outcome, criteria_id ORDER BY criteria_id, outcome;")
+    List<STOCount> countByOutcomeGroupByCriteriaId(@Param("smartteamId") Long smartteamId);
+
+    // Interface Based Projection
+    public static interface STOCount {
+            Long getCriteriaId();
+            String getOutcome();
+            Long getOutcomeCount();
+    }
 }

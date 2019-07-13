@@ -5,7 +5,6 @@ import com.example.polls.model.Criteria;
 import com.example.polls.model.Poll;
 import com.example.polls.model.Section;
 import com.example.polls.model.SmartTeam;
-import com.example.polls.model.SmartTeamOutcomeCount;
 import com.example.polls.model.User;
 import com.example.polls.model.Vote;
 import com.example.polls.payload.ApiResponse;
@@ -17,6 +16,7 @@ import com.example.polls.repository.CriteriaRepository;
 import com.example.polls.repository.SmartTeamRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.repository.VoteRepository;
+import com.example.polls.repository.VoteRepository.STOCount;
 import com.example.polls.service.CriteriaService;
 import com.example.polls.service.SectionService;
 import com.example.polls.service.SmartTeamService;
@@ -71,7 +71,7 @@ public class SmartTeamController {
 
     @GetMapping("/outcome/{smartteamId}")
     @PreAuthorize("hasRole('USER')")
-    public List<Object[][][]> countByOutcomeGroupByCriteriaId(@PathVariable Long smartteamId) {
+    public List<STOCount> countByOutcomeGroupByCriteriaId(@PathVariable Long smartteamId) {
         return voteRepository.countByOutcomeGroupByCriteriaId(smartteamId);
     }
 }
