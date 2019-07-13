@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -26,6 +28,7 @@ public class SmartTeam extends DateAudit {
     private String name;
 
     // Number of Teams
+    @Nullable
     private Long noOfTeams;
 
     // SmartTeam start date, also the end time for the questionnaire

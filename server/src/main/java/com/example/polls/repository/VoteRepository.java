@@ -1,6 +1,7 @@
 package com.example.polls.repository;
 
 import com.example.polls.model.ChoiceVoteCount;
+import com.example.polls.model.SmartTeamOutcomeCount;
 import com.example.polls.model.Vote;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,4 +42,10 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
     @Query("SELECT v FROM Vote v where v.smartteam.id = :smartteamId")
     List<Vote> findAllBySmartteamId(@Param("smartteamId") Long smartteamId);
+
+    // Query to fetch count of Smart Team outcome
+//     @Query(nativeQuery = true, value = "SELECT NEW com.example.polls.model.SmartTeamOutcomeCount(criteria.id, outcome, count(outcome)) FROM (SELECT v FROM Vote v WHERE v.smartteam.id = :smartteamId GROUP BY v.criteria.id, v.user.id) a GROUP BY outcome, criteria.id ORDER BY criteria.id, outcome")
+//     List<SmartTeamOutcomeCount> countByOutcomeGroupByCriteriaId(@Param("smartteamId") Long smartteamId);
+    @Query(nativeQuery = true, value = "SELECT criteria_id, outcome, count(outcome) AS `count` FROM (SELECT * FROM smart_team.votes WHERE smartteam_id = 1 GROUP BY criteria_id, user_id) a GROUP BY outcome, criteria_id ORDER BY criteria_id, outcome;")
+    List<Object[][][]> countByOutcomeGroupByCriteriaId(@Param("smartteamId") Long smartteamId);
 }

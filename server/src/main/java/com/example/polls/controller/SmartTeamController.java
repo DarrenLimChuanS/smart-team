@@ -5,6 +5,7 @@ import com.example.polls.model.Criteria;
 import com.example.polls.model.Poll;
 import com.example.polls.model.Section;
 import com.example.polls.model.SmartTeam;
+import com.example.polls.model.SmartTeamOutcomeCount;
 import com.example.polls.model.User;
 import com.example.polls.model.Vote;
 import com.example.polls.payload.ApiResponse;
@@ -13,7 +14,6 @@ import com.example.polls.payload.CriteriaRequest;
 import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.SmartTeamRequest;
 import com.example.polls.repository.CriteriaRepository;
-import com.example.polls.repository.SectionRepository;
 import com.example.polls.repository.SmartTeamRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.repository.VoteRepository;
@@ -42,7 +42,7 @@ public class SmartTeamController {
     private SmartTeamRepository smartTeamRepository;
 
     @Autowired
-    private SectionRepository sectionRepository;
+    private VoteRepository voteRepository;
 
     @GetMapping("/{smartTeamId}")
     @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
@@ -67,5 +67,11 @@ public class SmartTeamController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> populateSmartTeam(@PathVariable Long smartTeamId) {
         return smartTeamService.populateSmartTeam(smartTeamId);
+    }
+
+    @GetMapping("/outcome/{smartteamId}")
+    @PreAuthorize("hasRole('USER')")
+    public List<Object[][][]> countByOutcomeGroupByCriteriaId(@PathVariable Long smartteamId) {
+        return voteRepository.countByOutcomeGroupByCriteriaId(smartteamId);
     }
 }

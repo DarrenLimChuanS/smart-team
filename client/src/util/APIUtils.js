@@ -327,6 +327,13 @@ export function populateSmartTeam(smartTeamId) {
     method: "PUT"
   });
 }
+
+export function countByOutcomeGroupByCriteriaId(smartteamId) {
+  return request({
+    url: API_BASE_URL + "/smartteams/outcome/" + smartteamId,
+    method: "GET"
+  });
+}
 /**
  * End of SmartTeam APIs
  **/

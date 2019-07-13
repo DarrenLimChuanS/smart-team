@@ -36,6 +36,7 @@ public class SmartTeamService {
     @Autowired
     private UserRepository userRepository;
 
+    // Function to create Smart Team
     public SmartTeam createSmartTeam(SmartTeamRequest smartTeamRequest) {
         SmartTeam smartteam = new SmartTeam();
         smartteam.setName(smartTeamRequest.getName());
@@ -63,6 +64,7 @@ public class SmartTeamService {
         return smartTeamRepository.save(smartteam);
     }
 
+    // Function to populate Smart Team master list
     public ResponseEntity<Object> populateSmartTeam(Long smartTeamId) {
         // Fetch SmartTeam
         SmartTeam tempSmartTeam = smartTeamRepository.findBySmartteamId(smartTeamId)
