@@ -7,6 +7,7 @@ import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.SmartTeamRequest;
 import com.example.polls.repository.SmartTeamRepository;
 import com.example.polls.repository.VoteRepository;
+import com.example.polls.repository.VoteRepository.STOCount;
 import com.example.polls.service.SmartTeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +59,7 @@ public class SmartTeamController {
 
     @GetMapping("/{smartteamId}/outcome")
     @PreAuthorize("hasRole('USER')")
-    public List<CriteriaResponseQuarterCount> countByOutcomeGroupByCriteriaId(@PathVariable Long smartteamId) {
+    public List<STOCount> countByOutcomeGroupByCriteriaId(@PathVariable Long smartteamId) {
         return voteRepository.countByOutcomeGroupByCriteriaId(smartteamId);
     }
 }
