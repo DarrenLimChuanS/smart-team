@@ -1,26 +1,13 @@
 package com.example.polls.controller;
 
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.Criteria;
-import com.example.polls.model.Poll;
-import com.example.polls.model.Section;
+import com.example.polls.model.CriteriaResponseQuarterCount;
 import com.example.polls.model.SmartTeam;
-import com.example.polls.model.User;
-import com.example.polls.model.Vote;
 import com.example.polls.payload.ApiResponse;
-import com.example.polls.payload.CriteriaNameAvailability;
-import com.example.polls.payload.CriteriaRequest;
-import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.SmartTeamRequest;
-import com.example.polls.repository.CriteriaRepository;
 import com.example.polls.repository.SmartTeamRepository;
-import com.example.polls.repository.UserRepository;
 import com.example.polls.repository.VoteRepository;
-import com.example.polls.repository.VoteRepository.STOCount;
-import com.example.polls.service.CriteriaService;
-import com.example.polls.service.SectionService;
 import com.example.polls.service.SmartTeamService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -69,9 +56,9 @@ public class SmartTeamController {
         return smartTeamService.populateSmartTeam(smartTeamId);
     }
 
-    @GetMapping("/outcome/{smartteamId}")
+    @GetMapping("/{smartteamId}/outcome")
     @PreAuthorize("hasRole('USER')")
-    public List<STOCount> countByOutcomeGroupByCriteriaId(@PathVariable Long smartteamId) {
+    public List<CriteriaResponseQuarterCount> countByOutcomeGroupByCriteriaId(@PathVariable Long smartteamId) {
         return voteRepository.countByOutcomeGroupByCriteriaId(smartteamId);
     }
 }

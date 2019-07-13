@@ -321,6 +321,20 @@ export function createSmartTeam(smartTeamData) {
   });
 }
 
+export function getSmartteamById(smartTeamId) {
+  return request({
+    url: API_BASE_URL + "/smartteams/" + smartTeamId,
+    method: "GET"
+  });
+}
+
+export function getSmartteamOutcomeById(smartTeamId) {
+  return request({
+    url: API_BASE_URL + "/smartteams/" + smartTeamId + "/outcome",
+    method: "GET"
+  });
+}
+
 export function populateSmartTeam(smartTeamId) {
   return request({
     url: API_BASE_URL + "/smartteams/" + smartTeamId,

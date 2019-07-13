@@ -9,8 +9,13 @@ import {
   ResponsiveContainer
 } from "recharts";
 import { Row, Col, Typography, Divider, Slider } from "antd";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import { Card } from "antd";
-import { getSectionById } from "../../util/APIUtils";
+import {
+  getSectionById,
+  getSmartteamById,
+  getSmartteamOutcomeById
+} from "../../util/APIUtils";
 const { Title } = Typography;
 
 class ViewSmartTeam extends Component {
@@ -18,16 +23,20 @@ class ViewSmartTeam extends Component {
     super(props);
     this.state = {
       slider_value: 0,
-      sections: [],
+      smartteam: [],
+      outcome: [],
       isLoading: false
     };
-    this.loadSectionList = this.loadSectionList.bind(this);
+    this.loadSmartteam = this.loadSmartteam.bind(this);
+    this.loadSmartteamOutcome = this.loadSmartteamOutcome.bind(this);
+    this.getCriteriaById = this.getCriteriaById.bind(this);
+    this.mapResponseToCriteria = this.mapResponseToCriteria.bind(this);
   }
 
-  loadSectionList() {
+  loadSmartteam() {
     let promise;
 
-    promise = getSectionById(this.props.match.params.id);
+    promise = getSmartteamById(this.props.match.params.id);
 
     if (!promise) {
       return;
@@ -39,11 +48,11 @@ class ViewSmartTeam extends Component {
 
     promise
       .then(response => {
-        const sections = this.state.sections.slice();
         this.setState({
-          sections: sections.concat(response),
+          smartteam: response,
           isLoading: false
         });
+        this.loadSmartteamOutcome();
       })
       .catch(error => {
         this.setState({
@@ -52,8 +61,107 @@ class ViewSmartTeam extends Component {
       });
   }
 
+  loadSmartteamOutcome() {
+    let promise;
+
+    promise = getSmartteamOutcomeById(this.props.match.params.id);
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        this.setState({
+          outcome: response,
+          isLoading: false
+        });
+        this.mapResponseToCriteria();
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
+  getCriteriaById(criteriaId) {
+    let promise;
+
+    promise = this.getCriteriaById(criteriaId, 1, 1);
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        return response;
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
+  mapResponseToCriteria() {
+    this.setState({
+      isLoading: true
+    });
+    const { outcome, smartteam } = this.state;
+    var criteriaList = [];
+
+    smartteam.questionnaire.criteria.forEach((criteria, index) => {
+      outcome.forEach(entry => {
+        var votes = [
+          {
+            outcome: "Q1",
+            outcomeCount: "0"
+          },
+          {
+            outcome: "Q2",
+            outcomeCount: "0"
+          },
+          {
+            outcome: "Q3",
+            outcomeCount: "0"
+          },
+          {
+            outcome: "Q4",
+            outcomeCount: "0"
+          }
+        ];
+        if (entry.criteriaId === criteria.id && entry.outcome !== undefined) {
+          outcome.forEach(entry => {
+            votes[parseInt(entry.outcome.slice(1, 2))] = entry;
+          });
+        }
+        criteria = {
+          criteriaName: criteria.name,
+          votes: votes
+        };
+        if (criteria.criteriaName !== undefined) {
+          criteriaList.push(criteria);
+        }
+      });
+    });
+    this.setState({
+      criteria: criteriaList,
+      isLoading: false
+    });
+  }
+
   componentDidMount() {
-    this.loadSectionList();
+    this.loadSmartteam();
   }
 
   handleChange = slider_value => {
@@ -61,8 +169,8 @@ class ViewSmartTeam extends Component {
   };
 
   render() {
-    const { sections } = this.state;
-    console.log(sections);
+    const { smartteam, outcome, criteria, isLoading } = this.state;
+    console.log(outcome, smartteam, criteria);
     const { slider_value } = this.state;
     const marks = {
       0: "0",
@@ -71,64 +179,35 @@ class ViewSmartTeam extends Component {
       75: "3",
       100: "4"
     };
-    const data = [
-      {
-        name: "Q1",
-        uv: 400,
-        pv: 240,
-        amt: 240
-      },
-      {
-        name: "Q2",
-        uv: 300,
-        pv: 139,
-        amt: 221
-      },
-      {
-        name: "Q3",
-        uv: 200,
-        pv: 980,
-        amt: 220
-      },
-      {
-        name: "Q4",
-        uv: 278,
-        pv: 390,
-        amt: 200
-      }
-    ];
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <Typography>
-        <Title>IRAT Team Formation for T1</Title>
+        <Title>{smartteam.name}</Title>
         <Divider />
         <Row>
-          {this.state &&
-            sections &&
-            sections.map(section =>
-              section.smartteams.map(smartteam =>
-                smartteam.questionnaire.criteria.map(criterion => (
-                  <Col span={8} style={{ padding: "8px" }}>
-                    <Card title={criterion.name}>
-                      <ResponsiveContainer width="100%" height={200}>
-                        <BarChart data={data}>
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
-                          <YAxis />
-                          <Tooltip />
-                          <Bar dataKey="pv" fill="#8884d8" />
-                        </BarChart>
-                      </ResponsiveContainer>
-                      <Slider
-                        marks={marks}
-                        step={null}
-                        onChange={this.handleChange}
-                        slider_value={slider_value}
-                      />
-                    </Card>
-                  </Col>
-                ))
-              )
-            )}
+          <Col span={8} style={{ padding: "8px" }}>
+            {criteria &&
+              criteria.map(criterion => (
+                <Card title={criterion.criteriaName}>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={criterion.votes}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="outcome" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="outcomeCount" fill="#8884d8" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                  <Slider
+                    marks={marks}
+                    step={null}
+                    onChange={this.handleChange}
+                    slider_value={slider_value}
+                  />
+                </Card>
+              ))}
+          </Col>
         </Row>
       </Typography>
     );
