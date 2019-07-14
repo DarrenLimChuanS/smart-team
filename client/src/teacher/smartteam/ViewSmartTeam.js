@@ -120,39 +120,37 @@ class ViewSmartTeam extends Component {
     const { outcome, smartteam } = this.state;
     var criteriaList = [];
 
-    smartteam.questionnaire.criteria.forEach((criteria, index) => {
-      outcome.forEach(entry => {
-        var votes = [
-          {
-            outcome: "Q1",
-            outcomeCount: "0"
-          },
-          {
-            outcome: "Q2",
-            outcomeCount: "0"
-          },
-          {
-            outcome: "Q3",
-            outcomeCount: "0"
-          },
-          {
-            outcome: "Q4",
-            outcomeCount: "0"
-          }
-        ];
-        if (entry.criteriaId === criteria.id && entry.outcome !== undefined) {
-          outcome.forEach(entry => {
-            votes[parseInt(entry.outcome.slice(1, 2))] = entry;
-          });
+    // Foreach criteria in questionnaire
+    smartteam.questionnaire.criteria.forEach(criteria => {
+      var votes = [
+        {
+          outcome: "Q1",
+          outcomeCount: "0"
+        },
+        {
+          outcome: "Q2",
+          outcomeCount: "0"
+        },
+        {
+          outcome: "Q3",
+          outcomeCount: "0"
+        },
+        {
+          outcome: "Q4",
+          outcomeCount: "0"
         }
-        criteria = {
-          criteriaName: criteria.name,
-          votes: votes
-        };
-        if (criteria.criteriaName !== undefined) {
-          criteriaList.push(criteria);
+      ];
+      outcome.forEach(entry => {
+        if (entry.criteriaId === criteria.id && entry.outcome !== null) {
+          const index = entry.outcome.slice(1, 2);
+          votes[parseInt(index) - 1] = entry;
         }
       });
+      const criteriaInfo = {
+        criteriaName: criteria.name,
+        votes: votes
+      };
+      criteriaList.push(criteriaInfo);
     });
     this.setState({
       criteria: criteriaList,
@@ -170,7 +168,7 @@ class ViewSmartTeam extends Component {
 
   render() {
     const { smartteam, outcome, criteria, isLoading } = this.state;
-    console.log(outcome, smartteam, criteria);
+    // console.log(outcome, smartteam, criteria);
     const { slider_value } = this.state;
     const marks = {
       0: "0",
@@ -186,9 +184,9 @@ class ViewSmartTeam extends Component {
         <Title>{smartteam.name}</Title>
         <Divider />
         <Row>
-          <Col span={8} style={{ padding: "8px" }}>
-            {criteria &&
-              criteria.map(criterion => (
+          {criteria &&
+            criteria.map(criterion => (
+              <Col span={8} style={{ padding: "8px" }}>
                 <Card title={criterion.criteriaName}>
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={criterion.votes}>
@@ -206,8 +204,8 @@ class ViewSmartTeam extends Component {
                     slider_value={slider_value}
                   />
                 </Card>
-              ))}
-          </Col>
+              </Col>
+            ))}
         </Row>
       </Typography>
     );
