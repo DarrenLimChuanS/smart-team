@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 import { Form, InputNumber, Row, Col, Typography, Divider, Button } from "antd";
 import { Card } from "antd";
 import { validateNumber, validateGroup } from "../../util/Validators";
+import { getSectionById } from "../../util/APIUtils";
+import LoadingIndicator from "../../common/LoadingIndicator";
 const { Title } = Typography;
 const FormItem = Form.Item;
 
@@ -21,24 +23,18 @@ class NewAutoTeam extends Component {
       },
       noOfTeams: {
         value: 2
-      }
+      },
+      isLoading: true
     };
+    this.isFormInvalid = this.isFormInvalid.bind(this);
   }
 
-  handleTeamSizeInputChange(value, validationFun) {
-    const noOfStudents = Number(this.state.sectionData.noOfStudents);
+  handleTeamSizeInputChange(value, noOfStudents, validationFun) {
     const noOfTeams = Math.floor(noOfStudents / value);
     this.setState({
       teamSize: {
         value: value,
-        ...validationFun(
-          value,
-          2,
-          Math.floor(noOfStudents / 2),
-          noOfStudents,
-          value,
-          noOfTeams
-        )
+        ...validationFun(value, 1, noOfStudents, noOfStudents, value, noOfTeams)
       },
       noOfTeams: {
         value: noOfTeams,
@@ -48,7 +44,7 @@ class NewAutoTeam extends Component {
   }
 
   handleNoOfTeamsInputChange(value, validationFun) {
-    const noOfStudents = Number(this.state.sectionData.noOfStudents);
+    const noOfStudents = Number(this.state.section.noOfStudents);
     const teamSize = Math.floor(noOfStudents / value);
     this.setState({
       teamSize: {
@@ -62,13 +58,33 @@ class NewAutoTeam extends Component {
     });
   }
 
+  async componentDidMount() {
+    getSectionById(this.props.match.params.sectionId).then(response => {
+      this.handleTeamSizeInputChange(1, response.noOfStudents, validateGroup);
+      this.setState({
+        section: response,
+        isLoading: false
+      });
+    });
+  }
+
+  isFormInvalid() {
+    return !(
+      this.state.teamSize.validateStatus === "success" &&
+      this.state.noOfTeams.validateStatus === "success"
+    );
+  }
+
   render() {
     const gridStyle = {
       width: "25%",
       textAlign: "center"
     };
-    const { teamSize, noOfTeams, sectionData } = this.state;
-    return (
+    const { teamSize, noOfTeams, section, isLoading } = this.state;
+    const { criteria, smartteam } = this.props;
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <Typography>
         <Title>Smart Team Allocation</Title>
         <Divider />
@@ -78,22 +94,23 @@ class NewAutoTeam extends Component {
             <Card.Grid style={gridStyle}>
               <b>Name</b>
               <br />
-              {sectionData.name}
+              {console.log(section)}
+              {section.name}
             </Card.Grid>
             <Card.Grid style={gridStyle}>
               <b>No. of Students</b>
               <br />
-              {sectionData.noOfStudents}
+              {section.noOfStudents}
             </Card.Grid>
             <Card.Grid style={gridStyle}>
               <b>Module</b>
               <br />
-              {sectionData.module}
+              {section.courseName}
             </Card.Grid>
             <Card.Grid style={gridStyle}>
               <b>Year</b>
               <br />
-              {sectionData.year}
+              {section.year}
             </Card.Grid>
           </Card>
         </Row>
@@ -110,8 +127,8 @@ class NewAutoTeam extends Component {
               >
                 <InputNumber
                   size="large"
-                  min={2}
-                  max={Math.floor(sectionData.noOfStudents / 2)}
+                  min={1}
+                  max={section.noOfStudents}
                   type="number"
                   name="teamSize"
                   autoComplete="off"
@@ -119,13 +136,16 @@ class NewAutoTeam extends Component {
                   initialValue={2}
                   value={teamSize.value}
                   onChange={event =>
-                    this.handleTeamSizeInputChange(event, validateGroup)
+                    this.handleTeamSizeInputChange(
+                      event,
+                      this.state.section.noOfStudents,
+                      validateGroup
+                    )
                   }
                 />
                 <span className="ant-form-text">people</span>
 
-                {this.state.sectionData.noOfStudents %
-                  this.state.teamSize.value !==
+                {this.state.section.noOfStudents % this.state.teamSize.value !==
                   0 && (
                   <div>
                     Note: Teams of {this.state.teamSize.value} and{" "}
@@ -145,8 +165,8 @@ class NewAutoTeam extends Component {
               >
                 <InputNumber
                   size="large"
-                  min="2"
-                  max={Math.floor(sectionData.noOfStudents / 2)}
+                  min={1}
+                  max={section.noOfStudents}
                   type="number"
                   name="noOfTeams"
                   autoComplete="off"
@@ -166,7 +186,7 @@ class NewAutoTeam extends Component {
                 htmlType="submit"
                 size="large"
                 className="signup-form-button"
-                // disabled={this.isFormInvalid()}
+                disabled={this.isFormInvalid()}
               >
                 Generate Team
               </Button>

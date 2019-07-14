@@ -8,10 +8,11 @@ import {
   Tooltip,
   ResponsiveContainer
 } from "recharts";
-import { Row, Col, Typography, Divider, Slider } from "antd";
+import { Row, Col, Typography, Divider, Slider, Icon, Button } from "antd";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import { Card } from "antd";
 import { getSmartteamById, getSmartteamOutcomeById } from "../../util/APIUtils";
+import NewAutoTeam from "../section/NewAutoTeam";
 const { Title } = Typography;
 
 class ViewResults extends Component {
@@ -21,7 +22,8 @@ class ViewResults extends Component {
       slider_value: 0,
       smartteam: [],
       outcome: [],
-      isLoading: false
+      isLoading: false,
+      showResult: true
     };
     this.loadSmartteam = this.loadSmartteam.bind(this);
     this.loadSmartteamOutcome = this.loadSmartteamOutcome.bind(this);
@@ -32,7 +34,7 @@ class ViewResults extends Component {
   loadSmartteam() {
     let promise;
 
-    promise = getSmartteamById(this.props.match.params.id);
+    promise = getSmartteamById(this.props.match.params.smartteamId);
 
     if (!promise) {
       return;
@@ -60,7 +62,7 @@ class ViewResults extends Component {
   loadSmartteamOutcome() {
     let promise;
 
-    promise = getSmartteamOutcomeById(this.props.match.params.id);
+    promise = getSmartteamOutcomeById(this.props.match.params.smartteamId);
 
     if (!promise) {
       return;
@@ -166,19 +168,41 @@ class ViewResults extends Component {
     console.log(this.state.criteria);
   };
 
+  handleNext() {
+    console.log("false");
+    this.setState({
+      showResult: false
+    });
+  }
+
   render() {
-    const { smartteam, criteria, isLoading } = this.state;
+    const { smartteam, criteria, isLoading, showResult } = this.state;
     const { slider_value } = this.state;
     const marks = {
-      0: "(Similar) -2",
+      0: {
+        label: (
+          <span>
+            -1
+            <br />
+            (Least Diverse)
+          </span>
+        )
+      },
       25: "1",
       50: "0",
       75: "1",
-      100: "2 (Diverse)"
+      100: {
+        label: (
+          <span>
+            2 <br />
+            (Most Diverse)
+          </span>
+        )
+      }
     };
     return isLoading ? (
       <LoadingIndicator />
-    ) : (
+    ) : showResult ? (
       <Typography>
         <Title>{smartteam.name}</Title>
         <Divider />
@@ -186,7 +210,10 @@ class ViewResults extends Component {
           {criteria &&
             criteria.map((criterion, index) => (
               <Col span={8} style={{ padding: "8px" }}>
-                <Card title={criterion.criteriaName}>
+                <Card
+                  title={criterion.criteriaName}
+                  style={{ padding: "16px" }}
+                >
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={criterion.votes}>
                       <CartesianGrid strokeDasharray="3 3" />
@@ -206,7 +233,19 @@ class ViewResults extends Component {
               </Col>
             ))}
         </Row>
+        <Row style={{ marginTop: "16px" }}>
+          <Button
+            type="default"
+            onClick={() => this.handleNext()}
+            disabled={isLoading}
+            style={{ float: "right" }}
+          >
+            Configure Team <Icon type="right" />
+          </Button>
+        </Row>
       </Typography>
+    ) : (
+      <NewAutoTeam criteria={criteria} smartteam={smartteam} />
     );
   }
 }

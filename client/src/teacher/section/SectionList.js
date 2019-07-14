@@ -199,7 +199,13 @@ class SectionList extends Component {
             )}
             {record.status === "Grouping" && record.smartteams[0] && (
               <Link
-                to={"/section/" + record.smartteams[0].smartteamId + "/results"}
+                to={
+                  "/section/" +
+                  record.sectionId +
+                  "/smartteam/" +
+                  record.smartteams[0].smartteamId +
+                  "/results"
+                }
               >
                 View Results
               </Link>

@@ -241,7 +241,7 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/section/:id/results"
+                  path="/section/:sectionId/smartteam/:smartteamId/results"
                   component={ViewResults}
                   handleLogout={this.handleLogout}
                 />
