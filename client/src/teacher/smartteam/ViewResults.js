@@ -14,7 +14,7 @@ import { Card } from "antd";
 import { getSmartteamById, getSmartteamOutcomeById } from "../../util/APIUtils";
 const { Title } = Typography;
 
-class ViewSmartTeam extends Component {
+class ViewResults extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -166,11 +166,11 @@ class ViewSmartTeam extends Component {
     const { smartteam, criteria, isLoading } = this.state;
     const { slider_value } = this.state;
     const marks = {
-      0: "0",
+      0: "-2",
       25: "1",
-      50: "2",
-      75: "3",
-      100: "4"
+      50: "0",
+      75: "1",
+      100: "2"
     };
     return isLoading ? (
       <LoadingIndicator />
@@ -207,4 +207,4 @@ class ViewSmartTeam extends Component {
   }
 }
 
-export default ViewSmartTeam;
+export default ViewResults;

@@ -17,7 +17,7 @@ import EditStudent from "../teacher/student/EditStudent";
 import EditSection from "../teacher/section/EditSection";
 import SectionList from "../teacher/section/SectionList";
 import NewSmartTeam from "../teacher/smartteam/NewSmartTeam";
-import ViewSmartTeam from "../teacher/smartteam/ViewSmartTeam";
+import ViewResults from "../teacher/smartteam/ViewResults";
 import CriteriaList from "../teacher/criteria/CriteriaList";
 import NewCriteria from "../teacher/criteria/NewCriteria";
 import QuestionnaireList from "../teacher/questionnaire/QuestionnaireList";
@@ -241,8 +241,8 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/section/:id/viewsmartteam"
-                  component={ViewSmartTeam}
+                  path="/section/:id/results"
+                  component={ViewResults}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
