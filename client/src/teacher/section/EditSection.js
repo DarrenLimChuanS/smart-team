@@ -55,7 +55,7 @@ class EditSection extends Component {
       getSectionById(this.props.match.params.id).then(response => {
         let students = response.users;
         let studentIds = [];
-        students.forEach(student => studentIds.push(parseInt(student.id)));
+        students.forEach(student => studentIds.push(parseInt(student.id, 10)));
         this.setState(
           Section(
             response.sectionId,

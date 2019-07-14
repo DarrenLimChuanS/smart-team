@@ -11,11 +11,7 @@ import {
 import { Row, Col, Typography, Divider, Slider } from "antd";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import { Card } from "antd";
-import {
-  getSectionById,
-  getSmartteamById,
-  getSmartteamOutcomeById
-} from "../../util/APIUtils";
+import { getSmartteamById, getSmartteamOutcomeById } from "../../util/APIUtils";
 const { Title } = Typography;
 
 class ViewSmartTeam extends Component {
@@ -143,7 +139,7 @@ class ViewSmartTeam extends Component {
       outcome.forEach(entry => {
         if (entry.criteriaId === criteria.id && entry.outcome !== null) {
           const index = entry.outcome.slice(1, 2);
-          votes[parseInt(index) - 1] = entry;
+          votes[parseInt(index, 10) - 1] = entry;
         }
       });
       const criteriaInfo = {
@@ -167,8 +163,7 @@ class ViewSmartTeam extends Component {
   };
 
   render() {
-    const { smartteam, outcome, criteria, isLoading } = this.state;
-    // console.log(outcome, smartteam, criteria);
+    const { smartteam, criteria, isLoading } = this.state;
     const { slider_value } = this.state;
     const marks = {
       0: "0",

@@ -1,14 +1,10 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { Row, Col, Typography, Divider, Button } from "antd";
+import { withRouter } from "react-router-dom";
+import { Row, Col, Typography, Divider } from "antd";
 import { Card } from "antd";
 const { Title } = Typography;
 
 class Team extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Typography>

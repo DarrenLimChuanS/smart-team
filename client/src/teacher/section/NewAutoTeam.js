@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Form, InputNumber, Row, Col, Typography, Divider, Button } from "antd";
 import { Card } from "antd";
 import { validateNumber, validateGroup } from "../../util/Validators";
@@ -113,7 +113,6 @@ class NewAutoTeam extends Component {
                   min={2}
                   max={Math.floor(sectionData.noOfStudents / 2)}
                   type="number"
-                  size="large"
                   name="teamSize"
                   autoComplete="off"
                   placeholder="Team Size"
@@ -149,7 +148,6 @@ class NewAutoTeam extends Component {
                   min="2"
                   max={Math.floor(sectionData.noOfStudents / 2)}
                   type="number"
-                  size="large"
                   name="noOfTeams"
                   autoComplete="off"
                   placeholder="No. of Teams"
