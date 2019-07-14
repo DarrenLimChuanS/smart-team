@@ -146,7 +146,8 @@ class ViewResults extends Component {
       });
       const criteriaInfo = {
         criteriaName: criteria.name,
-        votes: votes
+        votes: votes,
+        diversity: 0
       };
       criteriaList.push(criteriaInfo);
     });
@@ -160,10 +161,25 @@ class ViewResults extends Component {
     this.loadSmartteam();
   }
 
+  getDiversity(value) {
+    switch (value) {
+      case 0:
+        return -2;
+      case 25:
+        return -1;
+      case 50:
+        return 0;
+      case 75:
+        return 1;
+      case 100:
+        return 2;
+    }
+  }
+
   handleChange = (value, index) => {
     this.state.criteria[index] = {
       ...this.state.criteria[index],
-      diversity: value
+      diversity: this.getDiversity(value)
     };
     console.log(this.state.criteria);
   };
@@ -226,6 +242,7 @@ class ViewResults extends Component {
                   <Slider
                     marks={marks}
                     step={null}
+                    defaultValue={50}
                     onChange={value => this.handleChange(value, index)}
                     slider_value={slider_value}
                   />
