@@ -1,6 +1,7 @@
 package com.example.polls.repository;
 
 import com.example.polls.model.ChoiceVoteCount;
+import com.example.polls.model.CriteriaResponseQuarterCount;
 import com.example.polls.model.Vote;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +33,24 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     Page<Long> findVotedPollIdsByUserId(@Param("userId") Long userId, Pageable pageable);
 
     @Query("SELECT v FROM Vote v where v.user.id = :userId and v.poll.id = :pollId and v.smartteam.id = :smartteamId and v.criteria.id = :criteriaId")
-    Vote findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(@Param("userId") Long userId, @Param("pollId") Long pollId, @Param("smartteamId") Long smartteamId, @Param("criteriaId") Long criteriaId);
+    Vote findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(@Param("userId") Long userId, @Param("pollId") Long pollId,
+            @Param("smartteamId") Long smartteamId, @Param("criteriaId") Long criteriaId);
 
     @Query("SELECT v FROM Vote v where v.user.id = :userId and v.smartteam.id = :smartteamId and v.criteria.id = :criteriaId")
-    Vote findAllByUserIdAndSmartteamIdAndCriteriaId(@Param("userId") Long userId, @Param("smartteamId") Long smartteamId, @Param("criteriaId") Long criteriaId);
+    Vote findAllByUserIdAndSmartteamIdAndCriteriaId(@Param("userId") Long userId,
+            @Param("smartteamId") Long smartteamId, @Param("criteriaId") Long criteriaId);
+
+    @Query("SELECT v FROM Vote v where v.smartteam.id = :smartteamId")
+    List<Vote> findAllBySmartteamId(@Param("smartteamId") Long smartteamId);
+
+    // Query to fetch count of Smart Team outcome
+    @Query(nativeQuery = true, value = "SELECT criteria_id AS CriteriaId, outcome AS Outcome, count(outcome) AS `OutcomeCount` FROM (SELECT * FROM smart_team.votes WHERE smartteam_id = ?1 GROUP BY criteria_id, user_id) a GROUP BY outcome, criteria_id ORDER BY criteria_id, outcome;")
+    List<STOCount> countByOutcomeGroupByCriteriaId(Long smartteamId);
+
+    // Interface Based Projection
+    public static interface STOCount {
+        Long getCriteriaId();
+        String getOutcome();
+        Long getOutcomeCount();
+    }
 }

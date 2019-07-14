@@ -2,6 +2,7 @@ package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.NaturalId;
@@ -47,7 +48,6 @@ public class User extends UserDateAudit {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "users")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
     private Set<Section> sections = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

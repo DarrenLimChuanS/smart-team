@@ -48,6 +48,56 @@ export const validateName = name => {
   }
 };
 
+export const validateNumber = (number, min, max) => {
+  if (number < min) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Value too low (Minimum value of ${min})`
+    };
+  } else if (number > max) {
+    return {
+      validationStatus: "error",
+      errorMsg: `Value too high (Maximum value of ${max})`
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null
+    };
+  }
+};
+
+export const validateGroup = (
+  number,
+  min,
+  max,
+  noOfStudents,
+  teamSize,
+  noOfTeams
+) => {
+  if (number < min) {
+    return {
+      validateStatus: "error",
+      errorMsg: `Value too low (Minimum value of ${min})`
+    };
+  } else if (number > max) {
+    return {
+      validationStatus: "error",
+      errorMsg: `Value too high (Maximum value of ${max})`
+    };
+  } else if (noOfStudents - teamSize * noOfTeams > teamSize) {
+    return {
+      validationStatus: "error",
+      errorMsg: `Invalid number of people in a team.`
+    };
+  } else {
+    return {
+      validateStatus: "success",
+      errorMsg: null
+    };
+  }
+};
+
 export const validateEmail = email => {
   if (!email) {
     return {

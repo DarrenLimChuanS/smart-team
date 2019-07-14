@@ -25,7 +25,7 @@ public class UserResponse {
     }
 
     public void setId(Long id) {
-        this.id = id;
+              this.id = id;
     }
 
     public String getUsername() {

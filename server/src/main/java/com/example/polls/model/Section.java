@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -41,10 +42,12 @@ public class Section extends UserDateAudit {
     @JoinTable(name = "section_users", joinColumns = { @JoinColumn(name = "section_id") }, inverseJoinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private Set<User> users = new HashSet<>();
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference("smartteam_section")
+    @JsonManagedReference("section_smartteam")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<SmartTeam> smartteams = new HashSet<>();
 
     public Section() {

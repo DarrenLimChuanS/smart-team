@@ -1,6 +1,7 @@
 package com.example.polls.payload;
 
 import com.example.polls.model.Course;
+import com.example.polls.model.SmartTeam;
 import com.example.polls.model.User;
 
 import javax.validation.constraints.NotBlank;
@@ -23,6 +24,8 @@ public class SectionRequest {
     private Course course;
 
     private Set<User> users = new HashSet<>();
+
+    private Set<SmartTeam> smartteams = new HashSet<>();
 
     public String getName() {
         return name;
@@ -70,5 +73,13 @@ public class SectionRequest {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Set<SmartTeam> getSmartteams() {
+        return smartteams;
+    }
+
+    public void setSmartteams(Set<SmartTeam> smartteams) {
+        this.smartteams = smartteams;
     }
 }

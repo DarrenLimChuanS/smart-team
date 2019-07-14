@@ -115,17 +115,18 @@ public class CourseService {
         return ResponseEntity.ok(new ApiResponse(true, "Course Deleted Successfully"));
     }
 
-    public ResponseEntity<Object> updateStudentById(@RequestBody Course course, @PathVariable long courseId) {
+    public ResponseEntity<Object> updateCourseById(@RequestBody Course course, @PathVariable long courseId) {
 
         Optional<Course> courseOptional = courseRepository.findById(courseId);
 
         if (!courseOptional.isPresent())
             return ResponseEntity.notFound().build();
+        Course courseObject = courseOptional.get();
+        courseObject.setName(course.getName());
+        courseObject.setCourseCode(course.getCourseCode());
+        courseObject.setDescription(course.getDescription());
 
-        course.setId(courseId);
-        course.setCreatedAt(courseOptional.get().getCreatedAt());
-        course.setCreatedBy(courseOptional.get().getCreatedBy());
-        courseRepository.save(course);
+        courseRepository.save(courseObject);
         return ResponseEntity.ok(new ApiResponse(true, "Course Created Successfully"));
     }
 

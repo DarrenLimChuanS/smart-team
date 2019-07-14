@@ -59,43 +59,44 @@ export const Course = (
 });
 
 export const Section = (
-  id,
+  sectionId,
   name,
   year,
   noOfStudents,
-  students,
   course,
+  students,
   status,
   createdBy,
   createdAt
 ) => ({
-  id: {
-    value: id,
-    validateStatus: id ? "success" : ""
+  isLoading: true,
+  sectionId: {
+    value: sectionId,
+    validateStatus: sectionId ? "success" : ""
   },
   name: {
     value: name,
-    validateStatus: id ? "success" : ""
+    validateStatus: sectionId ? "success" : ""
   },
   year: {
     value: year,
-    validateStatus: id ? "success" : ""
+    validateStatus: sectionId ? "success" : ""
   },
   noOfStudents: {
     value: noOfStudents,
-    validateStatus: id ? "success" : ""
-  },
-  students: {
-    value: students,
-    validateStatus: id ? "success" : ""
+    validateStatus: sectionId ? "success" : ""
   },
   course: {
     value: course,
-    validateStatus: id ? "success" : ""
+    validateStatus: sectionId ? "success" : ""
+  },
+  students: {
+    value: students,
+    validateStatus: sectionId ? "success" : ""
   },
   status: {
     value: status,
-    validateStatus: id ? "success" : ""
+    validateStatus: sectionId ? "success" : ""
   },
   createdBy: createdBy,
   createdAt: createdAt
@@ -120,6 +121,14 @@ export const SmartTeam = (
   },
   name: {
     value: name,
+    validateStatus: id ? "success" : ""
+  },
+  teamnumbertype: {
+    value: 0,
+    validateStatus: id ? "success" : ""
+  },
+  noOfTeams: {
+    value: 0,
     validateStatus: id ? "success" : ""
   },
   pollStart: {

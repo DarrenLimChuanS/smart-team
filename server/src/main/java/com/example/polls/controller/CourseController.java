@@ -52,7 +52,7 @@ public class CourseController {
     @PutMapping("/{courseId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> updateStudent(@RequestBody Course course, @PathVariable long courseId) {
-        return courseService.updateStudentById(course, courseId);
+        return courseService.updateCourseById(course, courseId);
     }
 
     @DeleteMapping("/{courseId}")

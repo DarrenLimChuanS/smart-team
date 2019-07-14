@@ -2,16 +2,20 @@ package com.example.polls.service;
 
 import com.example.polls.exception.BadRequestException;
 import com.example.polls.exception.ResourceNotFoundException;
+import com.example.polls.model.Course;
 import com.example.polls.model.Section;
 import com.example.polls.model.User;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.PagedResponse;
 import com.example.polls.payload.SectionRequest;
 import com.example.polls.payload.SectionResponse;
+import com.example.polls.repository.CourseRepository;
 import com.example.polls.repository.SectionRepository;
 import com.example.polls.repository.UserRepository;
 import com.example.polls.util.AppConstants;
 import com.example.polls.util.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,13 +25,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -39,6 +38,9 @@ public class SectionService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     Logger logger = LoggerFactory.getLogger(SectionService.class);
 
@@ -94,7 +96,10 @@ public class SectionService {
         section.setNoOfStudents(sectionRequest.getNoOfStudents());
         section.setYear(sectionRequest.getYear());
         section.setStatus(sectionRequest.getStatus());
-        section.setCourse(sectionRequest.getCourse());
+
+        Course courseInfo = courseRepository.findById(sectionRequest.getCourse().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", sectionRequest.getCourse().getId()));
+        section.setCourse(courseInfo);
 
         for (User student : sectionRequest.getUsers()) {
             User studentInfo = userRepository.findById(student.getId())
@@ -122,7 +127,7 @@ public class SectionService {
         return ResponseEntity.ok(new ApiResponse(true, "Section Deleted Successfully"));
     }
 
-    public ResponseEntity<Object> updateSectionById(@RequestBody Section section, @PathVariable long sectionId) {
+    public ResponseEntity<Object> updateSectionById(@PathVariable long sectionId, @RequestBody Section section) {
 
         Optional<Section> sectionOptional = sectionRepository.findBySectionId(sectionId);
 
@@ -130,10 +135,23 @@ public class SectionService {
             return ResponseEntity.notFound().build();
 
         section.setSectionId(sectionId);
-        section.setCreatedAt(sectionOptional.get().getCreatedAt());
         section.setCreatedBy(sectionOptional.get().getCreatedBy());
+        section.setCreatedAt(sectionOptional.get().getCreatedAt());
+
+        Course courseInfo = courseRepository.findById(section.getCourse().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Course", "id", section.getCourse().getId()));
+        section.setCourse(courseInfo);
+
+        Set<User> users = new HashSet<>();
+        for (User student : section.getUsers()) {
+            User studentInfo = userRepository.findById(student.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
+            users.add(studentInfo);
+        }
+        section.setUsers(users);
+
         sectionRepository.save(section);
-        return ResponseEntity.ok(new ApiResponse(true, "Section Created Successfully"));
+        return ResponseEntity.ok(new ApiResponse(true, "Section Updated Successfully"));
     }
 
     private void validatePageNumberAndSize(int page, int size) {

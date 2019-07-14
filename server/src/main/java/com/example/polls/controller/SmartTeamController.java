@@ -1,25 +1,14 @@
 package com.example.polls.controller;
 
 import com.example.polls.exception.ResourceNotFoundException;
-import com.example.polls.model.Criteria;
-import com.example.polls.model.Poll;
-import com.example.polls.model.Section;
+import com.example.polls.model.CriteriaResponseQuarterCount;
 import com.example.polls.model.SmartTeam;
-import com.example.polls.model.User;
-import com.example.polls.model.Vote;
 import com.example.polls.payload.ApiResponse;
-import com.example.polls.payload.CriteriaNameAvailability;
-import com.example.polls.payload.CriteriaRequest;
-import com.example.polls.payload.CriteriaResponse;
 import com.example.polls.payload.SmartTeamRequest;
-import com.example.polls.repository.CriteriaRepository;
 import com.example.polls.repository.SmartTeamRepository;
-import com.example.polls.repository.UserRepository;
 import com.example.polls.repository.VoteRepository;
-import com.example.polls.service.CriteriaService;
-import com.example.polls.service.SectionService;
+import com.example.polls.repository.VoteRepository.STOCount;
 import com.example.polls.service.SmartTeamService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,6 +29,9 @@ public class SmartTeamController {
     @Autowired
     private SmartTeamRepository smartTeamRepository;
 
+    @Autowired
+    private VoteRepository voteRepository;
+
     @GetMapping("/{smartTeamId}")
     @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
     public SmartTeam getBySmartTeamId(@PathVariable Long smartTeamId) {
@@ -52,12 +44,22 @@ public class SmartTeamController {
     public ResponseEntity<?> createSmartTeam(@Valid @RequestBody SmartTeamRequest smartTeamRequest) {
         // Create a SmartTeam request
         SmartTeam smartteam = smartTeamService.createSmartTeam(smartTeamRequest);
-        smartTeamService.populateSmartTeam(smartteam.getSmartteamId());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{smartTeamId}")
                 .buildAndExpand(smartteam.getSmartteamId()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "SmartTeam Created Successfully"));
+        return ResponseEntity.created(location).body(new ApiResponse(true, smartteam.getSmartteamId().toString()));
     }
 
+    @PutMapping("/{smartTeamId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> populateSmartTeam(@PathVariable Long smartTeamId) {
+        return smartTeamService.populateSmartTeam(smartTeamId);
+    }
+
+    @GetMapping("/{smartteamId}/outcome")
+    @PreAuthorize("hasRole('USER')")
+    public List<STOCount> countByOutcomeGroupByCriteriaId(@PathVariable Long smartteamId) {
+        return voteRepository.countByOutcomeGroupByCriteriaId(smartteamId);
+    }
 }

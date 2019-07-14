@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -25,6 +27,10 @@ public class SmartTeam extends DateAudit {
     // SmartTeam name for purpose of initiation
     private String name;
 
+    // Number of Teams
+    @Nullable
+    private Long noOfTeams;
+
     // SmartTeam start date, also the end time for the questionnaire
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date smartteamStartdate;
@@ -36,7 +42,7 @@ public class SmartTeam extends DateAudit {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "questionnaire_id", nullable = false)
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "questionnaireId")
+    @JsonIdentityInfo(scope = Questionnaire.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "questionnaireId")
     private Questionnaire questionnaire;
 
     // User ID of Teacher that initiated SmartTeam formation session
@@ -48,16 +54,17 @@ public class SmartTeam extends DateAudit {
     // Section it was initiated on
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "section_id", nullable = false)
-    @JsonBackReference("smartteam_section")
+    @JsonBackReference("section_smartteam")
     private Section section;
 
     public SmartTeam() {
 
     }
 
-    public SmartTeam(Long smartteamId, String name, Date smartteamStartdate, Date smartteamEnddate) {
+    public SmartTeam(Long smartteamId, String name, Long noOfTeams, Date smartteamStartdate, Date smartteamEnddate) {
         this.smartteamId = smartteamId;
         this.name = name;
+        this.noOfTeams = noOfTeams;
         this.smartteamStartdate = smartteamStartdate;
         this.smartteamEnddate = smartteamEnddate;
     }
@@ -77,6 +84,14 @@ public class SmartTeam extends DateAudit {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getNoOfTeams() {
+        return this.noOfTeams;
+    }
+
+    public void setNoOfTeams(Long noOfTeams) {
+        this.noOfTeams = noOfTeams;
     }
 
     public Date getSmartteamStartdate() {

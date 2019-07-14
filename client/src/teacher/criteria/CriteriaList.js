@@ -159,9 +159,8 @@ class Criteria extends Component {
   }
 
   render() {
-    let { sortedInfo, filteredInfo } = this.state;
+    let { sortedInfo } = this.state;
     sortedInfo = sortedInfo || {};
-    filteredInfo = filteredInfo || {};
 
     const columns = [
       {
@@ -175,9 +174,6 @@ class Criteria extends Component {
         title: "Name",
         dataIndex: "name",
         key: "name",
-        filters: [{ text: "Joe", value: "Joe" }, { text: "Jim", value: "Jim" }],
-        filteredValue: filteredInfo.name || null,
-        onFilter: (value, record) => record.name.includes(value),
         sorter: (a, b) => a.name.length - b.name.length,
         sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order
       },

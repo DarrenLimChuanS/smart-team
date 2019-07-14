@@ -49,20 +49,15 @@ class EditCourse extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const createCourseRequest = {
+    const courseRequest = {
       courseCode: this.state.courseCode.value,
       name: this.state.name.value,
       description: this.state.description.value
     };
 
-    const updateCourseRequest = {
-      courseCode: this.state.courseCode.value,
-      name: this.state.name.value,
-      description: this.state.description.value
-    };
     (this.state.id.value
-      ? updateCourse(this.state.id.value, updateCourseRequest)
-      : createCourse(createCourseRequest)
+      ? updateCourse(this.state.id.value, courseRequest)
+      : createCourse(courseRequest)
     )
       .then(response => {
         notification.success({

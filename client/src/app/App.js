@@ -10,15 +10,14 @@ import NewPoll from "../poll/NewPoll";
 import Login from "../user/login/Login";
 import Signup from "../user/signup/Signup";
 import Profile from "../user/profile/Profile";
-import NewStudent from "../teacher/student/NewStudent";
 import StudentList from "../teacher/student/StudentList";
 import EditCourse from "../teacher/course/EditCourse";
 import CourseList from "../teacher/course/CourseList";
 import EditStudent from "../teacher/student/EditStudent";
-import NewSection from "../teacher/section/NewSection";
 import EditSection from "../teacher/section/EditSection";
 import SectionList from "../teacher/section/SectionList";
-import NewSmartTeam from "../teacher/section/NewSmartTeam";
+import NewSmartTeam from "../teacher/smartteam/NewSmartTeam";
+import ViewSmartTeam from "../teacher/smartteam/ViewSmartTeam";
 import CriteriaList from "../teacher/criteria/CriteriaList";
 import NewCriteria from "../teacher/criteria/NewCriteria";
 import QuestionnaireList from "../teacher/questionnaire/QuestionnaireList";
@@ -28,10 +27,12 @@ import NotFound from "../common/NotFound";
 import Courses from "../courses/Course";
 import GroupStudent from "../courses/GroupStudent";
 import StudentQuestionnaire from "../courses/StudentQuestionnaire";
+import SectionTeam from "../teacher/section/Team";
 import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
 import { Layout, notification } from "antd";
+import NewAutoTeam from "../teacher/section/NewAutoTeam";
 const { Content } = Layout;
 
 class App extends Component {
@@ -169,18 +170,6 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/student/new"
-                  component={NewStudent}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/student/edit"
-                  component={EditStudent}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
                   path="/student"
                   component={StudentList}
                   handleLogout={this.handleLogout}
@@ -207,12 +196,6 @@ class App extends Component {
                       {...props}
                     />
                   )}
-                  handleLogout={this.handleLogout}
-                />
-                <PrivateRoute
-                  authenticated={this.state.isAuthenticated}
-                  path="/section/new"
-                  component={NewSection}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
@@ -252,19 +235,19 @@ class App extends Component {
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/section/:id/smartteam"
+                  path="/section/:id/newsmartteam"
                   component={NewSmartTeam}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/section/:id"
-                  component={EditSection}
+                  path="/section/:id/viewsmartteam"
+                  component={ViewSmartTeam}
                   handleLogout={this.handleLogout}
                 />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
-                  path="/section/edit"
+                  path="/section/:id"
                   component={EditSection}
                   handleLogout={this.handleLogout}
                 />
@@ -303,6 +286,30 @@ class App extends Component {
                   path="/criteria"
                   render={props => (
                     <CriteriaList
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
+                  handleLogout={this.handleLogout}
+                />
+                <Route
+                  authenticated={this.state.isAuthenticated}
+                  path="/team/setting"
+                  render={props => (
+                    <NewAutoTeam
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
+                  handleLogout={this.handleLogout}
+                />
+                <Route
+                  authenticated={this.state.isAuthenticated}
+                  path="/grouping"
+                  render={props => (
+                    <SectionTeam
                       isAuthenticated={this.state.isAuthenticated}
                       currentUser={this.state.currentUser}
                       {...props}
