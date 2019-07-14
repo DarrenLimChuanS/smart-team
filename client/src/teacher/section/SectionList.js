@@ -197,7 +197,7 @@ class SectionList extends Component {
                 Assign Group
               </Link>
             )}
-            {record.status === "Grouping" && (
+            {record.status === "Grouping" && record.smartteams[0] && (
               <Link
                 to={
                   "/section/" +
