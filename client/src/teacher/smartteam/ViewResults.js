@@ -158,19 +158,23 @@ class ViewResults extends Component {
     this.loadSmartteam();
   }
 
-  handleChange = slider_value => {
-    this.setState({ slider_value });
+  handleChange = (value, index) => {
+    this.state.criteria[index] = {
+      ...this.state.criteria[index],
+      diversity: value
+    };
+    console.log(this.state.criteria);
   };
 
   render() {
     const { smartteam, criteria, isLoading } = this.state;
     const { slider_value } = this.state;
     const marks = {
-      0: "-2",
+      0: "(Similar) -2",
       25: "1",
       50: "0",
       75: "1",
-      100: "2"
+      100: "2 (Diverse)"
     };
     return isLoading ? (
       <LoadingIndicator />
@@ -180,7 +184,7 @@ class ViewResults extends Component {
         <Divider />
         <Row>
           {criteria &&
-            criteria.map(criterion => (
+            criteria.map((criterion, index) => (
               <Col span={8} style={{ padding: "8px" }}>
                 <Card title={criterion.criteriaName}>
                   <ResponsiveContainer width="100%" height={200}>
@@ -195,7 +199,7 @@ class ViewResults extends Component {
                   <Slider
                     marks={marks}
                     step={null}
-                    onChange={this.handleChange}
+                    onChange={value => this.handleChange(value, index)}
                     slider_value={slider_value}
                   />
                 </Card>
