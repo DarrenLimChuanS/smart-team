@@ -47,6 +47,11 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     @Query(nativeQuery = true, value = "SELECT criteria_id AS CriteriaId, outcome AS Outcome, count(outcome) AS `OutcomeCount` FROM (SELECT * FROM smart_team.votes WHERE smartteam_id = ?1 GROUP BY criteria_id, user_id) a GROUP BY outcome, criteria_id ORDER BY criteria_id, outcome;")
     List<STOCount> countByOutcomeGroupByCriteriaId(Long smartteamId);
 
+    // Query to fetch OutcomeList of the team for a criteria
+    @Query("SELECT v.outcome FROM Vote v WHERE v.smartteam.id = :smartteamId AND v.criteria.id = :criteriaId AND v.user.id IN :userIds GROUP BY v.criteria.id, v.user.id")
+    List<String> findOutcomeByUserIdAndCriteriaId(@Param("smartteamId") Long smartteamId, 
+            @Param("criteriaId") Long criteriaId, @Param("userIds") List<Long> userIds);
+
     // Interface Based Projection
     public static interface STOCount {
         Long getCriteriaId();

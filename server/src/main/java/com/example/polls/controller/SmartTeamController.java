@@ -32,6 +32,11 @@ public class SmartTeamController {
     @Autowired
     private VoteRepository voteRepository;
 
+    /**
+     * GET a SmartTeam
+     * @param smartTeamId
+     * @return
+     */
     @GetMapping("/{smartTeamId}")
     @PreAuthorize("hasAnyRole('USER', 'STUDENT')")
     public SmartTeam getBySmartTeamId(@PathVariable Long smartTeamId) {
@@ -39,6 +44,11 @@ public class SmartTeamController {
                 .orElseThrow(() -> new ResourceNotFoundException("Smart Team", "id", smartTeamId));
     }
 
+    /**
+     * Create a SmartTeam
+     * @param smartTeamRequest
+     * @return
+     */
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createSmartTeam(@Valid @RequestBody SmartTeamRequest smartTeamRequest) {
@@ -51,15 +61,31 @@ public class SmartTeamController {
         return ResponseEntity.created(location).body(new ApiResponse(true, smartteam.getSmartteamId().toString()));
     }
 
+    /**
+     * Populate the master list for a SmartTeam that was created
+     * @param smartTeamId
+     * @return
+     */
     @PutMapping("/{smartTeamId}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> populateSmartTeam(@PathVariable Long smartTeamId) {
         return smartTeamService.populateSmartTeam(smartTeamId);
     }
 
+    /**
+     * GET the unique count of Outcome grouped by Criteria Id for a SmartTeam
+     * @param smartteamId
+     * @return
+     */
     @GetMapping("/{smartteamId}/outcome")
     @PreAuthorize("hasRole('USER')")
     public List<STOCount> countByOutcomeGroupByCriteriaId(@PathVariable Long smartteamId) {
         return voteRepository.countByOutcomeGroupByCriteriaId(smartteamId);
+    }
+
+    @GetMapping("/{smartteamId}/{criteriaId}/{userIds}/outcome")
+    @PreAuthorize("hasRole('USER')")
+    public List<String> findOutcomeByUserIdAndCriteriaId(@PathVariable Long smartteamId, @PathVariable Long criteriaId, @PathVariable List<Long> userIds) {
+        return voteRepository.findOutcomeByUserIdAndCriteriaId(smartteamId, criteriaId, userIds);
     }
 }
