@@ -98,7 +98,6 @@ class NewAutoTeam extends Component {
             <Card.Grid style={gridStyle}>
               <b>Name</b>
               <br />
-              {console.log(section)}
               {section.name}
             </Card.Grid>
             <Card.Grid style={gridStyle}>

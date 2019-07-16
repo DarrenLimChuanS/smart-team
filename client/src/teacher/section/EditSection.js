@@ -113,7 +113,6 @@ class EditSection extends Component {
     const { courseList } = this.state;
     const courseIndex = courseList.findIndex(course => course.id === courseId);
     const course = courseList[courseIndex];
-    console.log(course);
     this.setState({
       course: {
         value: course

@@ -37,8 +37,6 @@ class Courses extends Component {
           courses: courses.concat(response),
           isLoading: false
         });
-        console.log("hi");
-        console.log(this.state);
       })
       .catch(error => {
         this.setState({

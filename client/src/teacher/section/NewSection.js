@@ -88,7 +88,6 @@ class NewSection extends Component {
       course: course.value,
       users: users.value
     };
-    console.log(sectionRequest);
     createSection(sectionRequest)
       .then(response => {
         notification.success({
