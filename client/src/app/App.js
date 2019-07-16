@@ -32,7 +32,6 @@ import LoadingIndicator from "../common/LoadingIndicator";
 import PrivateRoute from "../common/PrivateRoute";
 
 import { Layout, notification } from "antd";
-import NewAutoTeam from "../teacher/section/NewAutoTeam";
 const { Content } = Layout;
 
 class App extends Component {
@@ -286,18 +285,6 @@ class App extends Component {
                   path="/criteria"
                   render={props => (
                     <CriteriaList
-                      isAuthenticated={this.state.isAuthenticated}
-                      currentUser={this.state.currentUser}
-                      {...props}
-                    />
-                  )}
-                  handleLogout={this.handleLogout}
-                />
-                <Route
-                  authenticated={this.state.isAuthenticated}
-                  path="/team/setting"
-                  render={props => (
-                    <NewAutoTeam
                       isAuthenticated={this.state.isAuthenticated}
                       currentUser={this.state.currentUser}
                       {...props}

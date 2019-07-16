@@ -85,7 +85,7 @@ class NewAutoTeam extends Component {
     return isLoading ? (
       <LoadingIndicator />
     ) : (
-      <Typography>
+      <React.Fragment>
         <Title>Smart Team Allocation</Title>
         <Divider />
         <Row />
@@ -193,7 +193,7 @@ class NewAutoTeam extends Component {
             </FormItem>
           </Form>
         </Row>
-      </Typography>
+      </React.Fragment>
     );
   }
 }

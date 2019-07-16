@@ -219,7 +219,7 @@ class ViewResults extends Component {
     return isLoading ? (
       <LoadingIndicator />
     ) : showResult ? (
-      <Typography>
+      <React.Fragment>
         <Title>{smartteam.name}</Title>
         <Divider />
         <Row>
@@ -260,7 +260,7 @@ class ViewResults extends Component {
             Configure Team <Icon type="right" />
           </Button>
         </Row>
-      </Typography>
+      </React.Fragment>
     ) : (
       <NewAutoTeam criteria={criteria} smartteam={smartteam} />
     );

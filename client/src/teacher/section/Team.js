@@ -7,7 +7,7 @@ const { Title } = Typography;
 class Team extends Component {
   render() {
     return (
-      <Typography>
+      <React.Fragment>
         <Title>
           ICT1002 - T2 <small>Teams</small>
         </Title>
@@ -15,7 +15,9 @@ class Team extends Component {
         <Row>
           <Col span={8} style={{ padding: "8px" }}>
             <Card title="Team 1 (6)">
-              <p>Stats</p>
+              <p>
+                <b>Compliance Score: </b>40%
+              </p>
               <div>
                 <span>David Woo</span>
                 <div style={{ float: "right" }}>
@@ -37,7 +39,7 @@ class Team extends Component {
             </Card>
           </Col>
         </Row>
-      </Typography>
+      </React.Fragment>
     );
   }
 }

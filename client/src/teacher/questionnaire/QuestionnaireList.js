@@ -40,7 +40,7 @@ class Questionnaire extends Component {
     this.state = {
       criteriaList: [],
       questionnaireList: [],
-      selectedQuestionnaireId: 0,
+      selectedQuestionnaireId: null,
       selectedCriteriaList: [],
       selectedCriteriaId: null,
       filteredInfo: null,
@@ -513,7 +513,7 @@ class Questionnaire extends Component {
                   {this.state &&
                     questionnaireList &&
                     questionnaireList.map((questionnaire, index) => (
-                      <Option key={index}>
+                      <Option value={index}>
                         {questionnaire.questionnaireId} - {questionnaire.name} (
                         {questionnaire.criteria.length} criteria)
                       </Option>
@@ -522,7 +522,7 @@ class Questionnaire extends Component {
               </FormItem>
             </Form>
           </Col>
-          {this.state.selectedQuestionnaireId !== 0 && (
+          {this.state.selectedQuestionnaireId !== null && (
             <Col span={4}>
               <Popconfirm
                 title="Delete?"
@@ -544,20 +544,23 @@ class Questionnaire extends Component {
             </Col>
           )}
         </Row>
-        <Row>
-          <p>
-            {selectedQuestionnaireId !== 0 &&
-              "Instructions: " +
+
+        {selectedQuestionnaireId && (
+          <Row>
+            <p>
+              {"Instructions: " +
                 questionnaireList[selectedQuestionnaireId].instruction}
-          </p>
-        </Row>
+            </p>
+          </Row>
+        )}
+
         <hr />
         <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
           <Col span={21}>
             <Title level={2}>Criteria</Title>
           </Col>
           <Col span={3}>
-            {this.state.selectedQuestionnaireId !== 0 && (
+            {this.state.selectedQuestionnaireId !== null && (
               <PopUpModal
                 title="Add Criteria"
                 triggerButtonText="Add Criteria"
@@ -592,7 +595,7 @@ class Questionnaire extends Component {
           </Col>
         </Row>
         <Row>
-          {selectedQuestionnaireId === 0 ? (
+          {selectedQuestionnaireId === null ? (
             <Table rowKey="id" columns={criteriaColumns} />
           ) : (
             selectedCriteriaList.map((criteria, index) => (
@@ -600,7 +603,7 @@ class Questionnaire extends Component {
                 <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
                   <Col span={21}>
                     <Title level={3}>
-                      {selectedQuestionnaireId !== 0 &&
+                      {selectedQuestionnaireId !== null &&
                         questionnaireList[this.state.selectedQuestionnaireId]
                           .criteria !== undefined &&
                         `${criteria.name}`}
@@ -627,7 +630,7 @@ class Questionnaire extends Component {
                   rowKey="id"
                   columns={columns}
                   dataSource={
-                    selectedQuestionnaireId !== 0 &&
+                    selectedQuestionnaireId !== null &&
                     criteria !== undefined &&
                     criteria.polls
                   }

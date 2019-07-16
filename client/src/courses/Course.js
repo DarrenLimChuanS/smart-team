@@ -54,7 +54,7 @@ class Courses extends Component {
   render() {
     const { courses } = this.state;
     return (
-      <Typography>
+      <React.Fragment>
         <Title>Courses</Title>
         <Divider />
         <Row>
@@ -94,7 +94,7 @@ class Courses extends Component {
               </Col>
             ))}
         </Row>
-      </Typography>
+      </React.Fragment>
     );
   }
 }
