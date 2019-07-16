@@ -37,7 +37,7 @@ export const validateName = name => {
     };
   } else if (name.length > NAME_MAX_LENGTH) {
     return {
-      validationStatus: "error",
+      validateStatus: "error",
       errorMsg: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`
     };
   } else {
@@ -56,7 +56,7 @@ export const validateNumber = (number, min, max) => {
     };
   } else if (number > max) {
     return {
-      validationStatus: "error",
+      validateStatus: "error",
       errorMsg: `Value too high (Maximum value of ${max})`
     };
   } else {
@@ -82,12 +82,15 @@ export const validateGroup = (
     };
   } else if (number > max) {
     return {
-      validationStatus: "error",
+      validateStatus: "error",
       errorMsg: `Value too high (Maximum value of ${max})`
     };
-  } else if (noOfStudents - teamSize * noOfTeams > teamSize) {
+  } else if (
+    noOfStudents - teamSize * noOfTeams < 0 ||
+    noOfStudents - teamSize * noOfTeams > 0
+  ) {
     return {
-      validationStatus: "error",
+      validateStatus: "error",
       errorMsg: `Invalid number of people in a team.`
     };
   } else {
@@ -135,7 +138,7 @@ export const validateUsername = username => {
     };
   } else if (username.length > USERNAME_MAX_LENGTH) {
     return {
-      validationStatus: "error",
+      validateStatus: "error",
       errorMsg: `Username is too long (Maximum ${USERNAME_MAX_LENGTH} characters allowed.)`
     };
   } else {
@@ -154,7 +157,7 @@ export const validatePassword = password => {
     };
   } else if (password.length > PASSWORD_MAX_LENGTH) {
     return {
-      validationStatus: "error",
+      validateStatus: "error",
       errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
     };
   } else {
