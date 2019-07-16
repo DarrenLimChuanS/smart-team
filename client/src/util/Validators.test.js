@@ -105,7 +105,37 @@ describe("validateGroup", () => {
 
   it("should return success if number is correct", () => {
     test = validateGroup(5, 2, 5, 5, 5, 1);
-    // expect(test.validateStatus).toBe("success");
+    expect(test.validateStatus).toBe("success");
+    expect(test.errorMsg).toBe(null);
+  });
+});
+
+describe("validateEmail", () => {
+  it("should return error with message if email is empty", () => {
+    test = validateEmail("");
+    expect(test.validateStatus).toBe("error");
+    expect(test.errorMsg).toBe("Email may not be empty");
+  });
+
+  it("should return error with message if email is in wrong format", () => {
+    test = validateEmail("www.testemail.com");
+    expect(test.validateStatus).toBe("error");
+    expect(test.errorMsg).toBe("Email not valid");
+  });
+
+  it("should return error with message if email is too long", () => {
+    test = validateEmail(
+      "thisIsSomeExtremellyyyyyyyLoooooooooooooooooonggggg@test.com"
+    );
+    expect(test.validateStatus).toBe("error");
+    expect(test.errorMsg).toBe(
+      "Email is too long (Maximum 40 characters allowed)"
+    );
+  });
+
+  it("should return null if email is correct", () => {
+    test = validateEmail("correct@email.com");
+    expect(test.validateStatus).toBe(null);
     expect(test.errorMsg).toBe(null);
   });
 });
