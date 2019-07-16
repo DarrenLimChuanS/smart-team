@@ -185,8 +185,6 @@ class CourseList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="/">View Sections</a>
-            <Divider type="vertical" />
             <Link to={"/course/" + record.id}>Edit</Link>
             <Divider type="vertical" />
             <Popconfirm

@@ -175,12 +175,12 @@ class SectionList extends Component {
         dataIndex: "status",
         key: "status",
         filters: [
-          { text: "Not Grouped", value: "Not Grouped" },
+          { text: "Not Teamed", value: "Not Teamed" },
           {
-            text: "Pending (Automated Allocation)",
-            value: "Pending (Automated Allocation)"
+            text: "Teaming",
+            value: "Teaming"
           },
-          { text: "Grouped", value: "Grouped" }
+          { text: "Teamed", value: "Teamed" }
         ],
         filteredValue: filteredInfo.status || null,
         onFilter: (value, record) => record.status.includes(value),
@@ -192,25 +192,38 @@ class SectionList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            {record.status === "Not Grouped" && (
-              <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
-                Assign Group
-              </Link>
+            {record.status === "Grouped" && (
+              <React.Fragment>
+                <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
+                  View Team
+                </Link>
+                <Divider type="vertical" />
+              </React.Fragment>
             )}
-            {record.status === "Grouping" && record.smartteams[0] && (
-              <Link
-                to={
-                  "/section/" +
-                  record.sectionId +
-                  "/smartteam/" +
-                  record.smartteams[0].smartteamId +
-                  "/results"
-                }
-              >
-                View Results
-              </Link>
+            {record.status === "Not Teamed" && (
+              <React.Fragment>
+                <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
+                  Assign Team
+                </Link>
+                <Divider type="vertical" />
+              </React.Fragment>
             )}
-            <Divider type="vertical" />
+            {record.status === "Teaming" && record.smartteams[0] && (
+              <React.Fragment>
+                <Link
+                  to={
+                    "/section/" +
+                    record.sectionId +
+                    "/smartteam/" +
+                    record.smartteams[0].smartteamId +
+                    "/results"
+                  }
+                >
+                  View Results
+                </Link>
+                <Divider type="vertical" />
+              </React.Fragment>
+            )}
             <Link to={"/section/" + record.sectionId}>Edit</Link>
             <Divider type="vertical" />
             <Popconfirm
