@@ -174,19 +174,23 @@ class ViewResults extends Component {
         return 1;
       case 100:
         return 2;
+      default:
+        return 0;
     }
   }
 
   handleChange = (value, index) => {
-    this.state.criteria[index] = {
+    const criteria = this.state.criteria;
+    criteria[index] = {
       ...this.state.criteria[index],
       diversityScale: this.getDiversity(value)
     };
-    console.log(this.state.criteria);
+    this.setState({
+      criteria
+    });
   };
 
   handleNext() {
-    console.log("false");
     this.setState({
       showResult: false
     });
@@ -217,6 +221,7 @@ class ViewResults extends Component {
         )
       }
     };
+
     return isLoading ? (
       <LoadingIndicator />
     ) : showResult ? (
