@@ -513,7 +513,7 @@ class Questionnaire extends Component {
                   {this.state &&
                     questionnaireList &&
                     questionnaireList.map((questionnaire, index) => (
-                      <Option value={index}>
+                      <Option key={index} value={index}>
                         {questionnaire.questionnaireId} - {questionnaire.name} (
                         {questionnaire.criteria.length} criteria)
                       </Option>

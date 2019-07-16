@@ -238,6 +238,7 @@ class Criteria extends Component {
         </Row>
         <Row>
           <Table
+            rowKey="id"
             columns={columns}
             dataSource={this.state.criteria}
             onChange={this.handleChange}

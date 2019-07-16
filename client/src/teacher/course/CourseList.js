@@ -214,6 +214,7 @@ class CourseList extends Component {
         </Row>
         <Row>
           <Table
+            rowKey="id"
             columns={columns}
             dataSource={this.state.courses}
             onChange={this.handleChange}

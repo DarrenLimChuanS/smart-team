@@ -191,6 +191,7 @@ class StudentList extends Component {
         </Row>
         <Row>
           <Table
+            rowKey="id"
             columns={columns}
             dataSource={this.state.students}
             onChange={this.handleChange}

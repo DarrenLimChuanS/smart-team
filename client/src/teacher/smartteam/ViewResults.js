@@ -145,9 +145,10 @@ class ViewResults extends Component {
         }
       });
       const criteriaInfo = {
+        criteriaId: criteria.id,
         criteriaName: criteria.name,
-        votes: votes,
-        diversity: 0
+        diversityScale: 0,
+        votes: votes
       };
       criteriaList.push(criteriaInfo);
     });
@@ -179,7 +180,7 @@ class ViewResults extends Component {
   handleChange = (value, index) => {
     this.state.criteria[index] = {
       ...this.state.criteria[index],
-      diversity: this.getDiversity(value)
+      diversityScale: this.getDiversity(value)
     };
     console.log(this.state.criteria);
   };
@@ -198,13 +199,13 @@ class ViewResults extends Component {
       0: {
         label: (
           <span>
-            -1
+            -2
             <br />
             (Least Diverse)
           </span>
         )
       },
-      25: "1",
+      25: "-1",
       50: "0",
       75: "1",
       100: {
@@ -225,7 +226,7 @@ class ViewResults extends Component {
         <Row>
           {criteria &&
             criteria.map((criterion, index) => (
-              <Col span={8} style={{ padding: "8px" }}>
+              <Col key={index} span={8} style={{ padding: "8px" }}>
                 <Card
                   title={criterion.criteriaName}
                   style={{ padding: "16px" }}

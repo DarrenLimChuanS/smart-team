@@ -75,6 +75,10 @@ class NewAutoTeam extends Component {
     );
   }
 
+  handleGenerateTeam() {
+    console.log(this.props.criteria, this.props.smartteam);
+  }
+
   render() {
     const gridStyle = {
       width: "25%",
@@ -187,6 +191,7 @@ class NewAutoTeam extends Component {
                 size="large"
                 className="signup-form-button"
                 disabled={this.isFormInvalid()}
+                onClick={() => this.handleGenerateTeam()}
               >
                 Generate Team
               </Button>
