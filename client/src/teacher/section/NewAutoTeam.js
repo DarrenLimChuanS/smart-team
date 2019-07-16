@@ -148,13 +148,13 @@ class NewAutoTeam extends Component {
                 />
                 <span className="ant-form-text">people</span>
 
-                {this.state.section.noOfStudents % this.state.teamSize.value !==
-                  0 && (
-                  <div>
-                    Note: Teams of {this.state.teamSize.value} and{" "}
-                    {this.state.teamSize.value + 1} people.
-                  </div>
-                )}
+                {section.noOfStudents % teamSize.value !== 0 &&
+                  section.noOfStudents / teamSize.value > 2 && (
+                    <div>
+                      Note: Teams of {this.state.teamSize.value} and{" "}
+                      {this.state.teamSize.value + 1} people.
+                    </div>
+                  )}
               </FormItem>
             </Col>
             <Col span={2} style={{ verticalAlign: "middle" }}>
