@@ -71,7 +71,7 @@ class Questionnaire extends Component {
 
     const choiceData = {
       choiceId: Number(selectedChoice),
-      criteriaId: Number(criteriaId),
+      id: Number(criteriaId),
       userId: this.props.currentUser.id,
       smartteamId: Number(this.props.match.params.smartTeamId),
       pollId: Number(pollId)
