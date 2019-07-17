@@ -132,7 +132,7 @@ class EditSection extends Component {
       name: name.value,
       noOfStudents: students.value === undefined ? 0 : students.value.length,
       year: year.value,
-      status: "Not Grouped",
+      status: "Not Teamed",
       course: course.value,
       users: students.value
     };

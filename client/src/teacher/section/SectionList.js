@@ -175,12 +175,12 @@ class SectionList extends Component {
         dataIndex: "status",
         key: "status",
         filters: [
-          { text: "Not Grouped", value: "Not Grouped" },
+          { text: "Not Teamed", value: "Not Teamed" },
           {
-            text: "Pending (Automated Allocation)",
-            value: "Pending (Automated Allocation)"
+            text: "Teaming",
+            value: "Teaming"
           },
-          { text: "Grouped", value: "Grouped" }
+          { text: "Teamed", value: "Teamed" }
         ],
         filteredValue: filteredInfo.status || null,
         onFilter: (value, record) => record.status.includes(value),

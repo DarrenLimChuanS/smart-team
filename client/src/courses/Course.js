@@ -85,7 +85,7 @@ class Courses extends Component {
                     <div style={{ marginTop: "8px" }}>
                       <Link to="/courses/questionnaires_student">
                         <Button type="primary" size="large">
-                          View Grouping
+                          View Team
                         </Button>
                       </Link>
                     </div>

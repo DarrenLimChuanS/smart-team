@@ -58,7 +58,7 @@ public class SmartTeamService {
         Section tempSection = sectionRepository.findBySectionId(smartTeamRequest.getSection().getSectionId())
                 .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID",
                         smartTeamRequest.getSection().getSectionId()));
-        tempSection.setStatus("Grouping");
+        tempSection.setStatus("Teaming");
         sectionService.updateSectionById(tempSection.getSectionId(), tempSection);
 
         return smartTeamRepository.save(smartteam);
