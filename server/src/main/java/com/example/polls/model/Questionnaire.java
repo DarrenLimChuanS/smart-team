@@ -36,14 +36,9 @@ public class Questionnaire extends UserDateAudit {
     @JoinTable(name = "questionnaire_criteria", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "criteria_id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @JsonIdentityInfo(scope = Criteria.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    private Set<Criteria> criteria = new HashSet<>();
-
-    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @JsonIgnore
-    private Set<SmartTeam> smartteams = new HashSet<>();
+    private Set<Criteria> criteria = new HashSet<>();
 
     public Questionnaire() {
 
@@ -85,13 +80,5 @@ public class Questionnaire extends UserDateAudit {
     public void setCriteria(Set<Criteria> criteria) {
         this.criteria = criteria;
 
-    }
-
-    public Set<SmartTeam> getSmartteams() {
-        return smartteams;
-    }
-
-    public void setSmartTeams(Set<SmartTeam> smartteams) {
-        this.smartteams = smartteams;
     }
 }

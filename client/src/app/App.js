@@ -238,6 +238,18 @@ class App extends Component {
                   component={NewSmartTeam}
                   handleLogout={this.handleLogout}
                 />
+                <Route
+                  authenticated={this.state.isAuthenticated}
+                  path="/section/:id/team"
+                  render={props => (
+                    <SectionTeam
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
+                  handleLogout={this.handleLogout}
+                />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
                   path="/section/:sectionId/smartteam/:smartteamId/results"

@@ -85,7 +85,7 @@ public class CriteriaService {
     }
 
     public CriteriaResponse getCriteriaById(Long criteriaId) {
-        Criteria criteria = criteriaRepository.findByCriteriaId(criteriaId)
+        Criteria criteria = criteriaRepository.findById(criteriaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", criteriaId));
 
         // Retrieve criteria creator details

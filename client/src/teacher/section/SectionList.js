@@ -191,38 +191,24 @@ class SectionList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            {record.status === "Grouped" && (
-              <React.Fragment>
-                <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
-                  View Team
-                </Link>
-                <Divider type="vertical" />
-              </React.Fragment>
-            )}
             {record.status === "Not Teamed" && (
-              <React.Fragment>
-                <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
-                  Assign Team
-                </Link>
-                <Divider type="vertical" />
-              </React.Fragment>
+              <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
+                Assign Group
+              </Link>
             )}
             {record.status === "Teaming" && record.smartteams[0] && (
-              <React.Fragment>
-                <Link
-                  to={
-                    "/section/" +
-                    record.sectionId +
-                    "/smartteam/" +
-                    record.smartteams[0].smartteamId +
-                    "/results"
-                  }
-                >
-                  View Results
-                </Link>
-                <Divider type="vertical" />
-              </React.Fragment>
+              <Link
+                to={"/section/" + record.smartteams[0].smartteamId + "/results"}
+              >
+                View Results
+              </Link>
             )}
+            {record.status === "Teamed" && (
+              <Link to={"/section/" + record.sectionId + "/team"}>
+                View Team
+              </Link>
+            )}
+            <Divider type="vertical" />
             <Link to={"/section/" + record.sectionId}>Edit</Link>
             <Divider type="vertical" />
             <Popconfirm

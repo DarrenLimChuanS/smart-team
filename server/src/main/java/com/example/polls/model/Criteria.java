@@ -21,7 +21,7 @@ import java.util.Set;
 public class Criteria extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long criteriaId;
+    private Long id;
 
     @NotBlank
     @Size(max = 40)
@@ -43,8 +43,7 @@ public class Criteria extends UserDateAudit {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "criteria")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIdentityInfo(scope = Questionnaire.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "questionnaireId")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonBackReference
     private Set<Questionnaire> questionnaires = new HashSet<>();
 
     @OneToMany(mappedBy = "criteria", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -52,11 +51,11 @@ public class Criteria extends UserDateAudit {
     private Set<Poll> polls = new HashSet<>();
 
     public Long getId() {
-        return criteriaId;
+        return id;
     }
 
-    public void setId(Long criteriaId) {
-        this.criteriaId = criteriaId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -2,7 +2,7 @@ package com.example.polls.payload;
 
 public class OutcomeRequest {
 
-    private Long criteriaId;
+    private Long id;
 
     private Long smartteamId;
 
@@ -12,12 +12,12 @@ public class OutcomeRequest {
 
     private Long userId;
 
-    public Long getCriteriaId() {
-        return this.criteriaId;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setCriteriaId(Long criteriaId) {
-        this.criteriaId = criteriaId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getSmartteamId() {

@@ -4,6 +4,7 @@ import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -42,12 +43,11 @@ public class Section extends UserDateAudit {
     @JoinTable(name = "section_users", joinColumns = { @JoinColumn(name = "section_id") }, inverseJoinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
     private Set<User> users = new HashSet<>();
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference("section_smartteam")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private Set<SmartTeam> smartteams = new HashSet<>();
 
     public Section() {
