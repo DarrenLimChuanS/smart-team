@@ -239,6 +239,18 @@ class App extends Component {
                   component={NewSmartTeam}
                   handleLogout={this.handleLogout}
                 />
+                <Route
+                  authenticated={this.state.isAuthenticated}
+                  path="/section/:id/team"
+                  render={props => (
+                    <SectionTeam
+                      isAuthenticated={this.state.isAuthenticated}
+                      currentUser={this.state.currentUser}
+                      {...props}
+                    />
+                  )}
+                  handleLogout={this.handleLogout}
+                />
                 <PrivateRoute
                   authenticated={this.state.isAuthenticated}
                   path="/section/:id/results"
@@ -298,18 +310,6 @@ class App extends Component {
                   path="/team/setting"
                   render={props => (
                     <NewAutoTeam
-                      isAuthenticated={this.state.isAuthenticated}
-                      currentUser={this.state.currentUser}
-                      {...props}
-                    />
-                  )}
-                  handleLogout={this.handleLogout}
-                />
-                <Route
-                  authenticated={this.state.isAuthenticated}
-                  path="/grouping"
-                  render={props => (
-                    <SectionTeam
                       isAuthenticated={this.state.isAuthenticated}
                       currentUser={this.state.currentUser}
                       {...props}

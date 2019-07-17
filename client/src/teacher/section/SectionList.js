@@ -204,6 +204,13 @@ class SectionList extends Component {
                 View Results
               </Link>
             )}
+            {record.status === "Teamed" && (
+              <Link
+                to={"/section/" + record.sectionId  + "/team"}
+              >
+                View Team
+              </Link>
+            )}
             <Divider type="vertical" />
             <Link to={"/section/" + record.sectionId}>Edit</Link>
             <Divider type="vertical" />
