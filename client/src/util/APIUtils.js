@@ -348,6 +348,14 @@ export function countByOutcomeGroupByCriteriaId(smartteamId) {
     method: "GET"
   });
 }
+
+export function getComplianceScore(complianceData) {
+  return request({
+    url: API_BASE_URL + "/smartteams/compliance",
+    method: "POST",
+    body: JSON.stringify(complianceData)
+  });
+}
 /**
  * End of SmartTeam APIs
  **/
