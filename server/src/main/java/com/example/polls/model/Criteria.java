@@ -21,7 +21,7 @@ import java.util.Set;
 public class Criteria extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long criteriaId;
+    private Long id;
 
     @NotBlank
     @Size(max = 40)
@@ -52,11 +52,11 @@ public class Criteria extends UserDateAudit {
     private Set<Poll> polls = new HashSet<>();
 
     public Long getId() {
-        return criteriaId;
+        return id;
     }
 
-    public void setId(Long criteriaId) {
-        this.criteriaId = criteriaId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
