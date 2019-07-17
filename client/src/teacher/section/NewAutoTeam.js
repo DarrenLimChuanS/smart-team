@@ -85,7 +85,7 @@ class NewAutoTeam extends Component {
     const { criteria, smartteam } = this.props;
     let teamList = {};
     let countTeam = 0;
-    let teamData = {};
+    let teamData = [];
     console.log(noOfTeams.value);
     for (let i = 0; i < noOfTeams.value; i++) {
       teamList[i] = [];
@@ -112,9 +112,8 @@ class NewAutoTeam extends Component {
     });
 
     console.log(teamData);
-    console.log(teamData[0]);
     const complianceRequest = {
-      team: teamList,
+      team: teamData,
       criteriaCompliances: this.props.criteria
     };
     smartTeamAllocation(complianceRequest)
