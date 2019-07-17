@@ -16,8 +16,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-
-
 @Entity
 @Table(name = "questionnaire", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
 public class Questionnaire extends UserDateAudit {
@@ -36,7 +34,6 @@ public class Questionnaire extends UserDateAudit {
     @JoinTable(name = "questionnaire_criteria", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
             @JoinColumn(name = "criteria_id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIdentityInfo(scope = Criteria.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     private Set<Criteria> criteria = new HashSet<>();
 
@@ -44,7 +41,6 @@ public class Questionnaire extends UserDateAudit {
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
     @JsonBackReference
     private Set<SmartTeam> smartteams = new HashSet<>();
-
 
     public Questionnaire() {
 
@@ -87,6 +83,7 @@ public class Questionnaire extends UserDateAudit {
         this.criteria = criteria;
 
     }
+
     public Set<SmartTeam> getSmartteams() {
         return smartteams;
     }
