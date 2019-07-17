@@ -108,9 +108,9 @@ class NewAutoTeam extends Component {
     });
 
     console.log(teamData);
-    console.log(teamList[0][0]);
+    console.log(teamData[0]);
     const complianceRequest = {
-      team: teamList[0][0],
+      team: teamData[0],
       criteriaCompliances: this.props.criteria
     };
     getComplianceScore(complianceRequest)
