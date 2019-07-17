@@ -37,7 +37,6 @@ public class Questionnaire extends UserDateAudit {
             @JoinColumn(name = "criteria_id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @JsonIdentityInfo(scope = Criteria.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private Set<Criteria> criteria = new HashSet<>();
 
     @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
