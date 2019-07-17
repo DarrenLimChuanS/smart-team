@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Form, InputNumber, Row, Col, Typography, Divider, Button } from "antd";
-import { Card } from "antd";
+import { Card, notification } from "antd";
 import { validateNumber, validateGroup } from "../../util/Validators";
-import { getSectionById } from "../../util/APIUtils";
+import { getSectionById, getComplianceScore } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 const { Title } = Typography;
 const FormItem = Form.Item;
@@ -108,6 +108,27 @@ class NewAutoTeam extends Component {
     });
 
     console.log(teamData);
+    console.log(teamList[0][0]);
+    const complianceRequest = {
+      team: teamList[0][0],
+      criteriaCompliances: this.props.criteria
+    };
+    getComplianceScore(complianceRequest)
+      .then(response => {
+        console.log(response);
+        notification.success({
+          message: "Smart Team",
+          description: "Success! You have successfully added a new team."
+        });
+        // this.props.history.push("/login");
+      })
+      .catch(error => {
+        notification.error({
+          message: "Smart Team",
+          description:
+            error.message || "Sorry! Something went wrong. Please try again!"
+        });
+      });
   }
 
   render() {

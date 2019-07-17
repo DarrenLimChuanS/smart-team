@@ -3,6 +3,7 @@ package com.example.polls.controller;
 import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.CriteriaResponseQuarterCount;
 import com.example.polls.model.SmartTeam;
+import com.example.polls.payload.TeamRequest;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.SmartTeamRequest;
 import com.example.polls.repository.SmartTeamRepository;
@@ -34,6 +35,7 @@ public class SmartTeamController {
 
     /**
      * GET a SmartTeam
+     * 
      * @param smartTeamId
      * @return
      */
@@ -46,6 +48,7 @@ public class SmartTeamController {
 
     /**
      * Create a SmartTeam
+     * 
      * @param smartTeamRequest
      * @return
      */
@@ -63,6 +66,7 @@ public class SmartTeamController {
 
     /**
      * Populate the master list for a SmartTeam that was created
+     * 
      * @param smartTeamId
      * @return
      */
@@ -74,6 +78,7 @@ public class SmartTeamController {
 
     /**
      * GET the unique count of Outcome grouped by Criteria Id for a SmartTeam
+     * 
      * @param smartteamId
      * @return
      */
@@ -85,7 +90,15 @@ public class SmartTeamController {
 
     @GetMapping("/{smartteamId}/{criteriaId}/{userIds}/outcome")
     @PreAuthorize("hasRole('USER')")
-    public List<String> findOutcomeByUserIdAndCriteriaId(@PathVariable Long smartteamId, @PathVariable Long criteriaId, @PathVariable List<Long> userIds) {
+    public List<String> findOutcomeByUserIdAndCriteriaId(@PathVariable Long smartteamId, @PathVariable Long criteriaId,
+            @PathVariable List<Long> userIds) {
         return voteRepository.findOutcomeByUserIdAndCriteriaId(smartteamId, criteriaId, userIds);
+    }
+
+    @PostMapping("/compliance")
+    @PreAuthorize("hasRole('USER')")
+    public Double getComplianceScore(@Valid @RequestBody TeamRequest teamRequest) {
+        Double score = smartTeamService.getComplianceScore(teamRequest.getTeam(), teamRequest.getCriteriaCompliances());
+        return score;
     }
 }
