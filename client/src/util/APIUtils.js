@@ -356,6 +356,14 @@ export function getComplianceScore(complianceData) {
     body: JSON.stringify(complianceData)
   });
 }
+
+export function smartTeamAllocation(complianceData) {
+  return request({
+    url: API_BASE_URL + "/smartteams/allocate",
+    method: "POST",
+    body: JSON.stringify(complianceData)
+  });
+}
 /**
  * End of SmartTeam APIs
  **/

@@ -3,7 +3,11 @@ import { withRouter } from "react-router-dom";
 import { Form, InputNumber, Row, Col, Typography, Divider, Button } from "antd";
 import { Card, notification } from "antd";
 import { validateNumber, validateGroup } from "../../util/Validators";
-import { getSectionById, getComplianceScore } from "../../util/APIUtils";
+import {
+  getSectionById,
+  getComplianceScore,
+  smartTeamAllocation
+} from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 const { Title } = Typography;
 const FormItem = Form.Item;
@@ -110,10 +114,10 @@ class NewAutoTeam extends Component {
     console.log(teamData);
     console.log(teamData[0]);
     const complianceRequest = {
-      team: teamData[0],
+      team: teamList,
       criteriaCompliances: this.props.criteria
     };
-    getComplianceScore(complianceRequest)
+    smartTeamAllocation(complianceRequest)
       .then(response => {
         console.log(response);
         notification.success({

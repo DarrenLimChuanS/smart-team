@@ -3,9 +3,11 @@ package com.example.polls.controller;
 import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.CriteriaResponseQuarterCount;
 import com.example.polls.model.SmartTeam;
+import com.example.polls.model.Team;
 import com.example.polls.payload.TeamRequest;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.SmartTeamRequest;
+import com.example.polls.payload.TeamListRequest;
 import com.example.polls.repository.SmartTeamRepository;
 import com.example.polls.repository.VoteRepository;
 import com.example.polls.repository.VoteRepository.STOCount;
@@ -100,5 +102,12 @@ public class SmartTeamController {
     public Double getComplianceScore(@Valid @RequestBody TeamRequest teamRequest) {
         Double score = smartTeamService.getComplianceScore(teamRequest.getTeam(), teamRequest.getCriteriaCompliances());
         return score;
+    }
+
+    @PostMapping("/allocate")
+    @PreAuthorize("hasRole('USER')")
+    public List<Team> smartTeamAllocation(@Valid @RequestBody TeamListRequest teamListRequest) {
+        List<Team> smartTeam = smartTeamService.smartTeamAllocation(teamListRequest.getTeam(), teamListRequest.getCriteriaCompliances());
+        return smartTeam;
     }
 }
