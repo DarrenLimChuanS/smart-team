@@ -192,12 +192,12 @@ class SectionList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            {record.status === "Not Grouped" && (
+            {record.status === "Not Teamed" && (
               <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
                 Assign Group
               </Link>
             )}
-            {record.status === "Grouping" && record.smartteams[0] && (
+            {record.status === "Teaming" && record.smartteams[0] && (
               <Link
                 to={"/section/" + record.smartteams[0].smartteamId + "/results"}
               >
