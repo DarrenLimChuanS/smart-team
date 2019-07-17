@@ -27,8 +27,8 @@ public class OutcomeService {
     public Outcome categorise(OutcomeRequest outcomeRequest, int totalScore){
         Outcome outcome = new Outcome();
 
-        Criteria criteria = criteriaRepository.findByCriteriaId(outcomeRequest.getCriteriaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", outcomeRequest.getCriteriaId()));
+        Criteria criteria = criteriaRepository.findById(outcomeRequest.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", outcomeRequest.getId()));
 
         int q1 = criteria.getQ1();
         int q2 = criteria.getQ2();
@@ -44,7 +44,7 @@ public class OutcomeService {
         else if (totalScore <= q4)
             outcome.setOutcome("q4");
 
-        outcome.setCriteriaId(outcomeRequest.getCriteriaId());
+        outcome.setCriteriaId(outcomeRequest.getId());
 
         return outcome;
     }
@@ -52,7 +52,7 @@ public class OutcomeService {
     /* TO UPDATE VOTE TABLE */
     public ResponseEntity<Object> updateVote(OutcomeRequest outcomeRequest, ArrayList<Choice> choiceObjectList, ArrayList<Long> pollIdList, String outcome) {
         for (int i = 0; i < choiceObjectList.size(); i++) {
-            Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),pollIdList.get(i),outcomeRequest.getSmartteamId(),outcomeRequest.getCriteriaId());
+            Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),pollIdList.get(i),outcomeRequest.getSmartteamId(),outcomeRequest.getId());
             tempVote.setChoice(choiceObjectList.get(i));
             tempVote.setOutcome(outcome);
             voteRepository.save(tempVote);

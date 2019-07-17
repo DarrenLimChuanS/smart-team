@@ -13,8 +13,6 @@ import java.util.Optional;
 public interface CriteriaRepository extends JpaRepository<Criteria, Long> {
     Boolean existsByName(String name);
 
-    Optional<Criteria> findByCriteriaId(Long criteriaId);
-
     Page<Criteria> findByCreatedBy(Long userId, Pageable pageable);
 
     Optional<Criteria> findByName(String name);

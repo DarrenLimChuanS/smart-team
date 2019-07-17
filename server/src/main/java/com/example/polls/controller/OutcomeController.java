@@ -39,13 +39,13 @@ public class OutcomeController {
         ArrayList<Choice> choiceObjectList = new ArrayList<Choice>();
 
         // Get all pollIds using criteriaId
-        Criteria criteria = criteriaRepository.findByCriteriaId(outcomeRequest.getCriteriaId())
-                .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", outcomeRequest.getCriteriaId()));
+        Criteria criteria = criteriaRepository.findById(outcomeRequest.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", outcomeRequest.getId()));
 
         // Get a list of choiceId and Check choices that already made in vote table
         for (Poll tempPollObject : criteria.getPolls()) {
             Vote tempVote = voteRepository.findByUserIdAndPollIdAndSmartteamIdAndCriteriaId(outcomeRequest.getUserId(),
-                    tempPollObject.getId(), outcomeRequest.getSmartteamId(), outcomeRequest.getCriteriaId());
+                    tempPollObject.getId(), outcomeRequest.getSmartteamId(), outcomeRequest.getId());
             // Get answered poll's pollIds and choiceIds
             if (tempVote.getChoice() != null && !tempVote.getPoll().getId().equals(outcomeRequest.getPollId())) {
                 choiceIdList.add(tempVote.getChoice().getId());
