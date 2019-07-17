@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
+import java.util.Date;
+import javax.persistence.*;
 import org.springframework.lang.Nullable;
 
-import javax.persistence.*;
-import java.util.Date;
+
 
 @Entity
 @Table(name = "smartteam")
