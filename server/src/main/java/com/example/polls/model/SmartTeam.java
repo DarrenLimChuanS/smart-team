@@ -42,13 +42,13 @@ public class SmartTeam extends DateAudit {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "questionnaire_id", nullable = false)
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @JsonBackReference
     private Questionnaire questionnaire;
 
     // User ID of Teacher that initiated SmartTeam formation session
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "initiated_by", nullable = false)
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+    @JsonBackReference("smartteam_initiator")
     private User user;
 
     // Section it was initiated on

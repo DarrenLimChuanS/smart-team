@@ -55,6 +55,10 @@ public class User extends UserDateAudit {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Team> teams = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference("smartteam_initiator")
+    private Set<SmartTeam> smartteams = new HashSet<>();
+
     public User() {
 
     }
@@ -121,4 +125,13 @@ public class User extends UserDateAudit {
     public void setSections(Set<Section> sections) {
         this.sections = sections;
     }
+
+    public Set<SmartTeam> getSmartteams() {
+        return smartteams;
+    }
+
+    public void setSmartTeams(Set<SmartTeam> smartteams) {
+        this.smartteams = smartteams;
+    }
+
 }

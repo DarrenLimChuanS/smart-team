@@ -76,7 +76,23 @@ class NewAutoTeam extends Component {
   }
 
   handleGenerateTeam() {
-    console.log(this.props.criteria, this.props.smartteam);
+    console.log(this.props.criteria, this.props.smartteam, this.state.section);
+    const { teamSize, noOfTeams, section, isLoading } = this.state;
+    const { criteria, smartteam } = this.props;
+    const userList = {};
+    let countTeam = 0;
+    console.log(noOfTeams.value);
+    section.users.forEach((user, index) => {
+      if (countTeam < parseInt(noOfTeams.value)) {
+        console.log(index);
+        userList[countTeam] = { ...userList[countTeam], user };
+        countTeam++;
+        if (countTeam == noOfTeams.value - 1) {
+          countTeam = 0;
+        }
+      }
+    });
+    console.log(userList);
   }
 
   render() {
