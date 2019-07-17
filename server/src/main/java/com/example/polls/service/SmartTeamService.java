@@ -118,6 +118,59 @@ public class SmartTeamService {
     }
 
     /**
+     * Function to loop through all combinations and find the best compliance score across the Teams
+     * @param teamList
+     * @param criteriaCompliances
+     * @return
+     */
+    public List<Team> smartTeamAllocation(List<Team> teamList, List<CriteriaCompliance> criteriaCompliances) {
+        // Counter for Time-To-Live
+        int swapPass = 0;
+        Double oldScore = (double) 0;
+        Double newScore = (double) 0;
+        // Team 1, 2, 3, 4, 5
+        // For each Team in TeamList
+        for (Team teamA : teamList) {
+            // Check swap pass threshold
+            if (swapPass == 20) {
+                break;
+            }
+            // Loop through each Team in TeamList and check if it is himself
+            for (Team teamB : teamList) {
+                // Same Team no point checking
+                if (teamA == teamB) {
+                    break;
+                } else {
+                    List<User> studentListA = new ArrayList<User>(teamA.getUsers());
+                    List<User> studentListB = new ArrayList<User>(teamB.getUsers());
+                    for (int i = 0; i < studentListA.size(); i++) {
+                        for (int j = 0; j < studentListB.size(); j++) {
+                            oldScore = getComplianceScore(teamA, criteriaCompliances) + getComplianceScore(teamB, criteriaCompliances);
+                            // Swap by deleting from A, adding into B. Deleting from B, adding into A
+                            // teamB.getUsers().add(studentListA.get(i));
+                            // teamA.getUsers().remove(studentListA.get(i));
+                            // teamA.getUsers().add(studentListB.get(j));
+                            // teamB.getUsers().remove(studentListB.get(j));
+                            swapUser(studentListA.get(i), studentListB.get(j), teamA.getUsers(), teamB.getUsers());
+                            newScore = getComplianceScore(teamA, criteriaCompliances) + getComplianceScore(teamB, criteriaCompliances);
+                            if (newScore > oldScore) {
+                                // There is an improvement in score, reset swap pass and keep the swap
+                                swapPass = 0;
+                                break;
+                            } else {
+                                // Swap back and increment swap pass
+                                swapUser(studentListA.get(i), studentListB.get(j), teamA.getUsers(), teamB.getUsers());
+                                swapPass++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return teamList;
+    }
+
+    /**
      * Function to get the compliance score of the criteria in a team
      * @param team
      * @param criteriaCompliances
@@ -161,5 +214,19 @@ public class SmartTeamService {
         int uniqueValues = uniqueOutcomes.size();
         // Return the heterogeneity
         return (double)uniqueValues/teamSize;
+    }
+
+    /**
+     * Utility function to swap two Users from two Sets
+     * @param studentA
+     * @param studentB
+     * @param setA
+     * @param setB
+     */
+    public void swapUser(User studentA, User studentB, Set<User> setA, Set<User> setB) {
+        setB.add(studentA);
+        setA.remove(studentA);
+        setA.add(studentB);
+        setB.remove(studentB);
     }
 }
