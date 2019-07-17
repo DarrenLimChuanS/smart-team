@@ -79,20 +79,35 @@ class NewAutoTeam extends Component {
     console.log(this.props.criteria, this.props.smartteam, this.state.section);
     const { teamSize, noOfTeams, section, isLoading } = this.state;
     const { criteria, smartteam } = this.props;
-    const userList = {};
+    let teamList = {};
     let countTeam = 0;
+    let teamData = {};
     console.log(noOfTeams.value);
+    for (let i = 0; i < noOfTeams.value; i++) {
+      teamList[i] = [];
+    }
+    console.log(teamList);
     section.users.forEach((user, index) => {
       if (countTeam < parseInt(noOfTeams.value)) {
-        console.log(index);
-        userList[countTeam] = { ...userList[countTeam], user };
+        teamList[countTeam] = [...teamList[countTeam], user];
         countTeam++;
-        if (countTeam == noOfTeams.value - 1) {
+        if (countTeam == noOfTeams.value) {
           countTeam = 0;
         }
       }
     });
-    console.log(userList);
+    console.log(teamList);
+
+    Object.keys(teamList).forEach((key, index) => {
+      const teamObject = {
+        section: section,
+        users: teamList[key],
+        smartteam: smartteam
+      };
+      teamData[index] = teamObject;
+    });
+
+    console.log(teamData);
   }
 
   render() {
