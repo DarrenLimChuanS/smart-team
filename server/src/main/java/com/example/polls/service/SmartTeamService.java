@@ -130,11 +130,8 @@ public class SmartTeamService {
         Double newScore = (double) 0;
         // Team 1, 2, 3, 4, 5
         // For each Team in TeamList
+        outerloop:
         for (int x = 0; x < teamList.size(); x++) {
-            // Check swap pass threshold
-            if (swapPass == 20) {
-                break;
-            }
             // Loop through each Team in TeamList and check if it is himself
             for (int y = 0; y < teamList.size(); y++) {
                 // Same Team no point checking
@@ -192,6 +189,10 @@ public class SmartTeamService {
                                 System.out.println("After swap List A is " + studentListA);
                                 System.out.println("After swap List B is " + studentListB);
                                 swapPass++;
+                                // Check swap pass threshold
+                                if (swapPass == 200) {
+                                    break outerloop;
+                                }
                             }
                         }
                     }
