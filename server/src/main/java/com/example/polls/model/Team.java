@@ -2,6 +2,7 @@ package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -31,7 +32,6 @@ public class Team extends UserDateAudit {
     @JoinTable(name = "team_users", joinColumns = { @JoinColumn(name = "team_id") }, inverseJoinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
     private Set<User> users = new HashSet<>();
 
     // One way mapping

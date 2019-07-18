@@ -130,36 +130,67 @@ public class SmartTeamService {
         Double newScore = (double) 0;
         // Team 1, 2, 3, 4, 5
         // For each Team in TeamList
-        for (Team teamA : teamList) {
+        for (int x = 0; x < teamList.size(); x++) {
             // Check swap pass threshold
             if (swapPass == 20) {
                 break;
             }
             // Loop through each Team in TeamList and check if it is himself
-            for (Team teamB : teamList) {
+            for (int y = 0; y < teamList.size(); y++) {
                 // Same Team no point checking
-                if (teamA == teamB) {
-                    break;
-                } else {
-                    List<User> studentListA = new ArrayList<User>(teamA.getUsers());
-                    List<User> studentListB = new ArrayList<User>(teamB.getUsers());
+                if (x != y) {
+                    List<User> studentListA = new ArrayList<User>(teamList.get(x).getUsers());
+                    List<User> studentListB = new ArrayList<User>(teamList.get(y).getUsers());
                     for (int i = 0; i < studentListA.size(); i++) {
                         for (int j = 0; j < studentListB.size(); j++) {
-                            oldScore = getComplianceScore(teamA, criteriaCompliances) + getComplianceScore(teamB, criteriaCompliances);
+                            oldScore = getComplianceScore(teamList.get(x), criteriaCompliances) + getComplianceScore(teamList.get(y), criteriaCompliances);
                             // Swap by deleting from A, adding into B. Deleting from B, adding into A
-                            // teamB.getUsers().add(studentListA.get(i));
-                            // teamA.getUsers().remove(studentListA.get(i));
-                            // teamA.getUsers().add(studentListB.get(j));
-                            // teamB.getUsers().remove(studentListB.get(j));
-                            swapUser(studentListA.get(i), studentListB.get(j), teamA.getUsers(), teamB.getUsers());
-                            newScore = getComplianceScore(teamA, criteriaCompliances) + getComplianceScore(teamB, criteriaCompliances);
+                            User tempUserA = studentListA.get(i);
+                            User tempUserB = studentListB.get(j);
+                            System.out.println("Swap Pass = " + swapPass);
+                            System.out.println("SetA Size = " + teamList.get(x).getUsers().size());
+                            System.out.println("SetA Size = " + teamList.get(y).getUsers().size());
+                            System.out.println("StudentListA Size = " + studentListA.size());
+                            System.out.println("StudentListB Size = " + studentListB.size());
+                            System.out.println("\n===Before Swapped i = " + i + ", x = " + x + ", y = " + y + ", j = " + j + "===\n");
+                            System.out.println("Before swap Set A is " + teamList.get(x).getUsers());
+                            System.out.println("Before swap Set B is " + teamList.get(y).getUsers());
+                            System.out.println("Before swap List A is " + studentListA);
+                            System.out.println("Before swap List B is " + studentListB);
+                            teamList.get(y).getUsers().add(tempUserA);
+                            teamList.get(x).getUsers().remove(tempUserA);
+                            teamList.get(x).getUsers().add(tempUserB);
+                            teamList.get(y).getUsers().remove(tempUserB);
+                            studentListA.clear();
+                            studentListA.addAll(teamList.get(x).getUsers());
+                            studentListB.clear();
+                            studentListB.addAll(teamList.get(y).getUsers());
+                            System.out.println("\n===Swapped===\n");
+                            System.out.println("After swap Set A is " + teamList.get(x).getUsers());
+                            System.out.println("After swap Set B is " + teamList.get(y).getUsers());
+                            System.out.println("After swap List A is " + studentListA);
+                            System.out.println("After swap List B is " + studentListB);
+                            System.out.println("\n===Revert Swap===\n");
+
+                            newScore = getComplianceScore(teamList.get(x), criteriaCompliances) + getComplianceScore(teamList.get(y), criteriaCompliances);
                             if (newScore > oldScore) {
                                 // There is an improvement in score, reset swap pass and keep the swap
                                 swapPass = 0;
                                 break;
                             } else {
                                 // Swap back and increment swap pass
-                                swapUser(studentListA.get(i), studentListB.get(j), teamA.getUsers(), teamB.getUsers());
+                                teamList.get(x).getUsers().add(tempUserA);
+                                teamList.get(y).getUsers().remove(tempUserA);
+                                teamList.get(y).getUsers().add(tempUserB);
+                                teamList.get(x).getUsers().remove(tempUserB);
+                                studentListA.clear();
+                                studentListA.addAll(teamList.get(x).getUsers());
+                                studentListB.clear();
+                                studentListB.addAll(teamList.get(y).getUsers());
+                                System.out.println("After swap Set A is " + teamList.get(x).getUsers());
+                                System.out.println("After swap Set B is " + teamList.get(y).getUsers());
+                                System.out.println("After swap List A is " + studentListA);
+                                System.out.println("After swap List B is " + studentListB);
                                 swapPass++;
                             }
                         }
@@ -214,19 +245,5 @@ public class SmartTeamService {
         int uniqueValues = uniqueOutcomes.size();
         // Return the heterogeneity
         return (double)uniqueValues/teamSize;
-    }
-
-    /**
-     * Utility function to swap two Users from two Sets
-     * @param studentA
-     * @param studentB
-     * @param setA
-     * @param setB
-     */
-    public void swapUser(User studentA, User studentB, Set<User> setA, Set<User> setB) {
-        setB.add(studentA);
-        setA.remove(studentA);
-        setA.add(studentB);
-        setB.remove(studentB);
     }
 }

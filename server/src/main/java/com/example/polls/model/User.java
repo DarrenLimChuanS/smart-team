@@ -48,11 +48,12 @@ public class User extends UserDateAudit {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "users")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+    @JsonBackReference("section_user")
     private Set<Section> sections = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "users")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference("team_user")
     private Set<Team> teams = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
