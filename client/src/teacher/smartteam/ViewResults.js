@@ -210,7 +210,14 @@ class ViewResults extends Component {
         )
       },
       25: "-1",
-      50: "0",
+      50: {
+        label: (
+          <span>
+            0 <br />
+            (Ignore)
+          </span>
+        )
+      },
       75: "1",
       100: {
         label: (

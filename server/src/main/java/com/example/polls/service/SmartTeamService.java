@@ -157,8 +157,8 @@ public class SmartTeamService {
     public List<Team> smartTeamAllocation(List<Team> teamList, List<CriteriaCompliance> criteriaCompliances) {
         // Counter for Time-To-Live
         int swapPass = 0;
-        Double oldScore = (double) 0;
-        Double newScore = (double) 0;
+        Double oldScore;
+        Double newScore;
         // Team 1, 2, 3, 4, 5
         // For each Team in TeamList
         outerloop:
@@ -290,5 +290,10 @@ public class SmartTeamService {
         int uniqueValues = uniqueOutcomes.size();
         // Return the heterogeneity
         return (double)uniqueValues/teamSize;
+    }
+
+    public List<Team> allocateTeam(List<Team> teamList, List<CriteriaCompliance> criteriaCompliances) {
+        List<Team> allocatedTeam = smartTeamAllocation(teamList, criteriaCompliances);
+        return appendComplianceScore(allocatedTeam, criteriaCompliances);
     }
 }

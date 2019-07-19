@@ -357,11 +357,11 @@ export function getComplianceScore(complianceData) {
   });
 }
 
-export function smartTeamAllocation(complianceData) {
+export function smartTeamAllocation(smartteamRequest) {
   return request({
-    url: API_BASE_URL + "/smartteams/allocate",
+    url: API_BASE_URL + "/smartteams/allocate/team",
     method: "POST",
-    body: JSON.stringify(complianceData)
+    body: JSON.stringify(smartteamRequest)
   });
 }
 /**

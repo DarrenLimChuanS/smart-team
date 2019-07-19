@@ -9,6 +9,7 @@ import {
   smartTeamAllocation
 } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
+import Team from "./Team";
 const { Title } = Typography;
 const FormItem = Form.Item;
 
@@ -28,6 +29,7 @@ class NewAutoTeam extends Component {
       noOfTeams: {
         value: 2
       },
+      showTeam: false,
       isLoading: true
     };
     this.isFormInvalid = this.isFormInvalid.bind(this);
@@ -80,6 +82,9 @@ class NewAutoTeam extends Component {
   }
 
   handleGenerateTeam() {
+    this.setState({
+      isLoading: true
+    });
     console.log(this.props.criteria, this.props.smartteam, this.state.section);
     const { teamSize, noOfTeams, section, isLoading } = this.state;
     const { criteria, smartteam } = this.props;
@@ -112,18 +117,23 @@ class NewAutoTeam extends Component {
     });
 
     console.log(teamData);
-    const complianceRequest = {
+    const smartTeamRequest = {
       team: teamData,
       criteriaCompliances: this.props.criteria
     };
-    smartTeamAllocation(complianceRequest)
+    smartTeamAllocation(smartTeamRequest)
       .then(response => {
+        this.setState({
+          teams: response,
+          isLoading: false,
+          showTeam: true
+        });
         console.log(response);
+
         notification.success({
           message: "Smart Team",
-          description: "Success! You have successfully added a new team."
+          description: "Success! You have successfully generated the teams."
         });
-        // this.props.history.push("/login");
       })
       .catch(error => {
         notification.error({
@@ -139,13 +149,22 @@ class NewAutoTeam extends Component {
       width: "25%",
       textAlign: "center"
     };
-    const { teamSize, noOfTeams, section, isLoading } = this.state;
+    const {
+      teamSize,
+      noOfTeams,
+      section,
+      isLoading,
+      teams,
+      showTeam
+    } = this.state;
     const { criteria, smartteam } = this.props;
     return isLoading ? (
       <LoadingIndicator />
-    ) : (
+    ) : !showTeam ? (
       <React.Fragment>
-        <Title>Smart Team Allocation</Title>
+        <Title>
+          {smartteam.name} <small>Smart Team Allocation</small>
+        </Title>
         <Divider />
         <Row />
         <Row>
@@ -253,6 +272,8 @@ class NewAutoTeam extends Component {
           </Form>
         </Row>
       </React.Fragment>
+    ) : (
+      <Team teams={teams} smartteam={smartteam} />
     );
   }
 }
