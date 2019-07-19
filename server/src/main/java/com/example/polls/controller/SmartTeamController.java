@@ -107,18 +107,20 @@ public class SmartTeamController {
     @PostMapping("/allocate")
     @PreAuthorize("hasRole('USER')")
     public List<Team> smartTeamAllocation(@Valid @RequestBody TeamListRequest teamListRequest) {
-        List<Team> smartTeam = smartTeamService.smartTeamAllocation(teamListRequest.getTeam(), teamListRequest.getCriteriaCompliances());
+        List<Team> smartTeam = smartTeamService.smartTeamAllocation(teamListRequest.getTeam(),
+                teamListRequest.getCriteriaCompliances());
         return smartTeam;
     }
 
     @PostMapping("/allocate/compliance")
     @PreAuthorize("hasRole('USER')")
     public List<Team> appendComplianceScore(@Valid @RequestBody TeamListRequest teamListRequest) {
-        List<Team> smartTeam = smartTeamService.appendComplianceScore(teamListRequest.getTeam(), teamListRequest.getCriteriaCompliances());
+        List<Team> smartTeam = smartTeamService.appendComplianceScore(teamListRequest.getTeam(),
+                teamListRequest.getCriteriaCompliances());
         return smartTeam;
     }
 
-    @PostMapping
+    @PostMapping("/team")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> createTeam(@Valid @RequestBody TeamRequest teamRequest) {
         Team team = smartTeamService.createTeam(teamRequest);
