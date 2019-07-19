@@ -550,11 +550,11 @@ class Questionnaire extends Component {
           )}
         </Row>
 
-        {selectedQuestionnaireIndex && (
+        {selectedQuestionnaireIndex !== null && (
           <Row>
             <p>
-              {"Instructions: " +
-                questionnaireList[selectedQuestionnaireIndex].instruction}
+              Instructions:{" "}
+              {questionnaireList[selectedQuestionnaireIndex].instruction}
             </p>
           </Row>
         )}
