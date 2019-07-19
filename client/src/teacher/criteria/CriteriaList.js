@@ -198,8 +198,6 @@ class Criteria extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="/">Edit</a>
-            <Divider type="vertical" />
             <Popconfirm
               title="Delete?"
               onConfirm={() => this.deleteCriteriaWithId(record.id)}

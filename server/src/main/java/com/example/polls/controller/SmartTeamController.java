@@ -4,23 +4,25 @@ import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.CriteriaResponseQuarterCount;
 import com.example.polls.model.SmartTeam;
 import com.example.polls.model.Team;
-import com.example.polls.payload.TeamRequest;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.SmartTeamRequest;
 import com.example.polls.payload.TeamListRequest;
+import com.example.polls.payload.TeamRequest;
 import com.example.polls.repository.SmartTeamRepository;
 import com.example.polls.repository.VoteRepository;
 import com.example.polls.repository.VoteRepository.STOCount;
 import com.example.polls.service.SmartTeamService;
+import java.net.URI;
+import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/smartteams")

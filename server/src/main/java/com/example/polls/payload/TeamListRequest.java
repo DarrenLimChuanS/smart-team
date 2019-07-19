@@ -24,6 +24,10 @@ public class TeamListRequest {
     public TeamListRequest() {
     }
 
+    public TeamListRequest(List<Team> team) {
+        this.team = team;
+    }
+
     public TeamListRequest(List<Team> team, List<CriteriaCompliance> criteriaCompliances) {
         this.team = team;
         this.criteriaCompliances = criteriaCompliances;
@@ -47,10 +51,7 @@ public class TeamListRequest {
 
     @Override
     public String toString() {
-        return "{" +
-            " team='" + getTeam() + "'" +
-            ", criteriaCompliances='" + getCriteriaCompliances() + "'" +
-            "}";
+        return "{" + " team='" + getTeam() + "'" + ", criteriaCompliances='" + getCriteriaCompliances() + "'" + "}";
     }
 
 }

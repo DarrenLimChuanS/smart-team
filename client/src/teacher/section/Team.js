@@ -11,11 +11,7 @@ import {
 } from "antd";
 import { Card } from "antd";
 import PopUpModal from "../../common/PopUpModal";
-import {
-  createSmartTeam,
-  getComplianceScore,
-  createTeamList
-} from "../../util/APIUtils";
+import { getComplianceScore, createTeamList } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 const Option = Select.Option;
 const { Title } = Typography;
@@ -97,8 +93,10 @@ class Team extends Component {
   }
 
   handleConfirmTeam() {
-    // TODO Prepare TeamListRequest to pass in function
-    createTeamList(this.state.teams)
+    const createTeamRequest = {
+      team: this.state.teams
+    };
+    createTeamList(createTeamRequest)
       .then(response => {
         this.setState({
           teams: response
@@ -108,6 +106,7 @@ class Team extends Component {
           message: "Smart Team",
           description: "Success! You have successfully created the teams."
         });
+        this.props.history.push("/section");
       })
       .catch(error => {
         notification.error({

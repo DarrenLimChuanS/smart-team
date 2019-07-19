@@ -7,21 +7,17 @@ import com.example.polls.payload.SmartTeamRequest;
 import com.example.polls.payload.TeamListRequest;
 import com.example.polls.payload.TeamRequest;
 import com.example.polls.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
 
 @Service
 public class SmartTeamService {
-
-    @Autowired
-    private CriteriaRepository criteriaRepository;
-
     @Autowired
     private SmartTeamRepository smartTeamRepository;
 
@@ -183,11 +179,9 @@ public class SmartTeamService {
         }
         // Update status of Section to Teamed
         Section sectionToUpdate = sectionRepository.findBySectionId(teamListRequest.getTeam().get(0).getSection().getSectionId())
-        .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID",
-        teamListRequest.getTeam().get(0).getSection().getSectionId()));
+        .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID", teamListRequest.getTeam().get(0).getSection().getSectionId()));
         sectionToUpdate.setStatus("Teamed");
-        sectionService.updateSectionById(sectionToUpdate.getSectionId(), sectionToUpdate);
-        
+        sectionRepository.save(sectionToUpdate);
         return teamList;
     }
 
