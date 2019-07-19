@@ -100,17 +100,6 @@ class Question extends Component {
             {questionChoices}
           </RadioGroup>
         </div>
-        <div className="poll-footer">
-          {!(this.props.poll.selectedChoice || this.props.poll.expired) ? (
-            <Button
-              className="vote-button"
-              disabled={!this.props.currentVote}
-              onClick={this.props.handleSaveSubmit}
-            >
-              Save
-            </Button>
-          ) : null}
-        </div>
       </div>
     );
   }

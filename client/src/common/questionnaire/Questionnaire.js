@@ -49,15 +49,16 @@ class Questionnaire extends Component {
     this.setState({ currentPage: this.state.currentPage + noOfPages });
   }
 
-  handleChoiceChange(event, poll, pollIndex) {
+  handleChoiceChange(event, poll, criteriaId, pollIndex) {
     const currentVotes = this.state.currentVotes.slice();
     currentVotes[poll.id] = event.target.value;
     this.setState({
       currentVotes: currentVotes
     });
+    this.handleSaveSubmit(event, criteriaId, poll.id, event.target.value);
   }
 
-  handleSaveSubmit(event, criteriaId, pollId) {
+  handleSaveSubmit(event, criteriaId, pollId, choiceId) {
     event.preventDefault();
     if (!this.props.isAuthenticated) {
       this.props.history.push("/login");
@@ -67,10 +68,9 @@ class Questionnaire extends Component {
       });
       return;
     }
-    const selectedChoice = this.state.currentVotes[pollId];
 
     const choiceData = {
-      choiceId: Number(selectedChoice),
+      choiceId: Number(choiceId),
       id: Number(criteriaId),
       userId: this.props.currentUser.id,
       smartteamId: Number(this.props.match.params.smartTeamId),
@@ -81,7 +81,7 @@ class Questionnaire extends Component {
       .then(response => {
         notification.success({
           message: "Smart Team",
-          description: "Success! You have successfully submitted a question."
+          description: "Success! You have successfully answered a question."
         });
       })
       .catch(error => {
@@ -153,13 +153,11 @@ class Questionnaire extends Component {
               pollIndex={++questionId}
               currentVote={currentVotes[poll.id]}
               handleChoiceChange={event =>
-                this.handleChoiceChange(event, poll, pollIndex)
-              }
-              handleSaveSubmit={event =>
-                this.handleSaveSubmit(
+                this.handleChoiceChange(
                   event,
+                  poll,
                   questionnaire.criteria[currentPage].id,
-                  poll.id
+                  pollIndex
                 )
               }
             />
