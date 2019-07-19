@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { getUserCreatedStudents, deleteStudent } from "../../util/APIUtils";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   Button,
   Divider,
@@ -106,7 +107,7 @@ class StudentList extends Component {
   }
 
   render() {
-    let { sortedInfo, filteredInfo } = this.state;
+    let { sortedInfo, filteredInfo, isLoading } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
 
@@ -174,7 +175,9 @@ class StudentList extends Component {
         )
       }
     ];
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         <Row>
           <Col span={22}>

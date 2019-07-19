@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { getUserCreatedSections, deleteSection } from "../../util/APIUtils";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   Button,
   Divider,
@@ -128,7 +129,7 @@ class SectionList extends Component {
   }
 
   render() {
-    let { sortedInfo, filteredInfo } = this.state;
+    let { sortedInfo, filteredInfo, isLoading } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
 
@@ -193,7 +194,7 @@ class SectionList extends Component {
           <span>
             {record.status === "Not Teamed" && (
               <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
-                Assign Group
+                Assign Team
               </Link>
             )}
             {record.status === "Teaming" && record.smartteams[0] && (
@@ -228,7 +229,9 @@ class SectionList extends Component {
       }
     ];
 
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         <Row>
           <Col span={22}>

@@ -128,7 +128,9 @@ class Questionnaire extends Component {
 
     let questionId = 0;
 
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         {this.renderRedirect()}
         <Title level={1} style={{ textAlign: "center" }}>

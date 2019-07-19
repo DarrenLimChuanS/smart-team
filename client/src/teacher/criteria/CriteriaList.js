@@ -5,6 +5,7 @@ import {
   deleteCriteria
 } from "../../util/APIUtils";
 import { Link, withRouter } from "react-router-dom";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   notification,
   Button,
@@ -158,7 +159,7 @@ class Criteria extends Component {
   }
 
   render() {
-    let { sortedInfo } = this.state;
+    let { sortedInfo, isLoading } = this.state;
     sortedInfo = sortedInfo || {};
 
     const columns = [
@@ -209,7 +210,9 @@ class Criteria extends Component {
       }
     ];
 
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         <Row>
           <Col span={22}>

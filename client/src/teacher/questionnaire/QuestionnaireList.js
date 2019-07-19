@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import update from "immutability-helper";
 import { withRouter } from "react-router-dom";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   Button,
   Col,
@@ -445,9 +446,12 @@ class Questionnaire extends Component {
     const {
       questionnaireList,
       selectedQuestionnaireId,
-      selectedCriteriaList
+      selectedCriteriaList,
+      isLoading
     } = this.state;
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         <Row>
           <Col span={20}>

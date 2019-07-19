@@ -3,11 +3,7 @@ import { withRouter } from "react-router-dom";
 import { Form, InputNumber, Row, Col, Typography, Divider, Button } from "antd";
 import { Card, notification } from "antd";
 import { validateGroup } from "../../util/Validators";
-import {
-  getSectionById,
-  getComplianceScore,
-  smartTeamAllocation
-} from "../../util/APIUtils";
+import { getSectionById, smartTeamAllocation } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import Team from "./Team";
 const { Title } = Typography;
@@ -103,7 +99,7 @@ class NewAutoTeam extends Component {
       if (countTeam < parseInt(noOfTeams.value)) {
         teamList[countTeam] = [...teamList[countTeam], user];
         countTeam++;
-        if (countTeam == noOfTeams.value) {
+        if (countTeam === noOfTeams.value) {
           countTeam = 0;
         }
       }

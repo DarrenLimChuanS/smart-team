@@ -5,6 +5,7 @@ import {
   deleteCourse
 } from "../../util/APIUtils";
 import { Link, withRouter } from "react-router-dom";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   Button,
   Divider,
@@ -137,7 +138,7 @@ class CourseList extends Component {
   }
 
   render() {
-    let { sortedInfo } = this.state;
+    let { sortedInfo, isLoading } = this.state;
     sortedInfo = sortedInfo || {};
 
     const columns = [
@@ -198,7 +199,9 @@ class CourseList extends Component {
       }
     ];
 
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         <Row>
           <Col span={22}>
