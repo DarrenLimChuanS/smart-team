@@ -65,7 +65,7 @@ class Courses extends Component {
                   <div style={{ textAlign: "center" }}>
                     {course.section &&
                       course.section.smartteams &&
-                      course.section.status == "Teaming" && (
+                      course.section.status === "Teaming" && (
                         <Link
                           to={
                             "/allocation/" +
@@ -83,7 +83,7 @@ class Courses extends Component {
 
                     {course.section &&
                       course.section.smartteams &&
-                      course.section.status == "Teamed" && (
+                      course.section.status === "Teamed" && (
                         <div style={{ marginTop: "8px" }}>
                           <Link
                             to={

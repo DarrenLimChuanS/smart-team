@@ -13,6 +13,10 @@ const QuestionnaireInstructions = props => (
         {props && props.questionnaire && props.questionnaire.createdBy.name}
       </p>
       <p>
+        <b>Ends on: </b>
+        {props && props.smartteam && props.smartteam.smartteamEnddate}
+      </p>
+      <p>
         <b>Instructions: </b>
         {props && props.questionnaire && props.questionnaire.instruction}
       </p>
