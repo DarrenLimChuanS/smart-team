@@ -43,18 +43,24 @@ class Team extends Component {
         ...this.state
       });
     });
-    getTeamList(this.props.match.params.id).then(response => {
-      this.setState({
-        teams: response
-      });
-
-      getSmartteamById(this.props.match.params.id).then(response => {
+    if (this.props.match.params.team === "team") {
+      getTeamList(this.props.match.params.id).then(response => {
         this.setState({
-          smartteam: response,
-          isLoading: false
+          teams: response
+        });
+
+        getSmartteamById(this.props.match.params.id).then(response => {
+          this.setState({
+            smartteam: response,
+            isLoading: false
+          });
         });
       });
-    });
+    } else {
+      this.setState({
+        isLoading: false
+      });
+    }
   }
 
   handleTeamChange(value) {
