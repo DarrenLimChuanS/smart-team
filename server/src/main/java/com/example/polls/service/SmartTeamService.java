@@ -4,6 +4,7 @@ import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.*;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.SmartTeamRequest;
+import com.example.polls.payload.TeamListRequest;
 import com.example.polls.payload.TeamRequest;
 import com.example.polls.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,6 +147,41 @@ public class SmartTeamService {
         team.setSmartteam(tempSmartTeam);
 
         return teamRepository.save(team);
+    }
+
+    /**
+     * Function to create a list of Teams
+     * @param teamListRequest
+     * @return
+     */
+    public List<Team> createTeamList(TeamListRequest teamListRequest) {
+        List<Team> teamList = new ArrayList<Team>();
+        Team team = new Team();
+        for (Team tempTeam : teamListRequest.getTeam()) {
+            team.setComplianceScore(tempTeam.getComplianceScore());
+        
+            Section tempSection = sectionRepository.findBySectionId(tempTeam.getSection().getSectionId())
+            .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID", tempTeam.getSection().getSectionId()));
+            team.setSection(tempSection);
+    
+            // Clean the User List first
+            team.getUsers().clear();
+            for (User student : tempTeam.getUsers()) {
+                User tempStudent = userRepository.findById(student.getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
+                team.getUsers().add(tempStudent);
+            }
+    
+            // Find SmartTeam
+            SmartTeam tempSmartTeam = smartTeamRepository.findBySmartteamId(tempTeam.getSmartteam().getSmartteamId())
+            .orElseThrow(() -> new ResourceNotFoundException("SmartTeam", "SmartTeam ID", tempTeam.getSmartteam().getSmartteamId()));
+            team.setSmartteam(tempSmartTeam);
+            
+            // Save team into List and database
+            teamList.add(team);
+            teamRepository.save(team);
+        }
+        return teamList;
     }
 
     /**

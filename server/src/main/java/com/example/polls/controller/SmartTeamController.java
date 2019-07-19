@@ -131,6 +131,14 @@ public class SmartTeamController {
         return ResponseEntity.created(location).body(new ApiResponse(true, "Team Created Successfully"));
     }
 
+    @PostMapping("/teamlist")
+    @PreAuthorize("hasRole('USER')")
+    public List<Team> createTeam(@Valid @RequestBody TeamListRequest teamListRequest) {
+        List<Team> teamList = smartTeamService.createTeamList(teamListRequest);
+
+        return teamList;
+    }
+
     @PostMapping("/allocate/team")
     @PreAuthorize("hasRole('USER')")
     public List<Team> allocateTeam(@Valid @RequestBody TeamListRequest teamListRequest) {
