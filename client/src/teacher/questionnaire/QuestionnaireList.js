@@ -41,7 +41,7 @@ class Questionnaire extends Component {
     this.state = {
       criteriaList: [],
       questionnaireList: [],
-      selectedQuestionnaireId: null,
+      selectedQuestionnaireIndex: null,
       selectedCriteriaList: [],
       selectedCriteriaId: null,
       filteredInfo: null,
@@ -234,7 +234,7 @@ class Questionnaire extends Component {
   handleQuestionnaireChange(value) {
     this.setState({
       selectedCriteriaList: [],
-      selectedQuestionnaireId: value
+      selectedQuestionnaireIndex: value
     });
     this.state.questionnaireList[value].criteria.forEach(criteria => {
       this.loadCriteriaByID(criteria.id);
@@ -252,7 +252,7 @@ class Questionnaire extends Component {
     deleteQuestionnaire(id)
       .then(response => {
         this.setState({
-          selectedQuestionnaireId: 0,
+          selectedQuestionnaireIndex: 0,
           questionnaireList: update(this.state.questionnaireList, {
             $splice: [[index, 1]]
           })
@@ -311,18 +311,18 @@ class Questionnaire extends Component {
     const {
       questionnaireList,
       selectedCriteriaList,
-      selectedQuestionnaireId,
+      selectedQuestionnaireIndex,
       criteriaList,
       selectedCriteriaId
     } = this.state;
     addCriteriaToQuestionnaire(
-      questionnaireList[selectedQuestionnaireId].questionnaireId,
+      questionnaireList[selectedQuestionnaireIndex].questionnaireId,
       criteriaList[selectedCriteriaId].id
     )
       .then(response => {
         this.setState({
           questionnaireList: update(questionnaireList, {
-            [selectedQuestionnaireId]: {
+            [selectedQuestionnaireIndex]: {
               criteria: { $push: [criteriaList[selectedCriteriaId]] }
             }
           }),
@@ -347,17 +347,17 @@ class Questionnaire extends Component {
   handleRemoveCriteria(criteriaId, criteriaIndex) {
     const {
       questionnaireList,
-      selectedQuestionnaireId,
+      selectedQuestionnaireIndex,
       selectedCriteriaList
     } = this.state;
     removeCriteriaFromQuestionnaire(
-      questionnaireList[selectedQuestionnaireId].questionnaireId,
+      questionnaireList[selectedQuestionnaireIndex].questionnaireId,
       criteriaId
     )
       .then(response => {
         this.setState({
           questionnaireList: update(questionnaireList, {
-            [selectedQuestionnaireId]: {
+            [selectedQuestionnaireIndex]: {
               criteria: { $splice: [[criteriaIndex, 1]] }
             }
           }),
@@ -445,7 +445,7 @@ class Questionnaire extends Component {
 
     const {
       questionnaireList,
-      selectedQuestionnaireId,
+      selectedQuestionnaireIndex,
       selectedCriteriaList,
       isLoading
     } = this.state;
@@ -508,9 +508,10 @@ class Questionnaire extends Component {
             <Form className="signup-form">
               <FormItem label="Select saved questionnaire">
                 <Select
-                  name="selectedQuestionnaireId"
+                  name="selectedQuestionnaireIndex"
                   size="large"
                   style={{ width: "100%" }}
+                  value={selectedQuestionnaireIndex}
                   placeholder="Please select a questionnaire"
                   onChange={index => this.handleQuestionnaireChange(index)}
                 >
@@ -526,13 +527,13 @@ class Questionnaire extends Component {
               </FormItem>
             </Form>
           </Col>
-          {this.state.selectedQuestionnaireId !== null && (
+          {this.state.selectedQuestionnaireIndex !== null && (
             <Col span={4}>
               <Popconfirm
                 title="Delete?"
                 onConfirm={() =>
                   this.handleDeleteQuestionnaire(
-                    this.state.selectedQuestionnaireId
+                    this.state.selectedQuestionnaireIndex
                   )
                 }
               >
@@ -549,11 +550,11 @@ class Questionnaire extends Component {
           )}
         </Row>
 
-        {selectedQuestionnaireId && (
+        {selectedQuestionnaireIndex && (
           <Row>
             <p>
               {"Instructions: " +
-                questionnaireList[selectedQuestionnaireId].instruction}
+                questionnaireList[selectedQuestionnaireIndex].instruction}
             </p>
           </Row>
         )}
@@ -564,7 +565,7 @@ class Questionnaire extends Component {
             <Title level={2}>Criteria</Title>
           </Col>
           <Col span={3}>
-            {this.state.selectedQuestionnaireId !== null && (
+            {this.state.selectedQuestionnaireIndex !== null && (
               <PopUpModal
                 title="Add Criteria"
                 triggerButtonText="Add Criteria"
@@ -599,7 +600,7 @@ class Questionnaire extends Component {
           </Col>
         </Row>
         <Row>
-          {selectedQuestionnaireId === null ? (
+          {selectedQuestionnaireIndex === null ? (
             <Table rowKey="id" columns={criteriaColumns} />
           ) : (
             selectedCriteriaList.map((criteria, index) => (
@@ -607,8 +608,8 @@ class Questionnaire extends Component {
                 <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
                   <Col span={21}>
                     <Title level={3}>
-                      {selectedQuestionnaireId !== null &&
-                        questionnaireList[this.state.selectedQuestionnaireId]
+                      {selectedQuestionnaireIndex !== null &&
+                        questionnaireList[this.state.selectedQuestionnaireIndex]
                           .criteria !== undefined &&
                         `${criteria.name}`}
 
@@ -634,7 +635,7 @@ class Questionnaire extends Component {
                   rowKey="id"
                   columns={columns}
                   dataSource={
-                    selectedQuestionnaireId !== null &&
+                    selectedQuestionnaireIndex !== null &&
                     criteria !== undefined &&
                     criteria.polls
                   }
