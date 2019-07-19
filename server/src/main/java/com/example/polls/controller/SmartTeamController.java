@@ -110,4 +110,22 @@ public class SmartTeamController {
         List<Team> smartTeam = smartTeamService.smartTeamAllocation(teamListRequest.getTeam(), teamListRequest.getCriteriaCompliances());
         return smartTeam;
     }
+
+    @PostMapping("/allocate/compliance")
+    @PreAuthorize("hasRole('USER')")
+    public List<Team> appendComplianceScore(@Valid @RequestBody TeamListRequest teamListRequest) {
+        List<Team> smartTeam = smartTeamService.appendComplianceScore(teamListRequest.getTeam(), teamListRequest.getCriteriaCompliances());
+        return smartTeam;
+    }
+
+    @PostMapping
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> createTeam(@Valid @RequestBody TeamRequest teamRequest) {
+        Team team = smartTeamService.createTeam(teamRequest);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{teamId}")
+                .buildAndExpand(team.getTeamId()).toUri();
+
+        return ResponseEntity.created(location).body(new ApiResponse(true, "Team Created Successfully"));
+    }
 }

@@ -4,6 +4,7 @@ import com.example.polls.exception.ResourceNotFoundException;
 import com.example.polls.model.*;
 import com.example.polls.payload.ApiResponse;
 import com.example.polls.payload.SmartTeamRequest;
+import com.example.polls.payload.TeamRequest;
 import com.example.polls.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ public class SmartTeamService {
 
     @Autowired
     private QuestionnaireRepository questionnaireRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     @Autowired
     private SectionService sectionService;
@@ -118,6 +122,33 @@ public class SmartTeamService {
     }
 
     /**
+     * Function to create a Team
+     * @param teamRequest
+     * @return
+     */
+    public Team createTeam(TeamRequest teamRequest) {
+        Team team = new Team();
+        team.setComplianceScore(teamRequest.getTeam().getComplianceScore());
+        
+        Section tempSection = sectionRepository.findBySectionId(teamRequest.getTeam().getSection().getSectionId())
+        .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID", teamRequest.getTeam().getSection().getSectionId()));
+        team.setSection(tempSection);
+
+        for (User student : teamRequest.getTeam().getUsers()) {
+            User tempStudent = userRepository.findById(student.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
+            team.getUsers().add(tempStudent);
+        }
+
+        // Find SmartTeam
+        SmartTeam tempSmartTeam = smartTeamRepository.findBySmartteamId(teamRequest.getTeam().getSmartteam().getSmartteamId())
+        .orElseThrow(() -> new ResourceNotFoundException("SmartTeam", "SmartTeam ID", teamRequest.getTeam().getSmartteam().getSmartteamId()));
+        team.setSmartteam(tempSmartTeam);
+
+        return teamRepository.save(team);
+    }
+
+    /**
      * Function to loop through all combinations and find the best compliance score across the Teams
      * @param teamList
      * @param criteriaCompliances
@@ -198,6 +229,19 @@ public class SmartTeamService {
                     }
                 }
             }
+        }
+        return teamList;
+    }
+
+    /**
+     * Function to loop through all the teams and add a compliance score to it
+     * @param teamList
+     * @param criteriaCompliances
+     * @return
+     */
+    public List<Team> appendComplianceScore(List<Team> teamList, List<CriteriaCompliance> criteriaCompliances) {
+        for (Team tempTeam : teamList) {
+            tempTeam.setComplianceScore(getComplianceScore(tempTeam, criteriaCompliances));
         }
         return teamList;
     }
