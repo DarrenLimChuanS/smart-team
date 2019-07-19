@@ -11,7 +11,11 @@ import {
 } from "antd";
 import { Card } from "antd";
 import PopUpModal from "../../common/PopUpModal";
-import { createSmartTeam, getComplianceScore } from "../../util/APIUtils";
+import {
+  createSmartTeam,
+  getComplianceScore,
+  createTeamList
+} from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 const Option = Select.Option;
 const { Title } = Typography;
@@ -93,7 +97,8 @@ class Team extends Component {
   }
 
   handleConfirmTeam() {
-    createSmartTeam(this.state.teams)
+    // TODO Prepare TeamListRequest to pass in function
+    createTeamList(this.state.teams)
       .then(response => {
         this.setState({
           teams: response

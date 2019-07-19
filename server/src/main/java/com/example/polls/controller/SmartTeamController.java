@@ -133,7 +133,7 @@ public class SmartTeamController {
 
     @PostMapping("/teamlist")
     @PreAuthorize("hasRole('USER')")
-    public List<Team> createTeam(@Valid @RequestBody TeamListRequest teamListRequest) {
+    public List<Team> createTeamList(@Valid @RequestBody TeamListRequest teamListRequest) {
         List<Team> teamList = smartTeamService.createTeamList(teamListRequest);
 
         return teamList;

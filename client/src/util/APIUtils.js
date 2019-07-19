@@ -364,6 +364,14 @@ export function smartTeamAllocation(smartteamRequest) {
     body: JSON.stringify(smartteamRequest)
   });
 }
+
+export function createTeamList(teamListRequest) {
+  return request({
+    url: API_BASE_URL + "/smartteams/teamlist",
+    method: "POST",
+    body: JSON.stringify(teamListRequest)
+  });
+}
 /**
  * End of SmartTeam APIs
  **/

@@ -181,6 +181,13 @@ public class SmartTeamService {
             teamList.add(team);
             teamRepository.save(team);
         }
+        // Update status of Section to Teamed
+        Section sectionToUpdate = sectionRepository.findBySectionId(teamListRequest.getTeam().get(0).getSection().getSectionId())
+        .orElseThrow(() -> new ResourceNotFoundException("Section", "Section ID",
+        teamListRequest.getTeam().get(0).getSection().getSectionId()));
+        sectionToUpdate.setStatus("Teamed");
+        sectionService.updateSectionById(sectionToUpdate.getSectionId(), sectionToUpdate);
+        
         return teamList;
     }
 
@@ -195,7 +202,7 @@ public class SmartTeamService {
         int swapPass = 0;
         Double oldScore;
         Double newScore;
-        // Team 1, 2, 3, 4, 5
+        // TODO Algorithm to calculate the optimal outerloop count => Ensure all teams goes through at least once
         // For each Team in TeamList
         outerloop:
         for (int x = 0; x < teamList.size(); x++) {
