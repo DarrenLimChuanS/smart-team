@@ -156,8 +156,8 @@ public class SmartTeamService {
      */
     public List<Team> createTeamList(TeamListRequest teamListRequest) {
         List<Team> teamList = new ArrayList<Team>();
-        Team team = new Team();
         for (Team tempTeam : teamListRequest.getTeam()) {
+            Team team = new Team();
             team.setComplianceScore(tempTeam.getComplianceScore());
         
             Section tempSection = sectionRepository.findBySectionId(tempTeam.getSection().getSectionId())
