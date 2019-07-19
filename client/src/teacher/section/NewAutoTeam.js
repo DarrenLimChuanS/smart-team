@@ -96,7 +96,7 @@ class NewAutoTeam extends Component {
       teamList[i] = [];
     }
     section.users.forEach((user, index) => {
-      if (countTeam < parseInt(noOfTeams.value)) {
+      if (countTeam < parseInt(noOfTeams.value, 10)) {
         teamList[countTeam] = [...teamList[countTeam], user];
         countTeam++;
         if (countTeam === noOfTeams.value) {

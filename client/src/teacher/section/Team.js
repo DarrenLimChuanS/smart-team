@@ -155,7 +155,7 @@ class Team extends Component {
           {smartteam.name} <small>Teams</small>
         </Title>
         <Divider />
-        <Row>
+        <Row type="flex">
           {teams.map((team, teamIndex) => (
             <Col span={8} style={{ padding: "8px" }}>
               <Card title={`Team ${teamIndex + 1} (${team.users.length})`}>

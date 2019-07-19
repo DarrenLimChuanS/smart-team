@@ -235,7 +235,7 @@ class ViewResults extends Component {
       <React.Fragment>
         <Title>{smartteam.name}</Title>
         <Divider />
-        <Row>
+        <Row type="flex">
           {criteria &&
             criteria.map((criterion, index) => (
               <Col key={index} span={8} style={{ padding: "8px" }}>

@@ -55,7 +55,7 @@ class Courses extends Component {
       <React.Fragment>
         <Title>Courses</Title>
         <Divider />
-        <Row>
+        <Row type="flex">
           {this.state &&
             courses &&
             courses.map(course => (
