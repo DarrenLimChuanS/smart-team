@@ -63,30 +63,41 @@ class Courses extends Component {
                 <Card title={course.courseName}>
                   <p>{course.courseDescription}</p>
                   <div style={{ textAlign: "center" }}>
-                    {course.section && course.section.smartteams && (
-                      <Link
-                        // to=""
-                        to={
-                          "/allocation/" +
-                          course.section.smartteams[0].smartteamId +
-                          "/questionnaire/" +
-                          course.section.smartteams[0].questionnaire
-                            .questionnaireId
-                        }
-                      >
-                        <Button type="primary" size="large">
-                          Attempt Questionnaire
-                        </Button>
-                      </Link>
-                    )}
+                    {course.section &&
+                      course.section.smartteams &&
+                      course.section.status == "Teaming" && (
+                        <Link
+                          to={
+                            "/allocation/" +
+                            course.section.smartteams[0].smartteamId +
+                            "/questionnaire/" +
+                            course.section.smartteams[0].questionnaire
+                              .questionnaireId
+                          }
+                        >
+                          <Button type="primary" size="large">
+                            Attempt Questionnaire
+                          </Button>
+                        </Link>
+                      )}
 
-                    <div style={{ marginTop: "8px" }}>
-                      <Link to="/courses/questionnaires_student">
-                        <Button type="primary" size="large">
-                          View Team
-                        </Button>
-                      </Link>
-                    </div>
+                    {course.section &&
+                      course.section.smartteams &&
+                      course.section.status == "Teamed" && (
+                        <div style={{ marginTop: "8px" }}>
+                          <Link
+                            to={
+                              "/smartteam/" +
+                              course.section.smartteams[0].smartteamId +
+                              "/team"
+                            }
+                          >
+                            <Button type="primary" size="large">
+                              View Team
+                            </Button>
+                          </Link>
+                        </div>
+                      )}
                   </div>
                 </Card>
               </Col>

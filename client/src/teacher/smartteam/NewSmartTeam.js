@@ -195,9 +195,7 @@ class NewSmartTeam extends Component {
   isFormInvalid() {
     return !(
       this.state.name.validateStatus === "success" &&
-      this.state.questionnaire.validateStatus === "success" &&
-      this.state.teamnumbertype.validateStatus === "success" &&
-      this.state.noOfTeams.validateStatus === "success"
+      this.state.questionnaire.validateStatus === "success"
     );
   }
 

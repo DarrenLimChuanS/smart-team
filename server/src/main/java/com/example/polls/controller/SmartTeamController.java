@@ -9,6 +9,7 @@ import com.example.polls.payload.SmartTeamRequest;
 import com.example.polls.payload.TeamListRequest;
 import com.example.polls.payload.TeamRequest;
 import com.example.polls.repository.SmartTeamRepository;
+import com.example.polls.repository.TeamRepository;
 import com.example.polls.repository.VoteRepository;
 import com.example.polls.repository.VoteRepository.STOCount;
 import com.example.polls.service.SmartTeamService;
@@ -36,6 +37,9 @@ public class SmartTeamController {
 
     @Autowired
     private VoteRepository voteRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     /**
      * GET a SmartTeam
@@ -136,14 +140,18 @@ public class SmartTeamController {
     @PostMapping("/teamlist")
     @PreAuthorize("hasRole('USER')")
     public List<Team> createTeamList(@Valid @RequestBody TeamListRequest teamListRequest) {
-        List<Team> teamList = smartTeamService.createTeamList(teamListRequest);
-
-        return teamList;
+        return smartTeamService.createTeamList(teamListRequest);
     }
 
     @PostMapping("/allocate/team")
     @PreAuthorize("hasRole('USER')")
     public List<Team> allocateTeam(@Valid @RequestBody TeamListRequest teamListRequest) {
         return smartTeamService.allocateTeam(teamListRequest.getTeam(), teamListRequest.getCriteriaCompliances());
+    }
+
+    @GetMapping("/{smartteamId}/teams")
+    @PreAuthorize("hasAnyRole('USER','STUDENT')")
+    public List<Team> getTeamsBySmartteamId(@PathVariable Long smartteamId) {
+        return teamRepository.findBySmartteamSmartteamId(smartteamId).orElseThrow(() -> new ResourceNotFoundException("Teams with Smart Team ID", "id", smartteamId));
     }
 }

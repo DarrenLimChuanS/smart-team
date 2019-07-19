@@ -211,7 +211,9 @@ class SectionList extends Component {
               </Link>
             )}
             {record.status === "Teamed" && (
-              <Link to={"/section/" + record.sectionId + "/team"}>
+              <Link
+                to={"/smartteam/" + record.smartteams[0].smartteamId + "/team"}
+              >
                 View Team
               </Link>
             )}

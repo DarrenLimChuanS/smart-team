@@ -240,7 +240,7 @@ class App extends Component {
                 />
                 <Route
                   authenticated={this.state.isAuthenticated}
-                  path="/section/:id/team"
+                  path="/smartteam/:id/:team"
                   render={props => (
                     <SectionTeam
                       isAuthenticated={this.state.isAuthenticated}

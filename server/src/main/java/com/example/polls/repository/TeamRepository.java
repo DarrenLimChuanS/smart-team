@@ -13,7 +13,9 @@ import java.util.Optional;
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
-    Optional<Team> findByTeamId(Long smartteamId);
+    Optional<Team> findByTeamId(Long teamId);
+
+    Optional<List<Team>> findBySmartteamSmartteamId(Long smartteamId);
 
     void deleteById(Long smartteamId);
 

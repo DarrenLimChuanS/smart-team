@@ -372,6 +372,13 @@ export function createTeamList(teamListRequest) {
     body: JSON.stringify(teamListRequest)
   });
 }
+
+export function getTeamList(smartteamId) {
+  return request({
+    url: API_BASE_URL + "/smartteams/" + smartteamId + "/teams",
+    method: "GET"
+  });
+}
 /**
  * End of SmartTeam APIs
  **/

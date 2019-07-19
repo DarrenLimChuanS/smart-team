@@ -11,7 +11,13 @@ import {
 } from "antd";
 import { Card } from "antd";
 import PopUpModal from "../../common/PopUpModal";
-import { getComplianceScore, createTeamList } from "../../util/APIUtils";
+import {
+  getCurrentUser,
+  getComplianceScore,
+  createTeamList,
+  getTeamList,
+  getSmartteamById
+} from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 const Option = Select.Option;
 const { Title } = Typography;
@@ -24,10 +30,31 @@ class Team extends Component {
       teams: props.teams,
       smartteam: props.smartteam,
       selectedTeam: 1,
-      isLoading: false
+      isLoading: true
     };
     this.handleTeamChange = this.handleTeamChange.bind(this);
     this.submitTeamChange = this.submitTeamChange.bind(this);
+  }
+
+  async componentDidMount() {
+    getCurrentUser().then(response => {
+      this.setState({
+        currentUser: response,
+        ...this.state
+      });
+    });
+    getTeamList(this.props.match.params.id).then(response => {
+      this.setState({
+        teams: response
+      });
+
+      getSmartteamById(this.props.match.params.id).then(response => {
+        this.setState({
+          smartteam: response,
+          isLoading: false
+        });
+      });
+    });
   }
 
   handleTeamChange(value) {
@@ -132,62 +159,68 @@ class Team extends Component {
           {teams.map((team, teamIndex) => (
             <Col span={8} style={{ padding: "8px" }}>
               <Card title={`Team ${teamIndex + 1} (${team.users.length})`}>
-                <p>
-                  <b>Compliance Score: </b>
-                  {team.complianceScore < 0
-                    ? (-team.complianceScore / (criteria.length * 2)) * 100
-                    : (team.complianceScore / criteria.length) * 100}
-                  %
-                </p>
+                {this.props.match.params.team !== "team" && (
+                  <p>
+                    <b>Compliance Score: </b>
+                    {team.complianceScore < 0
+                      ? (-team.complianceScore / (criteria.length * 2)) * 100
+                      : (team.complianceScore / criteria.length) * 100}
+                    %
+                  </p>
+                )}
                 {team.users.map((user, userIndex) => (
                   <div>
                     <span>{user.name}</span>
-                    <div style={{ float: "right" }}>
-                      <PopUpModal
-                        link
-                        triggerButtonText="Change Team"
-                        triggerButtonSize="small"
-                        title="Change Team"
-                        onSubmit={() =>
-                          this.submitTeamChange(teamIndex, userIndex)
-                        }
-                        confirmText="Change"
-                      >
-                        {"Team: "}
-                        <Select
-                          name="team"
-                          defaultValue={teamIndex + 1}
-                          onChange={this.handleTeamChange}
-                          value={selectedTeam}
-                          style={{ width: 60 }}
+                    {team.teamId == null && (
+                      <div style={{ float: "right" }}>
+                        <PopUpModal
+                          link
+                          triggerButtonText="Change Team"
+                          triggerButtonSize="small"
+                          title="Change Team"
+                          onSubmit={() =>
+                            this.submitTeamChange(teamIndex, userIndex)
+                          }
+                          confirmText="Change"
                         >
-                          {teams.map((team, selectedTeamIndex) => (
-                            <Option
-                              key={selectedTeamIndex}
-                              value={selectedTeamIndex + 1}
-                            >
-                              {selectedTeamIndex + 1}
-                            </Option>
-                          ))}
-                        </Select>
-                      </PopUpModal>
-                    </div>
+                          {"Team: "}
+                          <Select
+                            name="team"
+                            defaultValue={teamIndex + 1}
+                            onChange={this.handleTeamChange}
+                            value={selectedTeam}
+                            style={{ width: 60 }}
+                          >
+                            {teams.map((team, selectedTeamIndex) => (
+                              <Option
+                                key={selectedTeamIndex}
+                                value={selectedTeamIndex + 1}
+                              >
+                                {selectedTeamIndex + 1}
+                              </Option>
+                            ))}
+                          </Select>
+                        </PopUpModal>
+                      </div>
+                    )}
                   </div>
                 ))}
               </Card>
             </Col>
           ))}
         </Row>
-        <Row>
-          <Button
-            type="primary"
-            size="large"
-            className="signup-form-button"
-            onClick={() => this.handleConfirmTeam()}
-          >
-            Confirm Team
-          </Button>
-        </Row>
+        {teams[0].teamId == null && (
+          <Row>
+            <Button
+              type="primary"
+              size="large"
+              className="signup-form-button"
+              onClick={() => this.handleConfirmTeam()}
+            >
+              Confirm Team
+            </Button>
+          </Row>
+        )}
       </React.Fragment>
     );
   }

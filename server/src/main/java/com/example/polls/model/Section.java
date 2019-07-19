@@ -39,6 +39,11 @@ public class Section extends UserDateAudit {
     @JsonBackReference("course_sections")
     private Course course;
 
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Set<Team> teams = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinTable(name = "section_users", joinColumns = { @JoinColumn(name = "section_id") }, inverseJoinColumns = {
             @JoinColumn(name = "user_id", referencedColumnName = "id") })
@@ -125,5 +130,13 @@ public class Section extends UserDateAudit {
 
     public void setSmartteams(Set<SmartTeam> smartteams) {
         this.smartteams = smartteams;
+    }
+
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
     }
 }

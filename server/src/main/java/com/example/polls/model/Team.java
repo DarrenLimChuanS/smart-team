@@ -2,6 +2,8 @@ package com.example.polls.model;
 
 import com.example.polls.model.audit.UserDateAudit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.OnDelete;
@@ -25,6 +27,7 @@ public class Team extends UserDateAudit {
     // One way mapping
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "section_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Section section;
 
     // Mapped in another table
@@ -37,6 +40,7 @@ public class Team extends UserDateAudit {
     // One way mapping
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "smartteam_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private SmartTeam smartteam;
 
     public Team() {
