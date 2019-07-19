@@ -193,33 +193,44 @@ class SectionList extends Component {
         render: (text, record) => (
           <span>
             {record.status === "Not Teamed" && (
-              <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
-                Assign Team
-              </Link>
+              <React.Fragment>
+                <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
+                  Assign Team
+                </Link>
+                <Divider type="vertical" />
+
+                <Link to={"/section/" + record.sectionId}>Edit</Link>
+                <Divider type="vertical" />
+              </React.Fragment>
             )}
             {record.status === "Teaming" && record.smartteams[0] && (
-              <Link
-                to={
-                  "/section/" +
-                  record.sectionId +
-                  "/smartteam/" +
-                  record.smartteams[0].smartteamId +
-                  "/results"
-                }
-              >
-                View Results
-              </Link>
+              <React.Fragment>
+                <Link
+                  to={
+                    "/section/" +
+                    record.sectionId +
+                    "/smartteam/" +
+                    record.smartteams[0].smartteamId +
+                    "/results"
+                  }
+                >
+                  View Results
+                </Link>
+                <Divider type="vertical" />
+              </React.Fragment>
             )}
             {record.status === "Teamed" && (
-              <Link
-                to={"/smartteam/" + record.smartteams[0].smartteamId + "/team"}
-              >
-                View Team
-              </Link>
+              <React.Fragment>
+                <Link
+                  to={
+                    "/smartteam/" + record.smartteams[0].smartteamId + "/team"
+                  }
+                >
+                  View Team
+                </Link>
+                <Divider type="vertical" />
+              </React.Fragment>
             )}
-            <Divider type="vertical" />
-            <Link to={"/section/" + record.sectionId}>Edit</Link>
-            <Divider type="vertical" />
             <Popconfirm
               title="Delete?"
               onConfirm={() => this.deleteSectionWithId(record.sectionId)}

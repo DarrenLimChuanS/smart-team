@@ -404,18 +404,18 @@ class Questionnaire extends Component {
         key: "question",
         sorter: (a, b) => compareByAlph(a.question, b.question),
         sortOrder: sortedInfo.columnKey === "question" && sortedInfo.order
-      },
-      {
-        title: "Action",
-        key: "action",
-        render: (text, record) => (
-          <span>
-            <a href="/">Edit</a>
-            <Divider type="vertical" />
-            <a href="/">Delete</a>
-          </span>
-        )
       }
+      // {
+      //   title: "Action",
+      //   key: "action",
+      //   render: (text, record) => (
+      //     <span>
+      //       <a href="/">Edit</a>
+      //       <Divider type="vertical" />
+      //       <a href="/">Delete</a>
+      //     </span>
+      //   )
+      // }
     ];
 
     const criteriaColumns = [
