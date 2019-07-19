@@ -458,9 +458,9 @@ class Questionnaire extends Component {
             <Title level={2}>Questionnaires</Title>
           </Col>
           <Col span={2}>
-            <Button type="primary" size="default">
+            {/* <Button type="primary" size="default">
               Import
-            </Button>
+            </Button> */}
           </Col>
           <Col span={2}>
             <PopUpModal
