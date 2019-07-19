@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Modal, Button } from "antd";
+import { Link } from "react-router-dom";
 
 class PopUpModal extends Component {
   state = {
@@ -32,20 +33,29 @@ class PopUpModal extends Component {
       confirmText,
       submitButtonType,
       title,
+      triggerButtonSize,
       triggerButtonType,
       triggerButtonText,
       linkTo,
+      link,
       ...rest
     } = this.props;
     return (
       <React.Fragment>
-        <Button
-          type={triggerButtonType || "primary"}
-          onClick={this.showModal}
-          {...rest}
-        >
-          {triggerButtonText}
-        </Button>
+        {link ? (
+          <Link onClick={this.showModal} {...rest}>
+            {triggerButtonText}
+          </Link>
+        ) : (
+          <Button
+            type={triggerButtonType || "primary"}
+            size={triggerButtonSize || "default"}
+            onClick={this.showModal}
+            {...rest}
+          >
+            {triggerButtonText}
+          </Button>
+        )}
         <Modal
           visible={visible}
           title={title}

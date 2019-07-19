@@ -214,7 +214,7 @@ class ViewResults extends Component {
         label: (
           <span>
             0 <br />
-            (Ignore)
+            (Exclude)
           </span>
         )
       },

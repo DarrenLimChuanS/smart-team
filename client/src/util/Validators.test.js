@@ -100,7 +100,7 @@ describe("validateGroup", () => {
   it("should return error with message if the total number of students is lesser than calculated team", () => {
     test = validateGroup(4, 2, 4, 20, 6, 5);
     expect(test.validateStatus).toBe("error");
-    expect(test.errorMsg).toBe("Invalid number of people in a team.");
+    expect(test.errorMsg).toBe("Invalid value.");
   });
 
   it("should return success if number is correct", () => {

@@ -49,8 +49,7 @@ class NewAutoTeam extends Component {
     });
   }
 
-  handleNoOfTeamsInputChange(value, validationFun) {
-    const noOfStudents = Number(this.state.section.noOfStudents);
+  handleNoOfTeamsInputChange(value, noOfStudents, validationFun) {
     const teamSize = Math.floor(noOfStudents / value);
     this.setState({
       teamSize: {
@@ -59,7 +58,14 @@ class NewAutoTeam extends Component {
       },
       noOfTeams: {
         value: value,
-        ...validationFun(value)
+        ...validationFun(
+          teamSize,
+          1,
+          noOfStudents,
+          noOfStudents,
+          teamSize,
+          value
+        )
       }
     });
   }
@@ -210,7 +216,6 @@ class NewAutoTeam extends Component {
                   name="teamSize"
                   autoComplete="off"
                   placeholder="Team Size"
-                  initialValue={2}
                   value={teamSize.value}
                   onChange={event =>
                     this.handleTeamSizeInputChange(
@@ -221,14 +226,6 @@ class NewAutoTeam extends Component {
                   }
                 />
                 <span className="ant-form-text">people</span>
-
-                {section.noOfStudents % teamSize.value !== 0 &&
-                  section.noOfStudents / teamSize.value > 2 && (
-                    <div>
-                      Note: Teams of {this.state.teamSize.value} and{" "}
-                      {this.state.teamSize.value + 1} people.
-                    </div>
-                  )}
               </FormItem>
             </Col>
             <Col span={2} style={{ verticalAlign: "middle" }}>
@@ -248,10 +245,13 @@ class NewAutoTeam extends Component {
                   name="noOfTeams"
                   autoComplete="off"
                   placeholder="No. of Teams"
-                  defaultValue="2"
                   value={noOfTeams.value}
                   onChange={event =>
-                    this.handleNoOfTeamsInputChange(event, validateNumber)
+                    this.handleNoOfTeamsInputChange(
+                      event,
+                      this.state.section.noOfStudents,
+                      validateGroup
+                    )
                   }
                 />
                 <span className="ant-form-text">teams</span>
@@ -273,7 +273,7 @@ class NewAutoTeam extends Component {
         </Row>
       </React.Fragment>
     ) : (
-      <Team teams={teams} smartteam={smartteam} />
+      <Team teams={teams} smartteam={smartteam} criteria={criteria} />
     );
   }
 }
