@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Form, InputNumber, Row, Col, Typography, Divider, Button } from "antd";
 import { Card, notification } from "antd";
-import { validateNumber, validateGroup } from "../../util/Validators";
+import { validateGroup } from "../../util/Validators";
 import {
   getSectionById,
   getComplianceScore,
@@ -91,17 +91,14 @@ class NewAutoTeam extends Component {
     this.setState({
       isLoading: true
     });
-    console.log(this.props.criteria, this.props.smartteam, this.state.section);
-    const { teamSize, noOfTeams, section, isLoading } = this.state;
-    const { criteria, smartteam } = this.props;
+    const { noOfTeams, section } = this.state;
+    const { smartteam } = this.props;
     let teamList = {};
     let countTeam = 0;
     let teamData = [];
-    console.log(noOfTeams.value);
     for (let i = 0; i < noOfTeams.value; i++) {
       teamList[i] = [];
     }
-    console.log(teamList);
     section.users.forEach((user, index) => {
       if (countTeam < parseInt(noOfTeams.value)) {
         teamList[countTeam] = [...teamList[countTeam], user];
@@ -111,7 +108,6 @@ class NewAutoTeam extends Component {
         }
       }
     });
-    console.log(teamList);
 
     Object.keys(teamList).forEach((key, index) => {
       const teamObject = {
@@ -121,8 +117,6 @@ class NewAutoTeam extends Component {
       };
       teamData[index] = teamObject;
     });
-
-    console.log(teamData);
     const smartTeamRequest = {
       team: teamData,
       criteriaCompliances: this.props.criteria
@@ -134,8 +128,6 @@ class NewAutoTeam extends Component {
           isLoading: false,
           showTeam: true
         });
-        console.log(response);
-
         notification.success({
           message: "Smart Team",
           description: "Success! You have successfully generated the teams."

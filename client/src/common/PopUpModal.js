@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Modal, Button } from "antd";
-import { Link } from "react-router-dom";
 
 class PopUpModal extends Component {
   state = {
@@ -43,9 +42,9 @@ class PopUpModal extends Component {
     return (
       <React.Fragment>
         {link ? (
-          <Link onClick={this.showModal} {...rest}>
+          <a onClick={this.showModal} {...rest}>
             {triggerButtonText}
-          </Link>
+          </a>
         ) : (
           <Button
             type={triggerButtonType || "primary"}
