@@ -8,6 +8,7 @@ import {
   Row,
   Col,
   Table,
+  Tag,
   Typography,
   notification,
   Popconfirm
@@ -133,6 +134,19 @@ class SectionList extends Component {
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
 
+    const getTagColorByStatus = status => {
+      switch (status) {
+        case "Not Teamed":
+          return "volcano";
+        case "Teaming":
+          return "blue";
+        case "Teamed":
+          return "green";
+        default:
+          return "foo";
+      }
+    };
+
     const columns = [
       {
         title: "#",
@@ -183,6 +197,13 @@ class SectionList extends Component {
           { text: "Teamed", value: "Teamed" }
         ],
         filteredValue: filteredInfo.status || null,
+        render: status => (
+          <span>
+            <Tag color={getTagColorByStatus(status)} key={status}>
+              {status}
+            </Tag>
+          </span>
+        ),
         onFilter: (value, record) => record.status.includes(value),
         sorter: (a, b) => a.status.length - b.status.length,
         sortOrder: sortedInfo.columnKey === "status" && sortedInfo.order

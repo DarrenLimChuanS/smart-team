@@ -12,6 +12,7 @@ import {
   Row,
   Col,
   Table,
+  Tag,
   Typography,
   Popconfirm
 } from "antd";
@@ -181,7 +182,11 @@ class Criteria extends Component {
         dataIndex: "graded",
         key: "graded",
         render: (text, record) => (
-          <span>{record.graded ? "Graded" : "Non-Graded"}</span>
+          <span>
+            <Tag color={record.status ? "green" : "blue"} key={record.status}>
+              {record.status ? "Graded" : "Non-Graded"}
+            </Tag>
+          </span>
         ),
         sorter: (a, b) => a.graded - b.graded,
         sortOrder: sortedInfo.columnKey === "graded" && sortedInfo.order
