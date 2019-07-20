@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Question.css";
 import { Icon } from "antd";
-import { Radio, Button } from "antd";
+import { Radio } from "antd";
 const RadioGroup = Radio.Group;
 
 class Question extends Component {
