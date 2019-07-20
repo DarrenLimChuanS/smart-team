@@ -7,3 +7,5 @@ client/package-lock.json
 .idea/workspace.xml
 .idea/workspace.xml
 .vscode/*
+server/src/main/resources/application-prod.properties
+server/src/main/resources/application.properties
