@@ -48,7 +48,13 @@ public class User extends UserDateAudit {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "users")
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference("section_user")
     private Set<Section> sections = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.PERSIST }, mappedBy = "users")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference("team_user")
+    private Set<Team> teams = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference("smartteam_initiator")
@@ -128,4 +134,5 @@ public class User extends UserDateAudit {
     public void setSmartTeams(Set<SmartTeam> smartteams) {
         this.smartteams = smartteams;
     }
+
 }

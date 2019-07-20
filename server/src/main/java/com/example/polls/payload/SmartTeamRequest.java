@@ -1,6 +1,5 @@
 package com.example.polls.payload;
 
-import com.example.polls.model.Poll;
 import com.example.polls.model.Questionnaire;
 import com.example.polls.model.Section;
 import com.example.polls.model.User;

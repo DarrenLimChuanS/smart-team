@@ -113,7 +113,6 @@ class EditSection extends Component {
     const { courseList } = this.state;
     const courseIndex = courseList.findIndex(course => course.id === courseId);
     const course = courseList[courseIndex];
-    console.log(course);
     this.setState({
       course: {
         value: course
@@ -132,7 +131,7 @@ class EditSection extends Component {
       name: name.value,
       noOfStudents: students.value === undefined ? 0 : students.value.length,
       year: year.value,
-      status: "Not Grouped",
+      status: "Not Teamed",
       course: course.value,
       users: students.value
     };

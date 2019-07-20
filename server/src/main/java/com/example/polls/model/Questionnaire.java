@@ -8,15 +8,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "questionnaire", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
@@ -37,12 +35,11 @@ public class Questionnaire extends UserDateAudit {
             @JoinColumn(name = "criteria_id") })
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @JsonIdentityInfo(scope = Criteria.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private Set<Criteria> criteria = new HashSet<>();
 
     @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-    @JsonIgnore
+    @JsonBackReference
     private Set<SmartTeam> smartteams = new HashSet<>();
 
     public Questionnaire() {
@@ -94,4 +91,5 @@ public class Questionnaire extends UserDateAudit {
     public void setSmartTeams(Set<SmartTeam> smartteams) {
         this.smartteams = smartteams;
     }
+
 }

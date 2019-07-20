@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { getUserCreatedStudents, deleteStudent } from "../../util/APIUtils";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   Button,
   Divider,
@@ -80,7 +81,6 @@ class StudentList extends Component {
   }
 
   handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter
@@ -107,7 +107,7 @@ class StudentList extends Component {
   }
 
   render() {
-    let { sortedInfo, filteredInfo } = this.state;
+    let { sortedInfo, filteredInfo, isLoading } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
 
@@ -175,7 +175,9 @@ class StudentList extends Component {
         )
       }
     ];
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         <Row>
           <Col span={22}>
@@ -191,6 +193,7 @@ class StudentList extends Component {
         </Row>
         <Row>
           <Table
+            rowKey="id"
             columns={columns}
             dataSource={this.state.students}
             onChange={this.handleChange}

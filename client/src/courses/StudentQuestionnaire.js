@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { getQuestionnaireById } from "../util/APIUtils";
+import { getQuestionnaireById, getSmartteamById } from "../util/APIUtils";
 import QuestionnaireInstructions from "../common/questionnaire/QuestionnaireInstructions";
 import Questionnaire from "../common/questionnaire/Questionnaire";
 
@@ -17,6 +17,7 @@ class StudentQuestionnaire extends Component {
 
   componentDidMount() {
     this.loadQuestionnaire();
+    this.loadSmartTeam();
   }
 
   toggleShowInstructions() {
@@ -55,13 +56,45 @@ class StudentQuestionnaire extends Component {
       });
   }
 
+  loadSmartTeam() {
+    const { currentUser, match } = this.props;
+    let promise;
+
+    if (currentUser) {
+      promise = getSmartteamById(match.params.smartTeamId);
+    }
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        console.log(response);
+        this.setState({
+          smartteam: response,
+          isLoading: false
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
   render() {
-    const { questionnaire, showInstructions } = this.state;
+    const { questionnaire, smartteam, showInstructions } = this.state;
     return (
       <React.Fragment>
         {showInstructions ? (
           <QuestionnaireInstructions
             questionnaire={questionnaire}
+            smartteam={smartteam}
             buttonOnClick={this.toggleShowInstructions}
           />
         ) : (

@@ -348,6 +348,37 @@ export function countByOutcomeGroupByCriteriaId(smartteamId) {
     method: "GET"
   });
 }
+
+export function getComplianceScore(complianceData) {
+  return request({
+    url: API_BASE_URL + "/smartteams/compliance",
+    method: "POST",
+    body: JSON.stringify(complianceData)
+  });
+}
+
+export function smartTeamAllocation(smartteamRequest) {
+  return request({
+    url: API_BASE_URL + "/smartteams/allocate/team",
+    method: "POST",
+    body: JSON.stringify(smartteamRequest)
+  });
+}
+
+export function createTeamList(teamListRequest) {
+  return request({
+    url: API_BASE_URL + "/smartteams/teamlist",
+    method: "POST",
+    body: JSON.stringify(teamListRequest)
+  });
+}
+
+export function getTeamList(smartteamId) {
+  return request({
+    url: API_BASE_URL + "/smartteams/" + smartteamId + "/teams",
+    method: "GET"
+  });
+}
 /**
  * End of SmartTeam APIs
  **/

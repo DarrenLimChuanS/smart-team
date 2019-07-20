@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { getUserCreatedSections, deleteSection } from "../../util/APIUtils";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   Button,
   Divider,
   Row,
   Col,
   Table,
+  Tag,
   Typography,
   notification,
   Popconfirm
@@ -99,7 +101,6 @@ class SectionList extends Component {
   }
 
   handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter
@@ -129,9 +130,22 @@ class SectionList extends Component {
   }
 
   render() {
-    let { sortedInfo, filteredInfo } = this.state;
+    let { sortedInfo, filteredInfo, isLoading } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
+
+    const getTagColorByStatus = status => {
+      switch (status) {
+        case "Not Teamed":
+          return "volcano";
+        case "Teaming":
+          return "blue";
+        case "Teamed":
+          return "green";
+        default:
+          return "foo";
+      }
+    };
 
     const columns = [
       {
@@ -175,14 +189,21 @@ class SectionList extends Component {
         dataIndex: "status",
         key: "status",
         filters: [
-          { text: "Not Grouped", value: "Not Grouped" },
+          { text: "Not Teamed", value: "Not Teamed" },
           {
-            text: "Pending (Automated Allocation)",
-            value: "Pending (Automated Allocation)"
+            text: "Teaming",
+            value: "Teaming"
           },
-          { text: "Grouped", value: "Grouped" }
+          { text: "Teamed", value: "Teamed" }
         ],
         filteredValue: filteredInfo.status || null,
+        render: status => (
+          <span>
+            <Tag color={getTagColorByStatus(status)} key={status}>
+              {status}
+            </Tag>
+          </span>
+        ),
         onFilter: (value, record) => record.status.includes(value),
         sorter: (a, b) => a.status.length - b.status.length,
         sortOrder: sortedInfo.columnKey === "status" && sortedInfo.order
@@ -192,21 +213,45 @@ class SectionList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            {record.status === "Not Grouped" && (
-              <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
-                Assign Group
-              </Link>
+            {record.status === "Not Teamed" && (
+              <React.Fragment>
+                <Link to={"/section/" + record.sectionId + "/newsmartteam"}>
+                  Assign Team
+                </Link>
+                <Divider type="vertical" />
+
+                <Link to={"/section/" + record.sectionId}>Edit</Link>
+                <Divider type="vertical" />
+              </React.Fragment>
             )}
-            {record.status === "Grouping" && record.smartteams[0] && (
-              <Link
-                to={"/section/" + record.smartteams[0].smartteamId + "/results"}
-              >
-                View Results
-              </Link>
+            {record.status === "Teaming" && record.smartteams[0] && (
+              <React.Fragment>
+                <Link
+                  to={
+                    "/section/" +
+                    record.sectionId +
+                    "/smartteam/" +
+                    record.smartteams[0].smartteamId +
+                    "/results"
+                  }
+                >
+                  View Results
+                </Link>
+                <Divider type="vertical" />
+              </React.Fragment>
             )}
-            <Divider type="vertical" />
-            <Link to={"/section/" + record.sectionId}>Edit</Link>
-            <Divider type="vertical" />
+            {record.status === "Teamed" && (
+              <React.Fragment>
+                <Link
+                  to={
+                    "/smartteam/" + record.smartteams[0].smartteamId + "/team"
+                  }
+                >
+                  View Team
+                </Link>
+                <Divider type="vertical" />
+              </React.Fragment>
+            )}
             <Popconfirm
               title="Delete?"
               onConfirm={() => this.deleteSectionWithId(record.sectionId)}
@@ -218,7 +263,9 @@ class SectionList extends Component {
       }
     ];
 
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         <Row>
           <Col span={22}>
@@ -234,9 +281,9 @@ class SectionList extends Component {
         </Row>
         <Row>
           <Table
+            rowKey="id"
             columns={columns}
             dataSource={this.state.sections}
-            rowKey={record => record.id}
             onChange={this.handleChange}
           />
         </Row>

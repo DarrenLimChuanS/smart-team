@@ -5,6 +5,7 @@ import {
   deleteCourse
 } from "../../util/APIUtils";
 import { Link, withRouter } from "react-router-dom";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   Button,
   Divider,
@@ -137,7 +138,7 @@ class CourseList extends Component {
   }
 
   render() {
-    let { sortedInfo } = this.state;
+    let { sortedInfo, isLoading } = this.state;
     sortedInfo = sortedInfo || {};
 
     const columns = [
@@ -185,8 +186,6 @@ class CourseList extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="/">View Sections</a>
-            <Divider type="vertical" />
             <Link to={"/course/" + record.id}>Edit</Link>
             <Divider type="vertical" />
             <Popconfirm
@@ -200,7 +199,9 @@ class CourseList extends Component {
       }
     ];
 
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         <Row>
           <Col span={22}>
@@ -216,6 +217,7 @@ class CourseList extends Component {
         </Row>
         <Row>
           <Table
+            rowKey="id"
             columns={columns}
             dataSource={this.state.courses}
             onChange={this.handleChange}

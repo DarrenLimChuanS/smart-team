@@ -5,13 +5,14 @@ import {
   deleteCriteria
 } from "../../util/APIUtils";
 import { Link, withRouter } from "react-router-dom";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   notification,
   Button,
-  Divider,
   Row,
   Col,
   Table,
+  Tag,
   Typography,
   Popconfirm
 } from "antd";
@@ -110,7 +111,6 @@ class Criteria extends Component {
   }
 
   handleChange = (pagination, filters, sorter) => {
-    console.log("Various parameters", pagination, filters, sorter);
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter
@@ -159,7 +159,7 @@ class Criteria extends Component {
   }
 
   render() {
-    let { sortedInfo } = this.state;
+    let { sortedInfo, isLoading } = this.state;
     sortedInfo = sortedInfo || {};
 
     const columns = [
@@ -182,7 +182,11 @@ class Criteria extends Component {
         dataIndex: "graded",
         key: "graded",
         render: (text, record) => (
-          <span>{record.graded ? "Graded" : "Non-Graded"}</span>
+          <span>
+            <Tag color={record.status ? "green" : "blue"} key={record.status}>
+              {record.status ? "Graded" : "Non-Graded"}
+            </Tag>
+          </span>
         ),
         sorter: (a, b) => a.graded - b.graded,
         sortOrder: sortedInfo.columnKey === "graded" && sortedInfo.order
@@ -199,8 +203,6 @@ class Criteria extends Component {
         key: "action",
         render: (text, record) => (
           <span>
-            <a href="/">Edit</a>
-            <Divider type="vertical" />
             <Popconfirm
               title="Delete?"
               onConfirm={() => this.deleteCriteriaWithId(record.id)}
@@ -212,7 +214,9 @@ class Criteria extends Component {
       }
     ];
 
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         <Row>
           <Col span={22}>
@@ -238,6 +242,7 @@ class Criteria extends Component {
         </Row>
         <Row>
           <Table
+            rowKey="id"
             columns={columns}
             dataSource={this.state.criteria}
             onChange={this.handleChange}

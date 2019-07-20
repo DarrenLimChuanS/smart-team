@@ -130,7 +130,7 @@ public class QuestionnaireService {
         Questionnaire questionnaire = questionnaireRepository.findByQuestionnaireId(questionnaireId)
                 .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "id", questionnaireId));
 
-        Criteria criteria = criteriaRepository.findByCriteriaId(criteriaId)
+        Criteria criteria = criteriaRepository.findById(criteriaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", criteriaId));
 
         questionnaire.getCriteria().add(criteria);
@@ -161,7 +161,7 @@ public class QuestionnaireService {
         Questionnaire questionnaire = questionnaireRepository.findByQuestionnaireId(questionnaireId)
                 .orElseThrow(() -> new ResourceNotFoundException("Questionnaire", "id", questionnaireId));
 
-        Criteria criteria = criteriaRepository.findByCriteriaId(criteriaId)
+        Criteria criteria = criteriaRepository.findById(criteriaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Criteria", "id", criteriaId));
 
         questionnaire.getCriteria().remove(criteria);

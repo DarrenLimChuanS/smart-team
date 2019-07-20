@@ -91,7 +91,7 @@ export const validateGroup = (
   ) {
     return {
       validateStatus: "error",
-      errorMsg: `Invalid number of people in a team.`
+      errorMsg: `Invalid value.`
     };
   } else {
     return {

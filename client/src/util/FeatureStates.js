@@ -105,8 +105,8 @@ export const Section = (
 export const SmartTeam = (
   id,
   name,
-  pollStart,
-  pollEnd,
+  questionnaireStart,
+  questionnaireEnd,
   smartteamStartdate,
   smartteamEnddate,
   questionnaire,
@@ -131,11 +131,11 @@ export const SmartTeam = (
     value: 0,
     validateStatus: id ? "success" : ""
   },
-  pollStart: {
+  questionnaireStart: {
     days: 1,
     hours: 0
   },
-  pollEnd: {
+  questionnaireEnd: {
     days: 1,
     hours: 0
   },

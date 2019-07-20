@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Question.css";
 import { Icon } from "antd";
-import { Radio, Button } from "antd";
+import { Radio } from "antd";
 const RadioGroup = Radio.Group;
 
 class Question extends Component {
@@ -99,17 +99,6 @@ class Question extends Component {
           >
             {questionChoices}
           </RadioGroup>
-        </div>
-        <div className="poll-footer">
-          {!(this.props.poll.selectedChoice || this.props.poll.expired) ? (
-            <Button
-              className="vote-button"
-              disabled={!this.props.currentVote}
-              onClick={this.props.handleSaveSubmit}
-            >
-              Save
-            </Button>
-          ) : null}
         </div>
       </div>
     );

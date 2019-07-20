@@ -16,8 +16,8 @@ public class ModelMapper {
         userResponse.setEmail(user.getEmail());
         userResponse.setRoles(user.getRoles());
         userResponse.setSections(user.getSections());
-        userResponse.setSmartteams(user.getSmartteams());
         userResponse.setCreationDateTime(user.getCreatedAt());
+        userResponse.setSmartteams(user.getSmartteams());
 
         UserSummary creatorSummary = new UserSummary(creator.getId(), creator.getUsername(), creator.getName(),
                 creator.getRoles());

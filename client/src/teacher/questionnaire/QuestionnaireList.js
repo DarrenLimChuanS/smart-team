@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import update from "immutability-helper";
 import { withRouter } from "react-router-dom";
+import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   Button,
   Col,
-  Divider,
   Form,
   Input,
   Row,
@@ -40,7 +40,7 @@ class Questionnaire extends Component {
     this.state = {
       criteriaList: [],
       questionnaireList: [],
-      selectedQuestionnaireId: 0,
+      selectedQuestionnaireIndex: null,
       selectedCriteriaList: [],
       selectedCriteriaId: null,
       filteredInfo: null,
@@ -233,7 +233,7 @@ class Questionnaire extends Component {
   handleQuestionnaireChange(value) {
     this.setState({
       selectedCriteriaList: [],
-      selectedQuestionnaireId: value
+      selectedQuestionnaireIndex: value
     });
     this.state.questionnaireList[value].criteria.forEach(criteria => {
       this.loadCriteriaByID(criteria.id);
@@ -251,7 +251,7 @@ class Questionnaire extends Component {
     deleteQuestionnaire(id)
       .then(response => {
         this.setState({
-          selectedQuestionnaireId: 0,
+          selectedQuestionnaireIndex: 0,
           questionnaireList: update(this.state.questionnaireList, {
             $splice: [[index, 1]]
           })
@@ -310,18 +310,18 @@ class Questionnaire extends Component {
     const {
       questionnaireList,
       selectedCriteriaList,
-      selectedQuestionnaireId,
+      selectedQuestionnaireIndex,
       criteriaList,
       selectedCriteriaId
     } = this.state;
     addCriteriaToQuestionnaire(
-      questionnaireList[selectedQuestionnaireId].questionnaireId,
+      questionnaireList[selectedQuestionnaireIndex].questionnaireId,
       criteriaList[selectedCriteriaId].id
     )
       .then(response => {
         this.setState({
           questionnaireList: update(questionnaireList, {
-            [selectedQuestionnaireId]: {
+            [selectedQuestionnaireIndex]: {
               criteria: { $push: [criteriaList[selectedCriteriaId]] }
             }
           }),
@@ -346,17 +346,17 @@ class Questionnaire extends Component {
   handleRemoveCriteria(criteriaId, criteriaIndex) {
     const {
       questionnaireList,
-      selectedQuestionnaireId,
+      selectedQuestionnaireIndex,
       selectedCriteriaList
     } = this.state;
     removeCriteriaFromQuestionnaire(
-      questionnaireList[selectedQuestionnaireId].questionnaireId,
+      questionnaireList[selectedQuestionnaireIndex].questionnaireId,
       criteriaId
     )
       .then(response => {
         this.setState({
           questionnaireList: update(questionnaireList, {
-            [selectedQuestionnaireId]: {
+            [selectedQuestionnaireIndex]: {
               criteria: { $splice: [[criteriaIndex, 1]] }
             }
           }),
@@ -403,18 +403,18 @@ class Questionnaire extends Component {
         key: "question",
         sorter: (a, b) => compareByAlph(a.question, b.question),
         sortOrder: sortedInfo.columnKey === "question" && sortedInfo.order
-      },
-      {
-        title: "Action",
-        key: "action",
-        render: (text, record) => (
-          <span>
-            <a href="/">Edit</a>
-            <Divider type="vertical" />
-            <a href="/">Delete</a>
-          </span>
-        )
       }
+      // {
+      //   title: "Action",
+      //   key: "action",
+      //   render: (text, record) => (
+      //     <span>
+      //       <a href="/">Edit</a>
+      //       <Divider type="vertical" />
+      //       <a href="/">Delete</a>
+      //     </span>
+      //   )
+      // }
     ];
 
     const criteriaColumns = [
@@ -444,19 +444,22 @@ class Questionnaire extends Component {
 
     const {
       questionnaireList,
-      selectedQuestionnaireId,
-      selectedCriteriaList
+      selectedQuestionnaireIndex,
+      selectedCriteriaList,
+      isLoading
     } = this.state;
-    return (
+    return isLoading ? (
+      <LoadingIndicator />
+    ) : (
       <React.Fragment>
         <Row>
           <Col span={20}>
             <Title level={2}>Questionnaires</Title>
           </Col>
           <Col span={2}>
-            <Button type="primary" size="default">
+            {/* <Button type="primary" size="default">
               Import
-            </Button>
+            </Button> */}
           </Col>
           <Col span={2}>
             <PopUpModal
@@ -504,16 +507,17 @@ class Questionnaire extends Component {
             <Form className="signup-form">
               <FormItem label="Select saved questionnaire">
                 <Select
-                  name="selectedQuestionnaireId"
+                  name="selectedQuestionnaireIndex"
                   size="large"
                   style={{ width: "100%" }}
+                  value={selectedQuestionnaireIndex}
                   placeholder="Please select a questionnaire"
                   onChange={index => this.handleQuestionnaireChange(index)}
                 >
                   {this.state &&
                     questionnaireList &&
                     questionnaireList.map((questionnaire, index) => (
-                      <Option key={index}>
+                      <Option key={index} value={index}>
                         {questionnaire.questionnaireId} - {questionnaire.name} (
                         {questionnaire.criteria.length} criteria)
                       </Option>
@@ -522,13 +526,13 @@ class Questionnaire extends Component {
               </FormItem>
             </Form>
           </Col>
-          {this.state.selectedQuestionnaireId !== 0 && (
+          {this.state.selectedQuestionnaireIndex !== null && (
             <Col span={4}>
               <Popconfirm
                 title="Delete?"
                 onConfirm={() =>
                   this.handleDeleteQuestionnaire(
-                    this.state.selectedQuestionnaireId
+                    this.state.selectedQuestionnaireIndex
                   )
                 }
               >
@@ -544,20 +548,23 @@ class Questionnaire extends Component {
             </Col>
           )}
         </Row>
-        <Row>
-          <p>
-            {selectedQuestionnaireId !== 0 &&
-              "Instructions: " +
-                questionnaireList[selectedQuestionnaireId].instruction}
-          </p>
-        </Row>
+
+        {selectedQuestionnaireIndex !== null && (
+          <Row>
+            <p>
+              Instructions:{" "}
+              {questionnaireList[selectedQuestionnaireIndex].instruction}
+            </p>
+          </Row>
+        )}
+
         <hr />
         <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
           <Col span={21}>
             <Title level={2}>Criteria</Title>
           </Col>
           <Col span={3}>
-            {this.state.selectedQuestionnaireId !== 0 && (
+            {this.state.selectedQuestionnaireIndex !== null && (
               <PopUpModal
                 title="Add Criteria"
                 triggerButtonText="Add Criteria"
@@ -592,7 +599,7 @@ class Questionnaire extends Component {
           </Col>
         </Row>
         <Row>
-          {selectedQuestionnaireId === 0 ? (
+          {selectedQuestionnaireIndex === null ? (
             <Table rowKey="id" columns={criteriaColumns} />
           ) : (
             selectedCriteriaList.map((criteria, index) => (
@@ -600,8 +607,8 @@ class Questionnaire extends Component {
                 <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
                   <Col span={21}>
                     <Title level={3}>
-                      {selectedQuestionnaireId !== 0 &&
-                        questionnaireList[this.state.selectedQuestionnaireId]
+                      {selectedQuestionnaireIndex !== null &&
+                        questionnaireList[this.state.selectedQuestionnaireIndex]
                           .criteria !== undefined &&
                         `${criteria.name}`}
 
@@ -627,7 +634,7 @@ class Questionnaire extends Component {
                   rowKey="id"
                   columns={columns}
                   dataSource={
-                    selectedQuestionnaireId !== 0 &&
+                    selectedQuestionnaireIndex !== null &&
                     criteria !== undefined &&
                     criteria.polls
                   }

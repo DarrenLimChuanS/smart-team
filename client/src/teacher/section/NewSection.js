@@ -84,11 +84,10 @@ class NewSection extends Component {
       name: name.value,
       noOfStudents: users.value === undefined ? 0 : users.value.length,
       year: year.value,
-      status: "Not Grouped",
+      status: "Not Teamed",
       course: course.value,
       users: users.value
     };
-    console.log(sectionRequest);
     createSection(sectionRequest)
       .then(response => {
         notification.success({

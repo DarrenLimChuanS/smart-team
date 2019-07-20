@@ -8,10 +8,11 @@ import {
   Tooltip,
   ResponsiveContainer
 } from "recharts";
-import { Row, Col, Typography, Divider, Slider } from "antd";
+import { Row, Col, Typography, Divider, Slider, Icon, Button } from "antd";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import { Card } from "antd";
 import { getSmartteamById, getSmartteamOutcomeById } from "../../util/APIUtils";
+import NewAutoTeam from "../section/NewAutoTeam";
 const { Title } = Typography;
 
 class ViewResults extends Component {
@@ -21,7 +22,8 @@ class ViewResults extends Component {
       slider_value: 0,
       smartteam: [],
       outcome: [],
-      isLoading: false
+      isLoading: false,
+      showResult: true
     };
     this.loadSmartteam = this.loadSmartteam.bind(this);
     this.loadSmartteamOutcome = this.loadSmartteamOutcome.bind(this);
@@ -32,7 +34,7 @@ class ViewResults extends Component {
   loadSmartteam() {
     let promise;
 
-    promise = getSmartteamById(this.props.match.params.id);
+    promise = getSmartteamById(this.props.match.params.smartteamId);
 
     if (!promise) {
       return;
@@ -60,7 +62,7 @@ class ViewResults extends Component {
   loadSmartteamOutcome() {
     let promise;
 
-    promise = getSmartteamOutcomeById(this.props.match.params.id);
+    promise = getSmartteamOutcomeById(this.props.match.params.smartteamId);
 
     if (!promise) {
       return;
@@ -143,7 +145,9 @@ class ViewResults extends Component {
         }
       });
       const criteriaInfo = {
+        criteriaId: criteria.id,
         criteriaName: criteria.name,
+        diversityScale: 0,
         votes: votes
       };
       criteriaList.push(criteriaInfo);
@@ -158,31 +162,87 @@ class ViewResults extends Component {
     this.loadSmartteam();
   }
 
-  handleChange = slider_value => {
-    this.setState({ slider_value });
+  getDiversity(value) {
+    switch (value) {
+      case 0:
+        return -2;
+      case 25:
+        return -1;
+      case 50:
+        return 0;
+      case 75:
+        return 1;
+      case 100:
+        return 2;
+      default:
+        return 0;
+    }
+  }
+
+  handleChange = (value, index) => {
+    const criteria = this.state.criteria;
+    criteria[index] = {
+      ...this.state.criteria[index],
+      diversityScale: this.getDiversity(value)
+    };
+    this.setState({
+      criteria
+    });
   };
 
+  handleNext() {
+    this.setState({
+      showResult: false
+    });
+  }
+
   render() {
-    const { smartteam, criteria, isLoading } = this.state;
+    const { smartteam, criteria, isLoading, showResult } = this.state;
     const { slider_value } = this.state;
     const marks = {
-      0: "-2",
-      25: "1",
-      50: "0",
+      0: {
+        label: (
+          <span>
+            -2
+            <br />
+            (Least Diverse)
+          </span>
+        )
+      },
+      25: "-1",
+      50: {
+        label: (
+          <span>
+            0 <br />
+            (Exclude)
+          </span>
+        )
+      },
       75: "1",
-      100: "2"
+      100: {
+        label: (
+          <span>
+            2 <br />
+            (Most Diverse)
+          </span>
+        )
+      }
     };
+
     return isLoading ? (
       <LoadingIndicator />
-    ) : (
-      <Typography>
+    ) : showResult ? (
+      <React.Fragment>
         <Title>{smartteam.name}</Title>
         <Divider />
-        <Row>
+        <Row type="flex">
           {criteria &&
-            criteria.map(criterion => (
-              <Col span={8} style={{ padding: "8px" }}>
-                <Card title={criterion.criteriaName}>
+            criteria.map((criterion, index) => (
+              <Col key={index} span={8} style={{ padding: "8px" }}>
+                <Card
+                  title={criterion.criteriaName}
+                  style={{ padding: "16px" }}
+                >
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={criterion.votes}>
                       <CartesianGrid strokeDasharray="3 3" />
@@ -195,14 +255,27 @@ class ViewResults extends Component {
                   <Slider
                     marks={marks}
                     step={null}
-                    onChange={this.handleChange}
+                    defaultValue={50}
+                    onChange={value => this.handleChange(value, index)}
                     slider_value={slider_value}
                   />
                 </Card>
               </Col>
             ))}
         </Row>
-      </Typography>
+        <Row style={{ marginTop: "16px" }}>
+          <Button
+            type="default"
+            onClick={() => this.handleNext()}
+            disabled={isLoading}
+            style={{ float: "right" }}
+          >
+            Configure Team <Icon type="right" />
+          </Button>
+        </Row>
+      </React.Fragment>
+    ) : (
+      <NewAutoTeam criteria={criteria} smartteam={smartteam} />
     );
   }
 }
