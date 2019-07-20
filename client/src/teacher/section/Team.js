@@ -38,8 +38,6 @@ class Team extends Component {
   }
 
   async componentDidMount() {
-    this.calcMinDiversityScore();
-    this.calcMaxDiversityScore();
     getCurrentUser().then(response => {
       this.setState({
         currentUser: response,
@@ -60,6 +58,8 @@ class Team extends Component {
         });
       });
     } else {
+      this.calcMinDiversityScore();
+      this.calcMaxDiversityScore();
       this.setState({
         isLoading: false
       });
@@ -197,7 +197,8 @@ class Team extends Component {
     const calcCompliancePerc = teamComplianceScore => {
       const { maxDiversityScore, minDiversityScore } = this.state;
       const calcCompliance =
-        (teamComplianceScore - minDiversityScore) / (maxDiversityScore - minDiversityScore);
+        (teamComplianceScore - minDiversityScore) /
+        (maxDiversityScore - minDiversityScore);
       return parseInt(calcCompliance * 100, 10);
     };
 
