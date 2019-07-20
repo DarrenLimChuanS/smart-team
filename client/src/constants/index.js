@@ -1,9 +1,9 @@
-export const API_BASE_URL = 'http://localhost:8080/api';
+export const API_BASE_URL = "http://localhost:8080/api";
 //export const API_BASE_URL = '/api';
-export const ACCESS_TOKEN = 'accessToken';
+export const ACCESS_TOKEN = "accessToken";
 
 export const POLL_LIST_SIZE = 30;
-export const MAX_CHOICES = 6;
+export const MAX_CHOICES = 4;
 export const POLL_QUESTION_MAX_LENGTH = 140;
 export const POLL_CHOICE_MAX_LENGTH = 40;
 
@@ -17,3 +17,17 @@ export const EMAIL_MAX_LENGTH = 40;
 
 export const PASSWORD_MIN_LENGTH = 6;
 export const PASSWORD_MAX_LENGTH = 20;
+
+export const GPA_MIN = 0;
+export const GPA_MAX = 5.0;
+
+export const COURSE_LIST_SIZE = 30;
+
+export const SECTION_LIST_SIZE = 30;
+
+export const CRITERIA_LIST_SIZE = 30;
+export const CHOICE_SCORE_MAX = 5;
+export const CHOICE_SCORE_MIN = 0;
+
+export const QUESTIONNAIRE_LIST_SIZE = 30;
+export const STUDENT_LIST_SIZE = 30;
