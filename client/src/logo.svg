@@ -1,3 +1,74 @@
-<svg fill="#1890ff" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path  d="M3,22V8H7V22H3M10,22V2H14V22H10M17,22V14H21V22H17Z" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1906px" height="455px" viewBox="0 0 1906 455" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Smart Team Logo</title>
+    <desc>Smart Team Logo</desc>
+    <defs>
+        <linearGradient x1="106.050302%" y1="89.0725235%" x2="10.9246346%" y2="-6.05151793%" id="linearGradient-1">
+            <stop stop-color="#05A679" offset="0%"></stop>
+            <stop stop-color="#50C1A1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="85.3558438%" y1="85.3557846%" x2="14.642555%" y2="14.6424957%" id="linearGradient-2">
+            <stop stop-color="#05A679" offset="0%"></stop>
+            <stop stop-color="#50C1A1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="85.355891%" y1="14.645759%" x2="14.6447015%" y2="85.3569485%" id="linearGradient-3">
+            <stop stop-color="#C90B33" offset="0%"></stop>
+            <stop stop-color="#D95470" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="86.7623412%" y1="-5.13682032%" x2="-4.8809355%" y2="89.9898475%" id="linearGradient-4">
+            <stop stop-color="#C90B33" offset="0%"></stop>
+            <stop stop-color="#D95470" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-8.18258937%" y1="9.44017196%" x2="90.5590378%" y2="108.180047%" id="linearGradient-5">
+            <stop stop-color="#28B6DC" offset="0%"></stop>
+            <stop stop-color="#68CCE6" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="14.6400877%" y1="14.6399539%" x2="85.354706%" y2="85.3545723%" id="linearGradient-6">
+            <stop stop-color="#28B6DC" offset="0%"></stop>
+            <stop stop-color="#68CCE6" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo">
+            <g id="Objects" fill-rule="nonzero">
+                <g id="Group">
+                    <g transform="translate(0.000000, 239.000000)">
+                        <path d="M39.487,9.095 C47.722,97.451 118.042,167.769 206.395,176.005 L206.395,138.018 C188.87,135.956 172.292,130.813 157.205,123.157 L197.659,112.317 L214.949,47.786 L167.705,0.546 L103.175,17.835 L92.336,58.289 C84.681,43.202 79.536,26.621 77.475,9.096 L39.487,9.096 L39.487,9.095 Z" id="Path" fill="url(#linearGradient-1)"></path>
+                        <circle id="Oval" fill="url(#linearGradient-2)" cx="50.552" cy="164.94" r="50.525"></circle>
+                    </g>
+                    <g transform="translate(239.000000, 239.000000)">
+                        <circle id="Oval" fill="url(#linearGradient-3)" cx="164.448" cy="164.94" r="50.526"></circle>
+                        <path d="M17.345,112.317 L53.563,122.022 C37.897,130.307 20.559,135.857 2.183,138.018 L2.184,176.005 C90.537,167.769 160.855,97.451 169.088,9.096 L131.103,9.096 C129.434,23.297 125.735,36.878 120.322,49.546 L111.826,17.834 L47.294,0.547 L0.055,47.786 L17.345,112.317 Z" id="Path" fill="url(#linearGradient-4)"></path>
+                    </g>
+                    <g transform="translate(239.000000, 0.000000)">
+                        <path d="M2.182,46.405 L2.182,84.39 C17.298,86.168 31.71,90.242 45.07,96.238 L17.342,103.668 L0.053,168.2 L47.293,215.441 L111.824,198.148 L119.255,170.421 C125.252,183.781 129.322,198.193 131.102,213.311 L169.088,213.31 C160.855,124.957 90.535,54.638 2.182,46.405 Z" id="Path" fill="url(#linearGradient-5)"></path>
+                        <circle id="Oval" fill="url(#linearGradient-6)" cx="164.448" cy="51.047" r="50.525"></circle>
+                    </g>
+                    <g fill="#F6B604">
+                        <path d="M77.474,213.309 C79.636,194.934 85.186,177.596 93.471,161.928 L103.177,198.147 L167.709,215.439 L214.947,168.198 L197.658,103.667 L165.948,95.172 C178.619,89.756 192.197,86.061 206.395,84.39 L206.396,46.404 C118.043,54.639 47.724,124.958 39.49,213.31 L77.474,213.309 Z" id="Path"></path>
+                        <circle id="Oval" cx="50.553" cy="51.045" r="50.527"></circle>
+                    </g>
+                </g>
+            </g>
+            <g id="Layer_3" transform="translate(540.000000, 10.000000)" font-weight="normal">
+                <g id="Group" transform="translate(0.843800, 0.856000)" font-family="Helvetica" font-size="270.4907">
+                    <g id="Smart" fill="#53451E">
+                        <text>
+                            <tspan x="0" y="262">Smart</tspan>
+                        </text>
+                    </g>
+                    <g id="Team" transform="translate(702.000000, 0.000000)" fill="#F6B604">
+                        <text>
+                            <tspan x="0.906" y="262">Team</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g id="Team-Allocation-Made-Easy" transform="translate(1.000000, 283.000000)" fill="#212221" font-family="Helvetica-Oblique, Helvetica" font-size="96.0647" font-style="italic">
+                    <text id="Team-Allocation-Made">
+                        <tspan x="0.8438" y="93.4233">Team Allocation Made Easy</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>

@@ -1,6 +1,8 @@
-package com.example.polls.payload;
+package com.example.smartteam.payload;
+
 import com.example.smartteam.model.CriteriaCompliance;
 import com.example.smartteam.model.Team;
+
 import java.util.List;
 
 public class TeamRequest {

@@ -1,11 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="22ec2da6-7520-4b2c-9027-64524420763f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/SmartTeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/SmartTeamController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Section.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Section.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Team.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/TeamRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/TeamRepository.java" afterDir="false" />
+    <list default="true" id="a78d8199-5293-4513-8732-389a5536eb85" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/TeamRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/public/favicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/favicon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/common/AppHeader.css" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/common/AppHeader.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/common/AppHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/common/AppHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/logo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/poll.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../server/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/PollsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/SmartTeamApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/config/AuditingConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/config/AuditingConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/config/WebMvcConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/CourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/CriteriaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/CriteriaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/OutcomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/OutcomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/PollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/PollController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/QuestionnaireController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/QuestionnaireController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/SectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/SectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/SmartTeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/SmartTeamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/exception/AppException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/exception/AppException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/exception/BadRequestException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/exception/BadRequestException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/exception/ResourceNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/exception/ResourceNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Choice.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Choice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/ChoiceVoteCount.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/ChoiceVoteCount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Course.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Criteria.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Criteria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/CriteriaCompliance.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/CriteriaCompliance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/CriteriaResponseQuarterCount.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/CriteriaResponseQuarterCount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Outcome.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Outcome.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Poll.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Poll.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Questionnaire.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Questionnaire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/RoleName.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/RoleName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Section.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Section.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/SmartTeam.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/SmartTeam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Vote.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Vote.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/audit/DateAudit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/audit/DateAudit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/audit/UserDateAudit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/audit/UserDateAudit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/ApiResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/ChoiceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/ChoiceRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/ChoiceResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/ChoiceResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/CourseRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/CourseRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/CourseResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/CourseResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/CriteriaNameAvailability.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/CriteriaNameAvailability.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/CriteriaRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/CriteriaRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/CriteriaResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/CriteriaResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/JwtAuthenticationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/JwtAuthenticationResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/OutcomeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/OutcomeRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/PagedResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/PagedResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/PollLength.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/PollLength.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/PollRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/PollRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/PollResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/PollResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/QuestionnaireNameAvailability.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/QuestionnaireNameAvailability.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/QuestionnaireRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/QuestionnaireRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/QuestionnaireResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/QuestionnaireResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SectionRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/SectionRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SectionResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/SectionResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SignUpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/SignUpRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SmartTeamRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/SmartTeamRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamListRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/TeamListRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/UserCourse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/UserCourse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/UserIdentityAvailability.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/UserIdentityAvailability.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/UserProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/UserProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/UserResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/UserSummary.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/UserSummary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/VoteRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/VoteRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/ChoiceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/ChoiceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/CourseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/CourseRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/CriteriaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/CriteriaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/PollRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/PollRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/QuestionnaireRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/QuestionnaireRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/SectionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/SectionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/SmartTeamRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/SmartTeamRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/TeamRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/TeamRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/VoteRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/VoteRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/CurrentUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/CurrentUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/CustomUserDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/JwtAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/JwtAuthenticationEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/JwtTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/UserPrincipal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/CourseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/CourseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/CriteriaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/CriteriaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/OutcomeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/OutcomeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/PollService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/PollService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/QuestionnaireService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/QuestionnaireService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/SectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/SectionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/SmartTeamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/SmartTeamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/util/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/util/AppConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/util/ModelMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/util/ModelMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/test/java/com/example/polls/PollsApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/test/java/com/example/smartteam/SmartTeamApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/../server/target/" />
@@ -20,196 +120,20 @@
     <option name="delegatedBuild" value="true" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="vertical" split-proportion="0.5">
-      <split-first>
-        <leaf>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/SmartTeamController.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="566">
-                  <caret line="104" lean-forward="true" selection-start-line="104" selection-end-line="104" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/resources/data.sql">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="30">
-                  <caret line="2" column="52" selection-start-line="2" selection-start-column="52" selection-end-line="2" selection-end-column="52" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/resources/application.properties">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="8" selection-start-line="8" selection-end-line="8" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/SmartTeamService.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="480">
-                  <caret line="45" column="7" lean-forward="true" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
-                  <folding>
-                    <element signature="e#6369#6375#0" expanded="true" />
-                    <element signature="method#smartTeamAllocation#0;class#SmartTeamService#0" />
-                    <element signature="e#6988#6994#0" expanded="true" />
-                    <element signature="e#7083#7089#0" expanded="true" />
-                    <element signature="e#12648#12654#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/TeamRepository.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="225">
-                  <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Team.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="441">
-                  <caret line="43" column="32" lean-forward="true" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SmartTeamRequest.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="953">
-                  <caret line="94" column="31" selection-start-line="94" selection-start-column="31" selection-end-line="94" selection-end-column="31" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#815#816#0" expanded="true" />
-                    <element signature="e#847#848#0" expanded="true" />
-                    <element signature="e#887#888#0" expanded="true" />
-                    <element signature="e#919#920#0" expanded="true" />
-                    <element signature="e#953#954#0" expanded="true" />
-                    <element signature="e#990#991#0" expanded="true" />
-                    <element signature="e#1038#1039#0" expanded="true" />
-                    <element signature="e#1080#1081#0" expanded="true" />
-                    <element signature="e#1127#1128#0" expanded="true" />
-                    <element signature="e#1173#1174#0" expanded="true" />
-                    <element signature="e#1239#1240#0" expanded="true" />
-                    <element signature="e#1299#1300#0" expanded="true" />
-                    <element signature="e#1340#1341#0" expanded="true" />
-                    <element signature="e#1384#1385#0" expanded="true" />
-                    <element signature="e#1446#1447#0" expanded="true" />
-                    <element signature="e#1502#1503#0" expanded="true" />
-                    <element signature="e#1549#1550#0" expanded="true" />
-                    <element signature="e#1590#1591#0" expanded="true" />
-                    <element signature="e#1655#1656#0" expanded="true" />
-                    <element signature="e#1705#1706#0" expanded="true" />
-                    <element signature="e#1734#1735#0" expanded="true" />
-                    <element signature="e#1766#1767#0" expanded="true" />
-                    <element signature="e#1804#1805#0" expanded="true" />
-                    <element signature="e#1836#1837#0" expanded="true" />
-                    <element signature="e#1871#1872#0" expanded="true" />
-                    <element signature="e#1906#1907#0" expanded="true" />
-                    <element signature="e#1953#1954#0" expanded="true" />
-                    <element signature="e#1991#1992#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Section.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="453">
-                  <caret line="54" column="68" lean-forward="true" selection-start-line="54" selection-start-column="68" selection-end-line="54" selection-end-column="68" />
-                  <folding>
-                    <element signature="e#3702#3703#0" expanded="true" />
-                    <element signature="e#3730#3731#0" expanded="true" />
-                    <element signature="e#3775#3776#0" expanded="true" />
-                    <element signature="e#3809#3810#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/resources/db/migration/V2__default_roles.sql">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="15">
-                  <caret line="1" column="52" selection-start-line="1" selection-start-column="52" selection-end-line="1" selection-end-column="52" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/SmartTeamController.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="229">
-                  <caret line="142" column="63" lean-forward="true" selection-start-line="142" selection-start-column="63" selection-end-line="142" selection-end-column="63" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/SmartTeam.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-79">
-                  <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/SmartTeamService.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="154">
-                  <caret line="316" column="46" lean-forward="true" selection-start-line="316" selection-start-column="46" selection-end-line="316" selection-end-column="46" />
-                  <folding>
-                    <element signature="e#6369#6375#0" expanded="true" />
-                    <element signature="method#smartTeamAllocation#0;class#SmartTeamService#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JUnit4 Test Class" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>test</find>
-      <find>entity</find>
-      <find>createTeam</find>
-      <find>createSmartTEam</find>
-      <find>createSmartteam</find>
-      <find>roles</find>
-    </findStrings>
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamRequest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="26" selection-start-line="26" selection-end-line="26" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -217,43 +141,14 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../server/src/test/java/com/example/polls/controller/SmartTeamControllerTest.java" />
-        <option value="$PROJECT_DIR$/../server/pom.xml" />
-        <option value="$PROJECT_DIR$/../server/src/main/resources/application.properties" />
-        <option value="$PROJECT_DIR$/../server/src/test/resources/application.properties" />
-        <option value="$PROJECT_DIR$/../server/src/test/java/com/example/polls/GenericEntity.java" />
-        <option value="$PROJECT_DIR$/../server/src/test/java/com/example/polls/model/ChoiceTest.java" />
-        <option value="$PROJECT_DIR$/../server/src/test/java/com/example/polls/model/GenericEntity.java" />
-        <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Outcome.java" />
-        <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Criteria.java" />
-        <option value="$PROJECT_DIR$/../server/src/test/java/com/example/polls/repository/GenericEntityRepository.java" />
-        <option value="$PROJECT_DIR$/../server/src/test/java/com/example/polls/SpringBootJPAIntegrationTest.java" />
-        <option value="$PROJECT_DIR$/../server/src/test/java/com/example/polls/repository/ChoiceRepositoryTest.java" />
-        <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/GenericEntity.java" />
-        <option value="$PROJECT_DIR$/../server/src/main/resources/db/migration/V2__default_roles.sql" />
-        <option value="$PROJECT_DIR$/../server/src/main/resources/db/migration/V1_schema.sql" />
-        <option value="$PROJECT_DIR$/../server/src/main/resources/data.sql" />
-        <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/SmartTeamService.java" />
-        <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SmartTeamRequest.java" />
-        <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/TeamRepository.java" />
-        <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/SmartTeamController.java" />
-        <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Section.java" />
-        <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Team.java" />
+        <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamRequest.java" />
       </list>
     </option>
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-        <option name="jdkForImporter" value="12" />
-      </MavenImportingSettings>
-    </option>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="-1080" />
     <option name="y" value="-484" />
-    <option name="width" value="540" />
+    <option name="width" value="1080" />
     <option name="height" value="1897" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -262,6 +157,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -270,80 +166,10 @@
               <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="polls" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="migration" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="polls" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="smartteam" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -354,23 +180,8 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="com.example.polls.repository" />
-      <recent name="com.example.polls.model" />
-      <recent name="com.example.polls.controller" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="com.example.polls.model" />
-    </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -384,88 +195,34 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK">
-    <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="polls" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.polls.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.example.polls" />
-      <option name="MAIN_CLASS_NAME" value="com.example.polls.SpringBootJPAIntegrationTest" />
-      <option name="METHOD_NAME" value="givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" />
-      <option name="TEST_OBJECT" value="method" />
+  <component name="RunManager">
+    <configuration name="SmartTeamApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="smartteam" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.smartteam.SmartTeamApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PollsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="polls" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.polls.PollsApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="22ec2da6-7520-4b2c-9027-64524420763f" name="Default Changelist" comment="" />
-      <created>1563436046399</created>
+      <changelist id="a78d8199-5293-4513-8732-389a5536eb85" name="Default Changelist" comment="" />
+      <created>1563594414145</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1563436046399</updated>
-      <workItem from="1563436047994" duration="10118000" />
+      <updated>1563594414145</updated>
+      <workItem from="1563594415555" duration="668000" />
     </task>
     <servers />
   </component>
-  <component name="TestHistory">
-    <history-entry file="SpringBootJPAIntegrationTest_givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK - 2019.07.19 at 14h 50m 21s.xml">
-      <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringBootJPAIntegrationTest_givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK - 2019.07.19 at 14h 51m 05s.xml">
-      <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringBootJPAIntegrationTest_givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK - 2019.07.19 at 14h 52m 07s.xml">
-      <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringBootJPAIntegrationTest_givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK - 2019.07.19 at 14h 53m 23s.xml">
-      <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringBootJPAIntegrationTest_givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK - 2019.07.19 at 14h 58m 48s.xml">
-      <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringBootJPAIntegrationTest_givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK - 2019.07.19 at 15h 00m 53s.xml">
-      <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringBootJPAIntegrationTest_givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK - 2019.07.19 at 15h 02m 21s.xml">
-      <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringBootJPAIntegrationTest_givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK - 2019.07.19 at 15h 02m 55s.xml">
-      <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringBootJPAIntegrationTest_givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK - 2019.07.19 at 15h 07m 05s.xml">
-      <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringBootJPAIntegrationTest_givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK - 2019.07.19 at 16h 59m 27s.xml">
-      <configuration name="SpringBootJPAIntegrationTest.givenGenericEntityRepository_whenSaveAndRetreiveEntity_thenOK" configurationId="JUnit" />
-    </history-entry>
-  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10118000" />
+    <option name="totallyTimeSpent" value="668000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1080" y="-484" width="1080" height="1897" extended-state="6" />
-    <editor active="true" />
+    <frame x="-1080" y="-484" width="1080" height="1897" extended-state="1" />
     <layout>
       <window_info id="Designer" />
       <window_info id="Image Layers" />
@@ -506,310 +263,20 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../server/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="58" column="31" selection-start-line="58" selection-start-column="31" selection-end-line="58" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/test/java/com/example/polls/GenericEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="26" selection-start-column="26" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/test/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/test/java/com/example/polls/PollsApplicationTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/test/java/com/example/polls/model/ChoiceTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="41" column="19" selection-start-line="41" selection-start-column="19" selection-end-line="41" selection-end-column="19" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Choice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="22" selection-start-line="24" selection-start-column="22" selection-end-line="24" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/test/java/com/example/polls/controller/SmartTeamControllerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/CriteriaResponseQuarterCount.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="22" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/CriteriaCompliance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Criteria.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="7" selection-start-line="18" selection-start-column="7" selection-end-line="18" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Outcome.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-commons/2.0.5.RELEASE/spring-data-commons-2.0.5.RELEASE-sources.jar!/org/springframework/data/repository/query/QueryByExampleExecutor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/test/java/com/example/polls/repository/ChoiceRepositoryTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Course.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" selection-start-line="5" selection-end-line="5" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/test/java/com/example/polls/repository/GenericEntityRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/ChoiceRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/GenericEntity.java">
+    <entry file="file://$PROJECT_DIR$/../server/target/classes/data.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#383#384#0" expanded="true" />
-            <element signature="e#417#418#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/resources/db/migration/V1_schema.sql">
+    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="51" column="30" lean-forward="true" selection-end-line="195" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.1.45/mysql-connector-java-5.1.45.jar!/com/mysql/jdbc/MysqlIO.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="2710" selection-start-line="2710" selection-end-line="2710" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/resources/data.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="52" selection-start-line="2" selection-start-column="52" selection-end-line="2" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/test/java/com/example/polls/SpringBootJPAIntegrationTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="16" selection-start-line="21" selection-start-column="16" selection-end-line="21" selection-end-column="16" />
+        <state relative-caret-position="300">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/resources/db/migration/V2__default_roles.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="52" selection-start-line="1" selection-start-column="52" selection-end-line="1" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/5.0.4.RELEASE/spring-context-5.0.4.RELEASE-sources.jar!/org/springframework/context/event/SimpleApplicationEventMulticaster.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="155" column="35" lean-forward="true" selection-start-line="155" selection-start-column="35" selection-end-line="155" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/SmartTeamService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="45" column="7" lean-forward="true" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
-          <folding>
-            <element signature="e#6369#6375#0" expanded="true" />
-            <element signature="method#smartTeamAllocation#0;class#SmartTeamService#0" />
-            <element signature="e#6988#6994#0" expanded="true" />
-            <element signature="e#7083#7089#0" expanded="true" />
-            <element signature="e#12648#12654#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/TeamRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/5.2.14.Final/hibernate-core-5.2.14.Final-sources.jar!/org/hibernate/boot/model/source/internal/hbm/ManyToOneAttributeColumnsAndFormulasSource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/SmartTeamController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="566">
-          <caret line="104" lean-forward="true" selection-start-line="104" selection-end-line="104" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SmartTeamRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="953">
-          <caret line="94" column="31" selection-start-line="94" selection-start-column="31" selection-end-line="94" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#815#816#0" expanded="true" />
-            <element signature="e#847#848#0" expanded="true" />
-            <element signature="e#887#888#0" expanded="true" />
-            <element signature="e#919#920#0" expanded="true" />
-            <element signature="e#953#954#0" expanded="true" />
-            <element signature="e#990#991#0" expanded="true" />
-            <element signature="e#1038#1039#0" expanded="true" />
-            <element signature="e#1080#1081#0" expanded="true" />
-            <element signature="e#1127#1128#0" expanded="true" />
-            <element signature="e#1173#1174#0" expanded="true" />
-            <element signature="e#1239#1240#0" expanded="true" />
-            <element signature="e#1299#1300#0" expanded="true" />
-            <element signature="e#1340#1341#0" expanded="true" />
-            <element signature="e#1384#1385#0" expanded="true" />
-            <element signature="e#1446#1447#0" expanded="true" />
-            <element signature="e#1502#1503#0" expanded="true" />
-            <element signature="e#1549#1550#0" expanded="true" />
-            <element signature="e#1590#1591#0" expanded="true" />
-            <element signature="e#1655#1656#0" expanded="true" />
-            <element signature="e#1705#1706#0" expanded="true" />
-            <element signature="e#1734#1735#0" expanded="true" />
-            <element signature="e#1766#1767#0" expanded="true" />
-            <element signature="e#1804#1805#0" expanded="true" />
-            <element signature="e#1836#1837#0" expanded="true" />
-            <element signature="e#1871#1872#0" expanded="true" />
-            <element signature="e#1906#1907#0" expanded="true" />
-            <element signature="e#1953#1954#0" expanded="true" />
-            <element signature="e#1991#1992#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.9.0/jackson-annotations-2.9.0-sources.jar!/com/fasterxml/jackson/annotation/JsonBackReference.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="29" column="18" selection-start-line="29" selection-start-column="18" selection-end-line="29" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Section.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="453">
-          <caret line="54" column="68" lean-forward="true" selection-start-line="54" selection-start-column="68" selection-end-line="54" selection-end-column="68" />
-          <folding>
-            <element signature="e#3702#3703#0" expanded="true" />
-            <element signature="e#3730#3731#0" expanded="true" />
-            <element signature="e#3775#3776#0" expanded="true" />
-            <element signature="e#3809#3810#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/SmartTeam.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-79">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Team.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="43" column="32" lean-forward="true" selection-start-line="43" selection-start-column="32" selection-end-line="43" selection-end-column="32" />
         </state>
       </provider>
     </entry>
