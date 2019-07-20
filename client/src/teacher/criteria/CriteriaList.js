@@ -181,10 +181,10 @@ class Criteria extends Component {
         title: "Graded",
         dataIndex: "graded",
         key: "graded",
-        render: (text, record) => (
+        render: (text) => (
           <span>
-            <Tag color={record.status ? "green" : "blue"} key={record.status}>
-              {record.status ? "Graded" : "Non-Graded"}
+            <Tag color={text ? "green" : "blue"} key={text}>
+              {text ? "Graded" : "Non-Graded"}
             </Tag>
           </span>
         ),

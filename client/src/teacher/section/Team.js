@@ -192,7 +192,7 @@ class Team extends Component {
   }
 
   render() {
-    const { teams, smartteam, selectedTeam, isLoading } = this.state;
+    const { teams, smartteam, selectedTeam, isLoading, maxDiversityScore } = this.state;
 
     const calcCompliancePerc = teamComplianceScore => {
       const { maxDiversityScore, minDiversityScore } = this.state;
@@ -218,6 +218,7 @@ class Team extends Component {
                     <b>Compliance Score: </b>
                     <Progress
                       type="circle"
+                      successPercent={maxDiversityScore}
                       percent={calcCompliancePerc(team.complianceScore)}
                       width={30}
                     />
