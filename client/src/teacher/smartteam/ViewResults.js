@@ -117,9 +117,10 @@ class ViewResults extends Component {
     });
     const { outcome, smartteam } = this.state;
     var criteriaList = [];
-
+    var criteriaResponseCount = [];
     // Foreach criteria in questionnaire
     smartteam.questionnaire.criteria.forEach(criteria => {
+      var responseCount = 0;
       var votes = [
         {
           outcome: "Q1",
@@ -140,6 +141,7 @@ class ViewResults extends Component {
       ];
       outcome.forEach(entry => {
         if (entry.criteriaId === criteria.id && entry.outcome !== null) {
+          responseCount++;
           const index = entry.outcome.slice(1, 2);
           votes[parseInt(index, 10) - 1] = entry;
         }
@@ -151,6 +153,14 @@ class ViewResults extends Component {
         votes: votes
       };
       criteriaList.push(criteriaInfo);
+      criteriaResponseCount.push(responseCount);
+    });
+    criteriaResponseCount.forEach(responseCount => {
+      if (responseCount === 0) {
+        this.setState({
+          formIsInvalid: true
+        });
+      }
     });
     this.setState({
       criteria: criteriaList,
@@ -197,7 +207,13 @@ class ViewResults extends Component {
   }
 
   render() {
-    const { smartteam, criteria, isLoading, showResult } = this.state;
+    const {
+      smartteam,
+      criteria,
+      isLoading,
+      showResult,
+      formIsInvalid
+    } = this.state;
     const { slider_value } = this.state;
     const marks = {
       0: {
@@ -267,7 +283,7 @@ class ViewResults extends Component {
           <Button
             type="default"
             onClick={() => this.handleNext()}
-            disabled={isLoading}
+            disabled={formIsInvalid}
             style={{ float: "right" }}
           >
             Configure Team <Icon type="right" />

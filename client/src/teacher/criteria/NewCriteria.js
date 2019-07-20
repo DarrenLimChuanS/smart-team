@@ -64,6 +64,7 @@ class NewCriteria extends Component {
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
     this.handleChoiceChange = this.handleChoiceChange.bind(this);
     this.isFormInvalid = this.isFormInvalid.bind(this);
+    this.isTextInputInvalid = this.isTextInputInvalid.bind(this);
   }
 
   addChoice = (questionIndex, event) => {
@@ -289,6 +290,13 @@ class NewCriteria extends Component {
     });
   }
 
+  isTextInputInvalid() {
+    return !(
+      this.state.name.validateStatus === "success" &&
+      this.state.description.validateStatus === "success"
+    );
+  }
+
   handleInputChange(event, validationFun) {
     const target = event.target;
     const inputName = target.name;
@@ -328,6 +336,7 @@ class NewCriteria extends Component {
                 size="large"
                 style={{ width: "100%" }}
                 placeholder="Please select"
+                defaultValue="No"
                 onChange={value => this.handleGradedChange(value)}
               >
                 <Option key={0}>No</Option>
@@ -424,7 +433,7 @@ class NewCriteria extends Component {
                 type="primary"
                 htmlType="submit"
                 size="large"
-                disabled={this.isFormInvalid()}
+                disabled={this.isTextInputInvalid() || this.isFormInvalid()}
                 className="create-poll-form-button"
               >
                 Create Criteria
