@@ -7,7 +7,8 @@ import {
   Divider,
   Button,
   Select,
-  notification
+  notification,
+  Progress
 } from "antd";
 import { Card } from "antd";
 import PopUpModal from "../../common/PopUpModal";
@@ -37,6 +38,8 @@ class Team extends Component {
   }
 
   async componentDidMount() {
+    this.calcMinDiversityScore();
+    this.calcMaxDiversityScore();
     getCurrentUser().then(response => {
       this.setState({
         currentUser: response,
@@ -61,6 +64,44 @@ class Team extends Component {
         isLoading: false
       });
     }
+  }
+
+  calcMinDiversityScore() {
+    let scores = [];
+    this.state.criteria.forEach(criteria => {
+      if (criteria.diversityScale < 0) {
+        scores.push(criteria.diversityScale * 1);
+      } else if (criteria.diversityScale > 0) {
+        scores.push(
+          (1 / this.state.teams[0].users.length) * criteria.diversityScale
+        );
+      }
+    });
+    const minDiversityScore = scores.reduce((a, b) => a + b, 0);
+    this.setState({
+      minDiversityScore
+    });
+    console.log(minDiversityScore);
+  }
+
+  calcMaxDiversityScore() {
+    let scores = [];
+    this.state.criteria.forEach(criteria => {
+      if (criteria.diversityScale < 0) {
+        scores.push(
+          (1 / this.state.teams[0].users.length) * criteria.diversityScale
+        );
+      } else if (criteria.diversityScale > 0) {
+        scores.push(criteria.diversityScale * 1);
+      } else {
+        return;
+      }
+    });
+    const maxDiversityScore = scores.reduce((a, b) => a + b, 0);
+    this.setState({
+      maxDiversityScore
+    });
+    console.log(maxDiversityScore);
   }
 
   handleTeamChange(value) {
@@ -151,7 +192,14 @@ class Team extends Component {
   }
 
   render() {
-    const { teams, smartteam, criteria, selectedTeam, isLoading } = this.state;
+    const { teams, smartteam, selectedTeam, isLoading } = this.state;
+
+    const calcCompliancePerc = teamComplianceScore => {
+      const { maxDiversityScore, minDiversityScore } = this.state;
+      const calcCompliance =
+        teamComplianceScore / (maxDiversityScore - minDiversityScore);
+      return parseInt(calcCompliance * 100, 10);
+    };
 
     return isLoading ? (
       <LoadingIndicator />
@@ -168,10 +216,11 @@ class Team extends Component {
                 {this.props.match.params.team !== "team" && (
                   <p>
                     <b>Compliance Score: </b>
-                    {team.complianceScore < 0
-                      ? (-team.complianceScore / (criteria.length * 2)) * 100
-                      : (team.complianceScore / criteria.length) * 100}
-                    %
+                    <Progress
+                      type="circle"
+                      percent={calcCompliancePerc(team.complianceScore)}
+                      width={30}
+                    />
                   </p>
                 )}
                 {team.users.map((user, userIndex) => (
