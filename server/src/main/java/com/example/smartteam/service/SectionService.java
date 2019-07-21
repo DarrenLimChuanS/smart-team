@@ -14,6 +14,9 @@ import com.example.smartteam.repository.SectionRepository;
 import com.example.smartteam.repository.UserRepository;
 import com.example.smartteam.util.AppConstants;
 import com.example.smartteam.util.ModelMapper;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class SectionService {
@@ -131,16 +131,14 @@ public class SectionService {
 
         Optional<Section> sectionOptional = sectionRepository.findBySectionId(sectionId);
 
-        if (sectionOptional.isPresent())
+        if (!sectionOptional.isPresent())
             return ResponseEntity.notFound().build();
-
-        section.setSectionId(sectionId);
-        section.setCreatedBy(sectionOptional.get().getCreatedBy());
-        section.setCreatedAt(sectionOptional.get().getCreatedAt());
+        sectionOptional.get().setName(section.getName());
+        sectionOptional.get().setYear(section.getYear());
 
         Course courseInfo = courseRepository.findById(section.getCourse().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", section.getCourse().getId()));
-        section.setCourse(courseInfo);
+        sectionOptional.get().setCourse(courseInfo);
 
         Set<User> users = new HashSet<>();
         for (User student : section.getUsers()) {
@@ -148,9 +146,9 @@ public class SectionService {
                     .orElseThrow(() -> new ResourceNotFoundException("Student", "id", student.getId()));
             users.add(studentInfo);
         }
-        section.setUsers(users);
+        sectionOptional.get().setUsers(users);
 
-        sectionRepository.save(section);
+        sectionRepository.save(sectionOptional.get());
         return ResponseEntity.ok(new ApiResponse(true, "Section Updated Successfully"));
     }
 

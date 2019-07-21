@@ -2,12 +2,13 @@ package com.example.smartteam.payload;
 
 import com.example.smartteam.model.Course;
 import com.example.smartteam.model.SmartTeam;
+import com.example.smartteam.model.Team;
 import com.example.smartteam.model.User;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 
 public class SectionRequest {
     @NotBlank
@@ -25,7 +26,9 @@ public class SectionRequest {
 
     private Set<User> users = new HashSet<>();
 
-    private Set<SmartTeam> smartteams = new HashSet<>();
+    // private Set<Team> teams = new HashSet<>();
+
+    // private Set<SmartTeam> smartteams = new HashSet<>();
 
     public String getName() {
         return name;
@@ -75,11 +78,19 @@ public class SectionRequest {
         this.users = users;
     }
 
-    public Set<SmartTeam> getSmartteams() {
-        return smartteams;
-    }
+    // public Set<Team> getTeams() {
+    //     return teams;
+    // }
 
-    public void setSmartteams(Set<SmartTeam> smartteams) {
-        this.smartteams = smartteams;
-    }
+    // public void setTeams(Set<Team> teams) {
+    //     this.teams = teams;
+    // }
+
+    //  public Set<SmartTeam> getSmartteams() {
+    //      return smartteams;
+    //  }
+
+    //  public void setSmartteams(Set<SmartTeam> smartteams) {
+    //      this.smartteams = smartteams;
+    //  }
 }

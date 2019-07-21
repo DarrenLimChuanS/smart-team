@@ -134,4 +134,11 @@ public class User extends UserDateAudit {
         this.smartteams = smartteams;
     }
 
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
+    }
 }

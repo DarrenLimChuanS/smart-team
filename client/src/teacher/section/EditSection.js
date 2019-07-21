@@ -27,12 +27,14 @@ class EditSection extends Component {
   }
 
   async componentDidMount() {
-    getCurrentUser().then(response => {
+    let courseList = [];
+    await getCurrentUser().then(response => {
       this.setState({
         currentUser: response,
         ...this.state
       });
       getUserCreatedCourses(response.username, 0, 50).then(response => {
+        courseList = response.content;
         this.setState({
           courseList: response.content,
           ...this.state
@@ -47,35 +49,39 @@ class EditSection extends Component {
           this.setState({
             isLoading: false
           });
+        } else {
+          getSectionById(this.props.match.params.id).then(response => {
+            let students = response.users;
+            let studentIds = [];
+            const matchingCourseIndex = courseList.findIndex(
+              obj => obj.id === response.courseId
+            );
+            students.forEach(student =>
+              studentIds.push(parseInt(student.id, 10))
+            );
+            this.setState(
+              Section(
+                response.sectionId,
+                response.name,
+                response.year,
+                response.noOfStudents,
+                courseList[matchingCourseIndex],
+                response.users,
+                response.status,
+                response.createdBy,
+                response.createdAt
+              )
+            );
+
+            this.setState({
+              selectedStudents: { value: studentIds },
+              selectedCourse: { value: response.courseId },
+              isLoading: false
+            });
+          });
         }
       });
     });
-
-    if (this.props.match.params.id !== "new") {
-      getSectionById(this.props.match.params.id).then(response => {
-        let students = response.users;
-        let studentIds = [];
-        students.forEach(student => studentIds.push(parseInt(student.id, 10)));
-        this.setState(
-          Section(
-            response.sectionId,
-            response.name,
-            response.year,
-            response.noOfStudents,
-            "",
-            response.users,
-            response.status,
-            response.createdBy,
-            response.createdAt
-          )
-        );
-        this.setState({
-          selectedStudents: { value: studentIds },
-          selectedCourse: { value: response.courseId },
-          isLoading: false
-        });
-      });
-    }
   }
 
   handleInputChange(event, validationFun) {
