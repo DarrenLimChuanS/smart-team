@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "smartteam")
+@Table(name = "polls")
 public class Poll extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -281,7 +281,7 @@ class SectionList extends Component {
         </Row>
         <Row>
           <Table
-            rowKey="id"
+            rowKey="sectionId"
             columns={columns}
             dataSource={this.state.sections}
             onChange={this.handleChange}
