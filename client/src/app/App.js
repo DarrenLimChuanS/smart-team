@@ -111,7 +111,6 @@ class App extends Component {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
     }
-    const { location } = this.props;
     return (
       <Layout className="app-container">
         <AppHeader
