@@ -21,7 +21,8 @@
     "react-github-button": "^0.1.11"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "NODE_ENV=DEV react-app-rewired start",
+    "start-dev": "set NODE_ENV=DEV && react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "jest test",
     "eject": "react-scripts eject"
