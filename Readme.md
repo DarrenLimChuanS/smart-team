@@ -1,5 +1,18 @@
-## Smart Team Management System
+<img src="https://user-images.githubusercontent.com/3714496/61592809-a2a6c680-ac0a-11e9-8914-cb5da551ca76.jpeg">
+# Smart Team Management System
 
+
+## Table of Content
+1. [ Introduction ](#introduction)
+2. [ How to Set Up? ](#setup)
+3. [ Running of Tests ](#test)
+4. [ Architecture ](#architecture)
+5. [ Features ](#features)
+7. [ Technologies Used ](#technologies)
+8. [ Team ](#team)
+
+
+<a name="setup"></a>
 ## Steps to Setup the Spring Boot Back end app (server)
 
 1. **Clone the application**
@@ -63,3 +76,49 @@ npm install && npm start
 ```
 
 The front-end server will start on port `3000`.
+
+<a name="testing"></a>
+## Testing
+<b>Client: </b>Component Testing 
+```bash
+npm run test
+```
+
+<a name="features"></a>
+## Features
+<ol>
+  <li>Questionnaire</li>
+  <li>Smart Team Auto Allocation</li>
+</ol>
+
+<a name="technologies"></a>
+## Technologies Used
+### Front-End
+<ul>
+  <li><a href="https://reactjs.org/">ReactJS</a></li>
+  <li><a href="https://pro.ant.design/">Ant Design Pro</a></li>
+  <li><a href="https://jestjs.io/">Jest (Testing Framework)</a></li>
+</ul>
+
+### Back-End
+<ul>
+  <li><a href="https://spring.io/">Spring Boot</a></li>
+  <li><a href="https://www.mysql.com/">MySQL</a></li>
+</ul>
+
+### Continuous Integration
+<ul>
+  <li><a href="https://travis-ci.com/">Travis CI</a></li>
+  <li><a href="https://www.heroku.com/">Heroku</a></li>
+</ul>
+
+<a name="team"></a>
+## Team
+<b>Proudly Developed by:</b>
+<ol>
+  <li><a href="https://github.com/thefiend">Kam Ming Feng</a></li>
+  <li><a href="https://github.com/DarrenLimChuanS">Darren Lim</a></li>
+  <li><a href="https://github.com/DarrenLowYuFa">Darren Low</a></li>
+  <li><a href="https://github.com/tqx2012">Tan Qin Xiang</a></li>
+  <li><a href="https://github.com/zacklim95">Zack Lim</a></li>
+</ol>

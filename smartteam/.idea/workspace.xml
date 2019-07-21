@@ -2,110 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a78d8199-5293-4513-8732-389a5536eb85" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/TeamRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/public/favicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/../client/public/favicon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/common/AppHeader.css" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/common/AppHeader.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/common/AppHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/common/AppHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/logo.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/poll.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../server/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/PollsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/SmartTeamApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/config/AuditingConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/config/AuditingConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/config/WebMvcConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/CourseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/CriteriaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/CriteriaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/OutcomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/OutcomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/PollController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/PollController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/QuestionnaireController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/QuestionnaireController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/SectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/SectionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/SmartTeamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/SmartTeamController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/exception/AppException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/exception/AppException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/exception/BadRequestException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/exception/BadRequestException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/exception/ResourceNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/exception/ResourceNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Choice.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Choice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/ChoiceVoteCount.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/ChoiceVoteCount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Criteria.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Criteria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/CriteriaCompliance.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/CriteriaCompliance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/CriteriaResponseQuarterCount.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/CriteriaResponseQuarterCount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Outcome.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Outcome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Poll.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Poll.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Questionnaire.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Questionnaire.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/RoleName.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/RoleName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Section.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Section.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/SmartTeam.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/SmartTeam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Team.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/Vote.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/Vote.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/audit/DateAudit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/audit/DateAudit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/model/audit/UserDateAudit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/model/audit/UserDateAudit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/ApiResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/ApiResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/ChoiceRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/ChoiceRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/ChoiceResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/ChoiceResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/CourseRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/CourseRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/CourseResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/CourseResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/CriteriaNameAvailability.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/CriteriaNameAvailability.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/CriteriaRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/CriteriaRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/CriteriaResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/CriteriaResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/JwtAuthenticationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/JwtAuthenticationResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/LoginRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/OutcomeRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/OutcomeRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/PagedResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/PagedResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/PollLength.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/PollLength.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/PollRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/PollRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/PollResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/PollResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/QuestionnaireNameAvailability.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/QuestionnaireNameAvailability.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/QuestionnaireRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/QuestionnaireRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/QuestionnaireResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/QuestionnaireResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SectionRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/SectionRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SectionResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/SectionResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SignUpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/SignUpRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/SmartTeamRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/SmartTeamRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamListRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/TeamListRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/UserCourse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/UserCourse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/UserIdentityAvailability.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/UserIdentityAvailability.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/UserProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/UserProfile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/UserResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/UserResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/UserSummary.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/UserSummary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/VoteRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/payload/VoteRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/ChoiceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/ChoiceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/CourseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/CourseRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/CriteriaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/CriteriaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/PollRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/PollRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/QuestionnaireRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/QuestionnaireRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/RoleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/SectionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/SectionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/SmartTeamRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/SmartTeamRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/TeamRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/TeamRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/repository/VoteRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/repository/VoteRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/CurrentUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/CurrentUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/CustomUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/JwtAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/JwtAuthenticationEntryPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/JwtTokenProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/security/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/security/UserPrincipal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/CourseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/CourseService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/CriteriaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/CriteriaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/OutcomeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/OutcomeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/PollService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/PollService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/QuestionnaireService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/QuestionnaireService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/SectionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/SectionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/SmartTeamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/SmartTeamService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/util/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/util/AppConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/example/polls/util/ModelMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/example/smartteam/util/ModelMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/test/java/com/example/polls/PollsApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/test/java/com/example/smartteam/SmartTeamApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/pom.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/../server/target/" />
@@ -121,11 +19,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamRequest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
-              <caret line="26" selection-start-line="26" selection-end-line="26" />
+              <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../server/src/test/java/com/example/smartteam/SmartTeamApplicationTests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -142,6 +52,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamRequest.java" />
+        <option value="$PROJECT_DIR$/../server/src/test/java/com/example/smartteam/SmartTeamApplicationTests.java" />
       </list>
     </option>
   </component>
@@ -214,15 +125,16 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1563594414145</updated>
-      <workItem from="1563594415555" duration="668000" />
+      <workItem from="1563594415555" duration="847000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="668000" />
+    <option name="totallyTimeSpent" value="847000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1080" y="-484" width="1080" height="1897" extended-state="1" />
+    <frame x="-1080" y="-484" width="1080" height="1897" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Designer" />
       <window_info id="Image Layers" />
@@ -273,7 +185,17 @@
     <entry file="file://$PROJECT_DIR$/../server/src/main/java/com/example/polls/payload/TeamRequest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
+          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../server/src/test/java/com/example/smartteam/SmartTeamApplicationTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
