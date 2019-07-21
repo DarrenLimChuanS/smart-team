@@ -169,6 +169,7 @@ class EditStudent extends Component {
                 size="large"
                 name="email"
                 type="email"
+                disabled={this.props.match.params.id !== "new"}
                 autoComplete="off"
                 placeholder="Your email"
                 value={email.value}
