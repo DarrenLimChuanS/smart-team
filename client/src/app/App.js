@@ -33,6 +33,7 @@ import Profile from "../user/profile/Profile";
 import Signup from "../user/signup/Signup";
 import { getCurrentUser } from "../util/APIUtils";
 import "./App.css";
+import PollList from "../poll/PollList";
 const { Content } = Layout;
 
 class App extends Component {
@@ -41,7 +42,7 @@ class App extends Component {
     this.state = {
       currentUser: null,
       isAuthenticated: false,
-      isLoading: false,
+      isLoading: false
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -50,25 +51,25 @@ class App extends Component {
     notification.config({
       placement: "topRight",
       top: 70,
-      duration: 3,
+      duration: 3
     });
   }
 
   loadCurrentUser() {
     this.setState({
-      isLoading: true,
+      isLoading: true
     });
     getCurrentUser()
       .then(response => {
         this.setState({
           currentUser: response,
           isAuthenticated: true,
-          isLoading: false,
+          isLoading: false
         });
       })
       .catch(error => {
         this.setState({
-          isLoading: false,
+          isLoading: false
         });
       });
   }
@@ -86,21 +87,21 @@ class App extends Component {
 
     this.setState({
       currentUser: null,
-      isAuthenticated: false,
+      isAuthenticated: false
     });
 
     this.props.history.push(redirectTo);
 
     notification[notificationType]({
       message: "Smart Team",
-      description: description,
+      description: description
     });
   }
 
   handleLogin() {
     notification.success({
       message: "Smart Team",
-      description: "You're successfully logged in.",
+      description: "You're successfully logged in."
     });
     this.loadCurrentUser();
     this.props.history.push("/");
@@ -118,26 +119,23 @@ class App extends Component {
           currentUser={this.state.currentUser}
           onLogout={this.handleLogout}
         />
-        <Switch>
-          <Route exact path="/" render={props => <Home />} />
-          {/* <Route
-              exact
-              path="/"
-              render={props => (
-                <PollList
-                  isAuthenticated={this.state.isAuthenticated}
-                  currentUser={this.state.currentUser}
-                  handleLogout={this.handleLogout}
-                  {...props}
-                />
-              )}
-            /> */}
-        </Switch>
-        {location.pathname !== "/" && (
+        {this.state.currentUser ? (
           <Sidebar currentUser={this.state.currentUser}>
             <Content className="app-content">
               <div className="container">
                 <Switch>
+                  <Route
+                    exact
+                    path="/"
+                    render={props => (
+                      <PollList
+                        isAuthenticated={this.state.isAuthenticated}
+                        currentUser={this.state.currentUser}
+                        handleLogout={this.handleLogout}
+                        {...props}
+                      />
+                    )}
+                  />
                   <Route exact path="/" render={""} />
                   <Route
                     path="/login"
@@ -328,6 +326,10 @@ class App extends Component {
               </div>
             </Content>
           </Sidebar>
+        ) : (
+          <Switch>
+            <Route exact path="/" render={props => <Home />} />
+          </Switch>
         )}
       </Layout>
     );
