@@ -1,4 +1,6 @@
-<img src="https://user-images.githubusercontent.com/3714496/61592809-a2a6c680-ac0a-11e9-8914-cb5da551ca76.jpeg">
+<img src="https://user-images.githubusercontent.com/3714496/61592809-a2a6c680-ac0a-11e9-8914-cb5da551ca76.jpeg" />
+
+
 # Smart Team Management System
 
 
