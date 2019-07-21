@@ -111,6 +111,8 @@ class App extends Component {
     if (this.state.isLoading) {
       return <LoadingIndicator />;
     }
+    const { location } = this.props;
+
     return (
       <Layout className="app-container">
         <AppHeader
@@ -118,7 +120,11 @@ class App extends Component {
           currentUser={this.state.currentUser}
           onLogout={this.handleLogout}
         />
-        {this.state.currentUser ? (
+        {!this.state.currentUser && location.pathname === "/" ? (
+          <Switch>
+            <Route exact path="/" render={props => <Home />} />
+          </Switch>
+        ) : (
           <Sidebar currentUser={this.state.currentUser}>
             <Content className="app-content">
               <div className="container">
@@ -325,10 +331,6 @@ class App extends Component {
               </div>
             </Content>
           </Sidebar>
-        ) : (
-          <Switch>
-            <Route exact path="/" render={props => <Home />} />
-          </Switch>
         )}
       </Layout>
     );
