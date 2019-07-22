@@ -26,9 +26,7 @@ public class SectionRequest {
 
     private Set<User> users = new HashSet<>();
 
-    // private Set<Team> teams = new HashSet<>();
-
-    // private Set<SmartTeam> smartteams = new HashSet<>();
+    private Set<SmartTeam> smartteams = new HashSet<>();
 
     public String getName() {
         return name;
@@ -78,19 +76,11 @@ public class SectionRequest {
         this.users = users;
     }
 
-    // public Set<Team> getTeams() {
-    //     return teams;
-    // }
+    public Set<SmartTeam> getSmartteams() {
+        return smartteams;
+    }
 
-    // public void setTeams(Set<Team> teams) {
-    //     this.teams = teams;
-    // }
-
-    //  public Set<SmartTeam> getSmartteams() {
-    //      return smartteams;
-    //  }
-
-    //  public void setSmartteams(Set<SmartTeam> smartteams) {
-    //      this.smartteams = smartteams;
-    //  }
+    public void setSmartteams(Set<SmartTeam> smartteams) {
+        this.smartteams = smartteams;
+    }
 }
