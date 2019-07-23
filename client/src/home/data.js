@@ -1,5 +1,3 @@
-import React from "react";
-
 export const page1 = [
   {
     title: "Set Up Questionnaire",
