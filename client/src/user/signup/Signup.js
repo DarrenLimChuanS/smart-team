@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DocumentTitle from "react-document-title";
 import {
   signup,
   checkUsernameAvailability,
@@ -97,6 +98,7 @@ class Signup extends Component {
   render() {
     return (
       <div className="signup-container">
+        <DocumentTitle title="Smart Team - Sign Up" />
         <h1 className="page-title">Sign Up</h1>
         <div className="signup-content">
           <Form onSubmit={this.handleSubmit} className="signup-form">

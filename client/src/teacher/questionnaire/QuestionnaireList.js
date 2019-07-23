@@ -454,7 +454,7 @@ class Questionnaire extends Component {
       <React.Fragment>
         <Row>
           <Col span={20}>
-            <Title level={2}>Questionnaires</Title>
+            <Title level={2}>Questionnaire</Title>
           </Col>
           <Col span={2}>
             {/* <Button type="primary" size="default">
