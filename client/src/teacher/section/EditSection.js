@@ -7,7 +7,7 @@ import {
   createSection,
   getCurrentUser,
   updateSection,
-  getSectionById,
+  getSectionById
 } from "../../util/APIUtils";
 import { Section } from "../../util/FeatureStates";
 import { validateName } from "../../util/Validators";
@@ -27,55 +27,61 @@ class EditSection extends Component {
   }
 
   async componentDidMount() {
+    let courseList = [];
     getCurrentUser().then(response => {
       this.setState({
         currentUser: response,
-        ...this.state,
+        ...this.state
       });
       getUserCreatedCourses(response.username, 0, 50).then(response => {
+        courseList = response.content;
         this.setState({
           courseList: response.content,
-          ...this.state,
+          ...this.state
         });
       });
       getUserCreatedStudents(response.username, 0, 50).then(response => {
         this.setState({
           studentList: response.content,
-          ...this.state,
+          ...this.state
         });
         if (this.props.match.params.id === "new") {
           this.setState({
-            isLoading: false,
+            isLoading: false
+          });
+        } else {
+          getSectionById(this.props.match.params.id).then(response => {
+            let students = response.users;
+            let studentIds = [];
+            const matchingCourseIndex = courseList.findIndex(
+              obj => obj.id === response.courseId
+            );
+            students.forEach(student =>
+              studentIds.push(parseInt(student.id, 10))
+            );
+            this.setState(
+              Section(
+                response.sectionId,
+                response.name,
+                response.year,
+                response.noOfStudents,
+                courseList[matchingCourseIndex],
+                response.users,
+                response.status,
+                response.createdBy,
+                response.createdAt
+              )
+            );
+
+            this.setState({
+              selectedStudents: { value: studentIds },
+              selectedCourse: { value: response.courseId },
+              isLoading: false
+            });
           });
         }
       });
     });
-
-    if (this.props.match.params.id !== "new") {
-      getSectionById(this.props.match.params.id).then(response => {
-        let students = response.users;
-        let studentIds = [];
-        students.forEach(student => studentIds.push(parseInt(student.id, 10)));
-        this.setState(
-          Section(
-            response.sectionId,
-            response.name,
-            response.year,
-            response.noOfStudents,
-            "",
-            response.users,
-            response.status,
-            response.createdBy,
-            response.createdAt
-          )
-        );
-        this.setState({
-          selectedStudents: { value: studentIds },
-          selectedCourse: { value: response.courseId },
-          isLoading: false,
-        });
-      });
-    }
   }
 
   handleInputChange(event, validationFun) {
@@ -85,8 +91,8 @@ class EditSection extends Component {
     this.setState({
       [inputName]: {
         value: inputValue,
-        ...validationFun(inputValue),
-      },
+        ...validationFun(inputValue)
+      }
     });
   }
 
@@ -101,11 +107,11 @@ class EditSection extends Component {
     });
     this.setState({
       students: {
-        value: students,
+        value: students
       },
       selectedStudents: {
-        value: value,
-      },
+        value: value
+      }
     });
   }
 
@@ -115,16 +121,18 @@ class EditSection extends Component {
     const course = courseList[courseIndex];
     this.setState({
       course: {
-        value: course,
+        value: course
       },
       selectedCourse: {
-        value: courseId,
-      },
+        value: courseId
+      }
     });
   }
 
   handleSubmit(event) {
     event.preventDefault();
+
+    console.log(this.state);
 
     const { name, students, year, course, sectionId } = this.state;
     const sectionRequest = {
@@ -133,18 +141,19 @@ class EditSection extends Component {
       year: year.value,
       status: "Not Teamed",
       course: course.value,
-      users: students.value,
+      users: students.value
     };
     (sectionId.value
       ? updateSection(sectionId.value, sectionRequest)
-      : createSection(sectionRequest))
+      : createSection(sectionRequest)
+    )
       .then(response => {
         notification.success({
           message: "Smart Team",
           description:
             "Success! You have successfully " +
             (sectionId.value ? "updated" : "created") +
-            " a section.",
+            " a section."
         });
         this.props.history.push("/section");
       })
@@ -152,7 +161,7 @@ class EditSection extends Component {
         notification.error({
           message: "Smart Team",
           description:
-            error.message || "Sorry! Something went wrong. Please try again!",
+            error.message || "Sorry! Something went wrong. Please try again!"
         });
       });
   }
@@ -174,7 +183,7 @@ class EditSection extends Component {
       course,
       selectedCourse,
       selectedStudents,
-      isLoading,
+      isLoading
     } = this.state;
     return isLoading ? (
       <LoadingIndicator />
@@ -265,7 +274,8 @@ class EditSection extends Component {
                 placeholder="Year"
                 value={this.state.year.value}
                 onChange={event =>
-                  this.handleInputChange(event, this.validateYear)}
+                  this.handleInputChange(event, this.validateYear)
+                }
               />
             </FormItem>
             <FormItem>
@@ -290,12 +300,12 @@ class EditSection extends Component {
     if (name === "") {
       return {
         validateStatus: "error",
-        errorMsg: `Name cannot be empty.`,
+        errorMsg: `Name cannot be empty.`
       };
     } else {
       return {
         validateStatus: "success",
-        errorMsg: null,
+        errorMsg: null
       };
     }
   };
@@ -304,17 +314,17 @@ class EditSection extends Component {
     if (year === "") {
       return {
         validateStatus: "error",
-        errorMsg: `Year cannot be empty.`,
+        errorMsg: `Year cannot be empty.`
       };
     } else if (year < 0) {
       return {
         validateStatus: "error",
-        errorMsg: `Year cannot be less than 0.`,
+        errorMsg: `Year cannot be less than 0.`
       };
     } else {
       return {
         validateStatus: "success",
-        errorMsg: null,
+        errorMsg: null
       };
     }
   };
