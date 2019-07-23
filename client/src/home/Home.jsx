@@ -11,8 +11,7 @@ class Home extends React.PureComponent {
     return (
       <div className="home-page">
         <DocumentTitle title="Smart Team - Team Allocation Made Easy" />
-        <Header key="header" />
-        <Banner key="banner" />
+        <Banner key="banner"/>
         <Page1 key="page1" />
         <Footer key="footer" />        
       </div>

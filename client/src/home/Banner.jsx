@@ -14,7 +14,7 @@ class Banner extends React.PureComponent {
   render() {
     const { className } = this.props;
     return (
-      <div className={`home-layout-wrapper ${className}`}>
+      <div className={`home-layout-wrapper ${className}`} style={{marginTop: "64px"}}>
         <div className="home-layout">
           <QueueAnim className={`${className}-content-wrapper`} delay={300} ease="easeOutQuart">
             <h1 key="h2">
