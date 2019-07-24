@@ -141,7 +141,7 @@ class App extends Component {
                       />
                     )}
                   />
-                  <Route exact path="/" render={""} />
+                  <Route exact path="/" render={undefined} />
                   <Route
                     path="/login"
                     render={props => (

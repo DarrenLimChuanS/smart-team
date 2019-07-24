@@ -60,8 +60,8 @@ class Courses extends Component {
         <Row type="flex">
           {this.state &&
             courses &&
-            courses.map(course => (
-              <Col span={8} style={{ padding: "8px" }}>
+            courses.map((course, index) => (
+              <Col key={index} span={8} style={{ padding: "8px" }}>
                 <Card title={course.courseName}>
                   <p>{course.courseDescription}</p>
                   <div style={{ textAlign: "center" }}>

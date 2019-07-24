@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import DocumentTitle from "react-document-title";
 import Question from "./Question";
 import { updateChoices } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
@@ -128,90 +129,101 @@ class Questionnaire extends Component {
 
     let questionId = 0;
 
-    return isLoading ? (
-      <LoadingIndicator />
-    ) : (
+    return (
       <React.Fragment>
-        {this.renderRedirect()}
-        <Title level={1} style={{ textAlign: "center" }}>
-          {questionnaire.name}
-        </Title>
-        <Divider />
-        <Steps current={currentPage}>
-          {criteriaSteps.map(criterion => (
-            <Step key={criterion.title} title={criterion.title} />
-          ))}
-        </Steps>
-        <Divider />
-        <div className="polls-container">
-          <Title level={2}>{questionnaire.criteria[currentPage].name}</Title>
-          <p>{questionnaire.criteria[currentPage].description}</p>
-          {questionnaire.criteria[currentPage].polls.map((poll, pollIndex) => (
-            <Question
-              key={poll.id}
-              poll={poll}
-              pollIndex={++questionId}
-              currentVote={currentVotes[poll.id]}
-              handleChoiceChange={event =>
-                this.handleChoiceChange(
-                  event,
-                  poll,
-                  questionnaire.criteria[currentPage].id,
-                  pollIndex
+        <DocumentTitle
+          title={`Smart Team - Questionnaire | ${questionnaire.name}`}
+        />
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <React.Fragment>
+            {this.renderRedirect()}
+            <Title level={1} style={{ textAlign: "center" }}>
+              {questionnaire.name}
+            </Title>
+            <Divider />
+            <Steps current={currentPage}>
+              {criteriaSteps.map(criterion => (
+                <Step key={criterion.title} title={criterion.title} />
+              ))}
+            </Steps>
+            <Divider />
+            <div className="polls-container">
+              <Title level={2}>
+                {questionnaire.criteria[currentPage].name}
+              </Title>
+              <p>{questionnaire.criteria[currentPage].description}</p>
+              {questionnaire.criteria[currentPage].polls.map(
+                (poll, pollIndex) => (
+                  <Question
+                    key={poll.id}
+                    poll={poll}
+                    pollIndex={++questionId}
+                    currentVote={currentVotes[poll.id]}
+                    handleChoiceChange={event =>
+                      this.handleChoiceChange(
+                        event,
+                        poll,
+                        questionnaire.criteria[currentPage].id,
+                        pollIndex
+                      )
+                    }
+                  />
                 )
-              }
-            />
-          ))}
-          {!isLoading && questionnaire.criteria.length === 0 ? (
-            <div className="no-polls-found">
-              <span>No questions found.</span>
+              )}
+              {!isLoading && questionnaire.criteria.length === 0 ? (
+                <div className="no-polls-found">
+                  <span>No questions found.</span>
+                </div>
+              ) : null}
+              {!isLoading && currentPage < page ? (
+                <div className="load-more-polls">
+                  <Button
+                    type="default"
+                    onClick={() => this.handleLoadMore(-1)}
+                    disabled={isLoading || currentPage === 0}
+                    style={{ float: "left" }}
+                  >
+                    <Icon type="left" /> Back
+                  </Button>
+                  <Button
+                    type="default"
+                    onClick={() => this.handleLoadMore(1)}
+                    disabled={isLoading}
+                    style={{ float: "right" }}
+                  >
+                    Next <Icon type="right" />
+                  </Button>
+                </div>
+              ) : (
+                <div className="load-more-polls">
+                  <Button
+                    type="default"
+                    onClick={() => this.handleLoadMore(-1)}
+                    disabled={isLoading || currentPage === 0}
+                    style={{ float: "left" }}
+                  >
+                    <Icon type="left" /> Back
+                  </Button>
+                  <PopUpModal
+                    title="Complete Confirmation"
+                    triggerButtonType="default"
+                    triggerButtonText="Finish"
+                    submitButtonType="primary"
+                    confirmText="Confirm"
+                    style={{ float: "right" }}
+                    onSubmit={this.setRedirect}
+                  >
+                    Are you sure you want to end the questionnaire? <br />
+                    You will not be able to amend the survey after confirming.
+                  </PopUpModal>
+                </div>
+              )}
+              {isLoading ? <LoadingIndicator /> : null}
             </div>
-          ) : null}
-          {!isLoading && currentPage < page ? (
-            <div className="load-more-polls">
-              <Button
-                type="default"
-                onClick={() => this.handleLoadMore(-1)}
-                disabled={isLoading || currentPage === 0}
-                style={{ float: "left" }}
-              >
-                <Icon type="left" /> Back
-              </Button>
-              <Button
-                type="default"
-                onClick={() => this.handleLoadMore(1)}
-                disabled={isLoading}
-                style={{ float: "right" }}
-              >
-                Next <Icon type="right" />
-              </Button>
-            </div>
-          ) : (
-            <div className="load-more-polls">
-              <Button
-                type="default"
-                onClick={() => this.handleLoadMore(-1)}
-                disabled={isLoading || currentPage === 0}
-                style={{ float: "left" }}
-              >
-                <Icon type="left" /> Back
-              </Button>
-              <PopUpModal
-                title="Complete Confirmation"
-                triggerButtonType="default"
-                triggerButtonText="Finish"
-                submitButtonType="primary"
-                confirmText="Confirm"
-                style={{ float: "right" }}
-                onSubmit={this.setRedirect}
-              >
-                Are you sure you want to end the questionnaire? <br />
-                You will not be able to amend the survey after confirming.
-              </PopUpModal>
-            </div>
-          )}
-          {isLoading ? <LoadingIndicator /> : null}
-        </div>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }

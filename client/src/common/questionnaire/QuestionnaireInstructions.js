@@ -1,10 +1,16 @@
 import React from "react";
+import DocumentTitle from "react-document-title";
 import { Row, Typography, Divider, Button } from "antd";
 import { Card } from "antd";
 const { Title } = Typography;
 
 const QuestionnaireInstructions = props => (
   <Card>
+    <DocumentTitle
+      title={`Smart Team - Questionnaire | ${props &&
+        props.questionnaire &&
+        props.questionnaire.name}`}
+    />
     <Title>{props && props.questionnaire && props.questionnaire.name}</Title>
     <Divider />
     <Row style={{ minHeight: "300px" }}>

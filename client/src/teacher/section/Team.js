@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import DocumentTitle from "react-document-title";
 import {
   Row,
   Col,
@@ -202,80 +203,89 @@ class Team extends Component {
       return parseInt(calcCompliance * 100, 10);
     };
 
-    return isLoading ? (
-      <LoadingIndicator />
-    ) : (
+    return (
       <React.Fragment>
-        <Title>
-          {smartteam.name} <small>Teams</small>
-        </Title>
-        <Divider />
-        <Row type="flex">
-          {teams.map((team, teamIndex) => (
-            <Col span={8} style={{ padding: "8px" }}>
-              <Card title={`Team ${teamIndex + 1} (${team.users.length})`}>
-                {this.props.match.params.team !== "team" && (
-                  <p>
-                    <b>Compliance Score: </b>
-                    <Progress
-                      type="circle"
-                      percent={calcCompliancePerc(team.complianceScore)}
-                      width={30}
-                    />
-                  </p>
-                )}
-                {team.users.map((user, userIndex) => (
-                  <div>
-                    <span>{user.name}</span>
-                    {team.teamId == null && (
-                      <div style={{ float: "right" }}>
-                        <PopUpModal
-                          link
-                          triggerButtonText="Change Team"
-                          triggerButtonSize="small"
-                          title="Change Team"
-                          onSubmit={() =>
-                            this.submitTeamChange(teamIndex, userIndex)
-                          }
-                          confirmText="Change"
-                        >
-                          {"Team: "}
-                          <Select
-                            name="team"
-                            defaultValue={teamIndex + 1}
-                            onChange={this.handleTeamChange}
-                            value={selectedTeam}
-                            style={{ width: 60 }}
-                          >
-                            {teams.map((team, selectedTeamIndex) => (
-                              <Option
-                                key={selectedTeamIndex}
-                                value={selectedTeamIndex + 1}
-                              >
-                                {selectedTeamIndex + 1}
-                              </Option>
-                            ))}
-                          </Select>
-                        </PopUpModal>
-                      </div>
+        <DocumentTitle
+          title={`Smart Team - ${this.state &&
+            smartteam &&
+            smartteam.name} Teams`}
+        />
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <React.Fragment>
+            <Title>
+              {smartteam.name} <small>Teams</small>
+            </Title>
+            <Divider />
+            <Row type="flex">
+              {teams.map((team, teamIndex) => (
+                <Col span={8} style={{ padding: "8px" }}>
+                  <Card title={`Team ${teamIndex + 1} (${team.users.length})`}>
+                    {this.props.match.params.team !== "team" && (
+                      <p>
+                        <b>Compliance Score: </b>
+                        <Progress
+                          type="circle"
+                          percent={calcCompliancePerc(team.complianceScore)}
+                          width={30}
+                        />
+                      </p>
                     )}
-                  </div>
-                ))}
-              </Card>
-            </Col>
-          ))}
-        </Row>
-        {teams[0].teamId == null && (
-          <Row>
-            <Button
-              type="primary"
-              size="large"
-              className="signup-form-button"
-              onClick={() => this.handleConfirmTeam()}
-            >
-              Confirm Team
-            </Button>
-          </Row>
+                    {team.users.map((user, userIndex) => (
+                      <div>
+                        <span>{user.name}</span>
+                        {team.teamId == null && (
+                          <div style={{ float: "right" }}>
+                            <PopUpModal
+                              link
+                              triggerButtonText="Change Team"
+                              triggerButtonSize="small"
+                              title="Change Team"
+                              onSubmit={() =>
+                                this.submitTeamChange(teamIndex, userIndex)
+                              }
+                              confirmText="Change"
+                            >
+                              {"Team: "}
+                              <Select
+                                name="team"
+                                defaultValue={teamIndex + 1}
+                                onChange={this.handleTeamChange}
+                                value={selectedTeam}
+                                style={{ width: 60 }}
+                              >
+                                {teams.map((team, selectedTeamIndex) => (
+                                  <Option
+                                    key={selectedTeamIndex}
+                                    value={selectedTeamIndex + 1}
+                                  >
+                                    {selectedTeamIndex + 1}
+                                  </Option>
+                                ))}
+                              </Select>
+                            </PopUpModal>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+            {teams[0].teamId == null && (
+              <Row>
+                <Button
+                  type="primary"
+                  size="large"
+                  className="signup-form-button"
+                  onClick={() => this.handleConfirmTeam()}
+                >
+                  Confirm Team
+                </Button>
+              </Row>
+            )}
+          </React.Fragment>
         )}
       </React.Fragment>
     );

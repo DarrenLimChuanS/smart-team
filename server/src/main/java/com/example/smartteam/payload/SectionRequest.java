@@ -2,7 +2,6 @@ package com.example.smartteam.payload;
 
 import com.example.smartteam.model.Course;
 import com.example.smartteam.model.SmartTeam;
-import com.example.smartteam.model.Team;
 import com.example.smartteam.model.User;
 import java.util.HashSet;
 import java.util.Set;
