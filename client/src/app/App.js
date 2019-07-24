@@ -55,11 +55,11 @@ class App extends Component {
     });
   }
 
-  loadCurrentUser() {
+  async loadCurrentUser() {
     this.setState({
       isLoading: true
     });
-    getCurrentUser()
+    await getCurrentUser()
       .then(response => {
         this.setState({
           currentUser: response,
@@ -98,13 +98,15 @@ class App extends Component {
     });
   }
 
-  handleLogin() {
+  async handleLogin() {
     notification.success({
       message: "Smart Team",
       description: "You're successfully logged in."
     });
-    this.loadCurrentUser();
-    this.props.history.push("/");
+    await this.loadCurrentUser();
+    this.state.currentUser.roles[0].name === "ROLE_USER"
+      ? this.props.history.push("/section")
+      : this.props.history.push("/courses");
   }
 
   render() {
