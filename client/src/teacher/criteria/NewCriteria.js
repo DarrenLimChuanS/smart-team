@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DocumentTitle from "react-document-title";
 import { createCriteria } from "../../util/APIUtils";
 import {
   POLL_QUESTION_MAX_LENGTH,
@@ -323,7 +324,8 @@ class NewCriteria extends Component {
     const { graded, name, description } = this.state;
     return (
       <div className="new-poll-container">
-        <Title level={2}>Create a Criteria</Title>
+        <DocumentTitle title="Smart Team - Create Criteria" />
+        <Title level={2}>Create Criteria</Title>
         <div className="new-poll-content">
           <Form onSubmit={this.handleSubmit} className="create-poll-form">
             <FormItem

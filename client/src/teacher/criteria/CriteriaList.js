@@ -5,6 +5,7 @@ import {
   deleteCriteria
 } from "../../util/APIUtils";
 import { Link, withRouter } from "react-router-dom";
+import DocumentTitle from "react-document-title";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   notification,
@@ -181,7 +182,7 @@ class Criteria extends Component {
         title: "Graded",
         dataIndex: "graded",
         key: "graded",
-        render: (text) => (
+        render: text => (
           <span>
             <Tag color={text ? "green" : "blue"} key={text}>
               {text ? "Graded" : "Non-Graded"}
@@ -214,15 +215,18 @@ class Criteria extends Component {
       }
     ];
 
-    return isLoading ? (
-      <LoadingIndicator />
-    ) : (
+    return (
       <React.Fragment>
-        <Row>
-          <Col span={22}>
-            <Title level={2}>Criteria</Title>
-          </Col>
-          {/* <Col span={2}>
+        <DocumentTitle title="Smart Team - Criteria" />
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <React.Fragment>
+            <Row>
+              <Col span={22}>
+                <Title level={2}>Criteria</Title>
+              </Col>
+              {/* <Col span={2}>
             <Button type="primary" size="default">
               Export
             </Button>
@@ -232,22 +236,24 @@ class Criteria extends Component {
               Import
             </Button>
           </Col> */}
-          <Col span={2}>
-            <Link to="/criteria/new">
-              <Button type="primary" size="default">
-                Create
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-        <Row>
-          <Table
-            rowKey="id"
-            columns={columns}
-            dataSource={this.state.criteria}
-            onChange={this.handleChange}
-          />
-        </Row>
+              <Col span={2}>
+                <Link to="/criteria/new">
+                  <Button type="primary" size="default">
+                    Create
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+            <Row>
+              <Table
+                rowKey="id"
+                columns={columns}
+                dataSource={this.state.criteria}
+                onChange={this.handleChange}
+              />
+            </Row>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }

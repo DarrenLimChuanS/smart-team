@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
+import DocumentTitle from "react-document-title";
 import { getUserCreatedStudents, deleteStudent } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import {
@@ -149,7 +150,7 @@ class StudentList extends Component {
         sortOrder: sortedInfo.columnKey === "email" && sortedInfo.order
       },
       {
-        title: "Updated_at",
+        title: "Updated At",
         dataIndex: "updatedAt",
         key: "updatedAt",
         filteredValue: filteredInfo.updatedAt || null,
@@ -175,30 +176,35 @@ class StudentList extends Component {
         )
       }
     ];
-    return isLoading ? (
-      <LoadingIndicator />
-    ) : (
+    return (
       <React.Fragment>
-        <Row>
-          <Col span={22}>
-            <Title level={2}>Students</Title>
-          </Col>
-          <Col span={2}>
-            <Link to="/student/new">
-              <Button type="primary" size="large">
-                Create
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-        <Row>
-          <Table
-            rowKey="id"
-            columns={columns}
-            dataSource={this.state.students}
-            onChange={this.handleChange}
-          />
-        </Row>
+        <DocumentTitle title="Smart Team - Students" />
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <React.Fragment>
+            <Row>
+              <Col span={22}>
+                <Title level={2}>Students</Title>
+              </Col>
+              <Col span={2}>
+                <Link to="/student/new">
+                  <Button type="primary" size="large">
+                    Create
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+            <Row>
+              <Table
+                rowKey="id"
+                columns={columns}
+                dataSource={this.state.students}
+                onChange={this.handleChange}
+              />
+            </Row>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }

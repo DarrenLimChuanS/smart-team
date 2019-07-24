@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DocumentTitle from "react-document-title";
 import { createCourse, updateCourse, getCourseById } from "../../util/APIUtils";
 import { Form, Input, Button, notification, Typography } from "antd";
 import { Course } from "../../util/FeatureStates";
@@ -89,7 +90,10 @@ class EditCourse extends Component {
     const { id, courseCode, name, description } = this.state;
     return (
       <div className="signup-container">
-        <Title level={2}>{id.value ? "Edit Course" : "Create Course"}</Title>
+        <DocumentTitle
+          title={`Smart Team - ${id.value ? "Edit" : "Create"} Course`}
+        />
+        <Title level={2}>{id.value ? "Edit " : "Create "} Course</Title>
         <div className="signup-content">
           <Form onSubmit={this.handleSubmit} className="signup-form">
             <FormItem

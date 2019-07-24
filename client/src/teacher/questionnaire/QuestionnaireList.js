@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DocumentTitle from "react-document-title";
 import update from "immutability-helper";
 import { withRouter } from "react-router-dom";
 import LoadingIndicator from "../../common/LoadingIndicator";
@@ -448,202 +449,212 @@ class Questionnaire extends Component {
       selectedCriteriaList,
       isLoading
     } = this.state;
-    return isLoading ? (
-      <LoadingIndicator />
-    ) : (
+    return (
       <React.Fragment>
-        <Row>
-          <Col span={20}>
-            <Title level={2}>Questionnaire</Title>
-          </Col>
-          <Col span={2}>
-            {/* <Button type="primary" size="default">
+        <DocumentTitle title="Smart Team - Questionnaire" />
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <React.Fragment>
+            <Row>
+              <Col span={20}>
+                <Title level={2}>Questionnaire</Title>
+              </Col>
+              <Col span={2}>
+                {/* <Button type="primary" size="default">
               Import
             </Button> */}
-          </Col>
-          <Col span={2}>
-            <PopUpModal
-              title="Create Questionnaire"
-              triggerButtonText="Create"
-              confirmText="Create Questionnaire"
-              onSubmit={this.handleSubmit}
-            >
-              <Form className="signup-form">
-                <FormItem
-                  label="Name"
-                  hasFeedback
-                  validateStatus={this.state.name.validateStatus}
-                  help={this.state.name.errorMsg}
+              </Col>
+              <Col span={2}>
+                <PopUpModal
+                  title="Create Questionnaire"
+                  triggerButtonText="Create"
+                  confirmText="Create Questionnaire"
+                  onSubmit={this.handleSubmit}
                 >
-                  <Input
-                    size="large"
-                    name="name"
-                    autoComplete="off"
-                    placeholder="Name"
-                    value={this.state.name.value}
-                    onChange={event =>
-                      this.handleInputChange(event, validateNotEmpty)
-                    }
-                  />
-                </FormItem>
-                <FormItem label="Instruction">
-                  <Input
-                    size="large"
-                    name="instruction"
-                    autoComplete="off"
-                    placeholder="Instruction"
-                    value={this.state.instruction.value}
-                    onChange={event =>
-                      this.handleInputChange(event, validateNotRequired)
-                    }
-                  />
-                </FormItem>
-              </Form>
-            </PopUpModal>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8}>
-            <Form className="signup-form">
-              <FormItem label="Select saved questionnaire">
-                <Select
-                  name="selectedQuestionnaireIndex"
-                  size="large"
-                  style={{ width: "100%" }}
-                  value={selectedQuestionnaireIndex}
-                  placeholder="Please select a questionnaire"
-                  onChange={index => this.handleQuestionnaireChange(index)}
-                >
-                  {this.state &&
-                    questionnaireList &&
-                    questionnaireList.map((questionnaire, index) => (
-                      <Option key={index} value={index}>
-                        {questionnaire.questionnaireId} - {questionnaire.name} (
-                        {questionnaire.criteria.length} criteria)
-                      </Option>
-                    ))}
-                </Select>
-              </FormItem>
-            </Form>
-          </Col>
-          {this.state.selectedQuestionnaireIndex !== null && (
-            <Col span={4}>
-              <Popconfirm
-                title="Delete?"
-                onConfirm={() =>
-                  this.handleDeleteQuestionnaire(
-                    this.state.selectedQuestionnaireIndex
-                  )
-                }
-              >
-                <Button
-                  type="danger"
-                  size="default"
-                  style={{ marginLeft: "8px", marginTop: "42px" }}
-                  ghost
-                >
-                  Delete
-                </Button>
-              </Popconfirm>
-            </Col>
-          )}
-        </Row>
-
-        {selectedQuestionnaireIndex !== null && (
-          <Row>
-            <p>
-              Instructions:{" "}
-              {questionnaireList[selectedQuestionnaireIndex].instruction}
-            </p>
-          </Row>
-        )}
-
-        <hr />
-        <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
-          <Col span={21}>
-            <Title level={2}>Criteria</Title>
-          </Col>
-          <Col span={3}>
-            {this.state.selectedQuestionnaireIndex !== null && (
-              <PopUpModal
-                title="Add Criteria"
-                triggerButtonText="Add Criteria"
-                confirmText="Add Criteria"
-                onSubmit={this.handleAddCriteria}
-              >
-                <Form onSubmit={this.handleSubmit} className="signup-form">
-                  <FormItem label="Select saved criteria">
+                  <Form className="signup-form">
+                    <FormItem
+                      label="Name"
+                      hasFeedback
+                      validateStatus={this.state.name.validateStatus}
+                      help={this.state.name.errorMsg}
+                    >
+                      <Input
+                        size="large"
+                        name="name"
+                        autoComplete="off"
+                        placeholder="Name"
+                        value={this.state.name.value}
+                        onChange={event =>
+                          this.handleInputChange(event, validateNotEmpty)
+                        }
+                      />
+                    </FormItem>
+                    <FormItem label="Instruction">
+                      <Input
+                        size="large"
+                        name="instruction"
+                        autoComplete="off"
+                        placeholder="Instruction"
+                        value={this.state.instruction.value}
+                        onChange={event =>
+                          this.handleInputChange(event, validateNotRequired)
+                        }
+                      />
+                    </FormItem>
+                  </Form>
+                </PopUpModal>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={8}>
+                <Form className="signup-form">
+                  <FormItem label="Select saved questionnaire">
                     <Select
+                      name="selectedQuestionnaireIndex"
                       size="large"
                       style={{ width: "100%" }}
-                      placeholder="Please select a criteria"
-                      defaultValue={[]}
-                      onChange={value => this.handleCriteriaChange(value)}
+                      value={selectedQuestionnaireIndex}
+                      placeholder="Please select a questionnaire"
+                      onChange={index => this.handleQuestionnaireChange(index)}
                     >
-                      {criteriaOptions}
+                      {this.state &&
+                        questionnaireList &&
+                        questionnaireList.map((questionnaire, index) => (
+                          <Option key={index} value={index}>
+                            {questionnaire.questionnaireId} -{" "}
+                            {questionnaire.name} (
+                            {questionnaire.criteria.length} criteria)
+                          </Option>
+                        ))}
                     </Select>
                   </FormItem>
                 </Form>
-                <Table
-                  rowKey="id"
-                  columns={criteriaColumns}
-                  dataSource={
-                    this.state &&
-                    this.state.criteriaList[this.state.selectedCriteriaId] &&
-                    this.state.criteriaList[this.state.selectedCriteriaId].polls
-                  }
-                  onChange={this.handleChange}
-                />
-              </PopUpModal>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          {selectedQuestionnaireIndex === null ? (
-            <Table rowKey="id" columns={criteriaColumns} />
-          ) : (
-            selectedCriteriaList.map((criteria, index) => (
-              <React.Fragment key={criteria.id}>
-                <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
-                  <Col span={21}>
-                    <Title level={3}>
-                      {selectedQuestionnaireIndex !== null &&
-                        questionnaireList[this.state.selectedQuestionnaireIndex]
-                          .criteria !== undefined &&
-                        `${criteria.name}`}
+              </Col>
+              {this.state.selectedQuestionnaireIndex !== null && (
+                <Col span={4}>
+                  <Popconfirm
+                    title="Delete?"
+                    onConfirm={() =>
+                      this.handleDeleteQuestionnaire(
+                        this.state.selectedQuestionnaireIndex
+                      )
+                    }
+                  >
+                    <Button
+                      type="danger"
+                      size="default"
+                      style={{ marginLeft: "8px", marginTop: "42px" }}
+                      ghost
+                    >
+                      Delete
+                    </Button>
+                  </Popconfirm>
+                </Col>
+              )}
+            </Row>
 
-                      <Popconfirm
-                        title="Remove?"
-                        onConfirm={() =>
-                          this.handleRemoveCriteria(criteria.id, index)
-                        }
-                      >
-                        <Button
-                          type="danger"
-                          size="default"
-                          style={{ marginLeft: "8px" }}
-                          ghost
+            {selectedQuestionnaireIndex !== null && (
+              <Row>
+                <p>
+                  Instructions:{" "}
+                  {questionnaireList[selectedQuestionnaireIndex].instruction}
+                </p>
+              </Row>
+            )}
+
+            <hr />
+            <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
+              <Col span={21}>
+                <Title level={2}>Criteria</Title>
+              </Col>
+              <Col span={3}>
+                {this.state.selectedQuestionnaireIndex !== null && (
+                  <PopUpModal
+                    title="Add Criteria"
+                    triggerButtonText="Add Criteria"
+                    confirmText="Add Criteria"
+                    onSubmit={this.handleAddCriteria}
+                  >
+                    <Form onSubmit={this.handleSubmit} className="signup-form">
+                      <FormItem label="Select saved criteria">
+                        <Select
+                          size="large"
+                          style={{ width: "100%" }}
+                          placeholder="Please select a criteria"
+                          defaultValue={[]}
+                          onChange={value => this.handleCriteriaChange(value)}
                         >
-                          Remove
-                        </Button>
-                      </Popconfirm>
-                    </Title>
-                  </Col>
-                </Row>
-                <Table
-                  rowKey="id"
-                  columns={columns}
-                  dataSource={
-                    selectedQuestionnaireIndex !== null &&
-                    criteria !== undefined &&
-                    criteria.polls
-                  }
-                  onChange={this.handleChange}
-                />
-              </React.Fragment>
-            ))
-          )}
-        </Row>
+                          {criteriaOptions}
+                        </Select>
+                      </FormItem>
+                    </Form>
+                    <Table
+                      rowKey="id"
+                      columns={criteriaColumns}
+                      dataSource={
+                        this.state &&
+                        this.state.criteriaList[
+                          this.state.selectedCriteriaId
+                        ] &&
+                        this.state.criteriaList[this.state.selectedCriteriaId]
+                          .polls
+                      }
+                      onChange={this.handleChange}
+                    />
+                  </PopUpModal>
+                )}
+              </Col>
+            </Row>
+            <Row>
+              {selectedQuestionnaireIndex === null ? (
+                <Table rowKey="id" columns={criteriaColumns} />
+              ) : (
+                selectedCriteriaList.map((criteria, index) => (
+                  <React.Fragment key={criteria.id}>
+                    <Row style={{ marginTop: "2em", marginBottom: "1em" }}>
+                      <Col span={21}>
+                        <Title level={3}>
+                          {selectedQuestionnaireIndex !== null &&
+                            questionnaireList[
+                              this.state.selectedQuestionnaireIndex
+                            ].criteria !== undefined &&
+                            `${criteria.name}`}
+
+                          <Popconfirm
+                            title="Remove?"
+                            onConfirm={() =>
+                              this.handleRemoveCriteria(criteria.id, index)
+                            }
+                          >
+                            <Button
+                              type="danger"
+                              size="default"
+                              style={{ marginLeft: "8px" }}
+                              ghost
+                            >
+                              Remove
+                            </Button>
+                          </Popconfirm>
+                        </Title>
+                      </Col>
+                    </Row>
+                    <Table
+                      rowKey="id"
+                      columns={columns}
+                      dataSource={
+                        selectedQuestionnaireIndex !== null &&
+                        criteria !== undefined &&
+                        criteria.polls
+                      }
+                      onChange={this.handleChange}
+                    />
+                  </React.Fragment>
+                ))
+              )}
+            </Row>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }

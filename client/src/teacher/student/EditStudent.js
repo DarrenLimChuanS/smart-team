@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DocumentTitle from "react-document-title";
 import {
   checkUsernameAvailability,
   checkEmailAvailability,
@@ -122,6 +123,9 @@ class EditStudent extends Component {
     const { id, name, username, email, password } = this.state;
     return (
       <div className="signup-container">
+        <DocumentTitle
+          title={`Smart Team - ${id.value ? "Edit" : "Create"} Student`}
+        />
         <Title level={2}>{id.value ? "Edit " : "Create "} Student</Title>
         <div className="signup-content">
           {this.state.user}

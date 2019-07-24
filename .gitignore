@@ -9,3 +9,5 @@ client/package-lock.json
 .vscode/*
 server/src/main/resources/application-prod.properties
 server/src/main/resources/application.properties
+smartteam/.idea/workspace.xml
+client/src/constants/index.js

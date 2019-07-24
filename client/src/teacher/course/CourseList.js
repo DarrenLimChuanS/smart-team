@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DocumentTitle from "react-document-title";
 import {
   getAllCourses,
   getUserCreatedCourses,
@@ -199,30 +200,35 @@ class CourseList extends Component {
       }
     ];
 
-    return isLoading ? (
-      <LoadingIndicator />
-    ) : (
+    return (
       <React.Fragment>
-        <Row>
-          <Col span={22}>
-            <Title level={2}>Courses</Title>
-          </Col>
-          <Col span={2}>
-            <Link to="/course/new">
-              <Button type="primary" size="large">
-                Create
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-        <Row>
-          <Table
-            rowKey="id"
-            columns={columns}
-            dataSource={this.state.courses}
-            onChange={this.handleChange}
-          />
-        </Row>
+        <DocumentTitle title="Smart Team - Courses" />
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <React.Fragment>
+            <Row>
+              <Col span={22}>
+                <Title level={2}>Courses</Title>
+              </Col>
+              <Col span={2}>
+                <Link to="/course/new">
+                  <Button type="primary" size="large">
+                    Create
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+            <Row>
+              <Table
+                rowKey="id"
+                columns={columns}
+                dataSource={this.state.courses}
+                onChange={this.handleChange}
+              />
+            </Row>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }

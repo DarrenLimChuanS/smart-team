@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
+import DocumentTitle from "react-document-title";
 import { getUserCreatedSections, deleteSection } from "../../util/APIUtils";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import {
@@ -263,30 +264,35 @@ class SectionList extends Component {
       }
     ];
 
-    return isLoading ? (
-      <LoadingIndicator />
-    ) : (
+    return (
       <React.Fragment>
-        <Row>
-          <Col span={22}>
-            <Title level={2}>Sections</Title>
-          </Col>
-          <Col span={2}>
-            <Link to="/section/new">
-              <Button type="primary" size="default">
-                Create
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-        <Row>
-          <Table
-            rowKey="sectionId"
-            columns={columns}
-            dataSource={this.state.sections}
-            onChange={this.handleChange}
-          />
-        </Row>
+        <DocumentTitle title="Smart Team - Sections" />
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <React.Fragment>
+            <Row>
+              <Col span={22}>
+                <Title level={2}>Sections</Title>
+              </Col>
+              <Col span={2}>
+                <Link to="/section/new">
+                  <Button type="primary" size="default">
+                    Create
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
+            <Row>
+              <Table
+                rowKey="sectionId"
+                columns={columns}
+                dataSource={this.state.sections}
+                onChange={this.handleChange}
+              />
+            </Row>
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }

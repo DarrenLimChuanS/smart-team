@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DocumentTitle from "react-document-title";
 import { Link, withRouter } from "react-router-dom";
 import { Row, Col, Typography, Divider, Button } from "antd";
 import { Card } from "antd";
@@ -53,6 +54,7 @@ class Courses extends Component {
     const { courses } = this.state;
     return (
       <React.Fragment>
+        <DocumentTitle title="Smart Team - Courses" />
         <Title>Courses</Title>
         <Divider />
         <Row type="flex">

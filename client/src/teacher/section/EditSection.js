@@ -1,5 +1,6 @@
 import { Form, Input, Button, notification, Select, Typography } from "antd";
 import React, { Component } from "react";
+import DocumentTitle from "react-document-title";
 import LoadingIndicator from "../../common/LoadingIndicator";
 import {
   getUserCreatedCourses,
@@ -185,113 +186,124 @@ class EditSection extends Component {
       selectedStudents,
       isLoading
     } = this.state;
-    return isLoading ? (
-      <LoadingIndicator />
-    ) : (
-      <div className="signup-container">
-        <Title level={2}>{sectionId.value ? "Edit" : "Create"} Section</Title>
-        <div className="signup-content">
-          <Form onSubmit={this.handleSubmit} className="signup-form">
-            <FormItem
-              label="Name"
-              hasFeedback
-              validateStatus={name.validateStatus}
-              help={name.errorMsg}
-            >
-              <Input
-                size="large"
-                name="name"
-                autoComplete="off"
-                placeholder="Name"
-                value={name.value}
-                onChange={event => this.handleInputChange(event, validateName)}
-              />
-            </FormItem>
+    return (
+      <React.Fragment>
+        <DocumentTitle
+          title={`Smart Team - ${sectionId.value ? "Edit" : "Create"} Section`}
+        />
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : (
+          <div className="signup-container">
+            <Title level={2}>
+              {sectionId.value ? "Edit" : "Create"} Section
+            </Title>
+            <div className="signup-content">
+              <Form onSubmit={this.handleSubmit} className="signup-form">
+                <FormItem
+                  label="Name"
+                  hasFeedback
+                  validateStatus={name.validateStatus}
+                  help={name.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="name"
+                    autoComplete="off"
+                    placeholder="Name"
+                    value={name.value}
+                    onChange={event =>
+                      this.handleInputChange(event, validateName)
+                    }
+                  />
+                </FormItem>
 
-            <FormItem
-              label="Students"
-              hasFeedback
-              validateStatus={students.validateStatus}
-              help={students.errorMsg}
-            >
-              <Select
-                size="large"
-                mode="multiple"
-                style={{ width: "100%" }}
-                placeholder={"Please select the students"}
-                defaultValue={
-                  this.state && selectedStudents && selectedStudents.value
-                }
-                onChange={value => this.handleStudentChange(value)}
-              >
-                {this.state &&
-                  studentList &&
-                  studentList.map((student, index) => (
-                    <Option key={student.id} value={student.id}>
-                      {`${student.id} - ${student.name}`}
-                    </Option>
-                  ))}
-              </Select>
-            </FormItem>
+                <FormItem
+                  label="Students"
+                  hasFeedback
+                  validateStatus={students.validateStatus}
+                  help={students.errorMsg}
+                >
+                  <Select
+                    size="large"
+                    mode="multiple"
+                    style={{ width: "100%" }}
+                    placeholder={"Please select the students"}
+                    defaultValue={
+                      this.state && selectedStudents && selectedStudents.value
+                    }
+                    onChange={value => this.handleStudentChange(value)}
+                  >
+                    {this.state &&
+                      studentList &&
+                      studentList.map((student, index) => (
+                        <Option key={student.id} value={student.id}>
+                          {`${student.id} - ${student.name}`}
+                        </Option>
+                      ))}
+                  </Select>
+                </FormItem>
 
-            <FormItem
-              label="Course"
-              hasFeedback
-              validateStatus={course.validateStatus}
-              help={course.errorMsg}
-            >
-              <Select
-                name="course"
-                size="large"
-                defaultActiveFirstOption={true}
-                placeHolder="Please select a course"
-                defaultValue={
-                  this.state && selectedCourse && selectedCourse.value
-                }
-                onChange={value => this.handleCourseChange(value)}
-              >
-                {this.state &&
-                  courseList &&
-                  courseList.map((course, index) => (
-                    <Option key={course.id} value={course.id}>
-                      {course.id} - {course.name}
-                    </Option>
-                  ))}
-              </Select>
-            </FormItem>
+                <FormItem
+                  label="Course"
+                  hasFeedback
+                  validateStatus={course.validateStatus}
+                  help={course.errorMsg}
+                >
+                  <Select
+                    name="course"
+                    size="large"
+                    defaultActiveFirstOption={true}
+                    placeHolder="Please select a course"
+                    defaultValue={
+                      this.state && selectedCourse && selectedCourse.value
+                    }
+                    onChange={value => this.handleCourseChange(value)}
+                  >
+                    {this.state &&
+                      courseList &&
+                      courseList.map((course, index) => (
+                        <Option key={course.id} value={course.id}>
+                          {course.id} - {course.name}
+                        </Option>
+                      ))}
+                  </Select>
+                </FormItem>
 
-            <FormItem
-              label="Year"
-              hasFeedback
-              validateStatus={this.state.year.validateStatus}
-              help={this.state.year.errorMsg}
-            >
-              <Input
-                size="large"
-                name="year"
-                type="number"
-                autoComplete="off"
-                placeholder="Year"
-                value={this.state.year.value}
-                onChange={event =>
-                  this.handleInputChange(event, this.validateYear)
-                }
-              />
-            </FormItem>
-            <FormItem>
-              <Button
-                type="primary"
-                htmlType="submit"
-                size="large"
-                className="signup-form-button"
-                disabled={this.isFormInvalid()}
-              >
-                {sectionId.value ? "Update" : "Create"}
-              </Button>
-            </FormItem>
-          </Form>
-        </div>
-      </div>
+                <FormItem
+                  label="Year"
+                  hasFeedback
+                  validateStatus={this.state.year.validateStatus}
+                  help={this.state.year.errorMsg}
+                >
+                  <Input
+                    size="large"
+                    name="year"
+                    type="number"
+                    autoComplete="off"
+                    placeholder="Year"
+                    value={this.state.year.value}
+                    onChange={event =>
+                      this.handleInputChange(event, this.validateYear)
+                    }
+                  />
+                </FormItem>
+                <FormItem>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    size="large"
+                    className="signup-form-button"
+                    disabled={this.isFormInvalid()}
+                  >
+                    {sectionId.value ? "Update" : "Create"}
+                  </Button>
+                </FormItem>
+              </Form>
+            </div>
+          </div>
+        )}
+      </React.Fragment>
     );
   }
 
