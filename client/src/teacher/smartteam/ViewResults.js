@@ -320,12 +320,12 @@ class ViewResults extends Component {
             <Card.Grid style={resultGridStyle}>
               <b>SmartTeam Session End Date</b>
               <br />
-              {smartteam.smartteamEnddate}
+              {smartteam.smartteamStartdate}
             </Card.Grid>
             <Card.Grid style={resultGridStyle}>
               <b>Formed SmartTeam End Date</b>
               <br />
-              {smartteam.smartteamStartdate}
+              {smartteam.smartteamEnddate}
             </Card.Grid>
           </Card>
         </Row>
