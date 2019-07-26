@@ -151,6 +151,8 @@ class ViewResults extends Component {
     const { outcome, smartteam } = this.state;
     var criteriaList = [];
     var criteriaResponseCount = [];
+    var maxResponseCount = 0;
+
     // Foreach criteria in questionnaire
     smartteam.questionnaire.criteria.forEach(criteria => {
       var responseCount = 0;
@@ -189,6 +191,9 @@ class ViewResults extends Component {
       criteriaResponseCount.push(responseCount);
     });
     criteriaResponseCount.forEach(responseCount => {
+      if (responseCount > maxResponseCount) {
+        maxResponseCount = responseCount;
+      }
       if (responseCount === 0) {
         this.setState({
           formIsInvalid: true
@@ -197,6 +202,7 @@ class ViewResults extends Component {
     });
     this.setState({
       criteria: criteriaList,
+      maxResponseCount: maxResponseCount,
       isLoading: false
     });
   }
@@ -241,7 +247,7 @@ class ViewResults extends Component {
 
   render() {
     const gridStyle = {
-      width: "25%",
+      width: "20%",
       textAlign: "center"
     };
     const resultGridStyle = {
@@ -254,7 +260,8 @@ class ViewResults extends Component {
       isLoading,
       showResult,
       formIsInvalid,
-      section
+      section,
+      maxResponseCount
     } = this.state;
     const { slider_value } = this.state;
     const marks = {
@@ -314,6 +321,11 @@ class ViewResults extends Component {
               <b>Year</b>
               <br />
               {section.year}
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <b>Responses</b>
+              <br />
+              {maxResponseCount}/{section.noOfStudents}
             </Card.Grid>
           </Card>
           <Card>
