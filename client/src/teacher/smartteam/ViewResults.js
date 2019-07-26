@@ -247,11 +247,11 @@ class ViewResults extends Component {
 
   render() {
     const gridStyle = {
-      width: "20%",
+      width: "25%",
       textAlign: "center"
     };
     const resultGridStyle = {
-      width: "50%",
+      width: "33.3%",
       textAlign: "center"
     };
     const {
@@ -322,11 +322,6 @@ class ViewResults extends Component {
               <br />
               {section.year}
             </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              <b>Responses</b>
-              <br />
-              {maxResponseCount}/{section.noOfStudents}
-            </Card.Grid>
           </Card>
           <Card>
             <Card.Grid style={resultGridStyle}>
@@ -338,6 +333,11 @@ class ViewResults extends Component {
               <b>Formed SmartTeam End Date</b>
               <br />
               {smartteam.smartteamEnddate}
+            </Card.Grid>
+            <Card.Grid style={resultGridStyle}>
+              <b>Responses</b>
+              <br />
+              {maxResponseCount}/{section.noOfStudents}
             </Card.Grid>
           </Card>
         </Row>
