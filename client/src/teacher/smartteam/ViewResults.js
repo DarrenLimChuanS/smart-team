@@ -8,10 +8,14 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
+  ResponsiveContainer
 } from "recharts";
 import LoadingIndicator from "../../common/LoadingIndicator";
-import { getSmartteamById, getSmartteamOutcomeById } from "../../util/APIUtils";
+import {
+  getSectionById,
+  getSmartteamById,
+  getSmartteamOutcomeById
+} from "../../util/APIUtils";
 import NewAutoTeam from "../section/NewAutoTeam";
 const { Title } = Typography;
 
@@ -22,8 +26,9 @@ class ViewResults extends Component {
       slider_value: 0,
       smartteam: [],
       outcome: [],
+      section: [],
       isLoading: false,
-      showResult: true,
+      showResult: true
     };
     this.loadSmartteam = this.loadSmartteam.bind(this);
     this.loadSmartteamOutcome = this.loadSmartteamOutcome.bind(this);
@@ -41,20 +46,48 @@ class ViewResults extends Component {
     }
 
     this.setState({
-      isLoading: true,
+      isLoading: true
     });
 
     promise
       .then(response => {
         this.setState({
           smartteam: response,
-          isLoading: false,
+          isLoading: false
+        });
+        this.loadSection();
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  }
+
+  loadSection() {
+    let promise;
+
+    promise = getSectionById(this.props.match.params.sectionId);
+
+    if (!promise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: true
+    });
+
+    promise
+      .then(response => {
+        this.setState({
+          section: response,
+          isLoading: false
         });
         this.loadSmartteamOutcome();
       })
       .catch(error => {
         this.setState({
-          isLoading: false,
+          isLoading: false
         });
       });
   }
@@ -69,20 +102,20 @@ class ViewResults extends Component {
     }
 
     this.setState({
-      isLoading: true,
+      isLoading: true
     });
 
     promise
       .then(response => {
         this.setState({
           outcome: response,
-          isLoading: false,
+          isLoading: false
         });
         this.mapResponseToCriteria();
       })
       .catch(error => {
         this.setState({
-          isLoading: false,
+          isLoading: false
         });
       });
   }
@@ -97,7 +130,7 @@ class ViewResults extends Component {
     }
 
     this.setState({
-      isLoading: true,
+      isLoading: true
     });
 
     promise
@@ -106,14 +139,14 @@ class ViewResults extends Component {
       })
       .catch(error => {
         this.setState({
-          isLoading: false,
+          isLoading: false
         });
       });
   }
 
   mapResponseToCriteria() {
     this.setState({
-      isLoading: true,
+      isLoading: true
     });
     const { outcome, smartteam } = this.state;
     var criteriaList = [];
@@ -124,20 +157,20 @@ class ViewResults extends Component {
       var votes = [
         {
           outcome: "Q1",
-          outcomeCount: "0",
+          outcomeCount: "0"
         },
         {
           outcome: "Q2",
-          outcomeCount: "0",
+          outcomeCount: "0"
         },
         {
           outcome: "Q3",
-          outcomeCount: "0",
+          outcomeCount: "0"
         },
         {
           outcome: "Q4",
-          outcomeCount: "0",
-        },
+          outcomeCount: "0"
+        }
       ];
       outcome.forEach(entry => {
         if (entry.criteriaId === criteria.id && entry.outcome !== null) {
@@ -150,7 +183,7 @@ class ViewResults extends Component {
         criteriaId: criteria.id,
         criteriaName: criteria.name,
         diversityScale: 0,
-        votes: votes,
+        votes: votes
       };
       criteriaList.push(criteriaInfo);
       criteriaResponseCount.push(responseCount);
@@ -158,13 +191,13 @@ class ViewResults extends Component {
     criteriaResponseCount.forEach(responseCount => {
       if (responseCount === 0) {
         this.setState({
-          formIsInvalid: true,
+          formIsInvalid: true
         });
       }
     });
     this.setState({
       criteria: criteriaList,
-      isLoading: false,
+      isLoading: false
     });
   }
 
@@ -193,26 +226,35 @@ class ViewResults extends Component {
     const criteria = this.state.criteria;
     criteria[index] = {
       ...this.state.criteria[index],
-      diversityScale: this.getDiversity(value),
+      diversityScale: this.getDiversity(value)
     };
     this.setState({
-      criteria,
+      criteria
     });
   };
 
   handleNext() {
     this.setState({
-      showResult: false,
+      showResult: false
     });
   }
 
   render() {
+    const gridStyle = {
+      width: "25%",
+      textAlign: "center"
+    };
+    const resultGridStyle = {
+      width: "50%",
+      textAlign: "center"
+    };
     const {
       smartteam,
       criteria,
       isLoading,
       showResult,
       formIsInvalid,
+      section
     } = this.state;
     const { slider_value } = this.state;
     const marks = {
@@ -223,7 +265,7 @@ class ViewResults extends Component {
             <br />
             (Similar)
           </span>
-        ),
+        )
       },
       25: "-1",
       50: {
@@ -232,7 +274,7 @@ class ViewResults extends Component {
             0 <br />
             (Exclude)
           </span>
-        ),
+        )
       },
       75: "1",
       100: {
@@ -241,8 +283,8 @@ class ViewResults extends Component {
             2 <br />
             (Diverse)
           </span>
-        ),
-      },
+        )
+      }
     };
 
     return isLoading ? (
@@ -251,6 +293,42 @@ class ViewResults extends Component {
       <React.Fragment>
         <Title>{smartteam.name}</Title>
         <Divider />
+        <Row>
+          <Card title="Section Information">
+            <Card.Grid style={gridStyle}>
+              <b>Name</b>
+              <br />
+              {section.name}
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <b>No. of Students</b>
+              <br />
+              {section.noOfStudents}
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <b>Module</b>
+              <br />
+              {section.courseName}
+            </Card.Grid>
+            <Card.Grid style={gridStyle}>
+              <b>Year</b>
+              <br />
+              {section.year}
+            </Card.Grid>
+          </Card>
+          <Card>
+            <Card.Grid style={resultGridStyle}>
+              <b>SmartTeam Session End Date</b>
+              <br />
+              {smartteam.smartteamEnddate}
+            </Card.Grid>
+            <Card.Grid style={resultGridStyle}>
+              <b>Formed SmartTeam End Date</b>
+              <br />
+              {smartteam.smartteamStartdate}
+            </Card.Grid>
+          </Card>
+        </Row>
         <Row type="flex">
           {criteria &&
             criteria.map((criterion, index) => (
