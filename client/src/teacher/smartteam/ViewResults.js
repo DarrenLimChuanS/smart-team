@@ -1,5 +1,6 @@
 import { Row, Col, Typography, Divider, Slider, Icon, Button } from "antd";
 import { Card } from "antd";
+import DocumentTitle from "react-document-title";
 import React, { Component } from "react";
 import {
   BarChart,
@@ -294,94 +295,99 @@ class ViewResults extends Component {
       }
     };
 
-    return isLoading ? (
-      <LoadingIndicator />
-    ) : showResult ? (
+    return (
       <React.Fragment>
-        <Title>{smartteam.name}</Title>
-        <Divider />
-        <Row>
-          <Card title="SmartTeam Information">
-            <Card.Grid style={gridStyle}>
-              <b>Name</b>
-              <br />
-              {section.name}
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              <b>No. of Students</b>
-              <br />
-              {section.noOfStudents}
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              <b>Module</b>
-              <br />
-              {section.courseName}
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              <b>Year</b>
-              <br />
-              {section.year}
-            </Card.Grid>
-          </Card>
-          <Card>
-            <Card.Grid style={resultGridStyle}>
-              <b>SmartTeam Session End Date</b>
-              <br />
-              {smartteam.smartteamStartdate}
-            </Card.Grid>
-            <Card.Grid style={resultGridStyle}>
-              <b>Formed SmartTeam End Date</b>
-              <br />
-              {smartteam.smartteamEnddate}
-            </Card.Grid>
-            <Card.Grid style={resultGridStyle}>
-              <b>Responses</b>
-              <br />
-              {maxResponseCount}/{section.noOfStudents}
-            </Card.Grid>
-          </Card>
-        </Row>
-        <Row type="flex">
-          {criteria &&
-            criteria.map((criterion, index) => (
-              <Col key={index} span={8} style={{ padding: "8px" }}>
-                <Card
-                  title={criterion.criteriaName}
-                  style={{ padding: "16px" }}
-                >
-                  <ResponsiveContainer width="100%" height={200}>
-                    <BarChart data={criterion.votes}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="outcome" />
-                      <YAxis />
-                      <Tooltip />
-                      <Bar dataKey="outcomeCount" fill="#8884d8" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                  <Slider
-                    marks={marks}
-                    step={null}
-                    defaultValue={50}
-                    onChange={value => this.handleChange(value, index)}
-                    slider_value={slider_value}
-                  />
-                </Card>
-              </Col>
-            ))}
-        </Row>
-        <Row style={{ marginTop: "16px" }}>
-          <Button
-            type="default"
-            onClick={() => this.handleNext()}
-            disabled={formIsInvalid}
-            style={{ float: "right" }}
-          >
-            Configure Team <Icon type="right" />
-          </Button>
-        </Row>
+        <DocumentTitle title={`Smart Team - ${smartteam.name} | Results`} />
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : showResult ? (
+          <React.Fragment>
+            <Title>{smartteam.name}</Title>
+            <Divider />
+            <Row>
+              <Card title="SmartTeam Information">
+                <Card.Grid style={gridStyle}>
+                  <b>Name</b>
+                  <br />
+                  {section.name}
+                </Card.Grid>
+                <Card.Grid style={gridStyle}>
+                  <b>No. of Students</b>
+                  <br />
+                  {section.noOfStudents}
+                </Card.Grid>
+                <Card.Grid style={gridStyle}>
+                  <b>Module</b>
+                  <br />
+                  {section.courseName}
+                </Card.Grid>
+                <Card.Grid style={gridStyle}>
+                  <b>Year</b>
+                  <br />
+                  {section.year}
+                </Card.Grid>
+              </Card>
+              <Card>
+                <Card.Grid style={resultGridStyle}>
+                  <b>SmartTeam Session End Date</b>
+                  <br />
+                  {smartteam.smartteamStartdate}
+                </Card.Grid>
+                <Card.Grid style={resultGridStyle}>
+                  <b>Formed SmartTeam End Date</b>
+                  <br />
+                  {smartteam.smartteamEnddate}
+                </Card.Grid>
+                <Card.Grid style={resultGridStyle}>
+                  <b>Responses</b>
+                  <br />
+                  {maxResponseCount}/{section.noOfStudents}
+                </Card.Grid>
+              </Card>
+            </Row>
+            <Row type="flex">
+              {criteria &&
+                criteria.map((criterion, index) => (
+                  <Col key={index} span={8} style={{ padding: "8px" }}>
+                    <Card
+                      title={criterion.criteriaName}
+                      style={{ padding: "16px" }}
+                    >
+                      <ResponsiveContainer width="100%" height={200}>
+                        <BarChart data={criterion.votes}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="outcome" />
+                          <YAxis />
+                          <Tooltip />
+                          <Bar dataKey="outcomeCount" fill="#8884d8" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                      <Slider
+                        marks={marks}
+                        step={null}
+                        defaultValue={50}
+                        onChange={value => this.handleChange(value, index)}
+                        slider_value={slider_value}
+                      />
+                    </Card>
+                  </Col>
+                ))}
+            </Row>
+            <Row style={{ marginTop: "16px" }}>
+              <Button
+                type="default"
+                onClick={() => this.handleNext()}
+                disabled={formIsInvalid}
+                style={{ float: "right" }}
+              >
+                Configure Team <Icon type="right" />
+              </Button>
+            </Row>
+          </React.Fragment>
+        ) : (
+          <NewAutoTeam criteria={criteria} smartteam={smartteam} />
+        )}
       </React.Fragment>
-    ) : (
-      <NewAutoTeam criteria={criteria} smartteam={smartteam} />
     );
   }
 }
