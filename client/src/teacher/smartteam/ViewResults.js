@@ -294,7 +294,7 @@ class ViewResults extends Component {
         <Title>{smartteam.name}</Title>
         <Divider />
         <Row>
-          <Card title="Section Information">
+          <Card title="SmartTeam Information">
             <Card.Grid style={gridStyle}>
               <b>Name</b>
               <br />
