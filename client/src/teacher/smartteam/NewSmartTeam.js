@@ -254,9 +254,9 @@ class NewSmartTeam extends Component {
                     defaultValue="1"
                     onChange={this.handleQuestionnaireStartDayChange}
                     value={this.state.questionnaireStart.days}
-                    style={{ width: 60 }}
+                    style={{ width: 100 }}
                   >
-                    {Array.from(Array(8).keys()).map(i => (
+                    {Array.from(Array(32).keys()).map(i => (
                       <Option key={i}>{i}</Option>
                     ))}
                   </Select>{" "}
@@ -289,9 +289,9 @@ class NewSmartTeam extends Component {
                     defaultValue="1"
                     onChange={this.handleQuestionnaireEndDayChange}
                     value={this.state.questionnaireEnd.days}
-                    style={{ width: 60 }}
+                    style={{ width: 100 }}
                   >
-                    {Array.from(Array(8).keys()).map(i => (
+                    {Array.from(Array(201).keys()).map(i => (
                       <Option key={i}>{i}</Option>
                     ))}
                   </Select>{" "}
