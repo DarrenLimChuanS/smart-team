@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import DocumentTitle from "react-document-title";
 import { Form, InputNumber, Row, Col, Typography, Divider, Button } from "antd";
 import { Card, notification } from "antd";
 import { validateGroup } from "../../util/Validators";
@@ -152,116 +153,123 @@ class NewAutoTeam extends Component {
       showTeam
     } = this.state;
     const { criteria, smartteam } = this.props;
-    return isLoading ? (
-      <LoadingIndicator />
-    ) : !showTeam ? (
+    return (
       <React.Fragment>
-        <Title>
-          {smartteam.name} <small>Smart Team Allocation</small>
-        </Title>
-        <Divider />
-        <Row />
-        <Row>
-          <Card title="Section Information">
-            <Card.Grid style={gridStyle}>
-              <b>Name</b>
-              <br />
-              {section.name}
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              <b>No. of Students</b>
-              <br />
-              {section.noOfStudents}
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              <b>Module</b>
-              <br />
-              {section.courseName}
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              <b>Year</b>
-              <br />
-              {section.year}
-            </Card.Grid>
-          </Card>
-        </Row>
-        <Row style={{ marginTop: "32px" }}>
-          <b>Please select the team size or number of teams.</b>
-        </Row>
-        <Row gutter={16}>
-          <Form onSubmit={this.handleSubmit} className="signup-form">
-            <Col span={11}>
-              <FormItem
-                label="Team Size"
-                validateStatus={teamSize.validateStatus}
-                help={teamSize.errorMsg}
-              >
-                <InputNumber
-                  size="large"
-                  min={1}
-                  max={section.noOfStudents}
-                  type="number"
-                  name="teamSize"
-                  autoComplete="off"
-                  placeholder="Team Size"
-                  value={teamSize.value}
-                  onChange={event =>
-                    this.handleTeamSizeInputChange(
-                      event,
-                      this.state.section.noOfStudents,
-                      validateGroup
-                    )
-                  }
-                />
-                <span className="ant-form-text">people</span>
-              </FormItem>
-            </Col>
-            <Col span={2} style={{ verticalAlign: "middle" }}>
-              OR
-            </Col>
-            <Col span={11}>
-              <FormItem
-                label="Number of Teams"
-                validateStatus={noOfTeams.validateStatus}
-                help={noOfTeams.errorMsg}
-              >
-                <InputNumber
-                  size="large"
-                  min={1}
-                  max={section.noOfStudents}
-                  type="number"
-                  name="noOfTeams"
-                  autoComplete="off"
-                  placeholder="No. of Teams"
-                  value={noOfTeams.value}
-                  onChange={event =>
-                    this.handleNoOfTeamsInputChange(
-                      event,
-                      this.state.section.noOfStudents,
-                      validateGroup
-                    )
-                  }
-                />
-                <span className="ant-form-text">teams</span>
-              </FormItem>
-            </Col>
-            <FormItem>
-              <Button
-                type="primary"
-                htmlType="submit"
-                size="large"
-                className="signup-form-button"
-                disabled={this.isFormInvalid()}
-                onClick={() => this.handleGenerateTeam()}
-              >
-                Generate Team
-              </Button>
-            </FormItem>
-          </Form>
-        </Row>
+        <DocumentTitle
+          title={`Smart Team - ${smartteam.name} | Team Configuration`}
+        />
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : !showTeam ? (
+          <React.Fragment>
+            <Title>
+              {smartteam.name} <small>Smart Team Allocation</small>
+            </Title>
+            <Divider />
+            <Row />
+            <Row>
+              <Card title="Section Information">
+                <Card.Grid style={gridStyle}>
+                  <b>Name</b>
+                  <br />
+                  {section.name}
+                </Card.Grid>
+                <Card.Grid style={gridStyle}>
+                  <b>No. of Students</b>
+                  <br />
+                  {section.noOfStudents}
+                </Card.Grid>
+                <Card.Grid style={gridStyle}>
+                  <b>Module</b>
+                  <br />
+                  {section.courseName}
+                </Card.Grid>
+                <Card.Grid style={gridStyle}>
+                  <b>Year</b>
+                  <br />
+                  {section.year}
+                </Card.Grid>
+              </Card>
+            </Row>
+            <Row style={{ marginTop: "32px" }}>
+              <b>Please select the team size or number of teams.</b>
+            </Row>
+            <Row gutter={16}>
+              <Form onSubmit={this.handleSubmit} className="signup-form">
+                <Col span={11}>
+                  <FormItem
+                    label="Team Size"
+                    validateStatus={teamSize.validateStatus}
+                    help={teamSize.errorMsg}
+                  >
+                    <InputNumber
+                      size="large"
+                      min={1}
+                      max={section.noOfStudents}
+                      type="number"
+                      name="teamSize"
+                      autoComplete="off"
+                      placeholder="Team Size"
+                      value={teamSize.value}
+                      onChange={event =>
+                        this.handleTeamSizeInputChange(
+                          event,
+                          this.state.section.noOfStudents,
+                          validateGroup
+                        )
+                      }
+                    />
+                    <span className="ant-form-text">people</span>
+                  </FormItem>
+                </Col>
+                <Col span={2} style={{ verticalAlign: "middle" }}>
+                  OR
+                </Col>
+                <Col span={11}>
+                  <FormItem
+                    label="Number of Teams"
+                    validateStatus={noOfTeams.validateStatus}
+                    help={noOfTeams.errorMsg}
+                  >
+                    <InputNumber
+                      size="large"
+                      min={1}
+                      max={section.noOfStudents}
+                      type="number"
+                      name="noOfTeams"
+                      autoComplete="off"
+                      placeholder="No. of Teams"
+                      value={noOfTeams.value}
+                      onChange={event =>
+                        this.handleNoOfTeamsInputChange(
+                          event,
+                          this.state.section.noOfStudents,
+                          validateGroup
+                        )
+                      }
+                    />
+                    <span className="ant-form-text">teams</span>
+                  </FormItem>
+                </Col>
+                <FormItem>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    size="large"
+                    className="signup-form-button"
+                    disabled={this.isFormInvalid()}
+                    onClick={() => this.handleGenerateTeam()}
+                  >
+                    Generate Team
+                  </Button>
+                </FormItem>
+              </Form>
+            </Row>
+          </React.Fragment>
+        ) : (
+          <Team teams={teams} smartteam={smartteam} criteria={criteria} />
+        )}
       </React.Fragment>
-    ) : (
-      <Team teams={teams} smartteam={smartteam} criteria={criteria} />
     );
   }
 }

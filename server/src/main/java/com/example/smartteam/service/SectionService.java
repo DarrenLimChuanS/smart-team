@@ -135,6 +135,7 @@ public class SectionService {
             return ResponseEntity.notFound().build();
         sectionOptional.get().setName(section.getName());
         sectionOptional.get().setYear(section.getYear());
+        sectionOptional.get().setNoOfStudents(section.getNoOfStudents());
 
         Course courseInfo = courseRepository.findById(section.getCourse().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Course", "id", section.getCourse().getId()));
