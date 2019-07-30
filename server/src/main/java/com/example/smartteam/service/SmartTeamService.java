@@ -191,12 +191,11 @@ public class SmartTeamService {
      * @param criteriaCompliances
      * @return
      */
-    public List<Team> smartTeamAllocation(List<Team> teamList, List<CriteriaCompliance> criteriaCompliances) {
+    public List<Team> smartTeamAllocation(List<Team> teamList, List<CriteriaCompliance> criteriaCompliances, int swapPassThreshold) {
         // Counter for Time-To-Live
         int swapPass = 0;
         Double oldScore;
         Double newScore;
-        // TODO Algorithm to calculate the optimal outerloop count => Ensure all teams goes through at least once
         // For each Team in TeamList
         outerloop:
         for (int x = 0; x < teamList.size(); x++) {
@@ -257,8 +256,8 @@ public class SmartTeamService {
                                 System.out.println("After swap List A is " + studentListA);
                                 System.out.println("After swap List B is " + studentListB);
                                 swapPass++;
-                                // Check swap pass threshold
-                                if (swapPass == 200) {
+                                // Check swap pass threshold, swapPassThreshold is the optimal outerloop count => All teams goes through at least once if no swaps are made
+                                if (swapPass == swapPassThreshold) {
                                     break outerloop;
                                 }
                             }
@@ -329,8 +328,8 @@ public class SmartTeamService {
         return (double)uniqueValues/teamSize;
     }
 
-    public List<Team> allocateTeam(List<Team> teamList, List<CriteriaCompliance> criteriaCompliances) {
-        List<Team> allocatedTeam = smartTeamAllocation(teamList, criteriaCompliances);
+    public List<Team> allocateTeam(List<Team> teamList, List<CriteriaCompliance> criteriaCompliances, int swapPassThreshold) {
+        List<Team> allocatedTeam = smartTeamAllocation(teamList, criteriaCompliances, swapPassThreshold);
         return appendComplianceScore(allocatedTeam, criteriaCompliances);
     }
 }
