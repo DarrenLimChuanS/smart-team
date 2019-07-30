@@ -370,15 +370,13 @@ class ViewResults extends Component {
                           <Bar dataKey="outcomeCount" fill="#8884d8" />
                         </BarChart>
                       </ResponsiveContainer>
-                      {criterion.graded && (
-                        <Slider
-                          marks={marks}
-                          step={null}
-                          defaultValue={50}
-                          onChange={value => this.handleChange(value, index)}
-                          slider_value={slider_value}
-                        />
-                      )}
+                      <Slider
+                        marks={marks}
+                        step={null}
+                        defaultValue={50}
+                        onChange={value => this.handleChange(value, index)}
+                        slider_value={slider_value}
+                      />
                     </Card>
                   </Col>
                 ))}
