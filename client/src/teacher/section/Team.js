@@ -82,7 +82,6 @@ class Team extends Component {
     this.setState({
       minDiversityScore
     });
-    console.log(minDiversityScore);
   }
 
   calcMaxDiversityScore() {
@@ -102,7 +101,6 @@ class Team extends Component {
     this.setState({
       maxDiversityScore
     });
-    console.log(maxDiversityScore);
   }
 
   handleTeamChange(value) {
@@ -220,20 +218,20 @@ class Team extends Component {
             <Divider />
             <Row type="flex">
               {teams.map((team, teamIndex) => (
-                <Col span={8} style={{ padding: "8px" }}>
+                <Col span={8} key={teamIndex} style={{ padding: "8px" }}>
                   <Card title={`Team ${teamIndex + 1} (${team.users.length})`}>
                     {this.props.match.params.team !== "team" && (
-                      <p>
+                      <span>
                         <b>Compliance Score: </b>
                         <Progress
                           type="circle"
                           percent={calcCompliancePerc(team.complianceScore)}
                           width={30}
                         />
-                      </p>
+                      </span>
                     )}
                     {team.users.map((user, userIndex) => (
-                      <div>
+                      <div key={userIndex}>
                         <span>{user.name}</span>
                         {team.teamId == null && (
                           <div style={{ float: "right" }}>
