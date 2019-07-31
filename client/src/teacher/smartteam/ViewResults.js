@@ -1,5 +1,5 @@
 import { Row, Col, Typography, Divider, Slider, Icon, Button } from "antd";
-import { Card } from "antd";
+import { Card, Tag } from "antd";
 import DocumentTitle from "react-document-title";
 import React, { Component } from "react";
 import {
@@ -185,6 +185,7 @@ class ViewResults extends Component {
       const criteriaInfo = {
         criteriaId: criteria.id,
         criteriaName: criteria.name,
+        graded: criteria.graded,
         diversityScale: 0,
         votes: votes
       };
@@ -352,6 +353,13 @@ class ViewResults extends Component {
                     <Card
                       title={criterion.criteriaName}
                       style={{ padding: "16px" }}
+                      extra={
+                        criterion.graded ? (
+                          <Tag color="green">Graded</Tag>
+                        ) : (
+                          <Tag color="blue">Non-Graded</Tag>
+                        )
+                      }
                     >
                       <ResponsiveContainer width="100%" height={200}>
                         <BarChart data={criterion.votes}>

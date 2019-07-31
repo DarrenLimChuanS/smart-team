@@ -114,9 +114,13 @@ class NewAutoTeam extends Component {
       };
       teamData[index] = teamObject;
     });
+
+    const passThreshold =
+      Math.pow(teamData[0].users.length, 2) * (teamData.length - 1);
     const smartTeamRequest = {
       team: teamData,
-      criteriaCompliances: this.props.criteria
+      criteriaCompliances: this.props.criteria,
+      passThreshold
     };
     smartTeamAllocation(smartTeamRequest)
       .then(response => {

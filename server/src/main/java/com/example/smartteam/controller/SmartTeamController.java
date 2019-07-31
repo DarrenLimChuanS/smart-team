@@ -113,11 +113,11 @@ public class SmartTeamController {
     @PreAuthorize("hasRole('USER')")
     public List<Team> smartTeamAllocation(@Valid @RequestBody TeamListRequest teamListRequest) {
         List<Team> smartTeam = smartTeamService.smartTeamAllocation(teamListRequest.getTeam(),
-                teamListRequest.getCriteriaCompliances());
+                teamListRequest.getCriteriaCompliances(), teamListRequest.getSwapPassThreshold());
         return smartTeam;
     }
 
-    @PostMapping("/allocate/compliance")
+    @PostMapping("/allocate/compliance") 
     @PreAuthorize("hasRole('USER')")
     public List<Team> appendComplianceScore(@Valid @RequestBody TeamListRequest teamListRequest) {
         List<Team> smartTeam = smartTeamService.appendComplianceScore(teamListRequest.getTeam(),
@@ -145,7 +145,7 @@ public class SmartTeamController {
     @PostMapping("/allocate/team")
     @PreAuthorize("hasRole('USER')")
     public List<Team> allocateTeam(@Valid @RequestBody TeamListRequest teamListRequest) {
-        return smartTeamService.allocateTeam(teamListRequest.getTeam(), teamListRequest.getCriteriaCompliances());
+        return smartTeamService.allocateTeam(teamListRequest.getTeam(), teamListRequest.getCriteriaCompliances(), teamListRequest.getSwapPassThreshold());
     }
 
     @GetMapping("/{smartteamId}/teams")

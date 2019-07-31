@@ -9,6 +9,7 @@ public class TeamListRequest {
 
     private List<Team> team;
     private List<CriteriaCompliance> criteriaCompliances;
+    private int swapPassThreshold;
 
     public TeamListRequest() {
     }
@@ -20,6 +21,12 @@ public class TeamListRequest {
     public TeamListRequest(List<Team> team, List<CriteriaCompliance> criteriaCompliances) {
         this.team = team;
         this.criteriaCompliances = criteriaCompliances;
+    }
+
+    public TeamListRequest(List<Team> team, List<CriteriaCompliance> criteriaCompliances, int swapPassThreshold) {
+        this.team = team;
+        this.criteriaCompliances = criteriaCompliances;
+        this.swapPassThreshold = swapPassThreshold;
     }
 
     public List<Team> getTeam() {
@@ -38,9 +45,27 @@ public class TeamListRequest {
         this.criteriaCompliances = criteriaCompliances;
     }
 
+    /**
+     * @return the swapPassThreshold
+     */
+    public int getSwapPassThreshold() {
+        return this.swapPassThreshold;
+    }
+
+    /**
+     * @param swapPassThreshold the swapPassThreshold to set
+     */
+    public void setSwapPassThreshold(int swapPassThreshold) {
+        this.swapPassThreshold = swapPassThreshold;
+    }
+
     @Override
     public String toString() {
-        return "{" + " team='" + getTeam() + "'" + ", criteriaCompliances='" + getCriteriaCompliances() + "'" + "}";
+        return "{" +
+            " team='" + getTeam() + "'" +
+            ", criteriaCompliances='" + getCriteriaCompliances() + "'" +
+            ", swapPassThreshold='" + getSwapPassThreshold() + "'" +
+            "}";
     }
 
 }
