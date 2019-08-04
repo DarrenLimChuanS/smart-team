@@ -152,7 +152,7 @@ class ViewResults extends Component {
     const { outcome, smartteam } = this.state;
     var criteriaList = [];
     var criteriaResponseCount = [];
-    var maxResponseCount = 0;
+    var minResponseCount = 0;
 
     // Foreach criteria in questionnaire
     smartteam.questionnaire.criteria.forEach(criteria => {
@@ -177,7 +177,7 @@ class ViewResults extends Component {
       ];
       outcome.forEach(entry => {
         if (entry.criteriaId === criteria.id && entry.outcome !== null) {
-          responseCount++;
+          responseCount += entry.outcomeCount;
           const index = entry.outcome.slice(1, 2);
           votes[parseInt(index, 10) - 1] = entry;
         }
@@ -193,18 +193,16 @@ class ViewResults extends Component {
       criteriaResponseCount.push(responseCount);
     });
     criteriaResponseCount.forEach(responseCount => {
-      if (responseCount > maxResponseCount) {
-        maxResponseCount = responseCount;
-      }
       if (responseCount === 0) {
         this.setState({
           formIsInvalid: true
         });
       }
     });
+    minResponseCount = Math.min(...criteriaResponseCount);
     this.setState({
       criteria: criteriaList,
-      maxResponseCount: maxResponseCount,
+      minResponseCount: minResponseCount,
       isLoading: false
     });
   }
@@ -263,7 +261,7 @@ class ViewResults extends Component {
       showResult,
       formIsInvalid,
       section,
-      maxResponseCount
+      minResponseCount
     } = this.state;
     const { slider_value } = this.state;
     const marks = {
@@ -342,7 +340,7 @@ class ViewResults extends Component {
                 <Card.Grid style={resultGridStyle}>
                   <b>Responses</b>
                   <br />
-                  {maxResponseCount}/{section.noOfStudents}
+                  {minResponseCount}/{section.noOfStudents}
                 </Card.Grid>
               </Card>
             </Row>
